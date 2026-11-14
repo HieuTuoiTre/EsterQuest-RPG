@@ -2440,24 +2440,30 @@
         return;
       }
 
+      // Xác định câu hỏi và lượng mana tiêu hao
+      let targetLevel = 1;
+      let skillName = "";
+      let manaCost = 0;
+      if (skillId === 1) { targetLevel = 1; skillName = "🗡️ Đòn Axit Cơ Bản (35 ST)"; manaCost = 0; }
+      else if (skillId === 2) { targetLevel = 2; skillName = "🔥 Hỏa Cầu Este Hóa (75 ST)"; manaCost = 20; }
+      else if (skillId === 3) { targetLevel = 2; skillName = "🛡️ Khiên Dung Môi (+35 HP & Chặn đòn)"; manaCost = 15; }
+      else if (skillId === 4) { targetLevel = 3; skillName = "⚡ Bão Xà Phòng Hóa (150 ST & Gây Choáng)"; manaCost = 35; }
+
+      // Tiêu hao Mana ngay khi thi triển chiêu (dù đúng hay sai đều bị trừ)
+      if (manaCost > 0) {
+        state.playerMana = Math.max(0, state.playerMana - manaCost);
+      }
+
       // Đánh dấu đang bận lượt
       state.isTurnBusy = true;
       updateUI();
-
-      // Xác định câu hỏi theo loại kỹ năng
-      let targetLevel = 1;
-      let skillName = "";
-      if (skillId === 1) { targetLevel = 1; skillName = "🗡️ Đòn Axit Cơ Bản (35 ST)"; }
-      else if (skillId === 2) { targetLevel = 2; skillName = "🔥 Hỏa Cầu Este Hóa (75 ST)"; }
-      else if (skillId === 3) { targetLevel = 2; skillName = "🛡️ Khiên Dung Môi (+35 HP & Chặn đòn)"; }
-      else if (skillId === 4) { targetLevel = 3; skillName = "⚡ Bão Xà Phòng Hóa (150 ST & Gây Choáng)"; }
 
       // Lọc câu hỏi chưa làm thuộc độ khó tương ứng (hoặc ngẫu nhiên nếu đã hết)
       const unasked = QUESTION_BANK.filter(q => q.level === targetLevel && !state.historyLogs.some(h => h.id === q.id));
       const pool = unasked.length > 0 ? unasked : QUESTION_BANK.filter(q => q.level === targetLevel);
       const chosenQuestion = pool[Math.floor(Math.random() * pool.length)];
 
-      state.turnPendingAction = { skillId, skillName };
+      state.turnPendingAction = { skillId, skillName, manaCost };
       openQuestionModal(chosenQuestion, targetLevel, skillName);
     }
 
@@ -2549,7 +2555,14 @@
       const fbDesc = document.getElementById("qFeedbackDesc");
 
       fbBox.className = `feedback-box ${isCorrect ? 'correct' : 'wrong'}`;
-      fbTitle.textContent = isCorrect ? "✅ CHÍNH XÁC! CHIÊU THỨC KÍCH HOẠT!" : "❌ SAI RỒI! CHIÊU THỨC BỊ PHẢN VẬN!";
+      if (isCorrect) {
+        fbTitle.textContent = "✅ CHÍNH XÁC! CHIÊU THỨC KÍCH HOẠT!";
+      } else {
+        const manaCost = state.turnPendingAction ? state.turnPendingAction.manaCost : 0;
+        fbTitle.textContent = manaCost > 0
+          ? `❌ SAI RỒI! CHIÊU THỨC BỊ PHẢN VẬN! (-10 HP & MẤT ${manaCost} MP)`
+          : "❌ SAI RỒI! CHIÊU THỨC BỊ PHẢN VẬN! (-10 HP)";
+      }
       fbDesc.innerHTML = `<strong>Lời giải:</strong> ${formatFormula(q.explain)}`;
       fbBox.style.display = "block";
 
@@ -2566,9 +2579,10 @@
       const enemyEl = document.getElementById("enemyCombatant");
 
       if (action.isCorrect) {
-        // Thực thi kỹ năng thành công
-        if (action.skillId === 1) { // Basic
+        // Thực thi kỹ năng thành công (Mana đã trừ ngay khi bấm cast)
+        if (action.skillId === 1) { // Basic: hồi 10 MP nếu đúng
           state.playerMana = Math.min(state.playerMaxMana, state.playerMana + 10);
+          spawnFloatingText(playerEl, "+10 MP 💧", "#4a90e2");
           playerEl.classList.add("attacking");
           SFX.attack();
           setTimeout(() => {
@@ -2576,7 +2590,7 @@
             dealDamageToEnemy(35, "35 SÁT THƯƠNG!");
           }, 250);
         } else if (action.skillId === 2) { // Fire
-          state.playerMana -= 20;
+          spawnFloatingText(playerEl, "-20 MP", "#4a90e2");
           playerEl.classList.add("attacking");
           SFX.magic();
           setTimeout(() => {
@@ -2584,16 +2598,16 @@
             dealDamageToEnemy(75, "CRITICAL! 75 ST 🔥");
           }, 250);
         } else if (action.skillId === 3) { // Shield
-          state.playerMana -= 15;
           state.playerHp = Math.min(state.playerMaxHp, state.playerHp + 35);
           state.shieldActive = true;
           SFX.shield();
           spawnFloatingText(playerEl, "+35 HP 🛡️", "#2ed573");
+          setTimeout(() => spawnFloatingText(playerEl, "-15 MP", "#4a90e2"), 350);
           setNarrator("🛡️", "Bạn đã tạo Khiên Dung Môi! Hồi 35 HP và miễn nhiễm đòn tấn công tiếp theo!");
           updateUI();
           setTimeout(enemyTurn, 1000);
         } else if (action.skillId === 4) { // Ultimate
-          state.playerMana -= 35;
+          spawnFloatingText(playerEl, "-35 MP", "#4a90e2");
           state.isEnemyStunned = true;
           playerEl.classList.add("attacking");
           SFX.magic();
@@ -2604,11 +2618,18 @@
           }, 250);
         }
       } else {
-        // Trả lời sai -> Phản phệ
-        setNarrator("💥", "Câu trả lời sai! Kỹ năng phát nổ làm bạn mất 10 HP!");
+        // Trả lời sai -> Phản phệ (Mana đã bị trừ khi cast)
         playerEl.classList.add("damaged");
         state.playerHp = Math.max(0, state.playerHp - 10);
         spawnFloatingText(playerEl, "-10 HP", "#ff4757");
+
+        if (action.manaCost > 0) {
+          setTimeout(() => spawnFloatingText(playerEl, `-${action.manaCost} MP`, "#4a90e2"), 350);
+          setNarrator("💥", `Câu trả lời sai! Kỹ năng thất bại làm bạn mất 10 HP và tiêu hao ${action.manaCost} MP!`);
+        } else {
+          setNarrator("💥", "Câu trả lời sai! Kỹ năng thất bại làm bạn mất 10 HP (không nạp được MP)!");
+        }
+
         setTimeout(() => playerEl.classList.remove("damaged"), 400);
         updateUI();
 
