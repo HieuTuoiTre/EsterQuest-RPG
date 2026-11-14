@@ -712,8 +712,7 @@
     sup { font-size: 0.75em; vertical-align: super; line-height: 0; }
 
     /* Responsiveness */
-    @media (max-width: 680px) {
-      body { overflow-x: clip; }
+    @media (max-width: 960px) {
       header { position: sticky; padding: 8px 12px; gap: 8px; }
       .game-logo { font-size: 16px; min-height: 44px; }
       .game-logo span { font-size: 16px; }
@@ -750,8 +749,6 @@
       .header-actions .icon-btn { justify-content: flex-start; min-height: 44px; font-size: 16px; }
       main { min-width: 0; padding: 12px; }
       #menuScreen { min-height: 0; padding: 28px 16px; }
-      .player-details { flex-direction: column; gap: 8px !important; }
-      .player-details .name-input-group { flex: 1 1 auto !important; }
       .name-input-group label { font-size: 16px; }
       .lore-box, .combat-narrator, .skill-desc, .skill-difficulty,
       .skill-name, .stage-title, .stage-progress, .combatant-name, .bar-label,
@@ -766,13 +763,13 @@
       .icon-btn, .bxh-tab-btn, .codex-tab-btn, .hint-btn { font-size: 16px !important; }
       #qSkillName { font-size: 16px !important; }
       .stage-bar { flex-wrap: wrap; gap: 6px 12px; }
-      .arena-container { padding: 12px 10px; height: 260px; min-width: 0; }
+      .arena-container { padding: 12px 10px; height: auto; min-height: 280px; gap: 12px; min-width: 0; }
       .combatant { min-width: 0; }
       .sprite-box { width: 80px; height: 80px; }
       .sprite-icon { font-size: 46px; }
       .combatant-status { width: clamp(120px, 38vw, 150px); padding: 6px 8px; }
       .combatant-name, .bar-label { gap: 4px; }
-      .skills-grid { grid-template-columns: minmax(0, 1fr); }
+      .skills-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .skills-panel { min-width: 0; padding: 12px; }
       .panel-header { flex-wrap: wrap; gap: 6px; }
       .skill-card { min-height: 44px; }
@@ -794,7 +791,7 @@
       input, select, textarea { font-size: 16px !important; }
       .mobile-readable { font-size: 16px !important; }
       .bxh-table-wrap, .codex-section { max-width: 100%; overflow-x: auto; }
-      .bxh-table, .codex-table { min-width: 520px; }
+      .bxh-table { min-width: 520px; }
       .rule-box, .danger-box, .formula-box, .question-text { overflow-wrap: anywhere; }
     }
 
@@ -882,6 +879,8 @@
 
     /* Codex Tabs & Rich Styling */
     .codex-tab-bar {
+      /* Keep wrapped tabs visible when the modal content exceeds its height. */
+      flex-shrink: 0;
       display: flex;
       gap: 8px;
       overflow-x: auto;
@@ -983,12 +982,64 @@
       color: #ff7675;
     }
 
-    @media (max-width: 680px) {
-      .bxh-table, .codex-table, .rank-tag, .codex-card-title,
-      .codex-badge, .formula-box, .rule-box, .danger-box {
-        font-size: 16px;
+    /* Tablet & Mobile responsive layout rules */
+    @media (max-width: 960px) {
+      body { overflow-x: hidden; }
+      main, main *, .modal-card, .modal-card * { min-width: 0; }
+      main, .modal-card { overflow-wrap: anywhere; }
+      .game-logo { flex-wrap: wrap; column-gap: 6px; row-gap: 0; }
+      .mobile-menu-toggle { flex-shrink: 0; }
+      .header-actions { max-height: calc(100dvh - 90px); overflow-y: auto; }
+      button, input, select, textarea, [onclick] {
+        min-width: 44px;
+        min-height: 44px;
+        max-width: 100%;
       }
+      button { white-space: normal; overflow-wrap: anywhere; }
+      .item-pill { font-size: 16px; width: auto; }
+      .item-badge, .skill-cost { flex-shrink: 0; }
+      .skill-card-top, .combatant-name, .bar-label { flex-wrap: wrap; }
+      #btnStartGame, #endGameScreen .btn-rpg-primary { padding: 16px 20px; }
+      #endGameScreen { padding: 28px 16px; }
+      .end-title { font-size: clamp(24px, 7vw, 36px); }
+      .stats-card { padding: 16px; }
+      .modal-card { max-height: calc(100dvh - 16px); }
+      .modal-card > div[style*="display:flex"], #bxhFilterBar > div,
+      #onlineConfigPanel > div[style*="display:flex"] { flex-wrap: wrap; gap: 8px; }
+      .modal-card > div > h2 { flex: 1 1 180px; }
+      .modal-card > div > .icon-btn { flex-shrink: 0; }
+      #inputSheetApi { flex-basis: 100% !important; }
+      .codex-tab-btn { white-space: normal; flex-shrink: 1; text-align: left; }
+      .codex-tab-pane, .codex-card { max-width: 100%; }
+      .bxh-table-wrap { flex-shrink: 0; overflow: auto; }
+      .bxh-table { min-width: 520px; }
+      .codex-table { min-width: 0; table-layout: fixed; }
+      .codex-table th, .codex-table td { padding: 8px 5px; overflow-wrap: anywhere; }
+      .modal-actions { align-items: stretch; }
+      .option-btn { width: 100%; }
+      .option-tag { flex-shrink: 0; }
+      img, video, iframe, embed, object, canvas, svg { max-width: 100%; }
+      img, video, canvas, svg { height: auto; }
+      [style*="font-size:11px"], [style*="font-size:12px"],
+      [style*="font-size:13px"], [style*="font-size:14px"],
+      [style*="font-size:15px"], [style*="font-size: 11px"],
+      [style*="font-size: 12px"], [style*="font-size: 13px"],
+      [style*="font-size: 14px"], [style*="font-size: 15px"] { font-size: 16px !important; }
     }
+
+    /* Mobile phone specific adjustments (phones <= 600px) */
+    @media (max-width: 600px) {
+      .game-logo span { flex-basis: 100%; }
+      .player-details { flex-direction: column; gap: 8px !important; }
+      .player-details .name-input-group { flex: 1 1 auto !important; }
+      .skills-grid { grid-template-columns: minmax(0, 1fr); }
+      .item-pill { width: 100%; }
+      .combatant { width: calc(50% - 6px); align-self: flex-end; }
+      .combatant-status { width: 100%; }
+      .combatant-name { align-items: flex-start; }
+      .combatant-level { width: 100%; }
+    }
+
 
   </style>
 </head>
@@ -996,7 +1047,7 @@
 
   <!-- Top Bar -->
   <header>
-    <div class="game-logo" id="btnHomeLogo" style="cursor: pointer; transition: all 0.2s;" title="Nhấn vào đây để trở về Trang Chủ">
+    <div class="game-logo" id="btnHomeLogo" role="button" tabindex="0" style="cursor: pointer; transition: all 0.2s;" title="Nhấn vào đây để trở về Trang Chủ">
       ⚔️ ESTER QUEST
       <span>Hóa Học RPG</span>
     </div>
@@ -2780,7 +2831,19 @@
       mobileMenuToggle.setAttribute("aria-expanded", String(isOpen));
       mobileMenuToggle.setAttribute("aria-label", isOpen ? "Đóng menu" : "Mở menu");
     });
-    document.querySelector(".header-actions").addEventListener("click", closeMobileMenu);
+    document.querySelector(".header-actions").addEventListener("click", event => {
+      if (event.target.closest("button")) closeMobileMenu();
+    });
+    document.addEventListener("click", event => {
+      if (!header.contains(event.target)) closeMobileMenu();
+    });
+    window.matchMedia("(max-width: 960px)").addEventListener("change", closeMobileMenu);
+    document.getElementById("btnHomeLogo").addEventListener("keydown", event => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        returnToHome();
+      }
+    });
     document.addEventListener("keydown", event => {
       if (event.key === "Escape") closeMobileMenu();
     });
