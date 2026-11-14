@@ -285,7 +285,27 @@
       box-shadow: 0 10px 25px rgba(0,0,0,0.6);
       backdrop-filter: blur(4px);
     }
-    .sprite-icon { font-size: 64px; filter: drop-shadow(0 6px 10px rgba(0,0,0,0.5)); animation: idleFloat 2.6s ease-in-out infinite alternate; }
+    .sprite-icon {
+      font-size: 64px;
+      filter: drop-shadow(0 6px 10px rgba(0,0,0,0.5));
+      animation: idleFloat 2.6s ease-in-out infinite alternate;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+    }
+    .sprite-icon .sprite-img {
+      max-width: 82%;
+      max-height: 82%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
     @keyframes idleFloat { 0% { transform: translateY(0); } 100% { transform: translateY(-8px); } }
 
     /* Combatant Status HUD */
@@ -1147,7 +1167,7 @@
           </div>
 
           <div class="sprite-box" style="border-color: #eb4d4b;">
-            <div class="sprite-icon" id="enemySprite">🧪</div>
+            <div class="sprite-icon" id="enemySprite"><img src="assets/slime.png" alt="Slime" class="sprite-img" onerror="this.onerror=null; this.parentElement.textContent='🧪';"></div>
           </div>
         </div>
       </div>
@@ -2140,7 +2160,7 @@
         id: 1,
         name: "Ải 1: Rừng Ẩm Ướt",
         bg: "radial-gradient(circle at 50% 100%, #192a56 0%, #0c1022 100%)",
-        enemy: { name: "Slime", icon: "🧪", hp: 100, maxHp: 100, atk: 15, level: "Lv.1", desc: "Quái dịch hữu cơ mang tính tráng bạc" }
+        enemy: { name: "Slime", icon: "assets/slime.png", hp: 100, maxHp: 100, atk: 15, level: "Lv.1", desc: "Quái dịch hữu cơ mang tính tráng bạc" }
       },
       {
         id: 2,
@@ -2162,9 +2182,9 @@
       },
       {
         id: 5,
-        name: "ẢI CUỐI: ĐẠI CHIẾN KHỦNG LONG BẠO CHÚA",
+        name: "ẢI CUỐI: ĐẠI CHIẾN CHÚA TỂ BÓNG TỐI",
         bg: "radial-gradient(circle at 50% 100%, #581845 0%, #14040e 100%)",
-        enemy: { name: "Khủng Long Bạo Chúa", icon: "🦖", hp: 350, maxHp: 350, atk: 45, level: "👑 BOSS", desc: "Trùm cuối sở hữu bí thuật ester đa chức & bẫy trắc nghiệm!" }
+        enemy: { name: "Chúa Tể Bóng Tối", icon: "👑", hp: 350, maxHp: 350, atk: 45, level: "👑 BOSS", desc: "Trùm cuối sở hữu bí thuật ester đa chức & bẫy trắc nghiệm!" }
       }
     ];
 
@@ -2349,6 +2369,16 @@
       updateUI();
     }
 
+    function renderSprite(el, iconVal, altText, fallbackEmoji = "👾") {
+      if (!el) return;
+      const val = (iconVal || "").trim();
+      if (val.includes("/") || val.startsWith("data:") || /\.(png|jpg|jpeg|svg|webp)$/i.test(val)) {
+        el.innerHTML = `<img src="${val}" alt="${altText || 'Sprite'}" class="sprite-img" onerror="this.onerror=null; this.parentElement.textContent='${fallbackEmoji}';">`;
+      } else {
+        el.textContent = val || fallbackEmoji;
+      }
+    }
+
     function loadStage(index) {
       state.currentStageIndex = index;
       const stage = STAGES[index];
@@ -2363,7 +2393,7 @@
       document.getElementById("arenaBg").style.background = stage.bg;
 
       document.getElementById("enemyName").textContent = state.enemy.name;
-      document.getElementById("enemySprite").textContent = state.enemy.icon;
+      renderSprite(document.getElementById("enemySprite"), state.enemy.icon, state.enemy.name, "🧪");
       document.getElementById("enemyLevel").textContent = state.enemy.level;
 
       setNarrator("⚔️", `Bạn đã bước vào ${stage.name}. Hãy chọn chiêu thức để giao chiến!`);
