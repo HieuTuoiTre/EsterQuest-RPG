@@ -787,6 +787,103 @@
     .rank-2 { background: #c0c0c0; color: #1a0f00; }
     .rank-3 { background: #cd7f32; color: #fff; }
 
+
+    /* Codex Tabs & Rich Styling */
+    .codex-tab-bar {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      margin-bottom: 14px;
+      border-bottom: 2px solid #283a66;
+    }
+    .codex-tab-btn {
+      background: #141f3d;
+      border: 1px solid #2d3f6d;
+      color: var(--text-muted);
+      font-weight: 700;
+      font-size: 13px;
+      padding: 8px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+    .codex-tab-btn:hover {
+      background: #1f2f5c;
+      color: #fff;
+    }
+    .codex-tab-btn.active {
+      background: #25365e;
+      color: var(--accent);
+      border-color: var(--accent);
+      box-shadow: 0 0 10px rgba(255, 209, 84, 0.2);
+    }
+    .codex-tab-pane {
+      display: none;
+      flex-direction: column;
+      gap: 14px;
+      animation: fadeIn 0.2s ease-out;
+    }
+    .codex-tab-pane.active {
+      display: flex;
+    }
+    .codex-card {
+      background: #131c38;
+      border: 1px solid #293a66;
+      border-radius: 12px;
+      padding: 14px 16px;
+      line-height: 1.6;
+    }
+    .codex-card-title {
+      font-family: var(--font-rpg);
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--accent);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px dashed rgba(255,255,255,0.1);
+      padding-bottom: 4px;
+    }
+    .codex-badge {
+      background: rgba(78, 140, 255, 0.2);
+      color: var(--primary);
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 800;
+    }
+    .formula-box {
+      background: #0b1124;
+      border-left: 3px solid var(--accent);
+      padding: 8px 12px;
+      border-radius: 0 8px 8px 0;
+      font-family: monospace;
+      font-size: 14px;
+      color: #7bed9f;
+      margin: 6px 0;
+    }
+    .rule-box {
+      background: rgba(255, 209, 84, 0.1);
+      border-left: 3px solid #ffd154;
+      padding: 8px 12px;
+      border-radius: 0 8px 8px 0;
+      margin: 6px 0;
+      font-size: 13px;
+      color: #ffeaa7;
+    }
+    .danger-box {
+      background: rgba(255, 71, 87, 0.12);
+      border-left: 3px solid var(--danger);
+      padding: 8px 12px;
+      border-radius: 0 8px 8px 0;
+      margin: 6px 0;
+      font-size: 13px;
+      color: #ff7675;
+    }
+
   </style>
 </head>
 <body>
@@ -1099,48 +1196,179 @@
     </div>
   </div>
 
-  <!-- Modal 2: Codex (Sổ Tay Kiến Thức Ester) -->
+  <!-- Modal 2: Codex (Sổ Tay Bí Kíp Ester) -->
+    <!-- Modal 2: Codex (Sổ Tay Toàn Diện Chuyên Đề Ester) -->
   <div class="modal-overlay" id="codexModal">
-    <div class="modal-card">
+    <div class="modal-card" style="max-width: 880px;">
       <div style="display:flex; justify-content:space-between; align-items:center;">
-        <h2 style="font-family:var(--font-rpg); color:var(--accent);">📖 Bí Kíp Giả Kim: Chuyên Đề Ester</h2>
+        <h2 style="font-family:var(--font-rpg); color:var(--accent); font-size:20px; display:flex; align-items:center; gap:8px;">
+          📖 BÍ KÍP GIẢ KIM: CHUYÊN ĐỀ ESTER
+        </h2>
         <button class="icon-btn" onclick="closeCodex()">Đóng ✖</button>
       </div>
 
-      <div class="codex-section">
-        <h3>1. Khái Niệm & Công Thức Chung</h3>
-        <p>• Khi thay thế nhóm <strong>-OH</strong> ở nhóm carboxyl (<strong>-COOH</strong>) của carboxylic acid bằng nhóm <strong>-OR'</strong> thì được ester (R' là gốc hydrocarbon).</p>
-        <p>• Ester no, đơn chức, mạch hở: <strong>C<sub>n</sub>H<sub>2n</sub>O<sub>2</sub></strong> (n ≥ 2).</p>
-        <p>• Ester không no có 1 liên kết C=C, đơn chức, mạch hở: <strong>C<sub>n</sub>H<sub>2n-2</sub>O<sub>2</sub></strong> (n ≥ 3).</p>
+      <!-- Navigation Tabs -->
+      <div class="codex-tab-bar">
+        <button class="codex-tab-btn active" id="tabBtnC1" onclick="switchCodexTab(1)">🏷️ 1. Khái Niệm & Danh Pháp</button>
+        <button class="codex-tab-btn" id="tabBtnC2" onclick="switchCodexTab(2)">❄️ 2. Tính Chất Vật Lý</button>
+        <button class="codex-tab-btn" id="tabBtnC3" onclick="switchCodexTab(3)">⚗️ 3. Tính Chất Hóa Học</button>
+        <button class="codex-tab-btn" id="tabBtnC4" onclick="switchCodexTab(4)">🧪 4. Điều Chế & Ứng Dụng</button>
       </div>
 
-      <div class="codex-section">
-        <h3>2. Danh Pháp & Mùi Hương Hoa Quả Tiêu Biểu</h3>
-        <table class="codex-table">
-          <thead>
-            <tr><th>Công thức</th><th>Tên gọi</th><th>Mùi hương đặc trưng</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>CH<sub>3</sub>COOCH<sub>2</sub>CH<sub>2</sub>CH(CH<sub>3</sub>)<sub>2</sub></td><td>Isoamyl acetate</td><td>Mùi chuối chín (dầu chuối)</td></tr>
-            <tr><td>CH<sub>3</sub>COOCH<sub>2</sub>C<sub>6</sub>H<sub>5</sub></td><td>Benzyl acetate</td><td>Mùi hoa nhài</td></tr>
-            <tr><td>C<sub>2</sub>H<sub>5</sub>COOC<sub>2</sub>H<sub>5</sub></td><td>Ethyl propionate</td><td>Mùi dứa chín</td></tr>
-            <tr><td>CH<sub>3</sub>CH<sub>2</sub>CH<sub>2</sub>COOCH<sub>3</sub></td><td>Methyl butanoate</td><td>Mùi táo chín</td></tr>
-            <tr><td>CH<sub>3</sub>COOC<sub>3</sub>H<sub>7</sub></td><td>Propyl ethanoate</td><td>Mùi quả lê</td></tr>
-            <tr><td>CH<sub>2</sub>=C(CH<sub>3</sub>)COOCH<sub>3</sub></td><td>Methyl methacrylate</td><td>Trùng hợp tạo thủy tinh hữu cơ (Plexiglas)</td></tr>
-          </tbody>
-        </table>
+      <!-- TAB 1: KHÁI NIỆM & DANH PHÁP -->
+      <div class="codex-tab-pane active" id="codexPane1">
+        <div class="codex-card">
+          <div class="codex-card-title">📌 1. Khái Niệm & Cấu Trúc</div>
+          <p>• Khi thay thế nhóm <strong>-OH</strong> ở nhóm carboxyl (<strong>-COOH</strong>) của carboxylic acid bằng nhóm <strong>-OR'</strong> thì thu được <strong>ester</strong> (với R' là gốc hydrocarbon).</p>
+          <div class="formula-box">Công thức tổng quát ester đơn chức: R - COO - R'</div>
+          <p>• <em>Trong đó:</em> <strong>R</strong> là H hoặc gốc hydrocarbon; <strong>R'</strong> bắt buộc là gốc hydrocarbon (không thể là H).</p>
+          <p>• Nhóm chức ester: <strong>-COO-</strong> (gồm 1 liên kết π và 2 nguyên tử O).</p>
+          <div class="rule-box">
+            • <strong>Ester no, đơn chức, mạch hở:</strong> C<sub>n</sub>H<sub>2n</sub>O<sub>2</sub> (n ≥ 2).<br>
+            • <strong>Ester không no có 1 liên kết C=C, đơn chức, mạch hở:</strong> C<sub>n</sub>H<sub>2n-2</sub>O<sub>2</sub> (n ≥ 3).
+          </div>
+        </div>
+
+        <div class="codex-card">
+          <div class="codex-card-title">🏷️ 2. Quy Tắc Gọi Tên (Danh Pháp)</div>
+          <div class="formula-box" style="color:#ffd154;">Tên Ester = Tên gốc R' + Tên gốc acid RCOO<sup>-</sup> (đuôi ate)</div>
+          
+          <table class="codex-table" style="margin-top:8px;">
+            <thead>
+              <tr>
+                <th>Gốc R' (Alcohol)</th>
+                <th>Tên gọi</th>
+                <th>Gốc RCOO<sup>-</sup> (Acid)</th>
+                <th>Tên gọi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>CH<sub>3</sub>-</td><td>methyl</td><td>HCOO<sup>-</sup></td><td>formate (methanoate)</td></tr>
+              <tr><td>C<sub>2</sub>H<sub>5</sub>-</td><td>ethyl</td><td>CH<sub>3</sub>COO<sup>-</sup></td><td>acetate (ethanoate)</td></tr>
+              <tr><td>CH<sub>3</sub>CH<sub>2</sub>CH<sub>2</sub>-</td><td>propyl</td><td>C<sub>2</sub>H<sub>5</sub>COO<sup>-</sup></td><td>propionate (propanoate)</td></tr>
+              <tr><td>(CH<sub>3</sub>)<sub>2</sub>CH-</td><td>isopropyl</td><td>CH<sub>3</sub>(CH<sub>2</sub>)<sub>2</sub>COO<sup>-</sup></td><td>butyrate (butanoate)</td></tr>
+              <tr><td>(CH<sub>3</sub>)<sub>2</sub>CHCH<sub>2</sub>CH<sub>2</sub>-</td><td>isoamyl</td><td>CH<sub>2</sub>=CH-COO<sup>-</sup></td><td>acrylate (propenoate)</td></tr>
+              <tr><td>CH<sub>2</sub>=CH-</td><td>vinyl</td><td>CH<sub>2</sub>=C(CH<sub>3</sub>)COO<sup>-</sup></td><td>methacrylate</td></tr>
+              <tr><td>CH<sub>2</sub>=CH-CH<sub>2</sub>-</td><td>allyl</td><td>C<sub>6</sub>H<sub>5</sub>COO<sup>-</sup></td><td>benzoate</td></tr>
+              <tr><td>C<sub>6</sub>H<sub>5</sub>-</td><td>phenyl</td><td>(COO<sup>-</sup>)<sub>2</sub></td><td>oxalate</td></tr>
+              <tr><td>C<sub>6</sub>H<sub>5</sub>CH<sub>2</sub>-</td><td>benzyl</td><td>-</td><td>-</td></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
 
-      <div class="codex-section">
-        <h3>3. Tính Chất Vật Lý & Hóa Học Cần Nhớ</h3>
-        <p>• <strong>Nhiệt độ sôi:</strong> Các ester không tạo được liên kết hydrogen với nhau nên có nhiệt độ sôi thấp hơn hẳn so với alcohol và carboxylic acid có cùng số C:</p>
-        <p style="padding:6px; background:#141f3d; border-radius:6px; margin:6px 0; font-weight:700;">Nhiệt độ sôi: Acid > Alcohol > Ester, Aldehyde > Hydrocarbon.</p>
-        <p>• <strong>Thủy phân trong môi trường acid:</strong> Phản ứng thuận nghịch (2 chiều), cần xúc tác H<sub>2</sub>SO<sub>4</sub> loãng, t°.</p>
-        <p>• <strong>Thủy phân trong môi trường kiềm (Xà phòng hóa):</strong> Phản ứng 1 chiều (hoàn toàn), sinh muối và alcohol.</p>
-        <p>• <strong>Trường hợp đặc biệt:</strong></p>
-        <p> - Ester dạng R-COO-CH=CH-R' thủy phân sinh <strong>aldehyde</strong> (R'-CH<sub>2</sub>-CHO).</p>
-        <p> - Ester của phenol (R-COO-C<sub>6</sub>H<sub>5</sub>) tác dụng với NaOH theo tỉ lệ mol <strong>1 : 2</strong> tạo ra <strong>2 muối và H<sub>2</sub>O</strong>.</p>
-        <p> - Ester của formic acid (H-COO-R') có nhóm -CHO nên tham gia được <strong>phản ứng tráng bạc</strong>.</p>
+      <!-- TAB 2: TÍNH CHẤT VẬT LÝ (LÀM RIÊNG CHI TIẾT) -->
+      <div class="codex-tab-pane" id="codexPane2">
+        <div class="codex-card">
+          <div class="codex-card-title">🌡️ 1. Nhiệt Độ Sôi & Liên Kết Hydrogen</div>
+          <p>• <strong>Bản chất:</strong> Các phân tử ester <em>không tạo được liên kết hydrogen liên phân tử với nhau</em> vì không có nguyên tử H linh động gắn trực tiếp vào nguyên tử O.</p>
+          <p>• Do đó, ester có nhiệt độ sôi <strong>thấp hơn hẳn</strong> so với carboxylic acid và alcohol có cùng phân tử khối hoặc cùng số nguyên tử C.</p>
+          <div class="rule-box" style="font-weight:700; font-size:14px; text-align:center;">
+            Thứ tự nhiệt độ sôi giảm dần:<br>
+            Hợp chất ion > Carboxylic Acid > Alcohol > Ester ≈ Aldehyde, Ketone > Hydrocarbon
+          </div>
+          <p style="font-size:12px; color:var(--text-muted);">
+            <em>Ví dụ cùng có 2 carbon:</em> CH<sub>3</sub>COOH (118°C) > C<sub>2</sub>H<sub>5</sub>OH (78.3°C) > HCOOCH<sub>3</sub> (31.8°C) > CH<sub>3</sub>CHO (21°C) > C<sub>2</sub>H<sub>6</sub> (-88.6°C).
+          </p>
+        </div>
+
+        <div class="codex-card">
+          <div class="codex-card-title">💧 2. Trạng Thái & Độ Tan Trong Nước</div>
+          <p>• <strong>Trạng thái:</strong> Ở điều kiện thường, đa số các ester là chất lỏng, các ester có phân tử khối rất lớn có thể ở trạng thái rắn (như sáp ong, mỡ động vật).</p>
+          <p>• <strong>Tỉ khối:</strong> Hầu hết nhẹ hơn nước (d < 1 g/cm³), nổi lên trên mặt nước.</p>
+          <p>• <strong>Độ tan:</strong> Rất ít tan hoặc không tan trong nước vì tạo liên kết hydrogen rất yếu với nước. Tuy nhiên, ester tan tốt trong các dung môi hữu cơ không phân cực (xăng, dầu, ether...).</p>
+        </div>
+
+        <div class="codex-card">
+          <div class="codex-card-title">🌸 3. Mùi Thơm Hoa Quả Đặc Trưng (Bảng Tra Cứu Đi Thi)</div>
+          <table class="codex-table">
+            <thead>
+              <tr><th>Công Thức Cấu Tạo</th><th>Tên Gọi Ester</th><th>Mùi Thơm Đặc Trưng</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>CH<sub>3</sub>COOCH<sub>2</sub>CH<sub>2</sub>CH(CH<sub>3</sub>)<sub>2</sub></td><td style="color:var(--accent); font-weight:700;">Isoamyl acetate</td><td>🍌 Mùi chuối chín (dầu chuối)</td></tr>
+              <tr><td>CH<sub>3</sub>COOCH<sub>2</sub>C<sub>6</sub>H<sub>5</sub></td><td style="color:var(--accent); font-weight:700;">Benzyl acetate</td><td>🌼 Mùi hoa nhài</td></tr>
+              <tr><td>C<sub>2</sub>H<sub>5</sub>COOC<sub>2</sub>H<sub>5</sub></td><td style="color:var(--accent); font-weight:700;">Ethyl propionate</td><td>🍍 Mùi dứa chín</td></tr>
+              <tr><td>CH<sub>3</sub>CH<sub>2</sub>CH<sub>2</sub>COOC<sub>2</sub>H<sub>5</sub></td><td style="color:var(--accent); font-weight:700;">Ethyl butyrate</td><td>🍍 Mùi dứa chín</td></tr>
+              <tr><td>CH<sub>3</sub>CH<sub>2</sub>CH<sub>2</sub>COOCH<sub>3</sub></td><td style="color:var(--accent); font-weight:700;">Methyl butanoate</td><td>🍎 Mùi táo chín</td></tr>
+              <tr><td>CH<sub>3</sub>COOCH<sub>2</sub>CH<sub>2</sub>CH<sub>3</sub></td><td style="color:var(--accent); font-weight:700;">Propyl ethanoate</td><td>🍐 Mùi quả lê</td></tr>
+              <tr><td>HCOOCH(CH<sub>3</sub>)<sub>2</sub></td><td style="color:var(--accent); font-weight:700;">Isopropyl formate</td><td>☕ Có trong hạt cà phê Arabica</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- TAB 3: TÍNH CHẤT HÓA HỌC (LÀM RIÊNG CHI TIẾT) -->
+      <div class="codex-tab-pane" id="codexPane3">
+        <div class="codex-card">
+          <div class="codex-card-title">🔄 1. Phản Ứng Thủy Phân Trong Môi Trường Acid</div>
+          <p>• Phản ứng xảy ra ở nhóm chức ester, là <strong>phản ứng thuận nghịch (2 chiều)</strong>:</p>
+          <div class="formula-box">R - COO - R' + H<sub>2</sub>O ⇌ R - COOH + R' - OH (xúc tác H<sub>2</sub>SO<sub>4</sub> loãng, t°)</div>
+          <p>• <em>Đặc điểm:</em> Không xảy ra hoàn toàn. Sau phản ứng dung dịch phân tách thành 2 lớp chất lỏng.</p>
+        </div>
+
+        <div class="codex-card">
+          <div class="codex-card-title">🧼 2. Phản Ứng Thủy Phân Trong Môi Trường Kiềm (Xà Phòng Hóa)</div>
+          <p>• Là <strong>phản ứng một chiều</strong> (xảy ra hoàn toàn khi đun nóng với dung dịch kiềm NaOH / KOH):</p>
+          <div class="formula-box">R - COO - R' + NaOH ➔ R - COONa (muối) + R' - OH (alcohol) (đun nóng)</div>
+          <p>• <em>Ví dụ:</em> CH<sub>3</sub>COOC<sub>2</sub>H<sub>5</sub> + NaOH ➔ CH<sub>3</sub>COONa + C<sub>2</sub>H<sub>5</sub>OH.</p>
+        </div>
+
+        <div class="codex-card">
+          <div class="codex-card-title">⚠️ 3. Các Trường Hợp Thủy Phân Đặc Biệt (Trọng Tâm Đề Thi)</div>
+          
+          <p><strong>A. Thủy phân sinh ALDEHYDE (Gốc vinyl / không bền):</strong></p>
+          <p style="font-size:13px; color:var(--text-muted);">Khi nguyên tử C của liên kết C=C gắn trực tiếp vào nguyên tử O của nhóm -COO- dạng: -COO-CH=CH-R'</p>
+          <div class="formula-box">CH<sub>3</sub>COOCH=CH<sub>2</sub> + NaOH ➔ CH<sub>3</sub>COONa + CH<sub>3</sub>CHO (acetaldehyde)</div>
+
+          <p style="margin-top:8px;"><strong>B. Thủy phân sinh KETONE:</strong></p>
+          <div class="formula-box">CH<sub>3</sub>COOC(CH<sub>3</sub>)=CH<sub>2</sub> + NaOH ➔ CH<sub>3</sub>COONa + CH<sub>3</sub>COCH<sub>3</sub> (acetone)</div>
+
+          <p style="margin-top:8px;"><strong>C. Ester của PHENOL (Tỉ lệ mol 1 : 2, sinh 2 MUỐI + H<sub>2</sub>O):</strong></p>
+          <p style="font-size:13px; color:var(--text-muted);">Phenol sinh ra có tính acid nên phản ứng tiếp ngay với NaOH tạo muối phenolate:</p>
+          <div class="danger-box">
+            R - COO - C<sub>6</sub>H<sub>5</sub> + 2 NaOH ➔ R - COONa + C<sub>6</sub>H<sub>5</sub>ONa + H<sub>2</sub>O<br>
+            <em>Ví dụ:</em> CH<sub>3</sub>COOC<sub>6</sub>H<sub>5</sub> + 2 NaOH ➔ CH<sub>3</sub>COONa + C<sub>6</sub>H<sub>5</sub>ONa + H<sub>2</sub>O
+          </div>
+        </div>
+
+        <div class="codex-card">
+          <div class="codex-card-title">✨ 4. Phản Ứng Ở Gốc Hydrocarbon & Nhóm Chức</div>
+          <p>• <strong>Phản ứng tráng bạc của ester Formic:</strong> Các ester có dạng <strong>H-COO-R'</strong> chứa nhóm chức aldehyde (-CHO) nên có phản ứng tráng bạc với AgNO<sub>3</sub>/NH<sub>3</sub> tạo 2Ag.</p>
+          <p>• <strong>Phản ứng cộng ở gốc không no:</strong> Ester có liên kết đôi C=C (như methyl acrylate, vinyl acetate) làm mất màu dung dịch nước Brom (Br<sub>2</sub>) và cộng khí H<sub>2</sub> (xúc tác Ni, t°).</p>
+          <p>• <strong>Phản ứng trùng hợp:</strong> Các ester có liên kết đôi có khả năng tham gia phản ứng trùng hợp tạo chất dẻo / polymer.</p>
+          <p>• <strong>Phản ứng cháy:</strong> Đốt cháy ester no, đơn chức, mạch hở: <strong>n<sub>CO2</sub> = n<sub>H2O</sub></strong>.</p>
+        </div>
+      </div>
+
+      <!-- TAB 4: ĐIỀU CHẾ & ỨNG DỤNG -->
+      <div class="codex-tab-pane" id="codexPane4">
+        <div class="codex-card">
+          <div class="codex-card-title">🧪 1. Phương Pháp Điều Chế (Phản Ứng Ester Hóa)</div>
+          <div class="formula-box">R - COOH + R' - OH ⇌ R - COO - R' + H<sub>2</sub>O (xúc tác H<sub>2</sub>SO<sub>4</sub> đặc, t°)</div>
+          <div class="rule-box">
+            <strong>Vai trò của H<sub>2</sub>SO<sub>4</sub> đặc:</strong><br>
+            1. Vừa làm <strong>chất xúc tác</strong> để phản ứng diễn ra nhanh hơn.<br>
+            2. Vừa có tính <strong>háo nước mạnh</strong>, hút nước tạo thành để làm cân bằng chuyển dịch sang chiều thuận, giúp tăng hiệu suất điều chế ester!
+          </div>
+          <p style="font-size:13px; color:var(--text-muted);">
+            • <em>Lưu ý:</em> Ester của phenol <strong>không</strong> điều chế được bằng cách cho acid tác dụng trực tiếp với phenol, mà phải dùng anhydride acid: (CH<sub>3</sub>CO)<sub>2</sub>O + C<sub>6</sub>H<sub>5</sub>OH ➔ CH<sub>3</sub>COOC<sub>6</sub>H<sub>5</sub> + CH<sub>3</sub>COOH.
+          </p>
+        </div>
+
+        <div class="codex-card">
+          <div class="codex-card-title">🏭 2. Các Ứng Dụng Thực Tiễn Quan Trọng</div>
+          <p>• <strong>Sản xuất thủy tinh hữu cơ (Plexiglas):</strong> Trùng hợp Methyl methacrylate tạo poly(methyl methacrylate) dùng làm kính che máy bay, răng giả, kính áp tròng.</p>
+          <p>• <strong>Sản xuất dược phẩm:</strong></p>
+          <p> - <em>Aspirin (acetylsalicylic acid):</em> Dùng làm thuốc giảm đau, hạ sốt, chống viêm.</p>
+          <p> - <em>Methyl salicylate:</em> Dùng làm thuốc xoa bóp giảm đau, cao dán thể thao (Salonpas).</p>
+          <p>• <strong>Dung môi công nghiệp:</strong> Ethyl acetate, butyl acetate dùng để pha sơn, tách chiết tinh dầu và hợp chất hữu cơ.</p>
+          <p>• <strong>Công nghiệp thực phẩm & mỹ phẩm:</strong> Dùng làm hương liệu tạo mùi cho bánh kẹo, nước giải khát, nước hoa.</p>
+        </div>
+      </div>
+
+      <div style="display:flex; justify-content:flex-end; margin-top:10px;">
+        <button class="btn-rpg-primary" style="padding:10px 24px; font-size:15px;" onclick="closeCodex()">ĐÃ HIỂU BÍ KÍP ➔</button>
       </div>
     </div>
   </div>
@@ -1498,33 +1726,33 @@
     const STAGES = [
       {
         id: 1,
-        name: "Ải 1: Rừng Danh Pháp & Mùi Hương",
+        name: "Ải 1: Rừng Ẩm Ướt",
         bg: "radial-gradient(circle at 50% 100%, #192a56 0%, #0c1022 100%)",
-        enemy: { name: "Slime Formate", icon: "🧪", hp: 100, maxHp: 100, atk: 15, affinity: "Gốc HCOO-", desc: "Quái dịch hữu cơ mang tính tráng bạc" }
+        enemy: { name: "Slime ", icon: "🧪", hp: 100, maxHp: 100, atk: 15, affinity: "Gốc HCOO-", desc: "Quái dịch hữu cơ mang tính tráng bạc" }
       },
       {
         id: 2,
-        name: "Ải 2: Thung Lũng Nhiệt Độ & Liên Kết",
+        name: "Ải 2: Thung Lũng Băng",
         bg: "radial-gradient(circle at 50% 100%, #2c3e50 0%, #0d1624 100%)",
-        enemy: { name: "Sói Băng Hydrogen", icon: "🐺", hp: 150, maxHp: 150, atk: 22, affinity: "Thiếu liên kết H", desc: "Tốc độ nhanh, nhiệt độ sôi thấp" }
+        enemy: { name: "Sói Băng", icon: "🐺", hp: 150, maxHp: 150, atk: 22, affinity: "Thiếu liên kết H", desc: "Tốc độ nhanh, nhiệt độ sôi thấp" }
       },
       {
         id: 3,
-        name: "Ải 3: Hầm Ngục Thủy Phân & Đồng Phân",
+        name: "Ải 3: Hầm Ngục Thạch",
         bg: "radial-gradient(circle at 50% 100%, #401f4c 0%, #120a1c 100%)",
-        enemy: { name: "Thạch Quái NaOH Kiềm", icon: "🗿", hp: 200, maxHp: 200, atk: 28, affinity: "Xà phòng hóa", desc: "Thủy phân 1 chiều cực kỳ nguy hiểm" }
+        enemy: { name: "Thạch Quái", icon: "🗿", hp: 200, maxHp: 200, atk: 28, affinity: "Xà phòng hóa", desc: "Thủy phân 1 chiều cực kỳ nguy hiểm" }
       },
       {
         id: 4,
-        name: "Ải 4: Tháp Điều Chế & Hiệu Suất",
+        name: "Ải 4: Tháp Địa Ngục",
         bg: "radial-gradient(circle at 50% 100%, #633318 0%, #1c0e06 100%)",
-        enemy: { name: "Hỏa Long H2SO4 Đặc", icon: "🐉", hp: 260, maxHp: 260, atk: 35, affinity: "Háo nước t°", desc: "Chuyển dịch cân bằng sang chiều hủy diệt" }
+        enemy: { name: "Hỏa Long", icon: "🐉", hp: 260, maxHp: 260, atk: 35, affinity: "Háo nước t°", desc: "Chuyển dịch cân bằng sang chiều hủy diệt" }
       },
       {
         id: 5,
-        name: "ẢI CUỐI: ĐẠI CHIẾN BẠO CHÚA ESTER PHENOL",
+        name: "ẢI CUỐI: ĐẠI CHIẾN KHỦNG LONG BẠO CHÚA",
         bg: "radial-gradient(circle at 50% 100%, #581845 0%, #14040e 100%)",
-        enemy: { name: "Chúa Tể PolyEster Vận Dụng", icon: "👑", hp: 350, maxHp: 350, atk: 45, affinity: "Tỉ lệ 1:2 Phenolate", desc: "Trùm cuối sở hữu bí thuật ester đa chức & bẫy trắc nghiệm!" }
+        enemy: { name: "Khủng Long Bạo Chúa", icon: "🦖", hp: 350, maxHp: 350, atk: 45, affinity: "Tỉ lệ 1:2 Phenolate", desc: "Trùm cuối sở hữu bí thuật ester đa chức & bẫy trắc nghiệm!" }
       }
     ];
 
@@ -2135,7 +2363,26 @@
     }
 
     /* Modal Sổ tay & Review */
-    function openCodex() { document.getElementById("codexModal").style.display = "flex"; }
+    function switchCodexTab(tabId) {
+      for (let i = 1; i <= 4; i++) {
+        const btn = document.getElementById(`tabCodex${i}`);
+        const pane = document.getElementById(`codexPane${i}`);
+        if (btn) btn.classList.toggle("active", i === tabId);
+        if (pane) pane.style.display = (i === tabId) ? "block" : "none";
+      }
+    }
+
+
+    function switchCodexTab(tabIdx) {
+      for (let i = 1; i <= 4; i++) {
+        const btn = document.getElementById(`tabBtnC${i}`);
+        const pane = document.getElementById(`codexPane${i}`);
+        if (btn) btn.classList.toggle("active", i === tabIdx);
+        if (pane) pane.classList.toggle("active", i === tabIdx);
+      }
+    }
+
+    function openCodex() { switchCodexTab(1); document.getElementById("codexModal").style.display = "flex"; }
     function closeCodex() { document.getElementById("codexModal").style.display = "none"; }
 
     function openReviewModal() {
@@ -2177,10 +2424,10 @@
        HỆ THỐNG LƯU TRỮ LỊCH SỬ & BẢNG XẾP HẠNG (LOCALSTORAGE & GOOGLE SHEETS)
        ============================================================ */
     // Link Google Apps Script nếu giáo viên muốn nhận điểm online (Tùy chọn):
-    let GOOGLE_SHEET_API = "";
+    let GOOGLE_SHEET_API = "https://script.google.com/macros/s/AKfycbxmYeDXtO8hVNnUQAoUFWfTJcYNAAQNrGYepccDHUf5F-dAevqHDZ-jLt5eYEJii4SG/exec";
 
     function getSheetApiUrl() {
-      return localStorage.getItem("esterQuest_sheetApi") || GOOGLE_SHEET_API || "";
+      return GOOGLE_SHEET_API || localStorage.getItem("esterQuest_sheetApi") || "";
     }
 
     function loadBoardHistory() {
