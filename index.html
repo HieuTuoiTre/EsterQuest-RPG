@@ -1550,173 +1550,540 @@
        Trích lọc chuẩn theo tài liệu bài tập đính kèm (Biết - Hiểu - Vận dụng)
        ============================================================ */
     const QUESTION_BANK = [
-      /* MỨC ĐỘ 1: NHẬN BIẾT */
+      /* ==========================================
+         MỨC ĐỘ 1: NHẬN BIẾT (Level 1 - Dành cho Đòn Axit Cơ Bản)
+         ========================================== */
       {
         id: 1, level: 1, skillType: 1,
         q: "Ester no, đơn chức, mạch hở có công thức phân tử chung là:",
         options: ["C_{n}H_{2n}O (n ≥ 2)", "C_{n}H_{2n}O_{2} (n ≥ 2)", "C_{n}H_{2n-2}O_{2} (n ≥ 3)", "C_{n}H_{2n}O_{4} (n ≥ 2)"],
         answer: 1,
-        hint: "Ester no, đơn chức, mạch hở có 1 liên kết pi ở nhóm -COO- và có 2 nguyên tử oxygen.",
+        hint: "Ester no, đơn chức, mạch hở có 1 liên kết pi ở nhóm -COO- và 2 nguyên tử oxygen.",
         explain: "Công thức tổng quát của ester no, đơn chức, mạch hở là C_{n}H_{2n}O_{2} (với n ≥ 2)."
       },
       {
         id: 2, level: 1, skillType: 1,
+        q: "Ester không no, chứa một liên kết đôi C=C, đơn chức, mạch hở có công thức phân tử chung là:",
+        options: ["C_{n}H_{2n-2}O_{4} (n ≥ 3)", "C_{n}H_{2n}O_{2} (n ≥ 2)", "C_{n}H_{2n-4}O_{2} (n ≥ 3)", "C_{n}H_{2n-2}O_{2} (n ≥ 3)"],
+        answer: 3,
+        hint: "Bớt 2 nguyên tử H so với ester no đơn chức do có thêm 1 liên kết pi ở mạch carbon.",
+        explain: "Ester không no có 1 liên kết C=C, đơn chức, mạch hở có độ bất bão hòa k = 2 nên có CTPT là C_{n}H_{2n-2}O_{2} (n ≥ 3)."
+      },
+      {
+        id: 3, level: 1, skillType: 1,
+        q: "Chất nào sau đây thuộc loại ester?",
+        options: ["C_{3}H_{7}OH", "CH_{3}CHO", "CH_{3}COOCH_{3}", "CH_{3}COOH"],
+        answer: 2,
+        hint: "Ester có nhóm chức đặc trưng là -COO- gắn với gốc hydrocarbon.",
+        explain: "CH_{3}COOCH_{3} (methyl acetate) là ester tạo từ acetic acid và methanol."
+      },
+      {
+        id: 4, level: 1, skillType: 1,
+        q: "Chất nào dưới đây không phải là ester?",
+        options: ["HCOOC_{6}H_{5}", "HCOOCH_{3}", "CH_{3}COOH", "CH_{3}COOCH_{3}"],
+        answer: 2,
+        hint: "Chất này có nhóm -COOH (carboxylic acid).",
+        explain: "CH_{3}COOH là acetic acid (carboxylic acid), không phải ester."
+      },
+      {
+        id: 5, level: 1, skillType: 1,
+        q: "Tỉ khối hơi của một ester no, đơn chức X so với hydrogen là 30. Công thức phân tử của X là:",
+        options: ["C_{2}H_{4}O_{2}", "C_{3}H_{6}O_{2}", "C_{5}H_{10}O_{2}", "C_{4}H_{8}O_{2}"],
+        answer: 0,
+        hint: "M_{X} = 30 × 2 = 60 g/mol. Công thức dạng 14n + 32 = 60.",
+        explain: "M_{X} = 60 amu => 14n + 32 = 60 => n = 2 => CTPT là C_{2}H_{4}O_{2} (methyl formate HCOOCH_{3})."
+      },
+      {
+        id: 6, level: 1, skillType: 1,
+        q: "Từ phổ khối lượng (MS), phân tử khối của ester đơn chức X được xác định là 60 amu. Công thức phù hợp của X là:",
+        options: ["CH_{3}CH_{2}CH_{2}OH", "HCOOCH_{2}CH_{3}", "HCOOCH_{3}", "CH_{3}COOH"],
+        answer: 2,
+        hint: "Ester đơn chức nhỏ nhất có phân tử khối bằng 60.",
+        explain: "HCOOCH_{3} (methyl formate) là ester có M = 1 + 44 + 15 = 60 amu."
+      },
+      {
+        id: 7, level: 1, skillType: 1,
+        q: "Hợp chất ethyl acrylate (CH_{2}=CHCOOC_{2}H_{5}) có bao nhiêu nguyên tử hydrogen trong phân tử?",
+        options: ["8", "6", "10", "4"],
+        answer: 0,
+        hint: "Gốc acrylate có 3H, gốc ethyl có 5H.",
+        explain: "CH_{2}=CHCOOC_{2}H_{5} có công thức phân tử là C_{5}H_{8}O_{2}, chứa 8 nguyên tử hydrogen."
+      },
+      {
+        id: 8, level: 1, skillType: 1,
+        q: "Butyl acetate (CH_{3}COOCH_{2}CH_{2}CH_{2}CH_{3}) được dùng làm dung môi pha sơn. Số nguyên tử carbon trong phân tử butyl acetate là:",
+        options: ["4", "7", "6", "5"],
+        answer: 2,
+        hint: "Gốc acetate có 2 carbon, gốc butyl có 4 carbon.",
+        explain: "Butyl acetate có công thức C_{6}H_{12}O_{2}, gồm 6 nguyên tử carbon."
+      },
+      {
+        id: 9, level: 1, skillType: 1,
         q: "Tên gọi của ester CH_{3}COOC_{2}H_{5} là:",
         options: ["Ethyl formate", "Ethyl acetate", "Methyl acetate", "Methyl formate"],
         answer: 1,
         hint: "Gốc C_{2}H_{5}- là ethyl; gốc CH_{3}COO- là acetate.",
-        explain: "Quy tắc đọc tên: Tên gốc R' + tên gốc acid đuôi 'ate' -> C_{2}H_{5}- là ethyl, CH_{3}COO- là acetate => Ethyl acetate."
-      },
-      {
-        id: 3, level: 1, skillType: 1,
-        q: "Tên gọi của ester HCOOCH_{3} là:",
-        options: ["Methyl acetate", "Methyl formate", "Ethyl formate", "Ethyl acetate"],
-        answer: 1,
-        hint: "Gốc CH_{3}- là methyl, gốc HCOO- là formate (hoặc methanoate).",
-        explain: "HCOOCH_{3} được gọi tên là Methyl formate."
-      },
-      {
-        id: 4, level: 1, skillType: 1,
-        q: "Ester nào sau đây có mùi thơm đặc trưng của chuối chín (dầu chuối)?",
-        options: ["Isoamyl acetate", "Benzyl acetate", "Ethyl propionate", "Propyl ethanoate"],
-        answer: 0,
-        hint: "Ester này có gốc alcohol là isoamyl (CH_{3})_{2}CH-CH_{2}-CH_{2}-.",
-        explain: "Isoamyl acetate có mùi chuối chín đặc trưng. Benzyl acetate có mùi hoa nhài, Ethyl propionate có mùi dứa."
-      },
-      {
-        id: 5, level: 1, skillType: 1,
-        q: "Benzyl acetate là ester có mùi thơm của hoa nhài. Công thức cấu tạo của benzyl acetate là:",
-        options: ["CH_{3}COOC_{6}H_{5}", "CH_{3}COOCH_{2}C_{6}H_{5}", "C_{2}H_{5}COOCH_{3}", "C_{6}H_{5}COOCH_{3}"],
-        answer: 1,
-        hint: "Gốc benzyl là C_{6}H_{5}-CH_{2}- (khác với gốc phenyl là C_{6}H_{5}-).",
-        explain: "Benzyl acetate = CH_{3}COO- + -CH_{2}C_{6}H_{5} => CH_{3}COOCH_{2}C_{6}H_{5}."
-      },
-      {
-        id: 6, level: 1, skillType: 1,
-        q: "Ester nào sau đây có khả năng tham gia phản ứng tráng bạc?",
-        options: ["CH_{3}COOCH_{3}", "HCOOCH_{3}", "CH_{3}COOC_{2}H_{5}", "C_{2}H_{5}COOCH_{3}"],
-        answer: 1,
-        hint: "Ester của formic acid (có chứa nhóm H-C(=O)-) có khả năng tham gia phản ứng tráng bạc.",
-        explain: "HCOOCH_{3} (và các ester có dạng H-COO-R') có nhóm aldehyde H-C=O nên tham gia phản ứng tráng bạc với AgNO_{3}/NH_{3}."
-      },
-      {
-        id: 7, level: 1, skillType: 1,
-        q: "Ester nào sau đây được trùng hợp để sản xuất thủy tinh hữu cơ (Plexiglas)?",
-        options: ["Vinyl acetate", "Methyl acrylate", "Methyl methacrylate", "Ethyl acetate"],
-        answer: 2,
-        hint: "Ester này có công thức CH_{2}=C(CH_{3})COOCH_{3}.",
-        explain: "Methyl methacrylate trùng hợp tạo poly(methyl methacrylate) dùng làm thủy tinh hữu cơ (răng giả, kính áp tròng...)."
-      },
-      {
-        id: 8, level: 1, skillType: 1,
-        q: "Trong số các chất sau đây, chất nào có nhiệt độ sôi cao nhất?",
-        options: ["C_{2}H_{5}OH", "CH_{3}COOH", "HCOOCH_{3}", "CH_{3}CHO"],
-        answer: 1,
-        hint: "Liên kết hydrogen giữa các phân tử acid bền hơn so với alcohol; ester và aldehyde không tạo được liên kết hydrogen liên phân tử.",
-        explain: "Thứ tự nhiệt độ sôi: Acid > Alcohol > Ester, Aldehyde > Hydrocarbon. Trong các chất cùng khoảng phân tử khối, CH_{3}COOH có nhiệt độ sôi cao nhất (~118°C)."
-      },
-      {
-        id: 9, level: 1, skillType: 1,
-        q: "Đun sôi hỗn hợp ethyl alcohol (C_{2}H_{5}OH) và acetic acid (CH_{3}COOH) có H_{2}SO_{4} đặc làm xúc tác xảy ra phản ứng:",
-        options: ["Trùng ngưng", "Trùng hợp", "Ester hóa", "Xà phòng hóa"],
-        answer: 2,
-        hint: "Phản ứng giữa carboxylic acid và alcohol tạo ester gọi là phản ứng gì?",
-        explain: "Phản ứng giữa carboxylic acid và alcohol tạo thành ester gọi là phản ứng ester hóa."
+        explain: "Tên gốc R' (ethyl) + tên gốc acid (acetate) => Ethyl acetate."
       },
       {
         id: 10, level: 1, skillType: 1,
-        q: "Chất nào sau đây phản ứng với dung dịch NaOH đun nóng tạo thành CH_{3}COONa và C_{2}H_{5}OH?",
-        options: ["CH_{3}COOCH_{3}", "HCOOC_{2}H_{5}", "CH_{3}COOC_{2}H_{5}", "C_{2}H_{5}COOCH_{3}"],
+        q: "Ester HCOOCH_{3} được dùng làm chất xông hơi diệt khuẩn trong nông nghiệp. Tên gọi của HCOOCH_{3} là:",
+        options: ["Ethyl formate", "Ethyl acetate", "Methyl formate", "Methyl acetate"],
         answer: 2,
-        hint: "Ester tạo thành từ acetic acid (CH_{3}COOH) và ethyl alcohol (C_{2}H_{5}OH).",
+        hint: "Gốc CH_{3}- là methyl, gốc HCOO- là formate (hoặc methanoate).",
+        explain: "HCOOCH_{3} có tên gọi là Methyl formate."
+      },
+      {
+        id: 11, level: 1, skillType: 1,
+        q: "Tên gọi của ester CH_{3}COOCH_{3} là:",
+        options: ["Ethyl acetate", "Methyl propionate", "Methyl acetate", "Ethyl formate"],
+        answer: 2,
+        hint: "Gốc CH_{3}- là methyl, gốc CH_{3}COO- là acetate.",
+        explain: "CH_{3}COOCH_{3} có tên gọi là Methyl acetate."
+      },
+      {
+        id: 12, level: 1, skillType: 1,
+        q: "Tên gọi của ester HCOOC_{2}H_{5} là:",
+        options: ["Ethyl acetate", "Methyl formate", "Methyl acetate", "Ethyl formate"],
+        answer: 3,
+        hint: "Gốc C_{2}H_{5}- là ethyl, gốc HCOO- là formate.",
+        explain: "HCOOC_{2}H_{5} có tên gọi là Ethyl formate (hoặc ethyl methanoate)."
+      },
+      {
+        id: 13, level: 1, skillType: 1,
+        q: "Chất X có công thức cấu tạo C_{2}H_{5}COOCH_{3}. Tên gọi của X là:",
+        options: ["Methyl acetate", "Methyl propionate", "Propyl acetate", "Ethyl acetate"],
+        answer: 1,
+        hint: "Gốc alcohol là methyl (-CH_{3}), gốc acid là propionate (C_{2}H_{5}COO-).",
+        explain: "C_{2}H_{5}COOCH_{3} có tên gọi là Methyl propionate."
+      },
+      {
+        id: 14, level: 1, skillType: 1,
+        q: "Tên gọi của ester có công thức cấu tạo thu gọn CH_{3}COOCH(CH_{3})_{2} là:",
+        options: ["Propyl acetate", "Isopropyl acetate", "Sec-propyl acetate", "Propyl formate"],
+        answer: 1,
+        hint: "Gốc -CH(CH_{3})_{2} là isopropyl, gốc CH_{3}COO- là acetate.",
+        explain: "CH_{3}COOCH(CH_{3})_{2} có tên gọi là Isopropyl acetate."
+      },
+      {
+        id: 15, level: 1, skillType: 1,
+        q: "Hợp chất có công thức CH_{3}COOCH=CH_{2} có tên gọi là:",
+        options: ["Vinyl acetate", "Methyl formate", "Methyl acrylate", "Ethyl formate"],
+        answer: 0,
+        hint: "Gốc không no -CH=CH_{2} có tên là vinyl.",
+        explain: "CH_{3}COOCH=CH_{2} có tên gọi là Vinyl acetate."
+      },
+      {
+        id: 16, level: 1, skillType: 1,
+        q: "Ester methyl acrylate có công thức cấu tạo thu gọn là:",
+        options: ["CH_{3}COOC_{2}H_{5}", "CH_{2}=CHCOOCH_{3}", "C_{2}H_{5}COOCH_{3}", "CH_{3}COOCH_{3}"],
+        answer: 1,
+        hint: "Gốc acrylate là CH_{2}=CH-COO-, gốc methyl là -CH_{3}.",
+        explain: "Methyl acrylate có công thức thu gọn là CH_{2}=CHCOOCH_{3}."
+      },
+      {
+        id: 17, level: 1, skillType: 1,
+        q: "Dầu chuối là một loại ester có mùi thơm chuối chín đặc trưng. Tên gọi của ester này là:",
+        options: ["Ethyl formate", "Isoamyl acetate", "Amyl propionate", "Methyl acetate"],
+        answer: 1,
+        hint: "Ester tạo bởi acetic acid và isoamyl alcohol.",
+        explain: "Isoamyl acetate (CH_{3}COOCH_{2}CH_{2}CH(CH_{3})_{2}) có mùi chuối chín đặc trưng."
+      },
+      {
+        id: 18, level: 1, skillType: 1,
+        q: "Để điều chế dầu chuối (isoamyl acetate), người ta đun nóng isoamyl alcohol với acid nào sau đây?",
+        options: ["Acetic acid", "Formic acid", "Propionic acid", "Benzoic acid"],
+        answer: 0,
+        hint: "Dầu chuối là ester acetate, được điều chế từ acetic acid.",
+        explain: "Phản ứng ester hóa: CH_{3}COOH + (CH_{3})_{2}CHCH_{2}CH_{2}OH (H_{2}SO_{4} đ, t°) -> CH_{3}COOCH_{2}CH_{2}CH(CH_{3})_{2} + H_{2}O."
+      },
+      {
+        id: 19, level: 1, skillType: 1,
+        q: "Benzyl acetate là ester có mùi thơm của hoa nhài. Công thức cấu tạo của benzyl acetate là:",
+        options: ["CH_{3}COOC_{6}H_{5}", "CH_{3}COOCH_{2}C_{6}H_{5}", "C_{6}H_{5}CH_{2}COOCH_{3}", "C_{6}H_{5}COOCH_{3}"],
+        answer: 1,
+        hint: "Gốc benzyl là C_{6}H_{5}CH_{2}- gắn với nhóm acetate CH_{3}COO-.",
+        explain: "Benzyl acetate có công thức cấu tạo là CH_{3}COOCH_{2}C_{6}H_{5}."
+      },
+      {
+        id: 20, level: 1, skillType: 1,
+        q: "Ester nào sau đây có mùi thơm đặc trưng của hoa hồng?",
+        options: ["Isoamyl acetate", "Geranyl acetate", "Ethyl acetate", "Benzyl acetate"],
+        answer: 1,
+        hint: "Ester này có nguồn gốc từ tinh dầu hoa hồng, mang gốc geranyl.",
+        explain: "Geranyl acetate là ester có mùi hoa hồng đặc trưng."
+      },
+      {
+        id: 21, level: 1, skillType: 1,
+        q: "Trong công nghiệp thực phẩm, để tạo hương dứa cho bánh kẹo người ta dùng ethyl propionate có công thức là:",
+        options: ["CH_{3}COOC_{2}H_{5}", "C_{2}H_{5}COOC_{2}H_{5}", "C_{2}H_{5}COOCH_{3}", "CH_{3}COOCH_{3}"],
+        answer: 1,
+        hint: "Tạo từ propionic acid (C_{2}H_{5}COOH) và ethyl alcohol (C_{2}H_{5}OH).",
+        explain: "Ethyl propionate có công thức cấu tạo là C_{2}H_{5}COOC_{2}H_{5}."
+      },
+      {
+        id: 22, level: 1, skillType: 1,
+        q: "Ester nào sau đây được sử dụng để trùng hợp điều chế thủy tinh hữu cơ (Plexiglas)?",
+        options: ["Vinyl acetate", "Methyl acrylate", "Isopropyl acetate", "Methyl methacrylate"],
+        answer: 3,
+        hint: "Ester này có công thức CH_{2}=C(CH_{3})COOCH_{3}.",
+        explain: "Methyl methacrylate trùng hợp tạo poly(methyl methacrylate) dùng làm thủy tinh hữu cơ (Plexiglas)."
+      },
+      {
+        id: 23, level: 1, skillType: 1,
+        q: "Đun nóng ester CH_{3}COOC_{2}H_{5} với dung dịch NaOH vừa đủ, sản phẩm thu được là:",
+        options: ["CH_{3}COONa và CH_{3}OH", "CH_{3}COONa và C_{2}H_{5}OH", "HCOONa và C_{2}H_{5}OH", "C_{2}H_{5}COONa và CH_{3}OH"],
+        answer: 1,
+        hint: "Phản ứng thủy phân cắt đứt liên kết C-O trong nhóm ester.",
         explain: "CH_{3}COOC_{2}H_{5} + NaOH -> CH_{3}COONa + C_{2}H_{5}OH."
       },
-
-      /* MỨC ĐỘ 2: THÔNG HIỂU */
       {
-        id: 11, level: 2, skillType: 2,
+        id: 24, level: 1, skillType: 1,
+        q: "Cho CH_{3}COOCH_{3} vào dung dịch NaOH đun nóng, sinh ra các sản phẩm là:",
+        options: ["CH_{3}COONa và CH_{3}COOH", "CH_{3}COONa và CH_{3}OH", "CH_{3}COOH và CH_{3}ONa", "CH_{3}OH và CH_{3}COOH"],
+        answer: 1,
+        hint: "Thủy phân trong môi trường kiềm (xà phòng hóa) tạo muối sodium và alcohol.",
+        explain: "CH_{3}COOCH_{3} + NaOH -> CH_{3}COONa + CH_{3}OH."
+      },
+      {
+        id: 25, level: 1, skillType: 1,
+        q: "Thủy phân ester nào sau đây trong dung dịch NaOH thu được sodium formate (HCOONa)?",
+        options: ["CH_{3}COOCH_{3}", "CH_{3}COOC_{2}H_{5}", "HCOOC_{2}H_{5}", "CH_{3}COOC_{3}H_{7}"],
+        answer: 2,
+        hint: "Ester phải có gốc acid là formate (HCOO-).",
+        explain: "HCOOC_{2}H_{5} + NaOH -> HCOONa + C_{2}H_{5}OH."
+      },
+
+      /* ==========================================
+         MỨC ĐỘ 2: THÔNG HIỂU (Level 2 - Dành cho Hỏa Cầu & Khiên)
+         ========================================== */
+      {
+        id: 26, level: 2, skillType: 2,
         q: "Số đồng phân ester ứng với công thức phân tử C_{3}H_{6}O_{2} là:",
         options: ["1", "2", "3", "4"],
         answer: 1,
-        hint: "Viết các este dạng HCOO-R' và CH_{3}COO-R'.",
-        explain: "C_{3}H_{6}O_{2} có đúng 2 đồng phân ester: HCOOC_{2}H_{5} và CH_{3}COOCH_{3}."
+        hint: "Gồm ester của formic acid và ester của acetic acid.",
+        explain: "C_{3}H_{6}O_{2} có 2 đồng phân ester: HCOOC_{2}H_{5} và CH_{3}COOCH_{3}."
       },
       {
-        id: 12, level: 2, skillType: 2,
+        id: 27, level: 2, skillType: 2,
         q: "Số đồng phân ester ứng với công thức phân tử C_{4}H_{8}O_{2} là:",
         options: ["2", "3", "4", "5"],
         answer: 2,
-        hint: "Gồm: HCOO-C_{3}H_{7} (2 đồng phân gốc propyl), CH_{3}COO-C_{2}H_{5} (1), C_{2}H_{5}COO-CH_{3} (1).",
-        explain: "Có 4 đồng phân ester của C_{4}H_{8}O_{2}: HCOOCH_{2}CH_{2}CH_{3}, HCOOCH(CH_{3})_{2}, CH_{3}COOC_{2}H_{5}, C_{2}H_{5}COOCH_{3}."
+        hint: "Gồm HCOO-C_{3}H_{7} (2 chất), CH_{3}COO-C_{2}H_{5} (1 chất), C_{2}H_{5}COO-CH_{3} (1 chất).",
+        explain: "C_{4}H_{8}O_{2} có 4 đồng phân ester: HCOOCH_{2}CH_{2}CH_{3}, HCOOCH(CH_{3})_{2}, CH_{3}COOC_{2}H_{5}, C_{2}H_{5}COOCH_{3}."
       },
       {
-        id: 13, level: 2, skillType: 2,
+        id: 28, level: 2, skillType: 2,
+        q: "Số ester có cùng công thức phân tử C_{4}H_{8}O_{2} mà khi thủy phân trong môi trường acid thu được formic acid là:",
+        options: ["1", "2", "3", "4"],
+        answer: 1,
+        hint: "Ester có dạng HCOO-R' với R' là gốc propyl (2 đồng phân mạch thẳng và phân nhánh).",
+        explain: "Có 2 ester: HCOOCH_{2}CH_{2}CH_{3} và HCOOCH(CH_{3})_{2} khi thủy phân đều cho HCOOH."
+      },
+      {
+        id: 29, level: 2, skillType: 2,
+        q: "Trong các chất sau: CH_{3}COOH, C_{2}H_{5}OH, HCOOCH_{3}, CH_{3}COOCH_{3}, chất ít tan trong nước nhất ở điều kiện thường là:",
+        options: ["CH_{3}COOH", "C_{2}H_{5}OH", "HCOOCH_{3}", "CH_{3}COOCH_{3}"],
+        answer: 3,
+        hint: "Ester không tạo được liên kết hydrogen bền với nước; phân tử khối càng lớn thì độ tan càng giảm.",
+        explain: "CH_{3}COOH và C_{2}H_{5}OH tan vô hạn; giữa 2 ester thì CH_{3}COOCH_{3} có mạch carbon lớn hơn nên ít tan trong nước nhất."
+      },
+      {
+        id: 30, level: 2, skillType: 2,
+        q: "Trong số các chất sau đây: C_{2}H_{5}OH, CH_{3}COOH, CH_{3}CHO, HCOOCH_{3}, chất nào có nhiệt độ sôi cao nhất?",
+        options: ["C_{2}H_{5}OH", "CH_{3}COOH", "CH_{3}CHO", "HCOOCH_{3}"],
+        answer: 1,
+        hint: "Carboxylic acid tạo liên kết hydrogen liên phân tử dạng dimer bền hơn alcohol và ester.",
+        explain: "Thứ tự nhiệt độ sôi: Acid > Alcohol > Ester, Aldehyde. Do đó CH_{3}COOH có nhiệt độ sôi cao nhất (~118°C)."
+      },
+      {
+        id: 31, level: 2, skillType: 2,
+        q: "Trong số các chất sau: C_{4}H_{9}OH, C_{3}H_{7}COOH, CH_{3}COOC_{2}H_{5}, C_{6}H_{5}OH, chất có nhiệt độ sôi thấp nhất là:",
+        options: ["C_{4}H_{9}OH", "C_{3}H_{7}COOH", "CH_{3}COOC_{2}H_{5}", "C_{6}H_{5}OH"],
+        answer: 2,
+        hint: "Ester không có liên kết hydrogen liên phân tử nên nhiệt độ sôi thấp hơn nhiều so với acid, alcohol và phenol.",
+        explain: "CH_{3}COOC_{2}H_{5} là ester không có liên kết hydrogen liên phân tử nên có nhiệt độ sôi thấp nhất (~77°C)."
+      },
+      {
+        id: 32, level: 2, skillType: 2,
+        q: "Sắp xếp các chất sau theo trật tự tăng dần nhiệt độ sôi: CH_{3}COOH (1), CH_{3}COOCH_{3} (2), HCOOCH_{3} (3), C_{2}H_{5}COOH (4), C_{3}H_{7}OH (5):",
+        options: ["(3) < (2) < (5) < (1) < (4)", "(2) < (3) < (5) < (1) < (4)", "(3) < (2) < (1) < (5) < (4)", "(3) < (5) < (1) < (2) < (4)"],
+        answer: 0,
+        hint: "Quy luật nhiệt độ sôi: Ester (M nhỏ < M lớn) < Alcohol < Acid (M nhỏ < M lớn).",
+        explain: "Nhiệt độ sôi: HCOOCH_{3} (32°C) < CH_{3}COOCH_{3} (57°C) < C_{3}H_{7}OH (97°C) < CH_{3}COOH (118°C) < C_{2}H_{5}COOH (141°C)."
+      },
+      {
+        id: 33, level: 2, skillType: 2,
+        q: "Cho các chất: CH_{3}COOCH_{3} (1), HCOOC_{2}H_{5} (2), CH_{3}CHO (3), CH_{3}COOH (4). Những chất nào tác dụng với dung dịch NaOH cho cùng một sản phẩm là CH_{3}COONa?",
+        options: ["(1), (3), (4)", "(3), (4)", "(1), (4)", "(4)"],
+        answer: 2,
+        hint: "Cả ester methyl acetate và acetic acid đều chứa gốc CH_{3}COO-.",
+        explain: "CH_{3}COOCH_{3} + NaOH -> CH_{3}COONa + CH_{3}OH; CH_{3}COOH + NaOH -> CH_{3}COONa + H_{2}O. (1) và (4) đều sinh ra CH_{3}COONa."
+      },
+      {
+        id: 34, level: 2, skillType: 2,
         q: "Thủy phân hoàn toàn hỗn hợp ethyl propionate và ethyl formate trong dung dịch NaOH thu được sản phẩm gồm:",
-        options: ["1 muối và 1 alcohol", "2 muối và 1 alcohol", "1 muối và 2 alcohol", "2 muối và 2 alcohol"],
-        answer: 1,
-        hint: "Cả 2 este đều có chung gốc alcohol là ethyl (C_{2}H_{5}-).",
-        explain: "Ethyl propionate và ethyl formate đều sinh ra C_{2}H_{5}OH (1 alcohol), và 2 muối khác nhau: C_{2}H_{5}COONa và HCOONa (2 muối)."
+        options: ["1 muối và 1 alcohol", "2 muối và 2 alcohol", "1 muối và 2 alcohol", "2 muối và 1 alcohol"],
+        answer: 3,
+        hint: "Cả hai ester đều có cùng gốc alcohol là ethyl (-C_{2}H_{5}).",
+        explain: "Ethyl propionate sinh C_{2}H_{5}COONa + C_{2}H_{5}OH; ethyl formate sinh HCOONa + C_{2}H_{5}OH => Thu được 2 muối và 1 alcohol."
       },
       {
-        id: 14, level: 2, skillType: 2,
-        q: "Thủy phân ester nào sau đây trong dung dịch NaOH đun nóng thu được sản phẩm có aldehyde?",
-        options: ["CH_{3}COOCH_{2}CH=CH_{2}", "CH_{3}COOCH=CH_{2}", "CH_{2}=CHCOOCH_{3}", "CH_{3}COOC_{2}H_{5}"],
-        answer: 1,
-        hint: "Nhóm -COO- liên kết trực tiếp với nguyên tử carbon chứa liên kết đôi (-CH=CH_{2}) sẽ tạo enol không bền chuyển thành aldehyde.",
-        explain: "CH_{3}COOCH=CH_{2} + NaOH -> CH_{3}COONa + CH_{3}CHO (acetaldehyde)."
+        id: 35, level: 2, skillType: 2,
+        q: "Ester X có công thức phân tử C_{4}H_{8}O_{2}. Thủy phân X trong dung dịch NaOH dư thu được sodium propionate và alcohol Y. Công thức của Y là:",
+        options: ["C_{3}H_{5}(OH)_{3}", "C_{2}H_{5}OH", "C_{3}H_{7}OH", "CH_{3}OH"],
+        answer: 3,
+        hint: "Sodium propionate có 3 carbon (C_{2}H_{5}COONa), suy ra gốc alcohol chỉ có 1 carbon.",
+        explain: "Ester là C_{2}H_{5}COOCH_{3} + NaOH -> C_{2}H_{5}COONa + CH_{3}OH (Y là CH_{3}OH)."
       },
       {
-        id: 15, level: 2, skillType: 2,
-        q: "Đun nóng ester CH_{3}COOC_{6}H_{5} (phenyl acetate) với lượng dư dung dịch NaOH, sản phẩm hữu cơ thu được là:",
-        options: ["CH_{3}COONa và C_{6}H_{5}OH", "CH_{3}COONa và C_{6}H_{5}ONa", "CH_{3}COOH và C_{6}H_{5}ONa", "CH_{3}OH và C_{6}H_{5}ONa"],
+        id: 36, level: 2, skillType: 2,
+        q: "Ester X có công thức phân tử C_{4}H_{8}O_{2}. Thủy phân X trong dung dịch H_{2}SO_{4} loãng, đun nóng, thu được ethyl alcohol và chất hữu cơ Y. Công thức của Y là:",
+        options: ["CH_{3}OH", "CH_{3}COOH", "C_{2}H_{5}COOH", "HCOOH"],
         answer: 1,
-        hint: "Ester của phenol thủy phân sinh ra phenol, phenol là acid yếu tiếp tục phản ứng với NaOH dư tạo muối phenolate và H_{2}O.",
-        explain: "CH_{3}COOC_{6}H_{5} + 2NaOH -> CH_{3}COONa + C_{6}H_{5}ONa + H_{2}O. Thu được 2 muối hữu cơ!"
+        hint: "Ethyl alcohol là C_{2}H_{5}OH (2 carbon) => Acid tương ứng có 2 carbon.",
+        explain: "Ester X là CH_{3}COOC_{2}H_{5} + H_{2}O <-> CH_{3}COOH (Y) + C_{2}H_{5}OH."
       },
       {
-        id: 16, level: 2, skillType: 2,
-        q: "Xà phòng hóa ester X có CTPT C_{4}H_{8}O_{2} bằng NaOH thu được muối Y và alcohol Z có bậc II. Công thức cấu tạo của X là:",
+        id: 37, level: 2, skillType: 2,
+        q: "Xà phòng hóa ester X có công thức phân tử C_{4}H_{8}O_{2} bằng dung dịch NaOH dư thu được muối Y và alcohol Z (bậc II). Công thức cấu tạo thu gọn của X là:",
         options: ["HCOOCH(CH_{3})_{2}", "CH_{3}CH_{2}COOCH_{3}", "CH_{3}COOC_{2}H_{5}", "HCOOCH_{2}CH_{2}CH_{3}"],
         answer: 0,
-        hint: "Alcohol bậc II sinh ra từ C_{4}H_{8}O_{2} chỉ có thể là isopropyl alcohol (CH_{3})_{2}CH-OH.",
-        explain: "HCOOCH(CH_{3})_{2} + NaOH -> HCOONa + (CH_{3})_{2}CH-OH (isopropyl alcohol là alcohol bậc II)."
+        hint: "Alcohol bậc II có 3 carbon là isopropyl alcohol (CH_{3})_{2}CH-OH.",
+        explain: "HCOOCH(CH_{3})_{2} + NaOH -> HCOONa + (CH_{3})_{2}CH-OH (alcohol bậc II)."
       },
       {
-        id: 17, level: 2, skillType: 3,
-        q: "Để phản ứng vừa đủ với 0,15 mol CH_{3}COOCH_{3} cần V lít dung dịch NaOH 0,5M. Giá trị của V là:",
-        options: ["0,1 lít", "0,2 lít", "0,3 lít", "0,5 lít"],
-        answer: 2,
-        hint: "Este đơn chức phản ứng với NaOH theo tỉ lệ 1:1. V = n / C_{M}.",
-        explain: "n_{NaOH} = n_{ester} = 0,15 mol => V = 0,15 / 0,5 = 0,3 lít (300 mL)."
+        id: 38, level: 2, skillType: 2,
+        q: "Chất nào sau đây khi đun nóng với dung dịch NaOH thu được sản phẩm có aldehyde?",
+        options: ["CH_{3}COOCH_{2}CH=CH_{2}", "CH_{3}COOC(CH_{3})=CH_{2}", "CH_{2}=CHCOOCH_{2}CH_{3}", "CH_{3}COOCH=CHCH_{3}"],
+        answer: 3,
+        hint: "Nhóm -COO- gắn trực tiếp vào nguyên tử carbon mang liên kết đôi (-CH=CH-) sẽ tạo enol chuyển vị thành aldehyde.",
+        explain: "CH_{3}COOCH=CHCH_{3} + NaOH -> CH_{3}COONa + CH_{3}CH_{2}CHO (propionaldehyde)."
       },
       {
-        id: 18, level: 2, skillType: 3,
-        q: "Cho 8,8 gam CH_{3}COOC_{2}H_{5} (M = 88) phản ứng hết với dung dịch NaOH dư, đun nóng. Khối lượng muối CH_{3}COONa (M = 82) thu được là:",
-        options: ["4,1 gam", "8,2 gam", "12,3 gam", "16,4 gam"],
+        id: 39, level: 2, skillType: 2,
+        q: "Xà phòng hóa ester nào sau đây thu được sản phẩm có khả năng tham gia phản ứng tráng bạc?",
+        options: ["Vinyl acetate", "Allyl propionate", "Ethyl acrylate", "Methyl methacrylate"],
+        answer: 0,
+        hint: "Vinyl acetate khi thủy phân sinh ra acetaldehyde (CH_{3}CHO) có nhóm -CHO tráng bạc được.",
+        explain: "CH_{3}COOCH=CH_{2} + NaOH -> CH_{3}COONa + CH_{3}CHO (acetaldehyde tham gia phản ứng tráng bạc)."
+      },
+      {
+        id: 40, level: 2, skillType: 2,
+        q: "Đun nóng ester CH_{3}COOC_{6}H_{5} (phenyl acetate) với lượng dư dung dịch NaOH, thu được các sản phẩm hữu cơ là:",
+        options: ["CH_{3}OH và C_{6}H_{5}ONa", "CH_{3}COOH và C_{6}H_{5}ONa", "CH_{3}COOH và C_{6}H_{5}OH", "CH_{3}COONa và C_{6}H_{5}ONa"],
+        answer: 3,
+        hint: "Ester của phenol phản ứng với NaOH theo tỉ lệ 1 : 2 sinh ra 2 muối và H_{2}O.",
+        explain: "CH_{3}COOC_{6}H_{5} + 2NaOH -> CH_{3}COONa + C_{6}H_{5}ONa + H_{2}O."
+      },
+      {
+        id: 41, level: 2, skillType: 2,
+        q: "Phát biểu nào sau đây là sai khi nói về ester?",
+        options: ["Ethyl acetate có công thức phân tử là C_{4}H_{8}O_{2}", "Phân tử methyl methacrylate có một liên kết π trong phân tử", "Methyl acrylate có khả năng tham gia phản ứng cộng Br_{2}", "Ethyl formate có khả năng tham gia phản ứng tráng bạc"],
         answer: 1,
-        hint: "Tính số mol ester: n = 8,8 / 88 = 0,1 mol. Số mol muối = số mol ester.",
+        hint: "Methyl methacrylate CH_{2}=C(CH_{3})COOCH_{3} có 1 liên kết pi ở C=C và 1 liên kết pi ở C=O.",
+        explain: "Phân tử methyl methacrylate có 2 liên kết pi (1 ở C=C và 1 ở C=O), phát biểu 'có một liên kết pi' là sai."
+      },
+      {
+        id: 42, level: 2, skillType: 3,
+        q: "Để phản ứng vừa đủ với 0,15 mol CH_{3}COOCH_{3} cần V lít dung dịch NaOH 0,5M. Giá trị của V là:",
+        options: ["0,2", "0,1", "0,5", "0,3"],
+        answer: 3,
+        hint: "Ester đơn chức phản ứng với NaOH theo tỉ lệ mol 1 : 1. V = n / C_{M}.",
+        explain: "n_{NaOH} = n_{ester} = 0,15 mol => V = 0,15 / 0,5 = 0,3 lít."
+      },
+      {
+        id: 43, level: 2, skillType: 3,
+        q: "Cho 8,8 gam CH_{3}COOC_{2}H_{5} phản ứng hết với dung dịch NaOH dư, đun nóng. Khối lượng muối CH_{3}COONa thu được là:",
+        options: ["16,4 gam", "12,3 gam", "4,1 gam", "8,2 gam"],
+        answer: 3,
+        hint: "n_{ester} = 8,8 / 88 = 0,1 mol. n_{muối} = n_{ester}.",
         explain: "n_{ester} = 8,8 / 88 = 0,1 mol => n_{CH3COONa} = 0,1 mol => m_{muối} = 0,1 × 82 = 8,2 gam."
       },
       {
-        id: 19, level: 2, skillType: 3,
-        q: "Trong phản ứng ester hóa giữa CH_{3}COOH và C_{2}H_{5}OH, H_{2}SO_{4} đặc đóng vai trò:",
-        options: ["Chỉ là chất xúc tác", "Chất xúc tác và hút nước làm chuyển dịch cân bằng sang chiều thuận", "Chất phản ứng chính", "Chất oxi hóa mạnh"],
+        id: 44, level: 2, skillType: 3,
+        q: "Xà phòng hóa hoàn toàn 17,6 gam CH_{3}COOC_{2}H_{5} trong dung dịch NaOH vừa đủ, thu được dung dịch chứa m gam muối. Giá trị của m là:",
+        options: ["16,4", "19,2", "9,6", "8,2"],
+        answer: 0,
+        hint: "n_{ester} = 17,6 / 88 = 0,2 mol. m_{muối} = 0,2 × 82.",
+        explain: "n_{CH3COOC2H5} = 17,6 / 88 = 0,2 mol => m_{CH3COONa} = 0,2 × 82 = 16,4 gam."
+      },
+      {
+        id: 45, level: 2, skillType: 3,
+        q: "Xà phòng hóa hoàn toàn 3,7 gam HCOOC_{2}H_{5} bằng một lượng dung dịch NaOH vừa đủ. Cô cạn dung dịch sau phản ứng, thu được m gam muối khan. Giá trị của m là:",
+        options: ["4,8", "5,2", "3,2", "3,4"],
+        answer: 3,
+        hint: "n_{ester} = 3,7 / 74 = 0,05 mol. Muối là HCOONa (M = 68).",
+        explain: "n_{ester} = 3,7 / 74 = 0,05 mol => m_{HCOONa} = 0,05 × 68 = 3,4 gam."
+      },
+      {
+        id: 46, level: 2, skillType: 3,
+        q: "Thủy phân hoàn toàn m gam methyl acetate bằng dung dịch NaOH đun nóng thu được 8,2 gam muối. Giá trị của m là:",
+        options: ["6,0", "7,4", "8,2", "8,8"],
         answer: 1,
-        hint: "H_{2}SO_{4} đặc có tính háo nước cực mạnh, giúp làm giảm lượng H_{2}O tạo thành.",
-        explain: "H_{2}SO_{4} đặc vừa làm xúc tác tăng tốc độ phản ứng, vừa hút nước làm nồng độ H_{2}O giảm, cân bằng chuyển dịch theo chiều tạo ester (tăng hiệu suất)."
+        hint: "Muối là CH_{3}COONa (M = 82) => n = 0,1 mol. Methyl acetate có M = 74.",
+        explain: "n_{muối} = 8,2 / 82 = 0,1 mol => n_{CH3COOCH3} = 0,1 mol => m = 0,1 × 74 = 7,4 gam."
+      },
+      {
+        id: 47, level: 2, skillType: 3,
+        q: "Ester X có công thức phân tử C_{2}H_{4}O_{2}. Đun nóng 9,0 gam X trong dung dịch NaOH vừa đủ thu được m gam muối. Giá trị của m là:",
+        options: ["8,2", "15,0", "12,3", "10,2"],
+        answer: 3,
+        hint: "X là HCOOCH_{3} (M = 60). n_{X} = 9/60 = 0,15 mol. Muối là HCOONa (M = 68).",
+        explain: "n_{HCOOCH3} = 9,0 / 60 = 0,15 mol => m_{HCOONa} = 0,15 × 68 = 10,2 gam."
+      },
+      {
+        id: 48, level: 2, skillType: 3,
+        q: "Đốt cháy hoàn toàn 13,2 gam ethyl acetate (C_{4}H_{8}O_{2}) thu được V lít khí CO_{2} (ở đkc, 25°C, 1 bar). Giá trị của V là:",
+        options: ["3,7185", "9,916", "4,958", "14,874"],
+        answer: 3,
+        hint: "n_{ester} = 13,2 / 88 = 0,15 mol => n_{CO2} = 0,15 × 4 = 0,6 mol. V = n × 24,79.",
+        explain: "n_{CO2} = 4 × 0,15 = 0,6 mol => V = 0,6 × 24,79 = 14,874 lít."
+      },
+      {
+        id: 49, level: 2, skillType: 3,
+        q: "Đốt cháy hoàn toàn 13,2 gam ester no, đơn chức, mạch hở X thu được 0,6 mol CO_{2} và 0,6 mol H_{2}O. Công thức phân tử của X là:",
+        options: ["C_{3}H_{6}O_{2}", "C_{4}H_{8}O_{2}", "C_{3}H_{4}O_{2}", "C_{2}H_{4}O_{2}"],
+        answer: 1,
+        hint: "m_{C} + m_{H} = 0,6×12 + 0,6×2 = 8,4g => m_{O} = 13,2 - 8,4 = 4,8g => n_{O} = 0,3 mol.",
+        explain: "n_{X} = n_{O} / 2 = 0,15 mol => Số C = 0,6 / 0,15 = 4 => CTPT là C_{4}H_{8}O_{2}."
+      },
+      {
+        id: 50, level: 2, skillType: 3,
+        q: "Đun nóng 24 gam acetic acid với lượng dư ethyl alcohol (xúc tác H_{2}SO_{4} đặc), thu được 26,4 gam ester. Hiệu suất của phản ứng ester hóa là:",
+        options: ["75%", "44%", "55%", "60%"],
+        answer: 0,
+        hint: "n_{CH3COOH} = 24/60 = 0,4 mol. n_{ester lý thuyết} = 0,4 mol => m_{lý thuyết} = 35,2g.",
+        explain: "m_{lý thuyết} = 0,4 × 88 = 35,2 gam. Hiệu suất H = 26,4 / 35,2 × 100% = 75%."
       },
 
-      /* MỨC ĐỘ 3: VẬN DỤNG CAO / TRÙM CUỐI */
+      /* ==========================================
+         MỨC ĐỘ 3: VẬN DỤNG (Level 3 - Dành cho Bão Xà Phòng Hóa)
+         ========================================== */
       {
-        id: 20, level: 3, skillType: 4,
-        q: "Chất X tác dụng với dung dịch NaOH vừa đủ, thu được 2 chất Y và Z. Cho Z tráng bạc thu được chất hữu cơ T. Cho T tác dụng NaOH lại thu được chất Y. Chất X là:",
+        id: 51, level: 3, skillType: 4,
+        q: "Chất X tác dụng với dung dịch NaOH vừa đủ, thu được hai chất Y và Z. Cho Z tác dụng với dung dịch AgNO_{3} trong NH_{3} thu được chất hữu cơ T. Cho T tác dụng với dung dịch NaOH lại thu được chất Y. Chất X là:",
         options: ["CH_{3}COOCH=CH_{2}", "HCOOCH_{3}", "CH_{3}COOCH=CH-CH_{3}", "HCOOCH=CH_{2}"],
         answer: 0,
-        hint: "Z tráng bạc sinh T, T + NaOH ra Y => Z là CH_{3}CHO, T là CH_{3}COONH_{4}, Y là CH_{3}COONa.",
-        explain: "CH_{3}COOCH=CH_{2} + NaOH -> CH_{3}COONa (Y) + CH_{3}CHO (Z). CH_{3}CHO tráng bạc -> CH_{3}COONH_{4} (T). CH_{3}COONH_{4} + NaOH -> CH_{3}COONa (Y) + NH_{3} + H_{2}O."
+        hint: "Z tráng bạc tạo muối amoni T, T tác dụng NaOH tái tạo muối sodium Y.",
+        explain: "CH_{3}COOCH=CH_{2} (X) + NaOH -> CH_{3}COONa (Y) + CH_{3}CHO (Z). CH_{3}CHO + AgNO_{3}/NH_{3} -> CH_{3}COONH_{4} (T). CH_{3}COONH_{4} + NaOH -> CH_{3}COONa (Y) + NH_{3} + H_{2}O."
       },
       {
-        id: 21, level: 3, skillType: 4,
+        id: 52, level: 3, skillType: 4,
+        q: "Ester X mạch hở, có công thức phân tử C_{4}H_{6}O_{2}. Đun nóng a mol X trong dung dịch NaOH vừa đủ, thu được dung dịch Y. Cho toàn bộ Y tác dụng với lượng dư dung dịch AgNO_{3} trong NH_{3}, thu được 4a mol Ag. Công thức cấu tạo của X là:",
+        options: ["HCOO-CH=CH-CH_{3}", "CH_{2}=CH-COO-CH_{3}", "CH_{3}COO-CH=CH_{2}", "HCOO-CH_{2}-CH=CH_{2}"],
+        answer: 0,
+        hint: "Để tạo 4a mol Ag, cả muối và aldehyde sinh ra đều phải có khả năng tráng gương (mỗi chất tạo 2 Ag).",
+        explain: "HCOOCH=CH-CH_{3} + NaOH -> HCOONa (tráng bạc tạo 2 Ag) + CH_{3}CH_{2}CHO (tráng bạc tạo 2 Ag) => Tổng cộng thu được 4a mol Ag."
+      },
+      {
+        id: 53, level: 3, skillType: 4,
+        q: "Ba chất hữu cơ X, Y, Z có cùng công thức phân tử C_{4}H_{8}O_{2}: X có mạch carbon phân nhánh, tác dụng được với Na và NaOH; Y được điều chế từ acid và alcohol có cùng số nguyên tử C; Z tác dụng với NaOH và tham gia tráng bạc. Các chất X, Y, Z lần lượt là:",
+        options: [
+          "CH_{3}CH_{2}CH_{2}COOH, CH_{3}COOCH_{2}CH_{3}, HCOOCH_{2}CH_{2}CH_{3}",
+          "CH_{3}CH(CH_{3})COOH, CH_{3}CH_{2}COOCH_{3}, HCOOCH_{2}CH_{2}CH_{3}",
+          "CH_{3}CH(CH_{3})COOH, CH_{3}COOCH_{2}CH_{3}, HCOOCH_{2}CH_{2}CH_{3}",
+          "CH_{3}CH_{2}CH_{2}COOH, CH_{3}COOCH_{2}CH_{3}, CH_{3}COOCH_{2}CH_{3}"
+        ],
+        answer: 2,
+        hint: "X phân nhánh tác dụng Na và NaOH là isobutyric acid. Y tạo từ acid 2C và alcohol 2C.",
+        explain: "X là CH_{3}CH(CH_{3})COOH; Y là CH_{3}COOCH_{2}CH_{3} (tạo từ CH_{3}COOH và C_{2}H_{5}OH cùng 2C); Z tráng bạc là HCOOCH_{2}CH_{2}CH_{3}."
+      },
+      {
+        id: 54, level: 3, skillType: 4,
+        q: "Hai chất hữu cơ X_{1} và X_{2} đều có khối lượng phân tử bằng 60 amu. X_{1} có khả năng phản ứng với: Na, NaOH, Na_{2}CO_{3}. X_{2} phản ứng với NaOH (đun nóng) nhưng không phản ứng với Na. Công thức cấu tạo của X_{1}, X_{2} lần lượt là:",
+        options: ["CH_{3}-COOH, CH_{3}-COO-CH_{3}", "(CH_{3})_{2}CH-OH, H-COO-CH_{3}", "H-COO-CH_{3}, CH_{3}-COOH", "CH_{3}-COOH, H-COO-CH_{3}"],
+        answer: 3,
+        hint: "X_{1} có tính acid (tác dụng Na_{2}CO_{3}), X_{2} là ester.",
+        explain: "Với M = 60: X_{1} là carboxylic acid CH_{3}COOH; X_{2} là ester methyl formate HCOOCH_{3}."
+      },
+      {
+        id: 55, level: 3, skillType: 4,
+        q: "Hai hợp chất hữu cơ X, Y có cùng công thức phân tử C_{3}H_{6}O_{2}. Cả X và Y đều tác dụng với Na; X tác dụng được với NaHCO_{3} còn Y có khả năng tham gia phản ứng tráng bạc. Công thức cấu tạo của X và Y lần lượt là:",
+        options: [
+          "C_{2}H_{5}COOH và CH_{3}CH(OH)CHO",
+          "C_{2}H_{5}COOH và HCOOC_{2}H_{5}",
+          "HCOOC_{2}H_{5} và HOCH_{2}CH_{2}CHO",
+          "HCOOC_{2}H_{5} và HOCH_{2}COCH_{3}"
+        ],
+        answer: 0,
+        hint: "X tác dụng NaHCO_{3} là acid; Y tác dụng Na có nhóm -OH và tráng bạc có nhóm -CHO (tạp chức).",
+        explain: "X là propionic acid C_{2}H_{5}COOH. Y là hydroxyaldehyde CH_{3}CH(OH)CHO (vừa có -OH tác dụng Na, vừa có -CHO tráng bạc)."
+      },
+      {
+        id: 56, level: 3, skillType: 4,
+        q: "Thủy phân chất hữu cơ X trong dung dịch NaOH dư, đun nóng, thu được sản phẩm gồm 2 muối và ethyl alcohol. Chất X là:",
+        options: ["CH_{3}COOCH_{2}CH_{3}", "CH_{3}COOCH_{2}CH_{2}Cl", "ClCH_{2}COOC_{2}H_{5}", "CH_{3}COOCH(Cl)CH_{3}"],
+        answer: 2,
+        hint: "Nhóm ester tạo ethyl alcohol (-C_{2}H_{5}), nguyên tử clo đính ở gốc acid sẽ tác dụng tiếp với NaOH sinh thêm muối NaCl.",
+        explain: "ClCH_{2}COOC_{2}H_{5} + 2NaOH -> HO-CH_{2}-COONa + NaCl (2 muối) + C_{2}H_{5}OH."
+      },
+      {
+        id: 57, level: 3, skillType: 4,
+        q: "Xà phòng hóa hoàn toàn ester X mạch hở trong dung dịch NaOH, thu được hỗn hợp các chất hữu cơ gồm: (COONa)_{2}, CH_{3}CHO và C_{2}H_{5}OH. Công thức phân tử của X là:",
+        options: ["C_{6}H_{10}O_{4}", "C_{6}H_{10}O_{2}", "C_{6}H_{8}O_{2}", "C_{6}H_{8}O_{4}"],
+        answer: 3,
+        hint: "X là ester hai chức của oxalic acid với 1 gốc vinyl (-CH=CH_{2}) và 1 gốc ethyl (-C_{2}H_{5}).",
+        explain: "Ester X là CH_{2}=CH-OOC-COO-C_{2}H_{5} có công thức phân tử C_{6}H_{8}O_{4}."
+      },
+      {
+        id: 58, level: 3, skillType: 4,
+        q: "Hợp chất hữu cơ mạch hở X có công thức phân tử C_{6}H_{10}O_{4}. Thủy phân X tạo ra hai alcohol đơn chức có số nguyên tử carbon trong phân tử gấp đôi nhau. Công thức của X là:",
+        options: [
+          "CH_{3}OCO-CH_{2}-COOC_{2}H_{5}",
+          "C_{2}H_{5}OCO-COOCH_{3}",
+          "CH_{3}OCO-COOC_{3}H_{7}",
+          "CH_{3}OCO-CH_{2}-CH_{2}-COOC_{2}H_{5}"
+        ],
+        answer: 0,
+        hint: "Hai alcohol đơn chức có C gấp đôi nhau là CH_{3}OH (1C) và C_{2}H_{5}OH (2C).",
+        explain: "Tổng C = 6, trừ đi 1C của CH_{3}OH và 2C của C_{2}H_{5}OH còn lại 3C của gốc malonic acid (-OOC-CH_{2}-COO-). CTCT là CH_{3}OCO-CH_{2}-COOC_{2}H_{5}."
+      },
+      {
+        id: 59, level: 3, skillType: 4,
+        q: "Xà phòng hóa một hợp chất có công thức phân tử C_{10}H_{14}O_{6} trong dung dịch NaOH dư, thu được glycerol và hỗn hợp gồm ba muối (không có đồng phân hình học). Công thức của ba muối đó là:",
+        options: [
+          "CH_{2}=CH-COONa, CH_{3}-CH_{2}-COONa và HCOONa",
+          "HCOONa, CH≡C-COONa và CH_{3}-CH_{2}-COONa",
+          "CH_{2}=CH-COONa, HCOONa và CH≡C-COONa",
+          "CH_{3}-COONa, HCOONa và CH_{3}-CH=CH-COONa"
+        ],
+        answer: 0,
+        hint: "Triester của glycerol (3C): Tổng C của 3 gốc muối = 10 - 3 = 7C. Ba muối có số C lần lượt là 1, 3, 3.",
+        explain: "Ba muối là HCOONa (1C), CH_{3}CH_{2}COONa (3C) và CH_{2}=CHCOONa (3C, không có đồng phân hình học)."
+      },
+      {
+        id: 60, level: 3, skillType: 4,
+        q: "Hợp chất hữu cơ X có công thức phân tử C_{4}H_{8}O_{3}. X tác dụng được với Na, NaOH và có phản ứng tráng bạc. Sản phẩm thủy phân của X trong kiềm hòa tan được Cu(OH)_{2} tạo dung dịch xanh lam. Công thức cấu tạo của X là:",
+        options: ["CH_{3}CH(OH)CH(OH)CHO", "HCOOCH_{2}CH(OH)CH_{3}", "CH_{3}COOCH_{2}CH_{2}OH", "HCOOCH_{2}CH_{2}CH_{2}OH"],
+        answer: 1,
+        hint: "X tráng bạc và tác dụng NaOH => chứa gốc HCOO-. Thủy phân cho alcohol đa chức có 2 nhóm -OH kề nhau hòa tan Cu(OH)_{2}.",
+        explain: "HCOOCH_{2}CH(OH)CH_{3} + NaOH -> HCOONa (tráng bạc) + CH_{3}-CH(OH)-CH_{2}OH (propane-1,2-diol hòa tan Cu(OH)_{2})."
+      },
+      {
+        id: 61, level: 3, skillType: 4,
+        q: "Cho 1 mol chất X (C_{9}H_{8}O_{4}, chứa vòng benzene) tác dụng hết với NaOH dư, thu được 2 mol chất Y, 1 mol chất Z và 1 mol H_{2}O. Chất Z tác dụng với H_{2}SO_{4} loãng thu được chất hữu cơ T. Phát biểu nào sau đây sai?",
+        options: [
+          "Chất T tác dụng với NaOH theo tỉ lệ mol 1 : 2",
+          "Chất Y có phản ứng tráng bạc",
+          "Phân tử chất Z có 2 nguyên tử oxygen",
+          "Chất X tác dụng với NaOH theo tỉ lệ mol 1 : 3"
+        ],
+        answer: 0,
+        hint: "X tác dụng NaOH theo tỉ lệ 1 : 3 sinh 2Y, 1Z, 1 H_{2}O => X có 1 chức ester của phenol và 1 chức ester của alcohol.",
+        explain: "Y là HCOONa (tráng bạc). Z là muối diphenolate hoặc tương tự. Phát biểu 'Chất T tác dụng với NaOH theo tỉ lệ mol 1 : 2' là sai."
+      },
+      {
+        id: 62, level: 3, skillType: 4,
+        q: "Hợp chất hữu cơ mạch hở X (C_{8}H_{12}O_{5}) tác dụng với lượng dư dung dịch NaOH đun nóng, thu được glycerol và hai muối Y và Z (M_{Y} < M_{Z}). Hai chất Y và Z đều không có phản ứng tráng bạc. Phát biểu nào sau đây đúng?",
+        options: ["Tên gọi của Z là sodium acrylate", "Carboxylic acid của muối Z có đồng phân hình học", "Phân tử X chỉ chứa một loại nhóm chức", "Có hai công thức cấu tạo thỏa mãn tính chất của X"],
+        answer: 0,
+        hint: "X là ester 2 chức của glycerol còn 1 nhóm -OH tự do. Muối Y là CH_{3}COONa, muối Z là CH_{2}=CH-COONa.",
+        explain: "Z là CH_{2}=CH-COONa (sodium acrylate) không có đồng phân hình học, M_{Z} = 94 > M_{Y} = 82 (CH_{3}COONa). Phát biểu A đúng."
+      },
+      {
+        id: 63, level: 3, skillType: 4,
         q: "Đun nóng 6,0 gam CH_{3}COOH (0,1 mol) với 6,0 gam C_{2}H_{5}OH (≈ 0,13 mol) có xúc tác H_{2}SO_{4} đặc với hiệu suất 50%. Khối lượng ester thu được là:",
         options: ["8,8 gam", "4,4 gam", "6,0 gam", "5,2 gam"],
         answer: 1,
@@ -1724,157 +2091,44 @@
         explain: "n_{acid} = 0,1 mol < n_{alcohol} ≈ 0,13 mol => Hiệu suất tính theo acid. n_{ester} = 0,1 × 50% = 0,05 mol => m = 0,05 × 88 = 4,4 gam."
       },
       {
-        id: 22, level: 3, skillType: 4,
-        q: "Thủy phân hoàn toàn 14,8 gam ester đơn chức X bằng NaOH dư thu được 16,4 gam muối Y và m gam alcohol Z. Giá trị của m là:",
-        options: ["6,4 gam", "4,6 gam", "3,2 gam", "9,2 gam"],
-        answer: 1,
-        hint: "Khối lượng muối (16,4g) > khối lượng ester (14,8g) => Khối lượng mol Na (23) > R'. Áp dụng tăng giảm khối lượng hoặc BTKL.",
-        explain: "Độ tăng khối lượng = 16,4 - 14,8 = 1,6 gam = n_{NaOH} × (23 - R'). Do đó n_{X} = 0,2 mol. M_{muối} = 16,4/0,2 = 82 (CH_{3}COONa) => M_{ester} = 14,8/0,2 = 74 (CH_{3}COOCH_{3} hoặc HCOOC_{2}H_{5}). Ở đây R=CH_{3}(15) => ester là CH_{3}COOCH_{3} (M=74), alcohol Z là CH_{3}OH: m = 0,2 × 32 = 6,4g. Tuy nhiên nếu tăng giảm khối lượng: 14,8g este C_{3}H_{6}O_{2} (0,2 mol) + 0,2*40(NaOH) = 16,4 + m_{ancol} => m_{ancol} = 14,8 + 8 - 16,4 = 6,4g (hoặc 4,6g nếu C_{4}H_{8}O_{2}). Theo đề bài: 14,8 + 8 - 16,4 = 6,4 gam."
-      },
-      {
-        id: 23, level: 3, skillType: 4,
-        q: "Aspirin (acid acetylsalicylic) dùng làm thuốc giảm đau hạ sốt được điều chế từ salicylic acid và chất nào sau đây?",
-        options: ["Acetic acid", "Acetic anhydride ((CH_{3}CO)_{2}O)", "Ethyl alcohol", "Methyl alcohol"],
-        answer: 1,
-        hint: "Nhóm -OH phenol của salicylic acid có tính phản ứng yếu, phải dùng acetic anhydride xúc tác acid.",
-        explain: "HOC_{6}H_{4}COOH + (CH_{3}CO)_{2}O -> CH_{3}COOC_{6}H_{4}COOH (Aspirin) + CH_{3}COOH."
-      },
-      {
-        id: 24, level: 3, skillType: 4,
-        q: "Ester X có công thức phân tử C_{4}H_{6}O_{2}. Khi thủy phân trong dung dịch NaOH thu được sản phẩm có khả năng tráng bạc. Có bao nhiêu công thức cấu tạo thỏa mãn X?",
-        options: ["2", "3", "4", "5"],
-        answer: 2,
-        hint: "Sản phẩm tráng bạc có thể do gốc acid là HCOO- hoặc do gốc alcohol sinh aldehyde/ketone.",
-        explain: "Các CTCT thỏa mãn: (1) HCOOCH=CH-CH_{3}, (2) HCOOC(CH_{3})=CH_{2}, (3) HCOOCH_{2}-CH=CH_{2}, (4) CH_{3}COOCH=CH_{2} (sinh CH_{3}CHO tráng bạc). Tổng cộng có 4 CTCT."
-      },
-      /* THÊM 16 CÂU HỎI MỚI CHUẨN XÁC TỪ TÀI LIỆU */
-      {
-        id: 25, level: 1, skillType: 1,
-        q: "Ester không no, chứa 1 liên kết C=C, đơn chức, mạch hở có công thức phân tử chung là:",
-        options: ["C_{n}H_{2n-2}O_{4} (n ≥ 3)", "C_{n}H_{2n}O_{2} (n ≥ 2)", "C_{n}H_{2n-4}O_{2} (n ≥ 3)", "C_{n}H_{2n-2}O_{2} (n ≥ 3)"],
-        answer: 3,
-        hint: "Bớt 2 nguyên tử H so với ester no đơn chức mạch hở C_{n}H_{2n}O_{2}.",
-        explain: "Ester không no có 1 liên kết C=C, đơn chức, mạch hở có độ bất bão hòa k = 2 (1 liên kết pi ở C=O và 1 liên kết pi ở C=C) nên CTPT là C_{n}H_{2n-2}O_{2} (n ≥ 3)."
-      },
-      {
-        id: 26, level: 1, skillType: 1,
-        q: "Tỉ khối hơi của một ester no, đơn chức X so với hydrogen là 30. Công thức phân tử của X là:",
-        options: ["C_{2}H_{4}O_{2}", "C_{3}H_{6}O_{2}", "C_{4}H_{8}O_{2}", "C_{5}H_{10}O_{2}"],
+        id: 64, level: 3, skillType: 4,
+        q: "Thủy phân hoàn toàn 14,8 gam ester đơn chức X bằng dung dịch NaOH dư, đun nóng, thu được 16,4 gam muối Y và m gam alcohol Z. Giá trị của m là:",
+        options: ["6,4", "4,6", "3,2", "9,2"],
         answer: 0,
-        hint: "M_{X} = 30 × 2 = 60 g/mol. Tìm n với 14n + 32 = 60.",
-        explain: "M_{X} = 30 × 2 = 60 => 14n + 32 = 60 => 14n = 28 => n = 2 => C_{2}H_{4}O_{2} (methyl formate HCOOCH_{3})."
+        hint: "m_{muối} - m_{ester} = 16,4 - 14,8 = 1,6 gam = n_{ester} × (23 - R'). Do đó n_{ester} = 0,2 mol. BTKL.",
+        explain: "Độ tăng khối lượng = 1,6 gam => n_{ester} = 0,2 mol. BTKL: 14,8 + 0,2 × 40 = 16,4 + m_{alcohol} => m_{alcohol} = 6,4 gam (CH_{3}OH)."
       },
       {
-        id: 27, level: 1, skillType: 1,
-        q: "Công thức cấu tạo thu gọn của methyl acrylate là:",
-        options: ["CH_{3}COOC_{2}H_{5}", "CH_{2}=CHCOOCH_{3}", "C_{2}H_{5}COOCH_{3}", "CH_{3}COOCH_{3}"],
-        answer: 1,
-        hint: "Gốc acrylate là CH_{2}=CH-COO-, gốc methyl là -CH_{3}.",
-        explain: "Methyl acrylate = CH_{2}=CH-COO-CH_{3}."
-      },
-      {
-        id: 28, level: 1, skillType: 1,
-        q: "Thủy phân ester CH_{3}CH_{2}COOCH_{3} trong môi trường kiềm, alcohol thu được có công thức là:",
-        options: ["CH_{3}OH", "C_{2}H_{5}OH", "C_{3}H_{7}OH", "C_{3}H_{5}OH"],
-        answer: 0,
-        hint: "Phần đuôi alcohol sau nhóm -COO- là gốc methyl (-CH_{3}).",
-        explain: "CH_{3}CH_{2}COOCH_{3} + NaOH -> CH_{3}CH_{2}COONa + CH_{3}OH (methyl alcohol)."
-      },
-      {
-        id: 29, level: 1, skillType: 1,
-        q: "Ở điều kiện thích hợp, hai chất nào sau đây phản ứng với nhau tạo thành methyl acetate?",
-        options: ["CH_{3}COOH và CH_{3}OH", "HCOOH và CH_{3}OH", "HCOOH và C_{2}H_{5}OH", "CH_{3}COOH và C_{2}H_{5}OH"],
-        answer: 0,
-        hint: "Methyl acetate được tạo từ acetic acid và methyl alcohol.",
-        explain: "CH_{3}COOH + CH_{3}OH (H_{2}SO_{4} đ, t°) <-> CH_{3}COOCH_{3} + H_{2}O."
-      },
-      {
-        id: 30, level: 2, skillType: 2,
-        q: "Số ester có công thức phân tử C_{4}H_{8}O_{2} mà khi thủy phân trong môi trường acid thu được formic acid là:",
-        options: ["1", "2", "3", "4"],
-        answer: 1,
-        hint: "Ester tạo ra formic acid có dạng HCOO-R' với R' có 3 carbon (propyl và isopropyl).",
-        explain: "Có 2 ester thỏa mãn: HCOOCH_{2}CH_{2}CH_{3} (propyl formate) và HCOOCH(CH_{3})_{2} (isopropyl formate)."
-      },
-      {
-        id: 31, level: 2, skillType: 2,
-        q: "Xà phòng hóa ester nào sau đây thu được sản phẩm có khả năng tham gia phản ứng tráng bạc?",
-        options: ["Vinyl acetate", "Allyl propionate", "Ethyl acrylate", "Methyl methacrylate"],
-        answer: 0,
-        hint: "Ester này khi thủy phân sinh ra acetaldehyde (CH_{3}CHO) tráng bạc được.",
-        explain: "CH_{3}COOCH=CH_{2} + NaOH -> CH_{3}COONa + CH_{3}CHO (acetaldehyde có khả năng tráng bạc)."
-      },
-      {
-        id: 32, level: 2, skillType: 2,
-        q: "Ester X có công thức phân tử C_{4}H_{8}O_{2}. Thủy phân X trong NaOH dư thu được sodium propionate và alcohol Y. Công thức của Y là:",
-        options: ["C_{3}H_{5}(OH)_{3}", "C_{2}H_{5}OH", "C_{3}H_{7}OH", "CH_{3}OH"],
-        answer: 3,
-        hint: "Sodium propionate có 3 carbon (C_{2}H_{5}COONa), ester có 4 carbon nên alcohol Y có 1 carbon.",
-        explain: "Ester X là C_{2}H_{5}COOCH_{3} + NaOH -> C_{2}H_{5}COONa + CH_{3}OH (Y là methyl alcohol)."
-      },
-      {
-        id: 33, level: 2, skillType: 2,
-        q: "Ester X có công thức phân tử C_{2}H_{4}O_{2}. Đun nóng 9,0 gam X trong dung dịch NaOH vừa đủ thu được m gam muối. Giá trị của m là:",
-        options: ["8,2 gam", "15,0 gam", "12,3 gam", "10,2 gam"],
-        answer: 3,
-        hint: "X chỉ có thể là HCOOCH_{3} (M=60). n_{X} = 9/60 = 0,15 mol. Muối là HCOONa (M=68).",
-        explain: "n_{HCOOCH3} = 9/60 = 0,15 mol => n_{HCOONa} = 0,15 mol => m = 0,15 × 68 = 10,2 gam."
-      },
-      {
-        id: 34, level: 2, skillType: 3,
-        q: "Đốt cháy hoàn toàn 13,2 gam ethyl acetate (C_{4}H_{8}O_{2}, M=88) thu được V lít khí CO_{2} (đkc, 25°C, 1 bar). Giá trị của V là:",
-        options: ["3,7185 lít", "9,916 lít", "4,958 lít", "14,874 lít"],
-        answer: 3,
-        hint: "n_{ester} = 13,2 / 88 = 0,15 mol. n_{CO2} = 0,15 × 4 = 0,6 mol. V = 0,6 × 24,79.",
-        explain: "n_{ester} = 0,15 mol => n_{CO2} = 4 × 0,15 = 0,6 mol => V_{CO2(đkc)} = 0,6 × 24,79 = 14,874 lít."
-      },
-      {
-        id: 35, level: 2, skillType: 3,
-        q: "Đun nóng 24 gam acetic acid với lượng dư ethyl alcohol (xúc tác H_{2}SO_{4} đặc), thu được 26,4 gam ester. Hiệu suất của phản ứng ester hóa là:",
-        options: ["75%", "44%", "55%", "60%"],
-        answer: 0,
-        hint: "n_{acid} = 24/60 = 0,4 mol. n_{ester thu được} = 26,4/88 = 0,3 mol. H% = 0,3 / 0,4 × 100%.",
-        explain: "n_{CH3COOH} = 0,4 mol; n_{CH3COOC2H5 lý thuyết} = 0,4 mol => m_{lý thuyết} = 0,4 × 88 = 35,2 gam. H% = 26,4 / 35,2 = 75%."
-      },
-      {
-        id: 36, level: 2, skillType: 3,
-        q: "Xà phòng hóa hoàn toàn 3,7 gam HCOOC_{2}H_{5} (M=74) bằng dung dịch NaOH vừa đủ, cô cạn thu được m gam muối khan. Giá trị của m là:",
-        options: ["4,8 gam", "5,2 gam", "3,2 gam", "3,4 gam"],
-        answer: 3,
-        hint: "n = 3,7 / 74 = 0,05 mol. Muối là HCOONa (M=68). m = 0,05 × 68.",
-        explain: "n_{HCOOC2H5} = 0,05 mol => n_{HCOONa} = 0,05 mol => m = 0,05 × 68 = 3,4 gam."
-      },
-      {
-        id: 37, level: 3, skillType: 4,
-        q: "Thực hiện phản ứng ester hóa giữa oxalic acid (HOOC-COOH) với hỗn hợp CH_{3}OH và C_{2}H_{5}OH thu được tối đa bao nhiêu ester hai chức?",
+        id: 65, level: 3, skillType: 4,
+        q: "Thực hiện phản ứng ester hóa giữa oxalic acid (HOOC-COOH) với hỗn hợp gồm CH_{3}OH và C_{2}H_{5}OH thu được tối đa bao nhiêu ester hai chức?",
         options: ["3", "1", "2", "4"],
         answer: 0,
-        hint: "Gồm ester đối xứng (-CH_{3}, -CH_{3}), (-C_{2}H_{5}, -C_{2}H_{5}) và ester hỗn tạp (-CH_{3}, -C_{2}H_{5}).",
+        hint: "Gồm ester đối xứng 2 gốc methyl, 2 gốc ethyl và ester hỗn tạp (1 methyl + 1 ethyl).",
         explain: "Tối đa 3 ester hai chức: (COOCH_{3})_{2}, (COOC_{2}H_{5})_{2} và CH_{3}OOC-COOC_{2}H_{5}."
       },
       {
-        id: 38, level: 3, skillType: 4,
+        id: 66, level: 3, skillType: 4,
+        q: "Ester X mạch hở có công thức phân tử C_{4}H_{6}O_{2}. Khi thủy phân trong dung dịch NaOH thu được sản phẩm có khả năng tráng bạc. Có bao nhiêu công thức cấu tạo thỏa mãn X?",
+        options: ["2", "3", "4", "5"],
+        answer: 2,
+        hint: "Sản phẩm tráng bạc có thể do muối formate HCOO- hoặc do aldehyde tạo ra từ gốc alcohol.",
+        explain: "Có 4 CTCT thỏa mãn: (1) HCOOCH=CH-CH_{3}, (2) HCOOC(CH_{3})=CH_{2}, (3) HCOOCH_{2}-CH=CH_{2}, (4) CH_{3}COOCH=CH_{2} (sinh CH_{3}CHO)."
+      },
+      {
+        id: 67, level: 3, skillType: 4,
         q: "Hợp chất hữu cơ mạch hở X (C_{5}H_{10}O) không phản ứng với Na, thỏa mãn: X + H_{2} (Ni, t°) -> Y; Y + CH_{3}COOH (H_{2}SO_{4} đ, t°) -> Ester có mùi chuối chín. Tên của X là:",
         options: ["Pentanal", "2-methylbutanal", "2,2-dimethylpropanal", "3-methylbutanal"],
         answer: 3,
-        hint: "Ester mùi chuối chín là isoamyl acetate, suy ra alcohol Y là isoamyl alcohol (3-methylbutan-1-ol).",
+        hint: "Ester mùi chuối chín là isoamyl acetate => alcohol Y là isoamyl alcohol (3-methylbutan-1-ol).",
         explain: "Isoamyl acetate = CH_{3}COOCH_{2}CH_{2}CH(CH_{3})_{2} => alcohol Y là (CH_{3})_{2}CHCH_{2}CH_{2}OH => aldehyde X tương ứng là (CH_{3})_{2}CHCH_{2}CHO (3-methylbutanal)."
       },
       {
-        id: 39, level: 3, skillType: 4,
-        q: "Cho sơ đồ phản ứng theo tỉ lệ mol: (1) X + 2NaOH -> X_{1} + X_{2} + X_{3}; (2) X_{1} + HCl -> X_{4} + NaCl; (3) X_{2} + HCl -> X_{5} + NaCl; (4) X_{3} + CuO -> X_{6} + Cu + H_{2}O. Biết X là C_{6}H_{10}O_{4} (hai chức ester); X_{1}, X_{2} đều có 2 carbon và M_{X1} < M_{X2}. Phân tử khối của X_{4} là:",
+        id: 68, level: 3, skillType: 4,
+        q: "Cho sơ đồ phản ứng theo đúng tỉ lệ mol: (1) X + 2NaOH -> X_{1} + X_{2} + X_{3}; (2) X_{1} + HCl -> X_{4} + NaCl; (3) X_{2} + HCl -> X_{5} + NaCl; (4) X_{3} + CuO -> X_{6} + Cu + H_{2}O. Biết X có CTPT C_{6}H_{10}O_{4} (hai chức ester); X_{1}, X_{2} đều có hai nguyên tử carbon và M_{X1} < M_{X2}. Phân tử khối của X_{4} là:",
         options: ["60", "74", "82", "90"],
         answer: 0,
-        hint: "X_{1} là muối có 2C, tác dụng HCl sinh X_{4} (carboxylic acid có 2C, tức CH_{3}COOH).",
+        hint: "X_{1} là muối có 2C, tác dụng HCl sinh X_{4} là carboxylic acid có 2C (CH_{3}COOH).",
         explain: "X_{1} là CH_{3}COONa => X_{4} là CH_{3}COOH (M = 60). X_{2} là HO-CH_{2}-COONa => X_{5} là HO-CH_{2}-COOH. X_{3} là C_{2}H_{5}OH => X_{6} là CH_{3}CHO."
-      },
-      {
-        id: 40, level: 3, skillType: 4,
-        q: "Thủy phân chất hữu cơ X trong dung dịch NaOH đun nóng thu được sản phẩm gồm 2 muối và ethyl alcohol. Chất X là:",
-        options: ["CH_{3}COOCH_{2}CH_{3}", "CH_{3}COOCH_{2}CH_{2}Cl", "ClCH_{2}COOC_{2}H_{5}", "CH_{3}COOCH(Cl)CH_{3}"],
-        answer: 2,
-        hint: "Gốc este sinh C_{2}H_{5}OH, nguyên tử clo ở gốc acid sẽ tác dụng tiếp với NaOH tạo thêm 1 muối NaCl.",
-        explain: "ClCH_{2}COOC_{2}H_{5} + 2NaOH -> HO-CH_{2}-COONa + NaCl (2 muối) + C_{2}H_{5}OH (ethyl alcohol)."
       }
     ];
 
