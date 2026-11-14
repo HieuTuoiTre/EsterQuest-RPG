@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ester Quest: Hiệp Sĩ Giả Kim & Đại Chiến Thủy Phân</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,10 +27,17 @@
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    img, video, iframe, embed, object {
+      max-width: 100%;
+    }
+    img, video {
+      height: auto;
+    }
     body {
       background: var(--bg-dark);
       background-image: radial-gradient(circle at 50% 20%, #17244a 0%, #080c16 80%);
       font-family: var(--font-body);
+      font-size: 16px;
       color: var(--text);
       min-height: 100vh;
       display: flex;
@@ -64,6 +71,7 @@
     }
     .game-logo span { color: #fff; font-size: 15px; font-family: var(--font-body); font-weight: 600; opacity: 0.8; }
     .header-actions { display: flex; gap: 10px; align-items: center; }
+    .mobile-menu-toggle { display: none; }
     .icon-btn {
       background: #1c2744;
       border: 1px solid #3d5084;
@@ -705,14 +713,97 @@
 
     /* Responsiveness */
     @media (max-width: 680px) {
-      .arena-container { padding: 15px 15px; height: 260px; }
-      .sprite-box { width: 90px; height: 90px; }
+      body { overflow-x: clip; }
+      header { position: sticky; padding: 8px 12px; gap: 8px; }
+      .game-logo { font-size: 16px; min-height: 44px; }
+      .game-logo span { font-size: 16px; }
+      .mobile-menu-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 44px;
+        min-height: 44px;
+        padding: 8px 12px;
+        background: #1c2744;
+        border: 1px solid #3d5084;
+        border-radius: 8px;
+        color: #fff;
+        font: inherit;
+        font-weight: 800;
+        cursor: pointer;
+      }
+      .header-actions {
+        display: none;
+        position: absolute;
+        top: calc(100% + 8px);
+        right: 12px;
+        width: min(320px, calc(100vw - 24px));
+        padding: 8px;
+        flex-direction: column;
+        align-items: stretch;
+        background: #101932;
+        border: 1px solid var(--panel-border);
+        border-radius: 12px;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+      }
+      header.menu-open .header-actions { display: flex; }
+      .header-actions .icon-btn { justify-content: flex-start; min-height: 44px; font-size: 16px; }
+      main { min-width: 0; padding: 12px; }
+      #menuScreen { min-height: 0; padding: 28px 16px; }
+      .player-details { flex-direction: column; gap: 8px !important; }
+      .player-details .name-input-group { flex: 1 1 auto !important; }
+      .name-input-group label { font-size: 16px; }
+      .lore-box, .combat-narrator, .skill-desc, .skill-difficulty,
+      .skill-name, .stage-title, .stage-progress, .combatant-name, .bar-label,
+      .panel-header, .items-bar, .stat-name, .codex-table, .bxh-table,
+      .rule-box, .danger-box, .hint-content, .feedback-box,
+      .codex-card-title, .formula-box, .combatant-level, .skill-cost,
+      .item-badge, .question-badge, .feedback-title, .codex-badge, .rank-tag {
+        font-size: 16px;
+      }
+      .items-label { font-size: 16px !important; }
+      body p, body label, body td, body th, body span { font-size: 16px !important; }
+      .icon-btn, .bxh-tab-btn, .codex-tab-btn, .hint-btn { font-size: 16px !important; }
+      #qSkillName { font-size: 16px !important; }
+      .stage-bar { flex-wrap: wrap; gap: 6px 12px; }
+      .arena-container { padding: 12px 10px; height: 260px; min-width: 0; }
+      .combatant { min-width: 0; }
+      .sprite-box { width: 80px; height: 80px; }
       .sprite-icon { font-size: 46px; }
-      .combatant-status { width: 135px; padding: 6px 8px; }
-      .skills-grid { grid-template-columns: 1fr; }
-      header { padding: 8px 12px; }
-      .game-logo { font-size: 16px; }
+      .combatant-status { width: clamp(120px, 38vw, 150px); padding: 6px 8px; }
+      .combatant-name, .bar-label { gap: 4px; }
+      .skills-grid { grid-template-columns: minmax(0, 1fr); }
+      .skills-panel { min-width: 0; padding: 12px; }
+      .panel-header { flex-wrap: wrap; gap: 6px; }
+      .skill-card { min-height: 44px; }
+      .skill-card-top { gap: 8px; }
+      .skill-name { min-width: 0; }
+      .items-bar { flex-wrap: wrap; }
+      .item-pill { min-height: 44px; }
       .stats-card { grid-template-columns: 1fr; }
+      .modal-overlay { padding: 8px; }
+      .modal-card { min-width: 0; max-height: 92vh; padding: 22px 14px; }
+      .modal-actions { flex-wrap: wrap; gap: 8px; }
+      .bxh-tabs, .codex-tab-bar { flex-wrap: wrap; }
+      .bxh-tab-btn, .codex-tab-btn, .icon-btn, .hint-btn, .option-btn,
+      .btn-rpg-primary, button, input, select, textarea, [onclick] {
+        min-height: 44px;
+        min-width: 44px;
+      }
+      button { font-size: 16px; }
+      input, select, textarea { font-size: 16px !important; }
+      .mobile-readable { font-size: 16px !important; }
+      .bxh-table-wrap, .codex-section { max-width: 100%; overflow-x: auto; }
+      .bxh-table, .codex-table { min-width: 520px; }
+      .rule-box, .danger-box, .formula-box, .question-text { overflow-wrap: anywhere; }
+    }
+
+    @media (max-width: 380px) {
+      .game-logo { gap: 6px; font-size: 16px; }
+      .arena-container { padding-right: 6px; padding-left: 6px; }
+      .combatant-status { width: 116px; padding: 6px; }
+      .sprite-box { width: 72px; height: 72px; }
+      .sprite-icon { font-size: 40px; }
     }
 
     .game-logo:hover {
@@ -892,6 +983,13 @@
       color: #ff7675;
     }
 
+    @media (max-width: 680px) {
+      .bxh-table, .codex-table, .rank-tag, .codex-card-title,
+      .codex-badge, .formula-box, .rule-box, .danger-box {
+        font-size: 16px;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -902,11 +1000,12 @@
       ⚔️ ESTER QUEST
       <span>Hóa Học RPG</span>
     </div>
-    <div class="header-actions">
+    <button class="mobile-menu-toggle" id="mobileMenuToggle" type="button" aria-label="Mở menu" aria-controls="headerActions" aria-expanded="false">☰</button>
+    <nav class="header-actions" id="headerActions" aria-label="Menu chính">
       <button class="icon-btn" id="btnLeaderboard">🏆 Bảng Xếp Hạng & Lịch Sử</button>
       <button class="icon-btn" id="btnSound">🔊 Âm thanh</button>
       <button class="icon-btn" id="btnCodex">📖 Sổ Tay Bí Kíp</button>
-    </div>
+    </nav>
   </header>
 
   <main>
@@ -919,7 +1018,7 @@
         Vương quốc Giả kim đang bị xâm chiếm bởi các Ma Vật Hóa Học! Bạn trong vai <strong>Hiệp Sĩ Este</strong> phải vận dụng các định luật thủy phân, danh pháp, mùi hương và phản ứng xà phòng hóa để đánh bại 5 Thủ Lĩnh Hắc Ám và giải cứu vương triều!
       </div>
 
-      <div style="display:flex; gap:14px; width:100%; max-width:440px; margin-bottom:25px;">
+      <div class="player-details" style="display:flex; gap:14px; width:100%; max-width:440px; margin-bottom:25px;">
         <div class="name-input-group" style="flex:2; margin-bottom:0;">
           <label for="playerName">Tên Hiệp Sĩ Của Bạn:</label>
           <input type="text" id="playerName" value="Dược Sĩ Trẻ" placeholder="Nhập tên nhân vật...">
@@ -1060,7 +1159,7 @@
 
           <!-- Inventory Items -->
           <div class="items-bar">
-            <span style="font-size:12px; font-weight:700; color:var(--text-muted);">Túi Đồ:</span>
+            <span class="items-label" style="font-size:12px; font-weight:700; color:var(--text-muted);">Túi Đồ:</span>
             <div class="item-pill" id="itemPotion" onclick="usePotion()">
               🧪 Bình Nước Cất (Hồi 45 HP)
               <span class="item-badge" id="potionCount">2</span>
@@ -1127,11 +1226,11 @@
           <select id="filterClassSelect" onchange="renderLeaderboardTable()" style="background:#141f3d; color:#fff; border:1px solid #334a7e; padding:6px 12px; border-radius:8px; outline:none; font-family:inherit; cursor:pointer;">
             <option value="ALL">Tất cả các lớp</option>
           </select>
-          <button class="icon-btn" style="padding:5px 10px; font-size:12px;" onclick="refreshLeaderboardData()">🔄 Làm mới</button>
+          <button class="icon-btn mobile-readable" style="padding:5px 10px; font-size:12px;" onclick="refreshLeaderboardData()">🔄 Làm mới</button>
         </div>
         <div style="display:flex; align-items:center; gap:8px;">
           <span style="font-size:12px; color:var(--accent);" id="bxhStatusText">☁️ Chế độ: Đang tải...</span>
-          <button class="icon-btn" style="padding:5px 10px; font-size:12px;" onclick="toggleOnlineConfig()">⚙️ Kết nối Online</button>
+          <button class="icon-btn mobile-readable" style="padding:5px 10px; font-size:12px;" onclick="toggleOnlineConfig()">⚙️ Kết nối Online</button>
         </div>
       </div>
 
@@ -1143,7 +1242,7 @@
         </div>
         <div style="display:flex; gap:8px;">
           <input type="text" id="inputSheetApi" placeholder="https://script.google.com/macros/s/.../exec" style="flex:1; background:#141e38; border:1px solid #2d3f6d; border-radius:8px; padding:8px 12px; color:#fff; font-size:13px; outline:none;">
-          <button class="btn-rpg-primary" style="padding:8px 16px; font-size:13px;" onclick="saveOnlineConfig()">LƯU LINK</button>
+          <button class="btn-rpg-primary mobile-readable" style="padding:8px 16px; font-size:13px;" onclick="saveOnlineConfig()">LƯU LINK</button>
         </div>
       </div>
 
@@ -1169,7 +1268,7 @@
 
       <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
         <button class="icon-btn" style="color:var(--danger); border-color:rgba(255,71,87,0.4);" onclick="clearAllHistory()">🗑️ Xóa Lịch Sử</button>
-        <button class="btn-rpg-primary" style="padding:10px 24px; font-size:15px;" onclick="closeLeaderboard()">ĐÃ HIỂU</button>
+        <button class="btn-rpg-primary mobile-readable" style="padding:10px 24px; font-size:15px;" onclick="closeLeaderboard()">ĐÃ HIỂU</button>
       </div>
     </div>
   </div>
@@ -1376,7 +1475,7 @@
       </div>
 
       <div style="display:flex; justify-content:flex-end; margin-top:10px;">
-        <button class="btn-rpg-primary" style="padding:10px 24px; font-size:15px;" onclick="closeCodex()">ĐÃ HIỂU BÍ KÍP ➔</button>
+        <button class="btn-rpg-primary mobile-readable" style="padding:10px 24px; font-size:15px;" onclick="closeCodex()">ĐÃ HIỂU BÍ KÍP ➔</button>
       </div>
     </div>
   </div>
@@ -2669,6 +2768,22 @@
     document.getElementById("btnLeaderboard").addEventListener("click", openLeaderboard);
     document.getElementById("btnStartGame").addEventListener("click", initGame);
     document.getElementById("btnCodex").addEventListener("click", openCodex);
+    const header = document.querySelector("header");
+    const mobileMenuToggle = document.getElementById("mobileMenuToggle");
+    const closeMobileMenu = () => {
+      header.classList.remove("menu-open");
+      mobileMenuToggle.setAttribute("aria-expanded", "false");
+      mobileMenuToggle.setAttribute("aria-label", "Mở menu");
+    };
+    mobileMenuToggle.addEventListener("click", () => {
+      const isOpen = header.classList.toggle("menu-open");
+      mobileMenuToggle.setAttribute("aria-expanded", String(isOpen));
+      mobileMenuToggle.setAttribute("aria-label", isOpen ? "Đóng menu" : "Mở menu");
+    });
+    document.querySelector(".header-actions").addEventListener("click", closeMobileMenu);
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape") closeMobileMenu();
+    });
     document.getElementById("btnSound").addEventListener("click", () => {
       state.soundEnabled = !state.soundEnabled;
       document.getElementById("btnSound").textContent = state.soundEnabled ? "🔊 Âm thanh: Bật" : "🔇 Âm thanh: Tắt";
