@@ -1132,8 +1132,8 @@
         <div class="combatant" id="enemyCombatant">
           <div class="combatant-status">
             <div class="combatant-name">
-              <span id="enemyName">Slime Formate</span>
-              <span class="combatant-level" id="enemyAffinity">Gốc HCOO-</span>
+              <span id="enemyName">Slime</span>
+              <span class="combatant-level" id="enemyLevel">Lv.1</span>
             </div>
             <div class="bar-wrap">
               <div class="bar-label">
@@ -2140,31 +2140,31 @@
         id: 1,
         name: "Ải 1: Rừng Ẩm Ướt",
         bg: "radial-gradient(circle at 50% 100%, #192a56 0%, #0c1022 100%)",
-        enemy: { name: "Slime ", icon: "🧪", hp: 100, maxHp: 100, atk: 15, affinity: "Gốc HCOO-", desc: "Quái dịch hữu cơ mang tính tráng bạc" }
+        enemy: { name: "Slime", icon: "🧪", hp: 100, maxHp: 100, atk: 15, level: "Lv.1", desc: "Quái dịch hữu cơ mang tính tráng bạc" }
       },
       {
         id: 2,
         name: "Ải 2: Thung Lũng Băng",
         bg: "radial-gradient(circle at 50% 100%, #2c3e50 0%, #0d1624 100%)",
-        enemy: { name: "Sói Băng", icon: "🐺", hp: 150, maxHp: 150, atk: 22, affinity: "Thiếu liên kết H", desc: "Tốc độ nhanh, nhiệt độ sôi thấp" }
+        enemy: { name: "Sói Băng", icon: "🐺", hp: 150, maxHp: 150, atk: 22, level: "Lv.2", desc: "Tốc độ nhanh, nhiệt độ sôi thấp" }
       },
       {
         id: 3,
         name: "Ải 3: Hầm Ngục Thạch",
         bg: "radial-gradient(circle at 50% 100%, #401f4c 0%, #120a1c 100%)",
-        enemy: { name: "Thạch Quái", icon: "🗿", hp: 200, maxHp: 200, atk: 28, affinity: "Xà phòng hóa", desc: "Thủy phân 1 chiều cực kỳ nguy hiểm" }
+        enemy: { name: "Thạch Quái", icon: "🗿", hp: 200, maxHp: 200, atk: 28, level: "Lv.3", desc: "Thủy phân 1 chiều cực kỳ nguy hiểm" }
       },
       {
         id: 4,
         name: "Ải 4: Tháp Địa Ngục",
         bg: "radial-gradient(circle at 50% 100%, #633318 0%, #1c0e06 100%)",
-        enemy: { name: "Hỏa Long", icon: "🐉", hp: 260, maxHp: 260, atk: 35, affinity: "Háo nước t°", desc: "Chuyển dịch cân bằng sang chiều hủy diệt" }
+        enemy: { name: "Hỏa Long", icon: "🐉", hp: 260, maxHp: 260, atk: 35, level: "Lv.4", desc: "Chuyển dịch cân bằng sang chiều hủy diệt" }
       },
       {
         id: 5,
         name: "ẢI CUỐI: ĐẠI CHIẾN KHỦNG LONG BẠO CHÚA",
         bg: "radial-gradient(circle at 50% 100%, #581845 0%, #14040e 100%)",
-        enemy: { name: "Khủng Long Bạo Chúa", icon: "🦖", hp: 350, maxHp: 350, atk: 45, affinity: "Tỉ lệ 1:2 Phenolate", desc: "Trùm cuối sở hữu bí thuật ester đa chức & bẫy trắc nghiệm!" }
+        enemy: { name: "Khủng Long Bạo Chúa", icon: "🦖", hp: 350, maxHp: 350, atk: 45, level: "👑 BOSS", desc: "Trùm cuối sở hữu bí thuật ester đa chức & bẫy trắc nghiệm!" }
       }
     ];
 
@@ -2364,7 +2364,7 @@
 
       document.getElementById("enemyName").textContent = state.enemy.name;
       document.getElementById("enemySprite").textContent = state.enemy.icon;
-      document.getElementById("enemyAffinity").textContent = state.enemy.affinity;
+      document.getElementById("enemyLevel").textContent = state.enemy.level;
 
       setNarrator("⚔️", `Bạn đã bước vào ${stage.name}. Hãy chọn chiêu thức để giao chiến!`);
       updateUI();
