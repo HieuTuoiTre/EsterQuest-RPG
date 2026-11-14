@@ -6,7 +6,7 @@
   <title>Ester Quest: Hiệp Sĩ Giả Kim & Đại Chiến Thủy Phân</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Nunito:wght@400;600;700;800;900&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,600;0,700;0,800;0,900;1,700&family=Nunito:wght@400;600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,700&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg-dark: #0a0e1a;
@@ -21,8 +21,8 @@
       --mana: #00d2d3;
       --text: #f1f2f6;
       --text-muted: #a4b0be;
-      --font-rpg: 'Cinzel', serif;
-      --font-pixel: 'Press Start 2P', monospace;
+      --font-rpg: 'Playfair Display', Georgia, serif;
+      --font-ui: 'Montserrat', sans-serif;
       --font-body: 'Nunito', sans-serif;
     }
 
@@ -120,7 +120,7 @@
     }
     .game-title {
       font-family: var(--font-rpg);
-      font-size: clamp(28px, 5vw, 46px);
+      font-size: clamp(28px, 5vw, 44px);
       font-weight: 900;
       color: #fff;
       margin-bottom: 8px;
@@ -168,7 +168,7 @@
       transition: border-color 0.2s;
     }
     .name-input-group input:focus { border-color: var(--accent); box-shadow: 0 0 12px var(--accent-glow); }
-    .btn-rpg-primary {
+    .btn-rpg-primary, #btnStartGame {
       background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
       color: #1a0f00;
       font-family: var(--font-rpg);
@@ -314,10 +314,10 @@
     .bar-fill-mana { height: 100%; background: linear-gradient(90deg, #0984e3, #00cec9); width: 100%; transition: width 0.3s ease; }
 
     /* Floating Combat Text */
-    .floating-text {
+    .floating-text, .dmg-number {
       position: absolute;
       top: -20px;
-      font-family: var(--font-rpg);
+      font-family: var(--font-ui);
       font-weight: 900;
       font-size: 22px;
       pointer-events: none;
@@ -671,7 +671,8 @@
     }
     .stat-item { display: flex; flex-direction: column; gap: 4px; }
     .stat-name { font-size: 12px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; }
-    .stat-val { font-size: 22px; font-weight: 800; color: #fff; font-family: var(--font-rpg); }
+    .stat-val { font-size: 22px; font-weight: 900; color: #fff; font-family: var(--font-ui); }
+    .dmg-number { font-family: var(--font-ui); font-weight: 900; }
 
     /* Codex / Theory Logbook Modal */
     #codexModal .modal-card { max-width: 780px; }
@@ -793,31 +794,38 @@
       display: flex;
       gap: 8px;
       overflow-x: auto;
-      padding-bottom: 8px;
-      margin-bottom: 14px;
+      margin-bottom: 16px;
       border-bottom: 2px solid #283a66;
+      padding-bottom: 8px;
+      flex-wrap: wrap;
     }
     .codex-tab-btn {
       background: #141f3d;
-      border: 1px solid #2d3f6d;
-      color: var(--text-muted);
+      border: 1px solid #3d5084;
+      color: #e2e8f0;
+      font-family: var(--font-body);
+      font-size: 14px;
       font-weight: 700;
-      font-size: 13px;
-      padding: 8px 14px;
+      padding: 9px 16px;
       border-radius: 8px;
       cursor: pointer;
       white-space: nowrap;
       transition: all 0.2s;
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
     .codex-tab-btn:hover {
-      background: #1f2f5c;
+      background: #223460;
       color: #fff;
+      border-color: var(--accent);
     }
     .codex-tab-btn.active {
       background: #25365e;
       color: var(--accent);
       border-color: var(--accent);
-      box-shadow: 0 0 10px rgba(255, 209, 84, 0.2);
+      box-shadow: 0 0 10px rgba(255, 209, 84, 0.3);
     }
     .codex-tab-pane {
       display: none;
@@ -2363,22 +2371,15 @@
     }
 
     /* Modal Sổ tay & Review */
-    function switchCodexTab(tabId) {
-      for (let i = 1; i <= 4; i++) {
-        const btn = document.getElementById(`tabCodex${i}`);
-        const pane = document.getElementById(`codexPane${i}`);
-        if (btn) btn.classList.toggle("active", i === tabId);
-        if (pane) pane.style.display = (i === tabId) ? "block" : "none";
-      }
-    }
-
-
     function switchCodexTab(tabIdx) {
       for (let i = 1; i <= 4; i++) {
         const btn = document.getElementById(`tabBtnC${i}`);
         const pane = document.getElementById(`codexPane${i}`);
         if (btn) btn.classList.toggle("active", i === tabIdx);
-        if (pane) pane.classList.toggle("active", i === tabIdx);
+        if (pane) {
+          pane.classList.toggle("active", i === tabIdx);
+          pane.style.display = (i === tabIdx) ? "flex" : "none";
+        }
       }
     }
 
