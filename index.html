@@ -1,0 +1,2440 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Ester Quest: Hiệp Sĩ Giả Kim & Đại Chiến Thủy Phân</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Nunito:wght@400;600;700;800;900&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0a0e1a;
+      --panel-bg: rgba(16, 24, 48, 0.88);
+      --panel-border: #2c3e6b;
+      --primary: #4e8cff;
+      --primary-hover: #3572e8;
+      --accent: #ffd154;
+      --accent-glow: rgba(255, 209, 84, 0.45);
+      --danger: #ff4757;
+      --success: #2ed573;
+      --mana: #00d2d3;
+      --text: #f1f2f6;
+      --text-muted: #a4b0be;
+      --font-rpg: 'Cinzel', serif;
+      --font-pixel: 'Press Start 2P', monospace;
+      --font-body: 'Nunito', sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg-dark);
+      background-image: radial-gradient(circle at 50% 20%, #17244a 0%, #080c16 80%);
+      font-family: var(--font-body);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      user-select: none;
+    }
+
+    /* Top Navigation / Status Header */
+    header {
+      background: rgba(10, 14, 26, 0.95);
+      border-bottom: 2px solid #233157;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(8px);
+    }
+    .game-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-rpg);
+      font-weight: 900;
+      font-size: 20px;
+      color: var(--accent);
+      text-shadow: 0 0 10px var(--accent-glow);
+    }
+    .game-logo span { color: #fff; font-size: 15px; font-family: var(--font-body); font-weight: 600; opacity: 0.8; }
+    .header-actions { display: flex; gap: 10px; align-items: center; }
+    .icon-btn {
+      background: #1c2744;
+      border: 1px solid #3d5084;
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .icon-btn:hover { background: #2a3a66; border-color: var(--accent); transform: translateY(-1px); }
+
+    /* Main Container */
+    main {
+      flex: 1;
+      max-width: 1080px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* Start / Menu Screen */
+    #menuScreen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 75vh;
+      text-align: center;
+      background: var(--panel-bg);
+      border: 2px solid var(--panel-border);
+      border-radius: 20px;
+      padding: 40px 24px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+      position: relative;
+      overflow: hidden;
+    }
+    #menuScreen::before {
+      content: '';
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(78, 140, 255, 0.2) 0%, transparent 70%);
+      top: -50px; left: 50%;
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+    .game-title {
+      font-family: var(--font-rpg);
+      font-size: clamp(28px, 5vw, 46px);
+      font-weight: 900;
+      color: #fff;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-shadow: 0 4px 15px rgba(0,0,0,0.8), 0 0 25px var(--primary);
+    }
+    .game-subtitle {
+      font-size: 18px;
+      color: var(--accent);
+      margin-bottom: 24px;
+      font-weight: 700;
+    }
+    .lore-box {
+      max-width: 650px;
+      background: rgba(0, 0, 0, 0.35);
+      border-left: 4px solid var(--primary);
+      padding: 16px 20px;
+      border-radius: 0 12px 12px 0;
+      text-align: left;
+      font-size: 15px;
+      line-height: 1.6;
+      color: #cbd5e1;
+      margin-bottom: 30px;
+    }
+    .name-input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      width: 100%;
+      max-width: 380px;
+      margin-bottom: 25px;
+      text-align: left;
+    }
+    .name-input-group label { font-size: 14px; font-weight: 700; color: var(--text-muted); }
+    .name-input-group input {
+      background: #0d1424;
+      border: 2px solid #2f4374;
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 16px;
+      color: #fff;
+      font-family: var(--font-body);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .name-input-group input:focus { border-color: var(--accent); box-shadow: 0 0 12px var(--accent-glow); }
+    .btn-rpg-primary {
+      background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+      color: #1a0f00;
+      font-family: var(--font-rpg);
+      font-size: 20px;
+      font-weight: 900;
+      padding: 16px 48px;
+      border: 2px solid #ffd32a;
+      border-radius: 14px;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(243, 156, 18, 0.4), inset 0 2px 2px rgba(255,255,255,0.4);
+      transition: all 0.2s;
+      letter-spacing: 1px;
+    }
+    .btn-rpg-primary:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 10px 25px rgba(243, 156, 18, 0.6);
+      filter: brightness(1.1);
+    }
+    .btn-rpg-primary:active { transform: translateY(1px); }
+
+    /* Battle Screen Layout */
+    #battleScreen {
+      display: none;
+      flex-direction: column;
+      gap: 16px;
+      animation: fadeIn 0.3s ease-out;
+    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Stage Indicator */
+    .stage-bar {
+      background: var(--panel-bg);
+      border: 1px solid var(--panel-border);
+      border-radius: 12px;
+      padding: 10px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-rpg);
+      font-size: 15px;
+    }
+    .stage-title { color: var(--accent); font-weight: 700; display: flex; align-items: center; gap: 8px; }
+    .stage-progress { color: var(--text-muted); font-size: 13px; font-family: var(--font-body); font-weight: 700; }
+
+    /* Arena View (Graphic stage) */
+    .arena-container {
+      position: relative;
+      background: #090e1f;
+      border: 2px solid var(--panel-border);
+      border-radius: 18px;
+      height: 290px;
+      overflow: hidden;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      padding: 20px 40px;
+      box-shadow: inset 0 0 50px rgba(0,0,0,0.8);
+    }
+    .arena-bg {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center bottom;
+      opacity: 0.5;
+      z-index: 1;
+      transition: all 0.5s;
+    }
+    .arena-ground {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 40px;
+      background: linear-gradient(to top, #141b2e 0%, transparent 100%);
+      z-index: 2;
+    }
+
+    /* Combatants */
+    .combatant {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .combatant.attacking { transform: translateX(50px) scale(1.08); }
+    .combatant.enemy-attacking { transform: translateX(-50px) scale(1.08); }
+    .combatant.damaged { animation: shake 0.4s ease-in-out; filter: brightness(1.8) drop-shadow(0 0 15px red); }
+    .combatant.shielded .sprite-box { box-shadow: 0 0 25px #00d2d3, inset 0 0 20px #00d2d3; border-color: #00d2d3 !important; }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-12px); }
+      40%, 80% { transform: translateX(12px); }
+    }
+
+    .sprite-box {
+      width: 120px;
+      height: 120px;
+      background: rgba(14, 22, 44, 0.75);
+      border: 3px solid #3c548c;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+      backdrop-filter: blur(4px);
+    }
+    .sprite-icon { font-size: 64px; filter: drop-shadow(0 6px 10px rgba(0,0,0,0.5)); animation: idleFloat 2.6s ease-in-out infinite alternate; }
+    @keyframes idleFloat { 0% { transform: translateY(0); } 100% { transform: translateY(-8px); } }
+
+    /* Combatant Status HUD */
+    .combatant-status {
+      width: 170px;
+      background: rgba(8, 12, 24, 0.9);
+      border: 1px solid #2a3a66;
+      border-radius: 10px;
+      padding: 8px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    }
+    .combatant-name { font-weight: 800; font-size: 13px; display: flex; justify-content: space-between; align-items: center; }
+    .combatant-level { font-size: 11px; color: var(--accent); font-weight: 700; }
+    
+    .bar-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .bar-label { display: flex; justify-content: space-between; font-size: 10px; font-weight: 700; color: var(--text-muted); }
+    .bar-track {
+      height: 8px;
+      background: #151b2d;
+      border-radius: 4px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+      position: relative;
+    }
+    .bar-fill-hp { height: 100%; background: linear-gradient(90deg, #ff4757, #ff6b81); width: 100%; transition: width 0.3s ease; }
+    .bar-fill-enemy-hp { height: 100%; background: linear-gradient(90deg, #e056fd, #eb4d4b); width: 100%; transition: width 0.3s ease; }
+    .bar-fill-mana { height: 100%; background: linear-gradient(90deg, #0984e3, #00cec9); width: 100%; transition: width 0.3s ease; }
+
+    /* Floating Combat Text */
+    .floating-text {
+      position: absolute;
+      top: -20px;
+      font-family: var(--font-rpg);
+      font-weight: 900;
+      font-size: 22px;
+      pointer-events: none;
+      animation: floatUp 1.2s forwards ease-out;
+      z-index: 100;
+      text-shadow: 0 0 8px rgba(0,0,0,0.9);
+    }
+    @keyframes floatUp {
+      0% { opacity: 0; transform: translateY(0) scale(0.6); }
+      30% { opacity: 1; transform: translateY(-25px) scale(1.2); }
+      100% { opacity: 0; transform: translateY(-55px) scale(0.9); }
+    }
+
+    /* Combat Log / Narrator Message */
+    .combat-narrator {
+      background: var(--panel-bg);
+      border: 1px solid var(--panel-border);
+      border-radius: 12px;
+      padding: 12px 18px;
+      min-height: 52px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      color: #e2e8f0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+    .narrator-icon { font-size: 20px; }
+
+    /* Battle Control Dashboard */
+    .battle-dashboard {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+
+    /* Action Deck / Skills */
+    .skills-panel {
+      background: var(--panel-bg);
+      border: 1px solid var(--panel-border);
+      border-radius: 16px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 800;
+      font-size: 14px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+    }
+    .skill-card {
+      background: #141e38;
+      border: 2px solid #283a66;
+      border-radius: 12px;
+      padding: 12px 14px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      position: relative;
+      transition: all 0.2s;
+    }
+    .skill-card:hover:not(.disabled) {
+      background: #1c2b50;
+      border-color: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+    }
+    .skill-card.disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      filter: grayscale(0.8);
+    }
+    .skills-panel.turn-busy .skill-card {
+      pointer-events: none;
+      filter: brightness(0.8);
+    }
+    .skill-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .skill-name {
+      font-family: var(--font-rpg);
+      font-weight: 700;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .skill-cost {
+      font-size: 11px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: rgba(0, 210, 211, 0.2);
+      color: var(--mana);
+    }
+    .skill-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+    .skill-difficulty {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* Inventory Items Bar */
+    .items-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      background: #0f172a;
+      border-radius: 10px;
+      border: 1px solid #1e293b;
+    }
+    .item-pill {
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .item-pill:hover:not(.out) { background: #334155; border-color: var(--accent); transform: translateY(-1px); }
+    .item-pill.out { opacity: 0.4; cursor: not-allowed; }
+    .item-badge { background: #475569; padding: 1px 6px; border-radius: 10px; font-size: 10px; }
+
+    /* Modal / Popups (Question Dialog) */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 7, 16, 0.85);
+      backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 16px;
+      animation: fadeIn 0.2s;
+    }
+    .modal-card {
+      background: #101932;
+      border: 2px solid #344a7e;
+      border-radius: 18px;
+      max-width: 680px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 24px;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.8);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      position: relative;
+    }
+    .modal-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      border-radius: 18px 18px 0 0;
+    }
+    .question-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: rgba(255, 209, 84, 0.12);
+      border: 1px solid rgba(255, 209, 84, 0.3);
+      padding: 4px 10px;
+      border-radius: 6px;
+      width: fit-content;
+    }
+    .question-text {
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1.55;
+      color: #fff;
+    }
+    .options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 4px;
+    }
+    .option-btn {
+      background: #172445;
+      border: 2px solid #2b3d6b;
+      border-radius: 12px;
+      padding: 14px 16px;
+      color: #e2e8f0;
+      font-size: 16px;
+      font-weight: 600;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: all 0.15s;
+    }
+    .option-btn:hover:not(.locked) {
+      background: #223460;
+      border-color: var(--accent);
+      transform: translateX(4px);
+    }
+    .option-btn.selected-correct {
+      background: rgba(46, 213, 115, 0.25) !important;
+      border-color: var(--success) !important;
+      color: #2ed573;
+    }
+    .option-btn.selected-wrong {
+      background: rgba(255, 71, 87, 0.25) !important;
+      border-color: var(--danger) !important;
+      color: #ff4757;
+    }
+    .option-btn.dimmed { opacity: 0.25; pointer-events: none; text-decoration: line-through; }
+    .option-tag {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: #25365e;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .option-btn.selected-correct .option-tag { background: var(--success); color: #000; }
+    .option-btn.selected-wrong .option-tag { background: var(--danger); color: #fff; }
+
+    /* Question Feedback Box */
+    .feedback-box {
+      display: none;
+      border-radius: 12px;
+      padding: 14px 18px;
+      font-size: 14px;
+      line-height: 1.6;
+      animation: fadeIn 0.2s;
+    }
+    .feedback-box.correct {
+      background: rgba(46, 213, 115, 0.15);
+      border: 1px solid var(--success);
+      color: #7bed9f;
+    }
+    .feedback-box.wrong {
+      background: rgba(255, 71, 87, 0.15);
+      border: 1px solid var(--danger);
+      color: #ff7675;
+    }
+    .feedback-title { font-weight: 800; font-size: 15px; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
+
+    .modal-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 8px;
+    }
+    .hint-btn {
+      background: #232d4b;
+      border: 1px solid #485c96;
+      color: #ffd154;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .hint-btn:hover:not(:disabled) { background: #313f68; border-color: #ffd154; }
+    .hint-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .hint-content {
+      display: none;
+      background: rgba(255, 209, 84, 0.1);
+      border-left: 3px solid #ffd154;
+      padding: 10px 14px;
+      border-radius: 0 8px 8px 0;
+      font-size: 13px;
+      color: #ffeaa7;
+      line-height: 1.5;
+    }
+
+    /* Victory / Defeat Screen */
+    #endGameScreen {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background: var(--panel-bg);
+      border: 2px solid var(--panel-border);
+      border-radius: 20px;
+      padding: 40px 24px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+      gap: 20px;
+      max-width: 650px;
+      margin: 20px auto;
+      width: 100%;
+    }
+    .end-title {
+      font-family: var(--font-rpg);
+      font-size: 36px;
+      font-weight: 900;
+      letter-spacing: 1px;
+    }
+    .end-title.win { color: var(--accent); text-shadow: 0 0 20px var(--accent-glow); }
+    .end-title.lose { color: var(--danger); text-shadow: 0 0 20px rgba(255, 71, 87, 0.5); }
+    .stats-card {
+      background: #0d1428;
+      border: 1px solid #2b3a62;
+      border-radius: 14px;
+      padding: 18px 24px;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      text-align: left;
+    }
+    .stat-item { display: flex; flex-direction: column; gap: 4px; }
+    .stat-name { font-size: 12px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; }
+    .stat-val { font-size: 22px; font-weight: 800; color: #fff; font-family: var(--font-rpg); }
+
+    /* Codex / Theory Logbook Modal */
+    #codexModal .modal-card { max-width: 780px; }
+    .codex-section { margin-bottom: 16px; }
+    .codex-section h3 {
+      font-family: var(--font-rpg);
+      font-size: 17px;
+      color: var(--accent);
+      border-bottom: 1px solid #2a3a66;
+      padding-bottom: 6px;
+      margin-bottom: 10px;
+    }
+    .codex-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin-top: 8px;
+    }
+    .codex-table th, .codex-table td {
+      border: 1px solid #2a3b68;
+      padding: 8px 10px;
+      text-align: left;
+    }
+    .codex-table th { background: #162244; color: var(--accent); font-weight: 700; }
+    .codex-table tr:nth-child(even) { background: rgba(255,255,255,0.02); }
+
+    /* Chemical Formula Subscript styling */
+    sub { font-size: 0.75em; vertical-align: sub; line-height: 0; }
+    sup { font-size: 0.75em; vertical-align: super; line-height: 0; }
+
+    /* Responsiveness */
+    @media (max-width: 680px) {
+      .arena-container { padding: 15px 15px; height: 260px; }
+      .sprite-box { width: 90px; height: 90px; }
+      .sprite-icon { font-size: 46px; }
+      .combatant-status { width: 135px; padding: 6px 8px; }
+      .skills-grid { grid-template-columns: 1fr; }
+      header { padding: 8px 12px; }
+      .game-logo { font-size: 16px; }
+      .stats-card { grid-template-columns: 1fr; }
+    }
+
+    .game-logo:hover {
+      transform: scale(1.04);
+      filter: drop-shadow(0 0 10px var(--accent-glow));
+    }
+    .game-logo:active {
+      transform: scale(0.98);
+    }
+
+    /* Leaderboard Tabs & Table */
+    .bxh-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 12px;
+      border-bottom: 2px solid #283a66;
+      padding-bottom: 8px;
+    }
+    .bxh-tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-weight: 700;
+      font-size: 15px;
+      padding: 6px 14px;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+    .bxh-tab-btn.active {
+      background: #25365e;
+      color: var(--accent);
+    }
+    .bxh-table-wrap {
+      max-height: 55vh;
+      overflow-y: auto;
+      border: 1px solid #283a66;
+      border-radius: 10px;
+    }
+    .bxh-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      text-align: left;
+    }
+    .bxh-table th {
+      background: #141f3d;
+      color: var(--accent);
+      padding: 10px 12px;
+      position: sticky;
+      top: 0;
+      font-weight: 800;
+      z-index: 2;
+    }
+    .bxh-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .bxh-table tr:hover {
+      background: rgba(255, 209, 84, 0.05);
+    }
+    .rank-tag {
+      font-weight: 900;
+      display: inline-block;
+      width: 26px;
+      height: 26px;
+      line-height: 26px;
+      text-align: center;
+      border-radius: 50%;
+      font-size: 12px;
+    }
+    .rank-1 { background: #ffd700; color: #1a0f00; box-shadow: 0 0 10px rgba(255,215,0,0.5); }
+    .rank-2 { background: #c0c0c0; color: #1a0f00; }
+    .rank-3 { background: #cd7f32; color: #fff; }
+
+  </style>
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <header>
+    <div class="game-logo" id="btnHomeLogo" style="cursor: pointer; transition: all 0.2s;" title="Nhấn vào đây để trở về Trang Chủ">
+      ⚔️ ESTER QUEST
+      <span>Hóa Học RPG</span>
+    </div>
+    <div class="header-actions">
+      <button class="icon-btn" id="btnLeaderboard">🏆 Bảng Xếp Hạng & Lịch Sử</button>
+      <button class="icon-btn" id="btnSound">🔊 Âm thanh</button>
+      <button class="icon-btn" id="btnCodex">📖 Sổ Tay Bí Kíp</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- Screen 1: Start Menu -->
+    <section id="menuScreen">
+      <div class="game-title">Đại Chiến Vương Quốc Este</div>
+      <div class="game-subtitle">Hành trình Chinh Phục Kiến Thức Hóa Học Lớp 12</div>
+
+      <div class="lore-box">
+        Vương quốc Giả kim đang bị xâm chiếm bởi các Ma Vật Hóa Học! Bạn trong vai <strong>Hiệp Sĩ Este</strong> phải vận dụng các định luật thủy phân, danh pháp, mùi hương và phản ứng xà phòng hóa để đánh bại 5 Thủ Lĩnh Hắc Ám và giải cứu vương triều!
+      </div>
+
+      <div style="display:flex; gap:14px; width:100%; max-width:440px; margin-bottom:25px;">
+        <div class="name-input-group" style="flex:2; margin-bottom:0;">
+          <label for="playerName">Tên Hiệp Sĩ Của Bạn:</label>
+          <input type="text" id="playerName" value="Dược Sĩ Trẻ" placeholder="Nhập tên nhân vật...">
+        </div>
+        <div class="name-input-group" style="flex:1; margin-bottom:0;">
+          <label for="playerClass">Lớp Học:</label>
+          <input type="text" id="playerClass" value="12A1" placeholder="Ví dụ: 12A1...">
+        </div>
+      </div>
+
+      <button class="btn-rpg-primary" id="btnStartGame">VÀO TRẬN CHIẾN</button>
+    </section>
+
+    <!-- Screen 2: Turn-based Battle Screen -->
+    <section id="battleScreen">
+      <!-- Stage Info -->
+      <div class="stage-bar">
+        <div class="stage-title" id="stageTitle">Ải 1: Rừng Danh Pháp & Mùi Hương</div>
+        <div class="stage-progress" id="stageProgress">Tiến trình: Ải 1 / 5</div>
+      </div>
+
+      <!-- Arena View -->
+      <div class="arena-container">
+        <div class="arena-bg" id="arenaBg"></div>
+        <div class="arena-ground"></div>
+
+        <!-- Player -->
+        <div class="combatant" id="playerCombatant">
+          <div class="combatant-status">
+            <div class="combatant-name">
+              <span id="playerDisplayName">Hiệp Sĩ</span>
+              <span class="combatant-level" id="playerLvlDisplay">Lv.1</span>
+            </div>
+            <div class="bar-wrap">
+              <div class="bar-label">
+                <span>HP (Máu)</span>
+                <span id="playerHpText">100/100</span>
+              </div>
+              <div class="bar-track">
+                <div class="bar-fill-hp" id="playerHpBar"></div>
+              </div>
+            </div>
+            <div class="bar-wrap">
+              <div class="bar-label">
+                <span>Mana (Phép)</span>
+                <span id="playerManaText">50/50</span>
+              </div>
+              <div class="bar-track">
+                <div class="bar-fill-mana" id="playerManaBar"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sprite-box" style="border-color: #3867d6;">
+            <div class="sprite-icon" id="playerSprite">🧙‍♂️</div>
+          </div>
+        </div>
+
+        <!-- Enemy -->
+        <div class="combatant" id="enemyCombatant">
+          <div class="combatant-status">
+            <div class="combatant-name">
+              <span id="enemyName">Slime Formate</span>
+              <span class="combatant-level" id="enemyAffinity">Gốc HCOO-</span>
+            </div>
+            <div class="bar-wrap">
+              <div class="bar-label">
+                <span>HP Quái Vật</span>
+                <span id="enemyHpText">120/120</span>
+              </div>
+              <div class="bar-track">
+                <div class="bar-fill-enemy-hp" id="enemyHpBar"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sprite-box" style="border-color: #eb4d4b;">
+            <div class="sprite-icon" id="enemySprite">🧪</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Combat Narrator -->
+      <div class="combat-narrator">
+        <div class="narrator-icon" id="narratorIcon">📜</div>
+        <div id="narratorText">Đến lượt bạn! Hãy chọn một chiêu thức để tấn công quái vật.</div>
+      </div>
+
+      <!-- Action Panel -->
+      <div class="battle-dashboard">
+        <div class="skills-panel">
+          <div class="panel-header">
+            <span>Chiêu Thức Chiến Đấu (Chọn chiêu để trả lời câu hỏi)</span>
+            <span id="manaHint">Năng lượng: 50 MP</span>
+          </div>
+
+          <div class="skills-grid">
+            <!-- Skill 1 -->
+            <div class="skill-card" id="skillAcidStrike" onclick="castSkill(1)">
+              <div class="skill-card-top">
+                <div class="skill-name">🗡️ Đòn Axit Cơ Bản</div>
+                <div class="skill-cost" style="color:#2ed573; background:rgba(46,213,115,0.15)">0 MP</div>
+              </div>
+              <div class="skill-desc">Đòn tấn công chuẩn. Gây 35 ST. Hồi 10 MP nếu trả lời đúng.</div>
+              <div class="skill-difficulty">⭐ Độ khó: Nhận Biết</div>
+            </div>
+
+            <!-- Skill 2 -->
+            <div class="skill-card" id="skillEsterFlare" onclick="castSkill(2)">
+              <div class="skill-card-top">
+                <div class="skill-name">🔥 Hỏa Cầu Este Hóa</div>
+                <div class="skill-cost">20 MP</div>
+              </div>
+              <div class="skill-desc">Tích tụ nhiệt độ xúc tác H2SO4 đặc, gây 75 ST cực mạnh!</div>
+              <div class="skill-difficulty">⭐⭐ Độ khó: Thông Hiểu</div>
+            </div>
+
+            <!-- Skill 3 -->
+            <div class="skill-card" id="skillSolventShield" onclick="castSkill(3)">
+              <div class="skill-card-top">
+                <div class="skill-name">🛡️ Khiên Dung Môi</div>
+                <div class="skill-cost">15 MP</div>
+              </div>
+              <div class="skill-desc">Tạo lớp màng bảo vệ chặn đòn tiếp theo của quái và hồi 35 HP.</div>
+              <div class="skill-difficulty">⭐⭐ Độ khó: Thông Hiểu</div>
+            </div>
+
+            <!-- Skill 4 -->
+            <div class="skill-card" id="skillSaponification" onclick="castSkill(4)">
+              <div class="skill-card-top">
+                <div class="skill-name">⚡ Bão Xà Phòng Hóa</div>
+                <div class="skill-cost" style="color:#ff9f43; background:rgba(255,159,67,0.15)">35 MP</div>
+              </div>
+              <div class="skill-desc">Tuyệt chiêu tối thượng thủy phân 1 chiều! Gây 150 ST và Choáng quái 1 lượt!</div>
+              <div class="skill-difficulty">⭐⭐⭐ Độ khó: Vận Dụng</div>
+            </div>
+          </div>
+
+          <!-- Inventory Items -->
+          <div class="items-bar">
+            <span style="font-size:12px; font-weight:700; color:var(--text-muted);">Túi Đồ:</span>
+            <div class="item-pill" id="itemPotion" onclick="usePotion()">
+              🧪 Bình Nước Cất (Hồi 45 HP)
+              <span class="item-badge" id="potionCount">2</span>
+            </div>
+            <div class="item-pill" id="itemH2SO4">
+              💧 Xúc Tác H2SO4 (Dùng trong câu hỏi để loại 2 đáp án sai)
+              <span class="item-badge" id="h2so4Count">2</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Screen 3: Victory / Defeat Screen -->
+    <section id="endGameScreen">
+      <div class="end-title" id="endTitle">CHIẾN THẮNG HUY HOÀNG!</div>
+      <div id="endSubtitle" style="color:var(--text-muted); font-size:16px;">Bạn đã tiêu diệt toàn bộ Quái vật và làm chủ Vương quốc Ester!</div>
+
+      <div class="stats-card">
+        <div class="stat-item">
+          <div class="stat-name">Hiệp Sĩ</div>
+          <div class="stat-val" id="statPlayerName">Anh Hùng</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-name">Độ Chính Xác Trắc Nghiệm</div>
+          <div class="stat-val" id="statAccuracy">100%</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-name">Số Câu Trả Lời Đúng</div>
+          <div class="stat-val" id="statCorrectCount">0 / 0</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-name">Danh Hiệu Đạt Được</div>
+          <div class="stat-val" id="statTitle" style="color:var(--accent); font-size:16px;">Đại Sư Hóa Học</div>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:12px; flex-wrap:wrap; justify-content:center;">
+        <button class="btn-rpg-primary" onclick="restartGame()">CHƠI LẠI TỪ ĐẦU</button>
+        <button class="icon-btn" style="padding:16px 28px; font-size:16px;" onclick="openReviewModal()">📝 XEM LẠI CÂU ĐÃ LÀM</button>
+        <button class="icon-btn" style="padding:16px 28px; font-size:16px; background:#223460;" onclick="openLeaderboard()">🏆 BẢNG XẾP HẠNG</button>
+        <button class="icon-btn" style="padding:16px 28px; font-size:16px;" onclick="returnToHome()">🏠 VỀ TRANG CHỦ</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- Modal: Leaderboard & History -->
+  <div class="modal-overlay" id="leaderboardModal">
+    <div class="modal-card" style="max-width: 820px;">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <h2 style="font-family:var(--font-rpg); color:var(--accent);">🏆 Bảng Xếp Hạng & Lịch Sử Thi Đấu</h2>
+        <button class="icon-btn" onclick="closeLeaderboard()">Đóng ✖</button>
+      </div>
+
+      <div class="bxh-tabs">
+        <button class="bxh-tab-btn active" id="tabTopPlayers" onclick="switchBxhTab('top')">🥇 Cao Thủ Hóa Học</button>
+        <button class="bxh-tab-btn" id="tabMyHistory" onclick="switchBxhTab('history')">📜 Lịch Sử Của Bạn</button>
+      </div>
+
+      <!-- Filter & Sync Bar -->
+      <div id="bxhFilterBar" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
+        <div style="display:flex; align-items:center; gap:8px; font-size:13px; font-weight:700;">
+          <span>Lọc Lớp:</span>
+          <select id="filterClassSelect" onchange="renderLeaderboardTable()" style="background:#141f3d; color:#fff; border:1px solid #334a7e; padding:6px 12px; border-radius:8px; outline:none; font-family:inherit; cursor:pointer;">
+            <option value="ALL">Tất cả các lớp</option>
+          </select>
+          <button class="icon-btn" style="padding:5px 10px; font-size:12px;" onclick="refreshLeaderboardData()">🔄 Làm mới</button>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span style="font-size:12px; color:var(--accent);" id="bxhStatusText">☁️ Chế độ: Đang tải...</span>
+          <button class="icon-btn" style="padding:5px 10px; font-size:12px;" onclick="toggleOnlineConfig()">⚙️ Kết nối Online</button>
+        </div>
+      </div>
+
+      <!-- Collapsible Online Config Panel -->
+      <div id="onlineConfigPanel" style="display:none; background:#0c1326; border:1px dashed #3c548c; border-radius:10px; padding:12px 14px; margin-bottom:12px; font-size:13px;">
+        <div style="font-weight:700; color:var(--accent); margin-bottom:4px;">🔗 Đồng Bộ Bảng Xếp Hạng Online (Google Sheet):</div>
+        <div style="color:var(--text-muted); font-size:12px; margin-bottom:8px;">
+          Dán đường link Web App của Google Apps Script vào đây để học sinh ở mọi máy tính/điện thoại đều thấy điểm của nhau!
+        </div>
+        <div style="display:flex; gap:8px;">
+          <input type="text" id="inputSheetApi" placeholder="https://script.google.com/macros/s/.../exec" style="flex:1; background:#141e38; border:1px solid #2d3f6d; border-radius:8px; padding:8px 12px; color:#fff; font-size:13px; outline:none;">
+          <button class="btn-rpg-primary" style="padding:8px 16px; font-size:13px;" onclick="saveOnlineConfig()">LƯU LINK</button>
+        </div>
+      </div>
+
+      <!-- Table Wrap -->
+      <div class="bxh-table-wrap">
+        <table class="bxh-table">
+          <thead>
+            <tr id="bxhTableHeader">
+              <th>Hạng</th>
+              <th>Hiệp Sĩ</th>
+              <th>Lớp</th>
+              <th>Điểm Số</th>
+              <th>Đúng</th>
+              <th>Tiến Trình</th>
+              <th>Thời Gian</th>
+            </tr>
+          </thead>
+          <tbody id="bxhTableBody">
+            <!-- Dynamically populated -->
+          </tbody>
+        </table>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
+        <button class="icon-btn" style="color:var(--danger); border-color:rgba(255,71,87,0.4);" onclick="clearAllHistory()">🗑️ Xóa Lịch Sử</button>
+        <button class="btn-rpg-primary" style="padding:10px 24px; font-size:15px;" onclick="closeLeaderboard()">ĐÃ HIỂU</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 1: Question Dialog (When executing skill) -->
+  <div class="modal-overlay" id="questionModal">
+    <div class="modal-card">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div class="question-badge" id="qBadge">⭐ Mức độ Nhận Biết</div>
+        <div style="font-size:13px; color:var(--text-muted); font-weight:700;" id="qSkillName">🗡️ Đòn Axit Cơ Bản</div>
+      </div>
+
+      <div class="question-text" id="qText">Nội dung câu hỏi...</div>
+
+      <div class="options-list" id="qOptions">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <!-- Hint Section -->
+      <div class="hint-content" id="qHintBox"></div>
+
+      <!-- Explanation Feedback -->
+      <div class="feedback-box" id="qFeedbackBox">
+        <div class="feedback-title" id="qFeedbackTitle">Chính Xác!</div>
+        <div id="qFeedbackDesc">Lời giải chi tiết...</div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="hint-btn" id="btnUseHint" onclick="triggerHint()">💡 Xem Gợi Ý (-1 Xúc Tác H2SO4)</button>
+        <button class="btn-rpg-primary" id="btnContinueTurn" style="display:none; padding:10px 24px; font-size:16px;" onclick="resolveTurnAction()">TIẾP TỤC ➔</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 2: Codex (Sổ Tay Kiến Thức Ester) -->
+  <div class="modal-overlay" id="codexModal">
+    <div class="modal-card">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <h2 style="font-family:var(--font-rpg); color:var(--accent);">📖 Bí Kíp Giả Kim: Chuyên Đề Ester</h2>
+        <button class="icon-btn" onclick="closeCodex()">Đóng ✖</button>
+      </div>
+
+      <div class="codex-section">
+        <h3>1. Khái Niệm & Công Thức Chung</h3>
+        <p>• Khi thay thế nhóm <strong>-OH</strong> ở nhóm carboxyl (<strong>-COOH</strong>) của carboxylic acid bằng nhóm <strong>-OR'</strong> thì được ester (R' là gốc hydrocarbon).</p>
+        <p>• Ester no, đơn chức, mạch hở: <strong>C<sub>n</sub>H<sub>2n</sub>O<sub>2</sub></strong> (n ≥ 2).</p>
+        <p>• Ester không no có 1 liên kết C=C, đơn chức, mạch hở: <strong>C<sub>n</sub>H<sub>2n-2</sub>O<sub>2</sub></strong> (n ≥ 3).</p>
+      </div>
+
+      <div class="codex-section">
+        <h3>2. Danh Pháp & Mùi Hương Hoa Quả Tiêu Biểu</h3>
+        <table class="codex-table">
+          <thead>
+            <tr><th>Công thức</th><th>Tên gọi</th><th>Mùi hương đặc trưng</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>CH<sub>3</sub>COOCH<sub>2</sub>CH<sub>2</sub>CH(CH<sub>3</sub>)<sub>2</sub></td><td>Isoamyl acetate</td><td>Mùi chuối chín (dầu chuối)</td></tr>
+            <tr><td>CH<sub>3</sub>COOCH<sub>2</sub>C<sub>6</sub>H<sub>5</sub></td><td>Benzyl acetate</td><td>Mùi hoa nhài</td></tr>
+            <tr><td>C<sub>2</sub>H<sub>5</sub>COOC<sub>2</sub>H<sub>5</sub></td><td>Ethyl propionate</td><td>Mùi dứa chín</td></tr>
+            <tr><td>CH<sub>3</sub>CH<sub>2</sub>CH<sub>2</sub>COOCH<sub>3</sub></td><td>Methyl butanoate</td><td>Mùi táo chín</td></tr>
+            <tr><td>CH<sub>3</sub>COOC<sub>3</sub>H<sub>7</sub></td><td>Propyl ethanoate</td><td>Mùi quả lê</td></tr>
+            <tr><td>CH<sub>2</sub>=C(CH<sub>3</sub>)COOCH<sub>3</sub></td><td>Methyl methacrylate</td><td>Trùng hợp tạo thủy tinh hữu cơ (Plexiglas)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="codex-section">
+        <h3>3. Tính Chất Vật Lý & Hóa Học Cần Nhớ</h3>
+        <p>• <strong>Nhiệt độ sôi:</strong> Các ester không tạo được liên kết hydrogen với nhau nên có nhiệt độ sôi thấp hơn hẳn so với alcohol và carboxylic acid có cùng số C:</p>
+        <p style="padding:6px; background:#141f3d; border-radius:6px; margin:6px 0; font-weight:700;">Nhiệt độ sôi: Acid > Alcohol > Ester, Aldehyde > Hydrocarbon.</p>
+        <p>• <strong>Thủy phân trong môi trường acid:</strong> Phản ứng thuận nghịch (2 chiều), cần xúc tác H<sub>2</sub>SO<sub>4</sub> loãng, t°.</p>
+        <p>• <strong>Thủy phân trong môi trường kiềm (Xà phòng hóa):</strong> Phản ứng 1 chiều (hoàn toàn), sinh muối và alcohol.</p>
+        <p>• <strong>Trường hợp đặc biệt:</strong></p>
+        <p> - Ester dạng R-COO-CH=CH-R' thủy phân sinh <strong>aldehyde</strong> (R'-CH<sub>2</sub>-CHO).</p>
+        <p> - Ester của phenol (R-COO-C<sub>6</sub>H<sub>5</sub>) tác dụng với NaOH theo tỉ lệ mol <strong>1 : 2</strong> tạo ra <strong>2 muối và H<sub>2</sub>O</strong>.</p>
+        <p> - Ester của formic acid (H-COO-R') có nhóm -CHO nên tham gia được <strong>phản ứng tráng bạc</strong>.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 3: Review Questions Modal -->
+  <div class="modal-overlay" id="reviewModal">
+    <div class="modal-card" style="max-width:850px;">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <h2 style="font-family:var(--font-rpg); color:var(--accent);">📝 Nhật Ký Đấu Trí (Tổng Kết Câu Hỏi)</h2>
+        <button class="icon-btn" onclick="closeReviewModal()">Đóng ✖</button>
+      </div>
+      <div id="reviewList" style="display:flex; flex-direction:column; gap:14px; max-height:70vh; overflow-y:auto;">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ============================================================
+       1. NGÂN HÀNG CÂU HỎI TRẮC NGHIỆM CHUẨN XÁC: PHẦN 1 ESTER
+       Trích lọc chuẩn theo tài liệu bài tập đính kèm (Biết - Hiểu - Vận dụng)
+       ============================================================ */
+    const QUESTION_BANK = [
+      /* MỨC ĐỘ 1: NHẬN BIẾT */
+      {
+        id: 1, level: 1, skillType: 1,
+        q: "Ester no, đơn chức, mạch hở có công thức phân tử chung là:",
+        options: ["C_{n}H_{2n}O (n ≥ 2)", "C_{n}H_{2n}O_{2} (n ≥ 2)", "C_{n}H_{2n-2}O_{2} (n ≥ 3)", "C_{n}H_{2n}O_{4} (n ≥ 2)"],
+        answer: 1,
+        hint: "Ester no, đơn chức, mạch hở có 1 liên kết pi ở nhóm -COO- và có 2 nguyên tử oxygen.",
+        explain: "Công thức tổng quát của ester no, đơn chức, mạch hở là C_{n}H_{2n}O_{2} (với n ≥ 2)."
+      },
+      {
+        id: 2, level: 1, skillType: 1,
+        q: "Tên gọi của ester CH_{3}COOC_{2}H_{5} là:",
+        options: ["Ethyl formate", "Ethyl acetate", "Methyl acetate", "Methyl formate"],
+        answer: 1,
+        hint: "Gốc C_{2}H_{5}- là ethyl; gốc CH_{3}COO- là acetate.",
+        explain: "Quy tắc đọc tên: Tên gốc R' + tên gốc acid đuôi 'ate' -> C_{2}H_{5}- là ethyl, CH_{3}COO- là acetate => Ethyl acetate."
+      },
+      {
+        id: 3, level: 1, skillType: 1,
+        q: "Tên gọi của ester HCOOCH_{3} là:",
+        options: ["Methyl acetate", "Methyl formate", "Ethyl formate", "Ethyl acetate"],
+        answer: 1,
+        hint: "Gốc CH_{3}- là methyl, gốc HCOO- là formate (hoặc methanoate).",
+        explain: "HCOOCH_{3} được gọi tên là Methyl formate."
+      },
+      {
+        id: 4, level: 1, skillType: 1,
+        q: "Ester nào sau đây có mùi thơm đặc trưng của chuối chín (dầu chuối)?",
+        options: ["Isoamyl acetate", "Benzyl acetate", "Ethyl propionate", "Propyl ethanoate"],
+        answer: 0,
+        hint: "Ester này có gốc alcohol là isoamyl (CH_{3})_{2}CH-CH_{2}-CH_{2}-.",
+        explain: "Isoamyl acetate có mùi chuối chín đặc trưng. Benzyl acetate có mùi hoa nhài, Ethyl propionate có mùi dứa."
+      },
+      {
+        id: 5, level: 1, skillType: 1,
+        q: "Benzyl acetate là ester có mùi thơm của hoa nhài. Công thức cấu tạo của benzyl acetate là:",
+        options: ["CH_{3}COOC_{6}H_{5}", "CH_{3}COOCH_{2}C_{6}H_{5}", "C_{2}H_{5}COOCH_{3}", "C_{6}H_{5}COOCH_{3}"],
+        answer: 1,
+        hint: "Gốc benzyl là C_{6}H_{5}-CH_{2}- (khác với gốc phenyl là C_{6}H_{5}-).",
+        explain: "Benzyl acetate = CH_{3}COO- + -CH_{2}C_{6}H_{5} => CH_{3}COOCH_{2}C_{6}H_{5}."
+      },
+      {
+        id: 6, level: 1, skillType: 1,
+        q: "Ester nào sau đây có khả năng tham gia phản ứng tráng bạc?",
+        options: ["CH_{3}COOCH_{3}", "HCOOCH_{3}", "CH_{3}COOC_{2}H_{5}", "C_{2}H_{5}COOCH_{3}"],
+        answer: 1,
+        hint: "Ester của formic acid (có chứa nhóm H-C(=O)-) có khả năng tham gia phản ứng tráng bạc.",
+        explain: "HCOOCH_{3} (và các ester có dạng H-COO-R') có nhóm aldehyde H-C=O nên tham gia phản ứng tráng bạc với AgNO_{3}/NH_{3}."
+      },
+      {
+        id: 7, level: 1, skillType: 1,
+        q: "Ester nào sau đây được trùng hợp để sản xuất thủy tinh hữu cơ (Plexiglas)?",
+        options: ["Vinyl acetate", "Methyl acrylate", "Methyl methacrylate", "Ethyl acetate"],
+        answer: 2,
+        hint: "Ester này có công thức CH_{2}=C(CH_{3})COOCH_{3}.",
+        explain: "Methyl methacrylate trùng hợp tạo poly(methyl methacrylate) dùng làm thủy tinh hữu cơ (răng giả, kính áp tròng...)."
+      },
+      {
+        id: 8, level: 1, skillType: 1,
+        q: "Trong số các chất sau đây, chất nào có nhiệt độ sôi cao nhất?",
+        options: ["C_{2}H_{5}OH", "CH_{3}COOH", "HCOOCH_{3}", "CH_{3}CHO"],
+        answer: 1,
+        hint: "Liên kết hydrogen giữa các phân tử acid bền hơn so với alcohol; ester và aldehyde không tạo được liên kết hydrogen liên phân tử.",
+        explain: "Thứ tự nhiệt độ sôi: Acid > Alcohol > Ester, Aldehyde > Hydrocarbon. Trong các chất cùng khoảng phân tử khối, CH_{3}COOH có nhiệt độ sôi cao nhất (~118°C)."
+      },
+      {
+        id: 9, level: 1, skillType: 1,
+        q: "Đun sôi hỗn hợp ethyl alcohol (C_{2}H_{5}OH) và acetic acid (CH_{3}COOH) có H_{2}SO_{4} đặc làm xúc tác xảy ra phản ứng:",
+        options: ["Trùng ngưng", "Trùng hợp", "Ester hóa", "Xà phòng hóa"],
+        answer: 2,
+        hint: "Phản ứng giữa carboxylic acid và alcohol tạo ester gọi là phản ứng gì?",
+        explain: "Phản ứng giữa carboxylic acid và alcohol tạo thành ester gọi là phản ứng ester hóa."
+      },
+      {
+        id: 10, level: 1, skillType: 1,
+        q: "Chất nào sau đây phản ứng với dung dịch NaOH đun nóng tạo thành CH_{3}COONa và C_{2}H_{5}OH?",
+        options: ["CH_{3}COOCH_{3}", "HCOOC_{2}H_{5}", "CH_{3}COOC_{2}H_{5}", "C_{2}H_{5}COOCH_{3}"],
+        answer: 2,
+        hint: "Ester tạo thành từ acetic acid (CH_{3}COOH) và ethyl alcohol (C_{2}H_{5}OH).",
+        explain: "CH_{3}COOC_{2}H_{5} + NaOH -> CH_{3}COONa + C_{2}H_{5}OH."
+      },
+
+      /* MỨC ĐỘ 2: THÔNG HIỂU */
+      {
+        id: 11, level: 2, skillType: 2,
+        q: "Số đồng phân ester ứng với công thức phân tử C_{3}H_{6}O_{2} là:",
+        options: ["1", "2", "3", "4"],
+        answer: 1,
+        hint: "Viết các este dạng HCOO-R' và CH_{3}COO-R'.",
+        explain: "C_{3}H_{6}O_{2} có đúng 2 đồng phân ester: HCOOC_{2}H_{5} và CH_{3}COOCH_{3}."
+      },
+      {
+        id: 12, level: 2, skillType: 2,
+        q: "Số đồng phân ester ứng với công thức phân tử C_{4}H_{8}O_{2} là:",
+        options: ["2", "3", "4", "5"],
+        answer: 2,
+        hint: "Gồm: HCOO-C_{3}H_{7} (2 đồng phân gốc propyl), CH_{3}COO-C_{2}H_{5} (1), C_{2}H_{5}COO-CH_{3} (1).",
+        explain: "Có 4 đồng phân ester của C_{4}H_{8}O_{2}: HCOOCH_{2}CH_{2}CH_{3}, HCOOCH(CH_{3})_{2}, CH_{3}COOC_{2}H_{5}, C_{2}H_{5}COOCH_{3}."
+      },
+      {
+        id: 13, level: 2, skillType: 2,
+        q: "Thủy phân hoàn toàn hỗn hợp ethyl propionate và ethyl formate trong dung dịch NaOH thu được sản phẩm gồm:",
+        options: ["1 muối và 1 alcohol", "2 muối và 1 alcohol", "1 muối và 2 alcohol", "2 muối và 2 alcohol"],
+        answer: 1,
+        hint: "Cả 2 este đều có chung gốc alcohol là ethyl (C_{2}H_{5}-).",
+        explain: "Ethyl propionate và ethyl formate đều sinh ra C_{2}H_{5}OH (1 alcohol), và 2 muối khác nhau: C_{2}H_{5}COONa và HCOONa (2 muối)."
+      },
+      {
+        id: 14, level: 2, skillType: 2,
+        q: "Thủy phân ester nào sau đây trong dung dịch NaOH đun nóng thu được sản phẩm có aldehyde?",
+        options: ["CH_{3}COOCH_{2}CH=CH_{2}", "CH_{3}COOCH=CH_{2}", "CH_{2}=CHCOOCH_{3}", "CH_{3}COOC_{2}H_{5}"],
+        answer: 1,
+        hint: "Nhóm -COO- liên kết trực tiếp với nguyên tử carbon chứa liên kết đôi (-CH=CH_{2}) sẽ tạo enol không bền chuyển thành aldehyde.",
+        explain: "CH_{3}COOCH=CH_{2} + NaOH -> CH_{3}COONa + CH_{3}CHO (acetaldehyde)."
+      },
+      {
+        id: 15, level: 2, skillType: 2,
+        q: "Đun nóng ester CH_{3}COOC_{6}H_{5} (phenyl acetate) với lượng dư dung dịch NaOH, sản phẩm hữu cơ thu được là:",
+        options: ["CH_{3}COONa và C_{6}H_{5}OH", "CH_{3}COONa và C_{6}H_{5}ONa", "CH_{3}COOH và C_{6}H_{5}ONa", "CH_{3}OH và C_{6}H_{5}ONa"],
+        answer: 1,
+        hint: "Ester của phenol thủy phân sinh ra phenol, phenol là acid yếu tiếp tục phản ứng với NaOH dư tạo muối phenolate và H_{2}O.",
+        explain: "CH_{3}COOC_{6}H_{5} + 2NaOH -> CH_{3}COONa + C_{6}H_{5}ONa + H_{2}O. Thu được 2 muối hữu cơ!"
+      },
+      {
+        id: 16, level: 2, skillType: 2,
+        q: "Xà phòng hóa ester X có CTPT C_{4}H_{8}O_{2} bằng NaOH thu được muối Y và alcohol Z có bậc II. Công thức cấu tạo của X là:",
+        options: ["HCOOCH(CH_{3})_{2}", "CH_{3}CH_{2}COOCH_{3}", "CH_{3}COOC_{2}H_{5}", "HCOOCH_{2}CH_{2}CH_{3}"],
+        answer: 0,
+        hint: "Alcohol bậc II sinh ra từ C_{4}H_{8}O_{2} chỉ có thể là isopropyl alcohol (CH_{3})_{2}CH-OH.",
+        explain: "HCOOCH(CH_{3})_{2} + NaOH -> HCOONa + (CH_{3})_{2}CH-OH (isopropyl alcohol là alcohol bậc II)."
+      },
+      {
+        id: 17, level: 2, skillType: 3,
+        q: "Để phản ứng vừa đủ với 0,15 mol CH_{3}COOCH_{3} cần V lít dung dịch NaOH 0,5M. Giá trị của V là:",
+        options: ["0,1 lít", "0,2 lít", "0,3 lít", "0,5 lít"],
+        answer: 2,
+        hint: "Este đơn chức phản ứng với NaOH theo tỉ lệ 1:1. V = n / C_{M}.",
+        explain: "n_{NaOH} = n_{ester} = 0,15 mol => V = 0,15 / 0,5 = 0,3 lít (300 mL)."
+      },
+      {
+        id: 18, level: 2, skillType: 3,
+        q: "Cho 8,8 gam CH_{3}COOC_{2}H_{5} (M = 88) phản ứng hết với dung dịch NaOH dư, đun nóng. Khối lượng muối CH_{3}COONa (M = 82) thu được là:",
+        options: ["4,1 gam", "8,2 gam", "12,3 gam", "16,4 gam"],
+        answer: 1,
+        hint: "Tính số mol ester: n = 8,8 / 88 = 0,1 mol. Số mol muối = số mol ester.",
+        explain: "n_{ester} = 8,8 / 88 = 0,1 mol => n_{CH3COONa} = 0,1 mol => m_{muối} = 0,1 × 82 = 8,2 gam."
+      },
+      {
+        id: 19, level: 2, skillType: 3,
+        q: "Trong phản ứng ester hóa giữa CH_{3}COOH và C_{2}H_{5}OH, H_{2}SO_{4} đặc đóng vai trò:",
+        options: ["Chỉ là chất xúc tác", "Chất xúc tác và hút nước làm chuyển dịch cân bằng sang chiều thuận", "Chất phản ứng chính", "Chất oxi hóa mạnh"],
+        answer: 1,
+        hint: "H_{2}SO_{4} đặc có tính háo nước cực mạnh, giúp làm giảm lượng H_{2}O tạo thành.",
+        explain: "H_{2}SO_{4} đặc vừa làm xúc tác tăng tốc độ phản ứng, vừa hút nước làm nồng độ H_{2}O giảm, cân bằng chuyển dịch theo chiều tạo ester (tăng hiệu suất)."
+      },
+
+      /* MỨC ĐỘ 3: VẬN DỤNG CAO / TRÙM CUỐI */
+      {
+        id: 20, level: 3, skillType: 4,
+        q: "Chất X tác dụng với dung dịch NaOH vừa đủ, thu được 2 chất Y và Z. Cho Z tráng bạc thu được chất hữu cơ T. Cho T tác dụng NaOH lại thu được chất Y. Chất X là:",
+        options: ["CH_{3}COOCH=CH_{2}", "HCOOCH_{3}", "CH_{3}COOCH=CH-CH_{3}", "HCOOCH=CH_{2}"],
+        answer: 0,
+        hint: "Z tráng bạc sinh T, T + NaOH ra Y => Z là CH_{3}CHO, T là CH_{3}COONH_{4}, Y là CH_{3}COONa.",
+        explain: "CH_{3}COOCH=CH_{2} + NaOH -> CH_{3}COONa (Y) + CH_{3}CHO (Z). CH_{3}CHO tráng bạc -> CH_{3}COONH_{4} (T). CH_{3}COONH_{4} + NaOH -> CH_{3}COONa (Y) + NH_{3} + H_{2}O."
+      },
+      {
+        id: 21, level: 3, skillType: 4,
+        q: "Đun nóng 6,0 gam CH_{3}COOH (0,1 mol) với 6,0 gam C_{2}H_{5}OH (≈ 0,13 mol) có xúc tác H_{2}SO_{4} đặc với hiệu suất 50%. Khối lượng ester thu được là:",
+        options: ["8,8 gam", "4,4 gam", "6,0 gam", "5,2 gam"],
+        answer: 1,
+        hint: "Hiệu suất tính theo chất thiếu (CH_{3}COOH có 0,1 mol < 0,13 mol C_{2}H_{5}OH). m = 0,1 × 50% × 88.",
+        explain: "n_{acid} = 0,1 mol < n_{alcohol} ≈ 0,13 mol => Hiệu suất tính theo acid. n_{ester} = 0,1 × 50% = 0,05 mol => m = 0,05 × 88 = 4,4 gam."
+      },
+      {
+        id: 22, level: 3, skillType: 4,
+        q: "Thủy phân hoàn toàn 14,8 gam ester đơn chức X bằng NaOH dư thu được 16,4 gam muối Y và m gam alcohol Z. Giá trị của m là:",
+        options: ["6,4 gam", "4,6 gam", "3,2 gam", "9,2 gam"],
+        answer: 1,
+        hint: "Khối lượng muối (16,4g) > khối lượng ester (14,8g) => Khối lượng mol Na (23) > R'. Áp dụng tăng giảm khối lượng hoặc BTKL.",
+        explain: "Độ tăng khối lượng = 16,4 - 14,8 = 1,6 gam = n_{NaOH} × (23 - R'). Do đó n_{X} = 0,2 mol. M_{muối} = 16,4/0,2 = 82 (CH_{3}COONa) => M_{ester} = 14,8/0,2 = 74 (CH_{3}COOCH_{3} hoặc HCOOC_{2}H_{5}). Ở đây R=CH_{3}(15) => ester là CH_{3}COOCH_{3} (M=74), alcohol Z là CH_{3}OH: m = 0,2 × 32 = 6,4g. Tuy nhiên nếu tăng giảm khối lượng: 14,8g este C_{3}H_{6}O_{2} (0,2 mol) + 0,2*40(NaOH) = 16,4 + m_{ancol} => m_{ancol} = 14,8 + 8 - 16,4 = 6,4g (hoặc 4,6g nếu C_{4}H_{8}O_{2}). Theo đề bài: 14,8 + 8 - 16,4 = 6,4 gam."
+      },
+      {
+        id: 23, level: 3, skillType: 4,
+        q: "Aspirin (acid acetylsalicylic) dùng làm thuốc giảm đau hạ sốt được điều chế từ salicylic acid và chất nào sau đây?",
+        options: ["Acetic acid", "Acetic anhydride ((CH_{3}CO)_{2}O)", "Ethyl alcohol", "Methyl alcohol"],
+        answer: 1,
+        hint: "Nhóm -OH phenol của salicylic acid có tính phản ứng yếu, phải dùng acetic anhydride xúc tác acid.",
+        explain: "HOC_{6}H_{4}COOH + (CH_{3}CO)_{2}O -> CH_{3}COOC_{6}H_{4}COOH (Aspirin) + CH_{3}COOH."
+      },
+      {
+        id: 24, level: 3, skillType: 4,
+        q: "Ester X có công thức phân tử C_{4}H_{6}O_{2}. Khi thủy phân trong dung dịch NaOH thu được sản phẩm có khả năng tráng bạc. Có bao nhiêu công thức cấu tạo thỏa mãn X?",
+        options: ["2", "3", "4", "5"],
+        answer: 2,
+        hint: "Sản phẩm tráng bạc có thể do gốc acid là HCOO- hoặc do gốc alcohol sinh aldehyde/ketone.",
+        explain: "Các CTCT thỏa mãn: (1) HCOOCH=CH-CH_{3}, (2) HCOOC(CH_{3})=CH_{2}, (3) HCOOCH_{2}-CH=CH_{2}, (4) CH_{3}COOCH=CH_{2} (sinh CH_{3}CHO tráng bạc). Tổng cộng có 4 CTCT."
+      },
+      /* THÊM 16 CÂU HỎI MỚI CHUẨN XÁC TỪ TÀI LIỆU */
+      {
+        id: 25, level: 1, skillType: 1,
+        q: "Ester không no, chứa 1 liên kết C=C, đơn chức, mạch hở có công thức phân tử chung là:",
+        options: ["C_{n}H_{2n-2}O_{4} (n ≥ 3)", "C_{n}H_{2n}O_{2} (n ≥ 2)", "C_{n}H_{2n-4}O_{2} (n ≥ 3)", "C_{n}H_{2n-2}O_{2} (n ≥ 3)"],
+        answer: 3,
+        hint: "Bớt 2 nguyên tử H so với ester no đơn chức mạch hở C_{n}H_{2n}O_{2}.",
+        explain: "Ester không no có 1 liên kết C=C, đơn chức, mạch hở có độ bất bão hòa k = 2 (1 liên kết pi ở C=O và 1 liên kết pi ở C=C) nên CTPT là C_{n}H_{2n-2}O_{2} (n ≥ 3)."
+      },
+      {
+        id: 26, level: 1, skillType: 1,
+        q: "Tỉ khối hơi của một ester no, đơn chức X so với hydrogen là 30. Công thức phân tử của X là:",
+        options: ["C_{2}H_{4}O_{2}", "C_{3}H_{6}O_{2}", "C_{4}H_{8}O_{2}", "C_{5}H_{10}O_{2}"],
+        answer: 0,
+        hint: "M_{X} = 30 × 2 = 60 g/mol. Tìm n với 14n + 32 = 60.",
+        explain: "M_{X} = 30 × 2 = 60 => 14n + 32 = 60 => 14n = 28 => n = 2 => C_{2}H_{4}O_{2} (methyl formate HCOOCH_{3})."
+      },
+      {
+        id: 27, level: 1, skillType: 1,
+        q: "Công thức cấu tạo thu gọn của methyl acrylate là:",
+        options: ["CH_{3}COOC_{2}H_{5}", "CH_{2}=CHCOOCH_{3}", "C_{2}H_{5}COOCH_{3}", "CH_{3}COOCH_{3}"],
+        answer: 1,
+        hint: "Gốc acrylate là CH_{2}=CH-COO-, gốc methyl là -CH_{3}.",
+        explain: "Methyl acrylate = CH_{2}=CH-COO-CH_{3}."
+      },
+      {
+        id: 28, level: 1, skillType: 1,
+        q: "Thủy phân ester CH_{3}CH_{2}COOCH_{3} trong môi trường kiềm, alcohol thu được có công thức là:",
+        options: ["CH_{3}OH", "C_{2}H_{5}OH", "C_{3}H_{7}OH", "C_{3}H_{5}OH"],
+        answer: 0,
+        hint: "Phần đuôi alcohol sau nhóm -COO- là gốc methyl (-CH_{3}).",
+        explain: "CH_{3}CH_{2}COOCH_{3} + NaOH -> CH_{3}CH_{2}COONa + CH_{3}OH (methyl alcohol)."
+      },
+      {
+        id: 29, level: 1, skillType: 1,
+        q: "Ở điều kiện thích hợp, hai chất nào sau đây phản ứng với nhau tạo thành methyl acetate?",
+        options: ["CH_{3}COOH và CH_{3}OH", "HCOOH và CH_{3}OH", "HCOOH và C_{2}H_{5}OH", "CH_{3}COOH và C_{2}H_{5}OH"],
+        answer: 0,
+        hint: "Methyl acetate được tạo từ acetic acid và methyl alcohol.",
+        explain: "CH_{3}COOH + CH_{3}OH (H_{2}SO_{4} đ, t°) <-> CH_{3}COOCH_{3} + H_{2}O."
+      },
+      {
+        id: 30, level: 2, skillType: 2,
+        q: "Số ester có công thức phân tử C_{4}H_{8}O_{2} mà khi thủy phân trong môi trường acid thu được formic acid là:",
+        options: ["1", "2", "3", "4"],
+        answer: 1,
+        hint: "Ester tạo ra formic acid có dạng HCOO-R' với R' có 3 carbon (propyl và isopropyl).",
+        explain: "Có 2 ester thỏa mãn: HCOOCH_{2}CH_{2}CH_{3} (propyl formate) và HCOOCH(CH_{3})_{2} (isopropyl formate)."
+      },
+      {
+        id: 31, level: 2, skillType: 2,
+        q: "Xà phòng hóa ester nào sau đây thu được sản phẩm có khả năng tham gia phản ứng tráng bạc?",
+        options: ["Vinyl acetate", "Allyl propionate", "Ethyl acrylate", "Methyl methacrylate"],
+        answer: 0,
+        hint: "Ester này khi thủy phân sinh ra acetaldehyde (CH_{3}CHO) tráng bạc được.",
+        explain: "CH_{3}COOCH=CH_{2} + NaOH -> CH_{3}COONa + CH_{3}CHO (acetaldehyde có khả năng tráng bạc)."
+      },
+      {
+        id: 32, level: 2, skillType: 2,
+        q: "Ester X có công thức phân tử C_{4}H_{8}O_{2}. Thủy phân X trong NaOH dư thu được sodium propionate và alcohol Y. Công thức của Y là:",
+        options: ["C_{3}H_{5}(OH)_{3}", "C_{2}H_{5}OH", "C_{3}H_{7}OH", "CH_{3}OH"],
+        answer: 3,
+        hint: "Sodium propionate có 3 carbon (C_{2}H_{5}COONa), ester có 4 carbon nên alcohol Y có 1 carbon.",
+        explain: "Ester X là C_{2}H_{5}COOCH_{3} + NaOH -> C_{2}H_{5}COONa + CH_{3}OH (Y là methyl alcohol)."
+      },
+      {
+        id: 33, level: 2, skillType: 2,
+        q: "Ester X có công thức phân tử C_{2}H_{4}O_{2}. Đun nóng 9,0 gam X trong dung dịch NaOH vừa đủ thu được m gam muối. Giá trị của m là:",
+        options: ["8,2 gam", "15,0 gam", "12,3 gam", "10,2 gam"],
+        answer: 3,
+        hint: "X chỉ có thể là HCOOCH_{3} (M=60). n_{X} = 9/60 = 0,15 mol. Muối là HCOONa (M=68).",
+        explain: "n_{HCOOCH3} = 9/60 = 0,15 mol => n_{HCOONa} = 0,15 mol => m = 0,15 × 68 = 10,2 gam."
+      },
+      {
+        id: 34, level: 2, skillType: 3,
+        q: "Đốt cháy hoàn toàn 13,2 gam ethyl acetate (C_{4}H_{8}O_{2}, M=88) thu được V lít khí CO_{2} (đkc, 25°C, 1 bar). Giá trị của V là:",
+        options: ["3,7185 lít", "9,916 lít", "4,958 lít", "14,874 lít"],
+        answer: 3,
+        hint: "n_{ester} = 13,2 / 88 = 0,15 mol. n_{CO2} = 0,15 × 4 = 0,6 mol. V = 0,6 × 24,79.",
+        explain: "n_{ester} = 0,15 mol => n_{CO2} = 4 × 0,15 = 0,6 mol => V_{CO2(đkc)} = 0,6 × 24,79 = 14,874 lít."
+      },
+      {
+        id: 35, level: 2, skillType: 3,
+        q: "Đun nóng 24 gam acetic acid với lượng dư ethyl alcohol (xúc tác H_{2}SO_{4} đặc), thu được 26,4 gam ester. Hiệu suất của phản ứng ester hóa là:",
+        options: ["75%", "44%", "55%", "60%"],
+        answer: 0,
+        hint: "n_{acid} = 24/60 = 0,4 mol. n_{ester thu được} = 26,4/88 = 0,3 mol. H% = 0,3 / 0,4 × 100%.",
+        explain: "n_{CH3COOH} = 0,4 mol; n_{CH3COOC2H5 lý thuyết} = 0,4 mol => m_{lý thuyết} = 0,4 × 88 = 35,2 gam. H% = 26,4 / 35,2 = 75%."
+      },
+      {
+        id: 36, level: 2, skillType: 3,
+        q: "Xà phòng hóa hoàn toàn 3,7 gam HCOOC_{2}H_{5} (M=74) bằng dung dịch NaOH vừa đủ, cô cạn thu được m gam muối khan. Giá trị của m là:",
+        options: ["4,8 gam", "5,2 gam", "3,2 gam", "3,4 gam"],
+        answer: 3,
+        hint: "n = 3,7 / 74 = 0,05 mol. Muối là HCOONa (M=68). m = 0,05 × 68.",
+        explain: "n_{HCOOC2H5} = 0,05 mol => n_{HCOONa} = 0,05 mol => m = 0,05 × 68 = 3,4 gam."
+      },
+      {
+        id: 37, level: 3, skillType: 4,
+        q: "Thực hiện phản ứng ester hóa giữa oxalic acid (HOOC-COOH) với hỗn hợp CH_{3}OH và C_{2}H_{5}OH thu được tối đa bao nhiêu ester hai chức?",
+        options: ["3", "1", "2", "4"],
+        answer: 0,
+        hint: "Gồm ester đối xứng (-CH_{3}, -CH_{3}), (-C_{2}H_{5}, -C_{2}H_{5}) và ester hỗn tạp (-CH_{3}, -C_{2}H_{5}).",
+        explain: "Tối đa 3 ester hai chức: (COOCH_{3})_{2}, (COOC_{2}H_{5})_{2} và CH_{3}OOC-COOC_{2}H_{5}."
+      },
+      {
+        id: 38, level: 3, skillType: 4,
+        q: "Hợp chất hữu cơ mạch hở X (C_{5}H_{10}O) không phản ứng với Na, thỏa mãn: X + H_{2} (Ni, t°) -> Y; Y + CH_{3}COOH (H_{2}SO_{4} đ, t°) -> Ester có mùi chuối chín. Tên của X là:",
+        options: ["Pentanal", "2-methylbutanal", "2,2-dimethylpropanal", "3-methylbutanal"],
+        answer: 3,
+        hint: "Ester mùi chuối chín là isoamyl acetate, suy ra alcohol Y là isoamyl alcohol (3-methylbutan-1-ol).",
+        explain: "Isoamyl acetate = CH_{3}COOCH_{2}CH_{2}CH(CH_{3})_{2} => alcohol Y là (CH_{3})_{2}CHCH_{2}CH_{2}OH => aldehyde X tương ứng là (CH_{3})_{2}CHCH_{2}CHO (3-methylbutanal)."
+      },
+      {
+        id: 39, level: 3, skillType: 4,
+        q: "Cho sơ đồ phản ứng theo tỉ lệ mol: (1) X + 2NaOH -> X_{1} + X_{2} + X_{3}; (2) X_{1} + HCl -> X_{4} + NaCl; (3) X_{2} + HCl -> X_{5} + NaCl; (4) X_{3} + CuO -> X_{6} + Cu + H_{2}O. Biết X là C_{6}H_{10}O_{4} (hai chức ester); X_{1}, X_{2} đều có 2 carbon và M_{X1} < M_{X2}. Phân tử khối của X_{4} là:",
+        options: ["60", "74", "82", "90"],
+        answer: 0,
+        hint: "X_{1} là muối có 2C, tác dụng HCl sinh X_{4} (carboxylic acid có 2C, tức CH_{3}COOH).",
+        explain: "X_{1} là CH_{3}COONa => X_{4} là CH_{3}COOH (M = 60). X_{2} là HO-CH_{2}-COONa => X_{5} là HO-CH_{2}-COOH. X_{3} là C_{2}H_{5}OH => X_{6} là CH_{3}CHO."
+      },
+      {
+        id: 40, level: 3, skillType: 4,
+        q: "Thủy phân chất hữu cơ X trong dung dịch NaOH đun nóng thu được sản phẩm gồm 2 muối và ethyl alcohol. Chất X là:",
+        options: ["CH_{3}COOCH_{2}CH_{3}", "CH_{3}COOCH_{2}CH_{2}Cl", "ClCH_{2}COOC_{2}H_{5}", "CH_{3}COOCH(Cl)CH_{3}"],
+        answer: 2,
+        hint: "Gốc este sinh C_{2}H_{5}OH, nguyên tử clo ở gốc acid sẽ tác dụng tiếp với NaOH tạo thêm 1 muối NaCl.",
+        explain: "ClCH_{2}COOC_{2}H_{5} + 2NaOH -> HO-CH_{2}-COONa + NaCl (2 muối) + C_{2}H_{5}OH (ethyl alcohol)."
+      }
+    ];
+
+    /* ============================================================
+       2. HỆ THỐNG CÁC MÀN CHƠI (STAGES & BOSSES)
+       ============================================================ */
+    const STAGES = [
+      {
+        id: 1,
+        name: "Ải 1: Rừng Danh Pháp & Mùi Hương",
+        bg: "radial-gradient(circle at 50% 100%, #192a56 0%, #0c1022 100%)",
+        enemy: { name: "Slime Formate", icon: "🧪", hp: 100, maxHp: 100, atk: 15, affinity: "Gốc HCOO-", desc: "Quái dịch hữu cơ mang tính tráng bạc" }
+      },
+      {
+        id: 2,
+        name: "Ải 2: Thung Lũng Nhiệt Độ & Liên Kết",
+        bg: "radial-gradient(circle at 50% 100%, #2c3e50 0%, #0d1624 100%)",
+        enemy: { name: "Sói Băng Hydrogen", icon: "🐺", hp: 150, maxHp: 150, atk: 22, affinity: "Thiếu liên kết H", desc: "Tốc độ nhanh, nhiệt độ sôi thấp" }
+      },
+      {
+        id: 3,
+        name: "Ải 3: Hầm Ngục Thủy Phân & Đồng Phân",
+        bg: "radial-gradient(circle at 50% 100%, #401f4c 0%, #120a1c 100%)",
+        enemy: { name: "Thạch Quái NaOH Kiềm", icon: "🗿", hp: 200, maxHp: 200, atk: 28, affinity: "Xà phòng hóa", desc: "Thủy phân 1 chiều cực kỳ nguy hiểm" }
+      },
+      {
+        id: 4,
+        name: "Ải 4: Tháp Điều Chế & Hiệu Suất",
+        bg: "radial-gradient(circle at 50% 100%, #633318 0%, #1c0e06 100%)",
+        enemy: { name: "Hỏa Long H2SO4 Đặc", icon: "🐉", hp: 260, maxHp: 260, atk: 35, affinity: "Háo nước t°", desc: "Chuyển dịch cân bằng sang chiều hủy diệt" }
+      },
+      {
+        id: 5,
+        name: "ẢI CUỐI: ĐẠI CHIẾN BẠO CHÚA ESTER PHENOL",
+        bg: "radial-gradient(circle at 50% 100%, #581845 0%, #14040e 100%)",
+        enemy: { name: "Chúa Tể PolyEster Vận Dụng", icon: "👑", hp: 350, maxHp: 350, atk: 45, affinity: "Tỉ lệ 1:2 Phenolate", desc: "Trùm cuối sở hữu bí thuật ester đa chức & bẫy trắc nghiệm!" }
+      }
+    ];
+
+    /* ============================================================
+       3. TRẠNG THÁI TRÒ CHƠI (GAME STATE)
+       ============================================================ */
+    const state = {
+      soundEnabled: true,
+      playerName: "Dược Sĩ",
+      playerLvl: 1,
+      playerHp: 100,
+      playerMaxHp: 100,
+      playerMana: 50,
+      playerMaxMana: 50,
+      shieldActive: false,
+      potions: 2,
+      h2so4Hints: 2,
+      currentStageIndex: 0,
+      enemy: null,
+      isEnemyStunned: false,
+      turnPendingAction: null,
+      historyLogs: [], // Lưu câu hỏi đã làm
+      currentQuestion: null,
+      questionAnswered: false,
+      isTurnBusy: false // Quản lý lượt đánh
+    };
+
+    /* ============================================================
+       4. ÂM THANH BẰNG WEB AUDIO API (KHÔNG CẦN TẢI FILE NGOÀI)
+       ============================================================ */
+    let audioCtx = null;
+    function getAudioCtx() {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (audioCtx.state === "suspended") audioCtx.resume();
+      return audioCtx;
+    }
+
+    const SFX = {
+      attack() {
+        if (!state.soundEnabled) return;
+        try {
+          const ctx = getAudioCtx();
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = "sawtooth";
+          osc.frequency.setValueAtTime(320, ctx.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(80, ctx.currentTime + 0.18);
+          gain.gain.setValueAtTime(0.3, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.18);
+          osc.connect(gain); gain.connect(ctx.destination);
+          osc.start(); osc.stop(ctx.currentTime + 0.18);
+        } catch(_) {}
+      },
+      magic() {
+        if (!state.soundEnabled) return;
+        try {
+          const ctx = getAudioCtx();
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = "sine";
+          osc.frequency.setValueAtTime(440, ctx.currentTime);
+          osc.frequency.linearRampToValueAtTime(880, ctx.currentTime + 0.25);
+          gain.gain.setValueAtTime(0.25, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.25);
+          osc.connect(gain); gain.connect(ctx.destination);
+          osc.start(); osc.stop(ctx.currentTime + 0.25);
+        } catch(_) {}
+      },
+      correct() {
+        if (!state.soundEnabled) return;
+        try {
+          const ctx = getAudioCtx();
+          const now = ctx.currentTime;
+          [523.25, 659.25, 783.99, 1046.5].forEach((freq, i) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = "triangle";
+            osc.frequency.value = freq;
+            gain.gain.setValueAtTime(0.2, now + i * 0.08);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.08 + 0.2);
+            osc.connect(gain); gain.connect(ctx.destination);
+            osc.start(now + i * 0.08); osc.stop(now + i * 0.08 + 0.25);
+          });
+        } catch(_) {}
+      },
+      wrong() {
+        if (!state.soundEnabled) return;
+        try {
+          const ctx = getAudioCtx();
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = "sawtooth";
+          osc.frequency.setValueAtTime(150, ctx.currentTime);
+          osc.frequency.setValueAtTime(110, ctx.currentTime + 0.12);
+          gain.gain.setValueAtTime(0.3, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+          osc.connect(gain); gain.connect(ctx.destination);
+          osc.start(); osc.stop(ctx.currentTime + 0.3);
+        } catch(_) {}
+      },
+      shield() {
+        if (!state.soundEnabled) return;
+        try {
+          const ctx = getAudioCtx();
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = "sine";
+          osc.frequency.setValueAtTime(300, ctx.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(600, ctx.currentTime + 0.3);
+          gain.gain.setValueAtTime(0.2, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+          osc.connect(gain); gain.connect(ctx.destination);
+          osc.start(); osc.stop(ctx.currentTime + 0.3);
+        } catch(_) {}
+      },
+      levelUp() {
+        if (!state.soundEnabled) return;
+        try {
+          const ctx = getAudioCtx();
+          const now = ctx.currentTime;
+          [440, 554, 659, 880].forEach((freq, idx) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = "square";
+            osc.frequency.value = freq;
+            gain.gain.setValueAtTime(0.15, now + idx * 0.1);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.1 + 0.3);
+            osc.connect(gain); gain.connect(ctx.destination);
+            osc.start(now + idx * 0.1); osc.stop(now + idx * 0.1 + 0.35);
+          });
+        } catch(_) {}
+      }
+    };
+
+    /* ============================================================
+       5. FORMAT HÓA CÔNG THỨC HÓA HỌC (CHỈ SỐ DƯỚI)
+       ============================================================ */
+    function formatFormula(text) {
+      if (!text) return "";
+      // Đổi C_{n}H_{2n}O_{2} thành C<sub>n</sub>H<sub>2n</sub>O<sub>2</sub>
+      let formatted = text.replace(/_\{([^}]+)\}/g, "<sub>$1</sub>");
+      // Đổi công thức số thông thường như C2H5OH, CH3COOH, H2SO4
+      formatted = formatted.replace(/([A-Za-z\)])([0-9]+)/g, "$1<sub>$2</sub>");
+      return formatted;
+    }
+
+    /* ============================================================
+       6. LOGIC TRẬN ĐẤU & ĐIỀU KHIỂN
+       ============================================================ */
+    function initGame() {
+      const nameInput = document.getElementById("playerName").value.trim();
+      const classInput = document.getElementById("playerClass").value.trim();
+      state.playerName = nameInput || "Hiệp Sĩ";
+      state.playerClass = classInput || "12A1";
+
+      // Lưu lại tên và lớp vào localStorage để lần sau vào tự nhớ
+      try {
+        localStorage.setItem("esterQuest_lastPlayerName", state.playerName);
+        localStorage.setItem("esterQuest_lastPlayerClass", state.playerClass);
+      } catch(e) {}
+
+      state.playerLvl = 1;
+      state.playerHp = 100;
+      state.playerMaxHp = 100;
+      state.playerMana = 50;
+      state.playerMaxMana = 50;
+      state.shieldActive = false;
+      state.potions = 2;
+      state.h2so4Hints = 2;
+      state.currentStageIndex = 0;
+      state.historyLogs = [];
+      state.isTurnBusy = false;
+      state.questionAnswered = false;
+      state.turnPendingAction = null;
+
+      document.getElementById("menuScreen").style.display = "none";
+      document.getElementById("endGameScreen").style.display = "none";
+      document.getElementById("battleScreen").style.display = "flex";
+
+      document.getElementById("playerDisplayName").textContent = state.playerName;
+      loadStage(0);
+      updateUI();
+    }
+
+    function loadStage(index) {
+      state.currentStageIndex = index;
+      const stage = STAGES[index];
+      state.enemy = JSON.parse(JSON.stringify(stage.enemy));
+      state.isEnemyStunned = false;
+      state.isTurnBusy = false;
+      state.questionAnswered = false;
+      state.turnPendingAction = null;
+
+      document.getElementById("stageTitle").textContent = stage.name;
+      document.getElementById("stageProgress").textContent = `Tiến trình: Ải ${index + 1} / ${STAGES.length}`;
+      document.getElementById("arenaBg").style.background = stage.bg;
+
+      document.getElementById("enemyName").textContent = state.enemy.name;
+      document.getElementById("enemySprite").textContent = state.enemy.icon;
+      document.getElementById("enemyAffinity").textContent = state.enemy.affinity;
+
+      setNarrator("⚔️", `Bạn đã bước vào ${stage.name}. Hãy chọn chiêu thức để giao chiến!`);
+      updateUI();
+    }
+
+    function updateUI() {
+      // Player HP & Mana
+      const hpPct = Math.max(0, Math.min(100, (state.playerHp / state.playerMaxHp) * 100));
+      const manaPct = Math.max(0, Math.min(100, (state.playerMana / state.playerMaxMana) * 100));
+      document.getElementById("playerHpBar").style.width = hpPct + "%";
+      document.getElementById("playerHpText").textContent = `${Math.ceil(state.playerHp)}/${state.playerMaxHp}`;
+      document.getElementById("playerManaBar").style.width = manaPct + "%";
+      document.getElementById("playerManaText").textContent = `${Math.ceil(state.playerMana)}/${state.playerMaxMana}`;
+      document.getElementById("playerLvlDisplay").textContent = `Lv.${state.playerLvl}`;
+
+      // Enemy HP
+      if (state.enemy) {
+        const eHpPct = Math.max(0, Math.min(100, (state.enemy.hp / state.enemy.maxHp) * 100));
+        document.getElementById("enemyHpBar").style.width = eHpPct + "%";
+        document.getElementById("enemyHpText").textContent = `${Math.ceil(state.enemy.hp)}/${state.enemy.maxHp}`;
+      }
+
+      // Items
+      document.getElementById("potionCount").textContent = state.potions;
+      document.getElementById("itemPotion").classList.toggle("out", state.potions <= 0);
+      document.getElementById("h2so4Count").textContent = state.h2so4Hints;
+      document.getElementById("itemH2SO4").classList.toggle("out", state.h2so4Hints <= 0);
+
+      // Turn busy visual indicator
+      const skillsPanel = document.querySelector(".skills-panel");
+      if (skillsPanel) skillsPanel.classList.toggle("turn-busy", state.isTurnBusy);
+
+      // Skill mana availability
+      document.getElementById("skillAcidStrike").classList.toggle("disabled", state.isTurnBusy);
+      document.getElementById("skillEsterFlare").classList.toggle("disabled", state.isTurnBusy || state.playerMana < 20);
+      document.getElementById("skillSolventShield").classList.toggle("disabled", state.isTurnBusy || state.playerMana < 15);
+      document.getElementById("skillSaponification").classList.toggle("disabled", state.isTurnBusy || state.playerMana < 35);
+      document.getElementById("manaHint").textContent = state.isTurnBusy ? "Đang thi triển..." : `Năng lượng: ${Math.ceil(state.playerMana)} MP`;
+
+      // Shield visual
+      document.getElementById("playerCombatant").classList.toggle("shielded", state.shieldActive);
+    }
+
+    function setNarrator(icon, text) {
+      document.getElementById("narratorIcon").textContent = icon;
+      document.getElementById("narratorText").textContent = text;
+    }
+
+    function spawnFloatingText(targetEl, text, color = "#ffd154") {
+      const ft = document.createElement("div");
+      ft.className = "floating-text";
+      ft.textContent = text;
+      ft.style.color = color;
+      targetEl.appendChild(ft);
+      setTimeout(() => ft.remove(), 1200);
+    }
+
+    /* Kỹ năng người chơi */
+    function castSkill(skillId) {
+      // Chặn nếu đang trong lượt hoạt họa hoặc đang mở câu hỏi
+      if (state.isTurnBusy) return;
+
+      if (skillId === 2 && state.playerMana < 20) {
+        setNarrator("⚠️", "Bạn không đủ MP để thi triển Hỏa Cầu Este Hóa! Hãy dùng Đòn Axit để nạp thêm MP.");
+        return;
+      }
+      if (skillId === 3 && state.playerMana < 15) {
+        setNarrator("⚠️", "Bạn không đủ MP để tạo Khiên Dung Môi! Hãy dùng Đòn Axit để nạp thêm MP.");
+        return;
+      }
+      if (skillId === 4 && state.playerMana < 35) {
+        setNarrator("⚠️", "Bạn không đủ MP để thi triển Tuyệt Kỹ Xà Phòng Hóa! Hãy dùng Đòn Axit để nạp thêm MP.");
+        return;
+      }
+
+      // Đánh dấu đang bận lượt
+      state.isTurnBusy = true;
+      updateUI();
+
+      // Xác định câu hỏi theo loại kỹ năng
+      let targetLevel = 1;
+      let skillName = "";
+      if (skillId === 1) { targetLevel = 1; skillName = "🗡️ Đòn Axit Cơ Bản (35 ST)"; }
+      else if (skillId === 2) { targetLevel = 2; skillName = "🔥 Hỏa Cầu Este Hóa (75 ST)"; }
+      else if (skillId === 3) { targetLevel = 2; skillName = "🛡️ Khiên Dung Môi (+35 HP & Chặn đòn)"; }
+      else if (skillId === 4) { targetLevel = 3; skillName = "⚡ Bão Xà Phòng Hóa (150 ST & Gây Choáng)"; }
+
+      // Lọc câu hỏi chưa làm thuộc độ khó tương ứng (hoặc ngẫu nhiên nếu đã hết)
+      const unasked = QUESTION_BANK.filter(q => q.level === targetLevel && !state.historyLogs.some(h => h.id === q.id));
+      const pool = unasked.length > 0 ? unasked : QUESTION_BANK.filter(q => q.level === targetLevel);
+      const chosenQuestion = pool[Math.floor(Math.random() * pool.length)];
+
+      state.turnPendingAction = { skillId, skillName };
+      openQuestionModal(chosenQuestion, targetLevel, skillName);
+    }
+
+    function openQuestionModal(q, level, skillName) {
+      state.currentQuestion = q;
+      state.questionAnswered = false;
+
+      const modal = document.getElementById("questionModal");
+      const badge = document.getElementById("qBadge");
+      badge.textContent = level === 1 ? "⭐ Mức độ Nhận Biết" : (level === 2 ? "⭐⭐ Mức độ Thông Hiểu" : "⭐⭐⭐ Mức độ Vận Dụng");
+      document.getElementById("qSkillName").textContent = skillName;
+      document.getElementById("qText").innerHTML = formatFormula(q.q);
+
+      // Render options
+      const optContainer = document.getElementById("qOptions");
+      optContainer.innerHTML = "";
+      const letters = ["A", "B", "C", "D"];
+      q.options.forEach((opt, idx) => {
+        const btn = document.createElement("button");
+        btn.className = "option-btn";
+        btn.id = `optBtn_${idx}`;
+        btn.innerHTML = `<span class="option-tag">${letters[idx]}</span> <span>${formatFormula(opt)}</span>`;
+        btn.onclick = () => selectAnswer(idx);
+        optContainer.appendChild(btn);
+      });
+
+      // Reset feedback and hint
+      document.getElementById("qFeedbackBox").style.display = "none";
+      document.getElementById("qHintBox").style.display = "none";
+      document.getElementById("btnContinueTurn").style.display = "none";
+      document.getElementById("btnUseHint").disabled = (state.h2so4Hints <= 0);
+      document.getElementById("btnUseHint").textContent = `💡 Xem Gợi Ý (-1 Xúc Tác H2SO4: còn ${state.h2so4Hints})`;
+
+      modal.style.display = "flex";
+    }
+
+    function triggerHint() {
+      if (state.h2so4Hints <= 0 || !state.currentQuestion) return;
+      state.h2so4Hints--;
+      updateUI();
+      document.getElementById("btnUseHint").disabled = true;
+      document.getElementById("btnUseHint").textContent = `💡 Đã mở gợi ý (còn ${state.h2so4Hints})`;
+
+      // Hiện gợi ý
+      const hintBox = document.getElementById("qHintBox");
+      hintBox.innerHTML = `<strong>Gợi ý hóa học:</strong> ${formatFormula(state.currentQuestion.hint)}`;
+      hintBox.style.display = "block";
+
+      // Loại bỏ 1 đáp án sai (trợ giúp 50/50 nhẹ)
+      const wrongIndices = [0, 1, 2, 3].filter(i => i !== state.currentQuestion.answer);
+      const eliminateIdx = wrongIndices[Math.floor(Math.random() * wrongIndices.length)];
+      const elBtn = document.getElementById(`optBtn_${eliminateIdx}`);
+      if (elBtn) elBtn.classList.add("dimmed");
+    }
+
+    function selectAnswer(chosenIdx) {
+      if (state.questionAnswered) return;
+      state.questionAnswered = true;
+
+      const q = state.currentQuestion;
+      const isCorrect = (chosenIdx === q.answer);
+
+      // Ghi nhận nhật ký
+      state.historyLogs.push({
+        id: q.id,
+        q: q.q,
+        chosen: q.options[chosenIdx],
+        correctAnswer: q.options[q.answer],
+        isCorrect: isCorrect,
+        explain: q.explain
+      });
+
+      // Highlight options
+      const chosenBtn = document.getElementById(`optBtn_${chosenIdx}`);
+      const correctBtn = document.getElementById(`optBtn_${q.answer}`);
+
+      if (isCorrect) {
+        chosenBtn.classList.add("selected-correct");
+        SFX.correct();
+      } else {
+        chosenBtn.classList.add("selected-wrong");
+        correctBtn.classList.add("selected-correct");
+        SFX.wrong();
+      }
+
+      // Hiện feedback giải thích
+      const fbBox = document.getElementById("qFeedbackBox");
+      const fbTitle = document.getElementById("qFeedbackTitle");
+      const fbDesc = document.getElementById("qFeedbackDesc");
+
+      fbBox.className = `feedback-box ${isCorrect ? 'correct' : 'wrong'}`;
+      fbTitle.textContent = isCorrect ? "✅ CHÍNH XÁC! CHIÊU THỨC KÍCH HOẠT!" : "❌ SAI RỒI! CHIÊU THỨC BỊ PHẢN VẬN!";
+      fbDesc.innerHTML = `<strong>Lời giải:</strong> ${formatFormula(q.explain)}`;
+      fbBox.style.display = "block";
+
+      document.getElementById("btnContinueTurn").style.display = "inline-block";
+      state.turnPendingAction.isCorrect = isCorrect;
+    }
+
+    function resolveTurnAction() {
+      document.getElementById("questionModal").style.display = "none";
+      const action = state.turnPendingAction;
+      if (!action) return;
+
+      const playerEl = document.getElementById("playerCombatant");
+      const enemyEl = document.getElementById("enemyCombatant");
+
+      if (action.isCorrect) {
+        // Thực thi kỹ năng thành công
+        if (action.skillId === 1) { // Basic
+          state.playerMana = Math.min(state.playerMaxMana, state.playerMana + 10);
+          playerEl.classList.add("attacking");
+          SFX.attack();
+          setTimeout(() => {
+            playerEl.classList.remove("attacking");
+            dealDamageToEnemy(35, "35 SÁT THƯƠNG!");
+          }, 250);
+        } else if (action.skillId === 2) { // Fire
+          state.playerMana -= 20;
+          playerEl.classList.add("attacking");
+          SFX.magic();
+          setTimeout(() => {
+            playerEl.classList.remove("attacking");
+            dealDamageToEnemy(75, "CRITICAL! 75 ST 🔥");
+          }, 250);
+        } else if (action.skillId === 3) { // Shield
+          state.playerMana -= 15;
+          state.playerHp = Math.min(state.playerMaxHp, state.playerHp + 35);
+          state.shieldActive = true;
+          SFX.shield();
+          spawnFloatingText(playerEl, "+35 HP 🛡️", "#2ed573");
+          setNarrator("🛡️", "Bạn đã tạo Khiên Dung Môi! Hồi 35 HP và miễn nhiễm đòn tấn công tiếp theo!");
+          updateUI();
+          setTimeout(enemyTurn, 1000);
+        } else if (action.skillId === 4) { // Ultimate
+          state.playerMana -= 35;
+          state.isEnemyStunned = true;
+          playerEl.classList.add("attacking");
+          SFX.magic();
+          setTimeout(() => {
+            playerEl.classList.remove("attacking");
+            dealDamageToEnemy(150, "BÃO XÀ PHÒNG! 150 ST ⚡");
+            setNarrator("⚡", "Quái vật bị Xà phòng hóa cực mạnh và Choáng 1 lượt!");
+          }, 250);
+        }
+      } else {
+        // Trả lời sai -> Phản phệ
+        setNarrator("💥", "Câu trả lời sai! Kỹ năng phát nổ làm bạn mất 10 HP!");
+        playerEl.classList.add("damaged");
+        state.playerHp = Math.max(0, state.playerHp - 10);
+        spawnFloatingText(playerEl, "-10 HP", "#ff4757");
+        setTimeout(() => playerEl.classList.remove("damaged"), 400);
+        updateUI();
+
+        if (state.playerHp <= 0) {
+          handleGameOver(false);
+          return;
+        }
+
+        setTimeout(enemyTurn, 1200);
+      }
+    }
+
+    function dealDamageToEnemy(dmg, floatMsg) {
+      const enemyEl = document.getElementById("enemyCombatant");
+      enemyEl.classList.add("damaged");
+      state.enemy.hp = Math.max(0, state.enemy.hp - dmg);
+      spawnFloatingText(enemyEl, floatMsg, "#ffd154");
+      updateUI();
+
+      setTimeout(() => {
+        enemyEl.classList.remove("damaged");
+        if (state.enemy.hp <= 0) {
+          handleEnemyDefeated();
+        } else {
+          setTimeout(enemyTurn, 800);
+        }
+      }, 450);
+    }
+
+    function enemyTurn() {
+      if (state.enemy.hp <= 0 || state.playerHp <= 0) {
+        state.isTurnBusy = false;
+        state.questionAnswered = false;
+        updateUI();
+        return;
+      }
+
+      const enemyEl = document.getElementById("enemyCombatant");
+      const playerEl = document.getElementById("playerCombatant");
+
+      if (state.isEnemyStunned) {
+        state.isEnemyStunned = false;
+        setNarrator("💫", `${state.enemy.name} đang bị Choáng nên không thể hành động! Đến lượt bạn!`);
+        state.isTurnBusy = false;
+        state.questionAnswered = false;
+        state.turnPendingAction = null;
+        updateUI();
+        return;
+      }
+
+      setNarrator("⚠️", `${state.enemy.name} đang phản công!`);
+      enemyEl.classList.add("enemy-attacking");
+      SFX.attack();
+
+      setTimeout(() => {
+        enemyEl.classList.remove("enemy-attacking");
+
+        if (state.shieldActive) {
+          state.shieldActive = false;
+          SFX.shield();
+          spawnFloatingText(playerEl, "KHIÊN CHẶN ĐÒN!", "#00d2d3");
+          setNarrator("🛡️", "Khiên Dung Môi đã vô hiệu hóa hoàn toàn đòn đánh của quái vật!");
+        } else {
+          const enemyDmg = state.enemy.atk;
+          playerEl.classList.add("damaged");
+          state.playerHp = Math.max(0, state.playerHp - enemyDmg);
+          spawnFloatingText(playerEl, `-${enemyDmg} HP`, "#ff4757");
+          setTimeout(() => playerEl.classList.remove("damaged"), 400);
+
+          if (state.playerHp <= 0) {
+            updateUI();
+            handleGameOver(false);
+            return;
+          }
+        }
+
+        updateUI();
+        setTimeout(() => {
+          setNarrator("⚔️", "Đến lượt của bạn! Hãy chọn chiêu thức thích hợp.");
+          state.isTurnBusy = false;
+          state.questionAnswered = false;
+          state.turnPendingAction = null;
+          updateUI();
+        }, 600);
+      }, 350);
+    }
+
+    function handleEnemyDefeated() {
+      SFX.levelUp();
+      setNarrator("🎉", `Bạn đã tiêu diệt thành công ${state.enemy.name}!`);
+
+      // Thưởng EXP và hồi phục nhẹ
+      state.playerLvl++;
+      state.playerMaxHp += 20;
+      state.playerHp = state.playerMaxHp;
+      state.playerMaxMana += 15;
+      state.playerMana = state.playerMaxMana;
+      state.potions = Math.min(3, state.potions + 1);
+      state.h2so4Hints = Math.min(3, state.h2so4Hints + 1);
+
+      updateUI();
+
+      setTimeout(() => {
+        if (state.currentStageIndex + 1 < STAGES.length) {
+          loadStage(state.currentStageIndex + 1);
+        } else {
+          handleGameOver(true);
+        }
+      }, 1600);
+    }
+
+    function usePotion() {
+      if (state.potions <= 0) return;
+      if (state.playerHp >= state.playerMaxHp) {
+        setNarrator("💧", "Máu của bạn đã đầy, không cần dùng Bình Nước Cất!");
+        return;
+      }
+      state.potions--;
+      state.playerHp = Math.min(state.playerMaxHp, state.playerHp + 45);
+      SFX.shield();
+      spawnFloatingText(document.getElementById("playerCombatant"), "+45 HP 💧", "#2ed573");
+      setNarrator("🧪", "Bạn uống Bình Nước Cất hồi 45 HP!");
+      updateUI();
+    }
+
+    function handleGameOver(isWin) {
+      document.getElementById("battleScreen").style.display = "none";
+      const endScreen = document.getElementById("endGameScreen");
+      const title = document.getElementById("endTitle");
+      const subtitle = document.getElementById("endSubtitle");
+
+      const totalDone = state.historyLogs.length;
+      const correctDone = state.historyLogs.filter(h => h.isCorrect).length;
+      const acc = totalDone > 0 ? Math.round((correctDone / totalDone) * 100) : 0;
+
+      if (isWin) {
+        title.className = "end-title win";
+        title.textContent = "🏆 PHÁ ĐẢO VƯƠNG QUỐC ESTER!";
+        subtitle.textContent = "Chúc mừng bạn đã hoàn thành xuất sắc toàn bộ 5 Ải Thử Thách Hóa Học!";
+      } else {
+        title.className = "end-title lose";
+        title.textContent = "💀 BẠN ĐÃ THẤT THỦ!";
+        subtitle.textContent = "Đừng nản lòng! Hãy ôn lại bí kíp kiến thức Ester và phục thù nhé!";
+      }
+
+      document.getElementById("statPlayerName").textContent = `${state.playerName} (${state.playerClass || '12A1'})`;
+      document.getElementById("statAccuracy").textContent = `${acc}%`;
+      document.getElementById("statCorrectCount").textContent = `${correctDone} / ${totalDone}`;
+      
+      // Ghi nhận vào Bảng Xếp Hạng & Lịch Sử
+      recordMatchResult(isWin);
+
+      let rank = "Học Viên Tập Sự";
+      if (acc >= 90 && isWin) rank = "Bậc Thầy Giả Kim (Hóa 10/10)";
+      else if (acc >= 75) rank = "Chiến Binh Ester Tinh Anh";
+      else if (acc >= 50) rank = "Dược Sĩ Thủy Phân";
+      document.getElementById("statTitle").textContent = rank;
+
+      endScreen.style.display = "flex";
+    }
+
+    function restartGame() {
+      initGame();
+    }
+
+    /* Modal Sổ tay & Review */
+    function openCodex() { document.getElementById("codexModal").style.display = "flex"; }
+    function closeCodex() { document.getElementById("codexModal").style.display = "none"; }
+
+    function openReviewModal() {
+      const list = document.getElementById("reviewList");
+      list.innerHTML = "";
+
+      if (state.historyLogs.length === 0) {
+        list.innerHTML = "<div style='color:var(--text-muted); text-align:center;'>Chưa có câu hỏi nào được thực hiện.</div>";
+      } else {
+        state.historyLogs.forEach((item, i) => {
+          const card = document.createElement("div");
+          card.style.background = "#141e38";
+          card.style.border = `1px solid ${item.isCorrect ? '#2ed573' : '#ff4757'}`;
+          card.style.borderRadius = "10px";
+          card.style.padding = "12px 16px";
+          card.style.fontSize = "14px";
+          card.style.lineHeight = "1.5";
+          card.innerHTML = `
+            <div style="font-weight:700; color:${item.isCorrect ? '#2ed573' : '#ff4757'}; margin-bottom:4px;">
+              Câu ${i + 1}: ${item.isCorrect ? '✅ Trả lời đúng' : '❌ Trả lời sai'}
+            </div>
+            <div style="font-weight:600; margin-bottom:6px; color:#fff;">${formatFormula(item.q)}</div>
+            <div style="font-size:13px; color:var(--text-muted);">Bạn chọn: <strong style="color:#fff;">${formatFormula(item.chosen)}</strong></div>
+            <div style="font-size:13px; color:var(--success);">Đáp án đúng: <strong>${formatFormula(item.correctAnswer)}</strong></div>
+            <div style="font-size:13px; color:#ffeaa7; margin-top:6px; border-top:1px dashed #283a66; padding-top:6px;">
+              💡 <strong>Giải thích:</strong> ${formatFormula(item.explain)}
+            </div>
+          `;
+          list.appendChild(card);
+        });
+      }
+
+      document.getElementById("reviewModal").style.display = "flex";
+    }
+    function closeReviewModal() { document.getElementById("reviewModal").style.display = "none"; }
+
+
+    /* ============================================================
+       HỆ THỐNG LƯU TRỮ LỊCH SỬ & BẢNG XẾP HẠNG (LOCALSTORAGE & GOOGLE SHEETS)
+       ============================================================ */
+    // Link Google Apps Script nếu giáo viên muốn nhận điểm online (Tùy chọn):
+    let GOOGLE_SHEET_API = "";
+
+    function getSheetApiUrl() {
+      return localStorage.getItem("esterQuest_sheetApi") || GOOGLE_SHEET_API || "";
+    }
+
+    function loadBoardHistory() {
+      try {
+        return JSON.parse(localStorage.getItem("esterQuest_history") || "[]");
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function saveBoardHistory(list) {
+      try {
+        localStorage.setItem("esterQuest_history", JSON.stringify(list));
+      } catch (e) {}
+    }
+
+    let onlineBoardData = null; // Cache dữ liệu online
+
+    async function recordMatchResult(isWin) {
+      const totalDone = state.historyLogs.length;
+      const correctDone = state.historyLogs.filter(h => h.isCorrect).length;
+      const acc = totalDone > 0 ? Math.round((correctDone / totalDone) * 100) : 0;
+      
+      // Công thức tính điểm: Mỗi câu đúng = 100đ, mỗi ải qua = 200đ, máu còn lại = HP x 2
+      const totalScore = (correctDone * 100) + ((isWin ? 5 : state.currentStageIndex) * 200) + Math.max(0, Math.ceil(state.playerHp) * 2);
+
+      const entry = {
+        name: state.playerName || "Hiệp Sĩ",
+        lop: (state.playerClass || "12A1").toUpperCase(),
+        score: totalScore,
+        correct: correctDone,
+        total: totalDone,
+        accuracy: acc,
+        stage: isWin ? "Phá Đảo Ải 5 👑" : `Dừng ở Ải ${state.currentStageIndex + 1}`,
+        isWin: isWin,
+        date: new Date().toLocaleString("vi-VN", {
+          hour: "2-digit",
+          minute: "2-digit",
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric"
+        })
+      };
+
+      // 1. Luôn lưu vào máy này (Offline / Local)
+      const history = loadBoardHistory();
+      history.unshift(entry);
+      if (history.length > 100) history.pop();
+      saveBoardHistory(history);
+
+      // 2. Gửi đồng bộ lên Google Sheet nếu có cấu hình
+      const apiUrl = getSheetApiUrl();
+      if (apiUrl) {
+        try {
+          fetch(apiUrl, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
+            body: JSON.stringify(entry)
+          }).then(() => {
+            console.log("Đã gửi điểm lên Google Sheet online!");
+          }).catch(e => console.warn("Lỗi gửi điểm online:", e));
+        } catch(_) {}
+      }
+    }
+
+    let currentBxhTab = 'top'; // 'top' | 'history'
+
+    async function fetchOnlineLeaderboard() {
+      const apiUrl = getSheetApiUrl();
+      if (!apiUrl) return null;
+
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 8000);
+        const res = await fetch(apiUrl, { signal: controller.signal });
+        clearTimeout(timeoutId);
+        const data = await res.json();
+        if (data && data.ok && Array.isArray(data.list)) {
+          return data.list;
+        }
+      } catch (err) {
+        console.warn("Không kết nối được Google Sheet online:", err);
+      }
+      return null;
+    }
+
+    async function openLeaderboard() {
+      document.getElementById("leaderboardModal").style.display = "flex";
+      const apiUrl = getSheetApiUrl();
+      document.getElementById("inputSheetApi").value = apiUrl;
+
+      await refreshLeaderboardData();
+    }
+
+    async function refreshLeaderboardData() {
+      const apiUrl = getSheetApiUrl();
+      const statusEl = document.getElementById("bxhStatusText");
+
+      if (apiUrl) {
+        statusEl.textContent = "⏳ Đang đồng bộ từ Google Sheet...";
+        const onlineList = await fetchOnlineLeaderboard();
+        if (onlineList) {
+          onlineBoardData = onlineList;
+          statusEl.textContent = `🟢 Online (${onlineList.length} lượt chơi toàn trường)`;
+        } else {
+          statusEl.textContent = "⚠️ Mất kết nối online, dùng dữ liệu máy";
+        }
+      } else {
+        statusEl.textContent = "💾 Chế độ: Lưu nội bộ trên máy";
+      }
+
+      populateClassFilter();
+      renderLeaderboardTable();
+    }
+
+    function closeLeaderboard() {
+      document.getElementById("leaderboardModal").style.display = "none";
+      document.getElementById("onlineConfigPanel").style.display = "none";
+    }
+
+    function toggleOnlineConfig() {
+      const panel = document.getElementById("onlineConfigPanel");
+      panel.style.display = (panel.style.display === "none" || !panel.style.display) ? "block" : "none";
+    }
+
+    function saveOnlineConfig() {
+      const inputVal = document.getElementById("inputSheetApi").value.trim();
+      if (inputVal) {
+        localStorage.setItem("esterQuest_sheetApi", inputVal);
+        alert("✅ Đã lưu liên kết Google Sheet! Đang tải lại Bảng Xếp Hạng online...");
+      } else {
+        localStorage.removeItem("esterQuest_sheetApi");
+        alert("Đã xóa liên kết online, trở về chế độ lưu nội bộ.");
+      }
+      toggleOnlineConfig();
+      refreshLeaderboardData();
+    }
+
+    function switchBxhTab(tab) {
+      currentBxhTab = tab;
+      document.getElementById("tabTopPlayers").classList.toggle("active", tab === 'top');
+      document.getElementById("tabMyHistory").classList.toggle("active", tab === 'history');
+      renderLeaderboardTable();
+    }
+
+    function populateClassFilter() {
+      const sourceList = (currentBxhTab === 'top' && onlineBoardData) ? onlineBoardData : loadBoardHistory();
+      const classes = Array.from(new Set(sourceList.map(h => (h.lop || "12A1").toUpperCase()))).filter(Boolean);
+      const select = document.getElementById("filterClassSelect");
+      const currentVal = select.value;
+      select.innerHTML = '<option value="ALL">Tất cả các lớp</option>';
+      classes.forEach(c => {
+        const opt = document.createElement("option");
+        opt.value = c;
+        opt.textContent = `Lớp ${c}`;
+        if (c === currentVal) opt.selected = true;
+        select.appendChild(opt);
+      });
+    }
+
+    function renderLeaderboardTable() {
+      const tbody = document.getElementById("bxhTableBody");
+      tbody.innerHTML = "";
+      const filterClass = document.getElementById("filterClassSelect").value;
+
+      let list = [];
+      if (currentBxhTab === 'top') {
+        // Nếu có online data thì dùng online data (đồng bộ mọi máy), không thì dùng local
+        list = onlineBoardData ? [...onlineBoardData] : loadBoardHistory();
+        // Sắp xếp theo điểm số cao nhất -> tỉ lệ đúng
+        list.sort((a, b) => (Number(b.score) || 0) - (Number(a.score) || 0) || (Number(b.accuracy) || 0) - (Number(a.accuracy) || 0));
+      } else {
+        // Lịch sử máy này
+        list = loadBoardHistory();
+      }
+
+      if (filterClass !== "ALL") {
+        list = list.filter(item => (item.lop || "").toUpperCase() === filterClass);
+      }
+
+      if (list.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:30px; color:var(--text-muted);">
+          Chưa có dữ liệu thi đấu. Hãy tham gia trận chiến để ghi danh nhé!
+        </td></tr>`;
+        return;
+      }
+
+      list.forEach((item, idx) => {
+        const tr = document.createElement("tr");
+        let rankBadge = `<span class="rank-tag">${idx + 1}</span>`;
+        if (idx === 0) rankBadge = `<span class="rank-tag rank-1">🥇</span>`;
+        else if (idx === 1) rankBadge = `<span class="rank-tag rank-2">🥈</span>`;
+        else if (idx === 2) rankBadge = `<span class="rank-tag rank-3">🥉</span>`;
+
+        tr.innerHTML = `
+          <td>${rankBadge}</td>
+          <td style="font-weight:700; color:#fff;">${item.name}</td>
+          <td><span style="background:#1e293b; padding:2px 8px; border-radius:6px; font-weight:700; color:var(--accent);">${item.lop}</span></td>
+          <td style="font-weight:800; color:#ffd154; font-family:var(--font-rpg); font-size:15px;">${item.score} đ</td>
+          <td style="color:${(item.accuracy || 0) >= 70 ? 'var(--success)' : 'var(--text-muted)'}; font-weight:700;">${item.correct}/${item.total} (${item.accuracy}%)</td>
+          <td><span style="font-size:12px; color:${item.isWin ? '#2ed573' : '#a4b0be'};">${item.stage}</span></td>
+          <td style="font-size:11px; color:var(--text-muted);">${item.date}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function clearAllHistory() {
+      if (confirm("Bạn có chắc chắn muốn xóa lịch sử thi đấu đã lưu trên máy này không?")) {
+        localStorage.removeItem("esterQuest_history");
+        onlineBoardData = null;
+        renderLeaderboardTable();
+      }
+    }
+
+    function returnToHome() {
+      if (state.currentStageIndex >= 0 && document.getElementById("battleScreen").style.display === "flex") {
+        if (!confirm("Bạn có chắc chắn muốn rời trận chiến và trở về Trang Chủ không?")) {
+          return;
+        }
+      }
+      document.getElementById("battleScreen").style.display = "none";
+      document.getElementById("endGameScreen").style.display = "none";
+      document.getElementById("questionModal").style.display = "none";
+      document.getElementById("codexModal").style.display = "none";
+      document.getElementById("leaderboardModal").style.display = "none";
+      document.getElementById("reviewModal").style.display = "none";
+
+      document.getElementById("menuScreen").style.display = "flex";
+      state.isTurnBusy = false;
+      state.questionAnswered = false;
+      state.turnPendingAction = null;
+    }
+
+    /* Button Events */
+    document.getElementById("btnHomeLogo").addEventListener("click", returnToHome);
+    document.getElementById("btnLeaderboard").addEventListener("click", openLeaderboard);
+    document.getElementById("btnStartGame").addEventListener("click", initGame);
+    document.getElementById("btnCodex").addEventListener("click", openCodex);
+    document.getElementById("btnSound").addEventListener("click", () => {
+      state.soundEnabled = !state.soundEnabled;
+      document.getElementById("btnSound").textContent = state.soundEnabled ? "🔊 Âm thanh: Bật" : "🔇 Âm thanh: Tắt";
+    });
+
+    // Tự động khôi phục tên & lớp đã lưu trước đó
+    (function restoreSavedPlayer() {
+      try {
+        const savedName = localStorage.getItem("esterQuest_lastPlayerName");
+        const savedClass = localStorage.getItem("esterQuest_lastPlayerClass");
+        if (savedName) document.getElementById("playerName").value = savedName;
+        if (savedClass) document.getElementById("playerClass").value = savedClass;
+      } catch(e) {}
+    })();
+  </script>
+</body>
+</html>
