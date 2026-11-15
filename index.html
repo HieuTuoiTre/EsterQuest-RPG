@@ -3820,16 +3820,19 @@
             • <strong>Phản ứng tráng bạc:</strong> Xảy ra với ester của acid formic (HCOOR') hoặc vinyl ester (sinh aldehyde CH<sub>3</sub>CHO).
           </div>
 
-          <!-- Sub-tabs for 3 Virtual Labs -->
+          <!-- Sub-tabs for 4 Virtual Labs -->
           <div class="lab-subtab-bar">
             <button class="lab-subtab-btn active" id="btnSubtabHydro" onclick="switchHydroLab('separation')">
               ⚗️ Thí Nghiệm 1: Thủy phân trong môi trường acid
             </button>
+            <button class="lab-subtab-btn" id="btnSubtabBaseHydro" onclick="switchHydroLab('base')">
+              🧴 Thí Nghiệm 2: Thủy phân trong môi trường kiềm (Xà phòng hóa)
+            </button>
             <button class="lab-subtab-btn" id="btnSubtabSilver" onclick="switchHydroLab('silver')">
-              🪞 Thí Nghiệm 2: Phản Ứng Tráng Bạc (Silver Mirror)
+              🪞 Thí Nghiệm 3: Phản Ứng Tráng Bạc (Silver Mirror)
             </button>
             <button class="lab-subtab-btn" id="btnSubtabCombust" onclick="switchHydroLab('combustion')">
-              🔥 Thí Nghiệm 3: Phản Ứng Đốt Cháy Ester
+              🔥 Thí Nghiệm 4: Phản Ứng Đốt Cháy Ester
             </button>
           </div>
 
@@ -3848,7 +3851,7 @@
 
               <div class="callout-group">
                 <div style="font-size:12.5px; font-weight:700; color:var(--accent); margin-bottom:4px;">
-                  🧪 Chọn Loại Ester Thủy Phân:
+                  🧪 Chọn Loại Ester Thủy Phân Trong Môi Trường Acid:
                 </div>
                 <div style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px;">
                   <button class="chem-shelf-btn active" id="btnHydroEsterRegular" onclick="selectHydroEsterType('regular')">Ester thường (Ethyl acetate)</button>
@@ -3890,7 +3893,64 @@
             </div>
           </div>
 
-          <!-- SUB-LAB 2: TRÁNG BẠC SILVER MIRROR (ỐNG NGHIỆM LUÔN CÓ SẴN TOLLENS) -->
+          <!-- SUB-LAB 2: THỦY PHÂN MÔI TRƯỜNG KIỀM (XÀ PHÒNG HÓA) -->
+          <div id="hydroBaseLab" style="display:none;">
+            <div class="apparatus-stage">
+              <div class="apparatus-column">
+                <div class="virtual-test-tube">
+                  <div class="tube-phase-top" id="hydroBaseTopPhase"></div>
+                  <div class="tube-phase-bottom" id="hydroBaseBottomPhase"></div>
+                </div>
+                <div class="burner-base">
+                  <div class="flame-element" id="hydroBaseFlame" style="opacity:0.3;"></div>
+                </div>
+              </div>
+
+              <div class="callout-group">
+                <div style="font-size:12.5px; font-weight:700; color:var(--accent); margin-bottom:4px;">
+                  🧴 Chọn Loại Ester Thủy Phân Trong Dung Dịch Kiềm (NaOH):
+                </div>
+                <div style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px;">
+                  <button class="chem-shelf-btn active" id="btnHydroBaseRegular" onclick="selectHydroBaseEsterType('regular')">Ester thường (Ethyl acetate)</button>
+                  <button class="chem-shelf-btn" id="btnHydroBaseVinyl" onclick="selectHydroBaseEsterType('vinyl')">Vinyl ester (Vinyl acetate)</button>
+                  <button class="chem-shelf-btn" id="btnHydroBaseIsopropenyl" onclick="selectHydroBaseEsterType('isopropenyl')">Isopropenyl ester</button>
+                  <button class="chem-shelf-btn" id="btnHydroBasePhenyl" onclick="selectHydroBaseEsterType('phenyl')">Phenyl ester (Phenyl acetate)</button>
+                </div>
+
+                <div class="phase-callout">
+                  <span class="phase-callout-arrow">👆</span>
+                  <span id="labelBaseTopPhase"><strong>Lớp trên:</strong> Ester CH₃COOC₂H₅ (nhẹ hơn nước, chưa tan nên nổi lên)</span>
+                </div>
+                <div class="phase-callout">
+                  <span class="phase-callout-arrow">👇</span>
+                  <span id="labelBaseBottomPhase"><strong>Lớp dưới:</strong> Dung dịch kiềm NaOH</span>
+                </div>
+
+                <div style="display:flex; gap:10px; margin-top:8px;">
+                  <button class="btn-rpg-primary" id="btnHeatBaseHydrolysis" onclick="heatHydroBaseReaction()">
+                    🔥 Đun Nóng Phản Ứng (Cách Thủy)
+                  </button>
+                  <button class="btn-rpg-secondary" onclick="resetHydroBaseReaction()">
+                    🔄 Làm Lại
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="formula-box" id="hydroBaseEquationDisplay" style="margin-top:12px; text-align:center;">
+              <div style="font-size:12.5px; color:var(--text-muted); margin-bottom:4px;">Phương trình phản ứng xà phòng hóa (1 chiều hoàn toàn):</div>
+              <div class="chem-eq-container">
+                <span style="color:#ffffff;">CH₃COOC₂H₅ + NaOH</span>
+                <span class="chem-arrow-stack">
+                  <span class="chem-arrow-condition">t°</span>
+                  <span class="chem-arrow-symbol" style="color:var(--success);">➔</span>
+                </span>
+                <span style="color:#ffffff;">CH₃COONa + C₂H₅OH</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- SUB-LAB 3: TRÁNG BẠC SILVER MIRROR (ỐNG NGHIỆM LUÔN CÓ SẴN TOLLENS) -->
           <div id="silverMirrorLab" style="display:none;">
             <div style="font-size:13px; color:var(--accent); font-weight:700; margin-bottom:6px;">
               🧴 Chọn Chất Thử Trên Kệ Để Nhỏ Vào Ống Nghiệm Chứa Dung Dịch AgNO₃ Trong NH₃ Dư:
@@ -3948,7 +4008,7 @@
             </div>
           </div>
 
-          <!-- SUB-LAB 3: PHẢN ỨNG ĐỐT CHÁY ESTER (COMBUSTION LAB) -->
+          <!-- SUB-LAB 4: PHẢN ỨNG ĐỐT CHÁY ESTER (COMBUSTION LAB) -->
           <div id="hydroCombustionLab" style="display:none;">
             <div style="font-size:13px; color:var(--accent); font-weight:700; margin-bottom:8px;">
               🔥 Thí Nghiệm Đốt Cháy Ester &amp; Dẫn Khí Qua Nước Vôi Trong Ca(OH)₂:
@@ -6563,17 +6623,36 @@
     function formatFormula(text) {
       if (!text) return "";
       let formatted = text;
-      // 1. Đổi LaTeX _{...} thành <sub>...</sub>
+      // 0. Chuẩn hóa mũi tên phản ứng
+      formatted = formatted.replace(/->/g, "→");
+      // 1. Đổi LaTeX _{...} và _(...) thành <sub>...</sub>
       formatted = formatted.replace(/_\{([^}]+)\}/g, "<sub>$1</sub>");
+      formatted = formatted.replace(/_([a-zA-Z0-9+\-]+)/g, "<sub>$1</sub>");
       // 2. Định dạng công thức tổng quát đại số (Cn, H2n, H2n-2, H2n+2-2k, O2x...)
       formatted = formatted.replace(/\bC\s*n(?=[HOSNX\s0-9+\-]|$)/g, "C<sub>n</sub>");
       formatted = formatted.replace(/\bH\s*(2n\s*[+\-]\s*[0-9]+(?:\s*-\s*[0-9]*[kx])?|2n\s*-\s*[0-9]*[kx]|2n(?=[A-Z\s,;.\)]|$)|n(?=[A-Z\s,;.\)]|$))/g, "H<sub>$1</sub>");
-      formatted = formatted.replace(/\bO\s*(2x|2k|x|k|[0-9]+x)/g, "O<sub>$1</sub>");
+      // Thêm (?![a-zA-Z]) để không bắt nhầm chữ 'Oxygen' thành 'O<sub>x</sub>ygen'
+      formatted = formatted.replace(/\bO\s*(2x|2k|x|k|[0-9]+x)(?![a-zA-Z])/g, "O<sub>$1</sub>");
       // Xóa khoảng trắng thừa bên trong thẻ <sub>
       formatted = formatted.replace(/<sub>([^<]+)<\/sub>/g, (m, p1) => "<sub>" + p1.replace(/\s+/g, "") + "</sub>");
-      // 3. Đổi công thức số thông thường như C2H5OH, CH3COOH, H2SO4, Fe2(SO4)3 (không đổi số sau dấu >=, <=)
-      formatted = formatted.replace(/([A-Za-z\)])([0-9]+)(?![^<]*>|(?:\s*[≥><=]))/g, "$1<sub>$2</sub>");
-      return formatted;
+      // 3. Đổi công thức số thông thường như C2H5OH, CH3COOH... an toàn bên ngoài các thẻ HTML
+      const tokens = formatted.split(/(<[^>]+>)/g);
+      let inSub = false;
+      const result = [];
+      for (const token of tokens) {
+        if (token.startsWith("<")) {
+          if (token.startsWith("<sub")) inSub = true;
+          else if (token.startsWith("</sub")) inSub = false;
+          result.push(token);
+        } else {
+          if (!inSub) {
+            result.push(token.replace(/([A-Za-z\)])([0-9]+)/g, "$1<sub>$2</sub>"));
+          } else {
+            result.push(token);
+          }
+        }
+      }
+      return result.join("");
     }
 
     /* ============================================================
@@ -6725,6 +6804,9 @@
       // Lesson 4
       hydroLabMode: "separation",
       hydroHeated: false,
+      hydroEsterType: "regular",
+      hydroBaseEsterType: "regular",
+      hydroBaseHeated: false,
       silverSubstance: "vinyl_acetate",
       silverTreated: false,
       l4Done: false,
@@ -7233,17 +7315,21 @@
       academyState.hydroLabMode = mode;
       try { if (SFX && SFX.select) SFX.select(); } catch(_) {}
       const tab1 = document.getElementById("btnSubtabHydro");
+      const tabBase = document.getElementById("btnSubtabBaseHydro");
       const tab2 = document.getElementById("btnSubtabSilver");
       const tab3 = document.getElementById("btnSubtabCombust");
       const panel1 = document.getElementById("hydroSeparationLab");
+      const panelBase = document.getElementById("hydroBaseLab");
       const panel2 = document.getElementById("silverMirrorLab");
       const panel3 = document.getElementById("hydroCombustionLab");
 
       if (tab1) tab1.classList.toggle("active", mode === "separation");
+      if (tabBase) tabBase.classList.toggle("active", mode === "base");
       if (tab2) tab2.classList.toggle("active", mode === "silver");
       if (tab3) tab3.classList.toggle("active", mode === "combustion");
 
       if (panel1) panel1.style.display = (mode === "separation") ? "block" : "none";
+      if (panelBase) panelBase.style.display = (mode === "base") ? "block" : "none";
       if (panel2) panel2.style.display = (mode === "silver") ? "block" : "none";
       if (panel3) panel3.style.display = (mode === "combustion") ? "block" : "none";
     }
@@ -7293,17 +7379,17 @@
       },
       phenyl: {
         name: "Phenyl acetate (CH₃COOC₆H₅)",
-        eq: `<span style="color:#ffffff;">CH₃COOC₆H₅ + 2NaOH</span>
+        eq: `<span style="color:#ffffff;">CH₃COOC₆H₅ + H₂O</span>
              <span class="chem-arrow-stack">
-               <span class="chem-arrow-condition">t°</span>
-               <span class="chem-arrow-symbol" style="color:var(--success);">➔</span>
+               <span class="chem-arrow-condition">H⁺, t°</span>
+               <span class="chem-arrow-symbol">⇌</span>
              </span>
-             <span style="color:#ffffff;">CH₃COONa + C₆H₅ONa + H₂O</span>`,
-        topBefore: "<strong>Lớp trên:</strong> Phenyl acetate CH₃COOC₆H₅",
-        bottomBefore: "<strong>Lớp dưới:</strong> Dung dịch kiềm NaOH",
-        topAfter: "<strong>👆 Hoàn toàn đồng nhất:</strong> Dung dịch trở nên đồng nhất, không còn tách lớp!",
-        bottomAfter: "<strong>👇 Sản phẩm:</strong> Tạo 2 muối (CH₃COONa + C₆H₅ONa) và H₂O. Tỉ lệ mol phản ứng 1 : 2!",
-        toast: "🛡️ Phenyl ester phản ứng với kiềm theo tỉ lệ 1:2 tạo 2 muối và nước, không sinh alcohol!"
+             <span style="color:#ffffff;">CH₃COOH + C₆H₅OH</span>`,
+        topBefore: "<strong>Lớp trên:</strong> Phenyl acetate CH₃COOC₆H₅ (dầu không tan)",
+        bottomBefore: "<strong>Lớp dưới:</strong> Nước và xúc tác acid H₂SO₄ loãng",
+        topAfter: "<strong>👆 Tách lớp vẩn đục:</strong> Phản ứng thuận nghịch, phenol C₆H₅OH sinh ra ít tan trong nước lạnh nên hỗn hợp vẩn đục và tiếp tục tách lớp.",
+        bottomAfter: "<strong>👇 Hỗn hợp dung dịch:</strong> Chứa CH₃COOH, phenol C₆H₅OH và xúc tác acid.",
+        toast: "⚠️ Phenyl ester thủy phân trong môi trường acid là phản ứng thuận nghịch 2 chiều tạo phenol và acid!"
       }
     };
 
@@ -7340,8 +7426,8 @@
       if (flame) flame.style.opacity = "1";
 
       if (academyState.hydroEsterType === "phenyl") {
-        if (topPhase) topPhase.style.height = "0%";
-        if (bottomPhase) bottomPhase.style.height = "100%";
+        if (topPhase) topPhase.style.height = "30%";
+        if (bottomPhase) bottomPhase.style.height = "70%";
       } else {
         if (topPhase) topPhase.style.height = "25%";
         if (bottomPhase) bottomPhase.style.height = "75%";
@@ -7379,7 +7465,141 @@
         eqDisplay.style.borderColor = "";
         eqDisplay.style.boxShadow = "";
         eqDisplay.innerHTML = `
-          <div style="font-size:12.5px; color:var(--text-muted); margin-bottom:4px;">Phương trình phản ứng thủy phân:</div>
+          <div style="font-size:12.5px; color:var(--text-muted); margin-bottom:4px;">Phương trình phản ứng thủy phân trong môi trường acid:</div>
+          <div class="chem-eq-container">${spec.eq}</div>
+        `;
+      }
+    }
+
+    /* Thí nghiệm 2: Thủy phân trong môi trường kiềm (Xà phòng hóa) */
+    const HYDRO_BASE_SPECS = {
+      regular: {
+        name: "Ethyl acetate (CH₃COOC₂H₅)",
+        eq: `<span style="color:#ffffff;">CH₃COOC₂H₅ + NaOH</span>
+             <span class="chem-arrow-stack">
+               <span class="chem-arrow-condition">t°</span>
+               <span class="chem-arrow-symbol" style="color:var(--success);">➔</span>
+             </span>
+             <span style="color:#ffffff;">CH₃COONa + C₂H₅OH</span>`,
+        topBefore: "<strong>Lớp trên:</strong> Ester CH₃COOC₂H₅ (nhẹ hơn nước, chưa tan nên nổi lên)",
+        bottomBefore: "<strong>Lớp dưới:</strong> Dung dịch kiềm NaOH",
+        topAfter: "<strong>✨ Hoàn toàn đồng nhất:</strong> Ester tan hết, phản ứng 1 chiều hoàn toàn!",
+        bottomAfter: "<strong>👇 Dung dịch muối và alcohol:</strong> CH₃COONa + C₂H₅OH tan hoàn toàn tạo 1 lớp đồng nhất.",
+        toast: "🧼 Xà phòng hóa Ethyl acetate: Phản ứng 1 chiều hoàn toàn, dung dịch trở nên đồng nhất!"
+      },
+      vinyl: {
+        name: "Vinyl acetate (CH₃COOCH=CH₂)",
+        eq: `<span style="color:#ffffff;">CH₃COOCH=CH₂ + NaOH</span>
+             <span class="chem-arrow-stack">
+               <span class="chem-arrow-condition">t°</span>
+               <span class="chem-arrow-symbol" style="color:var(--success);">➔</span>
+             </span>
+             <span style="color:#ffffff;">CH₃COONa + CH₃CHO</span>`,
+        topBefore: "<strong>Lớp trên:</strong> Vinyl acetate CH₃COOCH=CH₂ (nhẹ hơn nước)",
+        bottomBefore: "<strong>Lớp dưới:</strong> Dung dịch kiềm NaOH",
+        topAfter: "<strong>✨ Hoàn toàn đồng nhất:</strong> Không còn lớp ester tách rời!",
+        bottomAfter: "<strong>👇 Dung dịch sau phản ứng:</strong> CH₃COONa + <strong>CH₃CHO (Acetaldehyde - Có phản ứng tráng bạc!)</strong>, tan hoàn toàn tạo 1 lớp đồng nhất.",
+        toast: "✨ Vinyl acetate thủy phân trong kiềm sinh muối acetate và aldehyde CH₃CHO (tráng bạc)!"
+      },
+      isopropenyl: {
+        name: "Isopropenyl acetate (CH₃COOC(CH₃)=CH₂)",
+        eq: `<span style="color:#ffffff;">CH₃COOC(CH₃)=CH₂ + NaOH</span>
+             <span class="chem-arrow-stack">
+               <span class="chem-arrow-condition">t°</span>
+               <span class="chem-arrow-symbol" style="color:var(--success);">➔</span>
+             </span>
+             <span style="color:#ffffff;">CH₃COONa + CH₃COCH₃</span>`,
+        topBefore: "<strong>Lớp trên:</strong> Isopropenyl acetate (nhẹ hơn nước)",
+        bottomBefore: "<strong>Lớp dưới:</strong> Dung dịch kiềm NaOH",
+        topAfter: "<strong>✨ Hoàn toàn đồng nhất:</strong> Ester chuyển hóa 100% thành muối và ketone.",
+        bottomAfter: "<strong>👇 Dung dịch sau phản ứng:</strong> CH₃COONa + <strong>CH₃COCH₃ (Acetone - Ketone tan vô hạn)</strong>, tạo 1 lớp đồng nhất.",
+        toast: "🧪 Isopropenyl ester thủy phân trong kiềm sinh muối acetate và ketone acetone CH₃COCH₃!"
+      },
+      phenyl: {
+        name: "Phenyl acetate (CH₃COOC₆H₅)",
+        eq: `<span style="color:#ffffff;">CH₃COOC₆H₅ + 2NaOH</span>
+             <span class="chem-arrow-stack">
+               <span class="chem-arrow-condition">t°</span>
+               <span class="chem-arrow-symbol" style="color:var(--success);">➔</span>
+             </span>
+             <span style="color:#ffffff;">CH₃COONa + C₆H₅ONa + H₂O</span>`,
+        topBefore: "<strong>Lớp trên:</strong> Phenyl acetate CH₃COOC₆H₅ (dầu không tan)",
+        bottomBefore: "<strong>Lớp dưới:</strong> Dung dịch kiềm NaOH (cần tỉ lệ mol 1:2)",
+        topAfter: "<strong>✨ Hoàn toàn đồng nhất:</strong> Lớp ester dầu biến mất hoàn toàn!",
+        bottomAfter: "<strong>👇 Dung dịch sau phản ứng:</strong> Chứa <strong>2 MUỐI</strong> (CH₃COONa + C₆H₅ONa) và H₂O. Không tạo alcohol! Tỉ lệ mol 1:2!",
+        toast: "🛡️ Phenyl ester phản ứng với NaOH tỉ lệ 1:2 tạo 2 muối và nước, tạo dung dịch đồng nhất!"
+      }
+    };
+
+    function selectHydroBaseEsterType(type) {
+      academyState.hydroBaseEsterType = type;
+      try { if (SFX && SFX.select) SFX.select(); } catch(_) {}
+
+      const btns = {
+        regular: "btnHydroBaseRegular",
+        vinyl: "btnHydroBaseVinyl",
+        isopropenyl: "btnHydroBaseIsopropenyl",
+        phenyl: "btnHydroBasePhenyl"
+      };
+      Object.entries(btns).forEach(([k, id]) => {
+        const el = document.getElementById(id);
+        if (el) el.classList.toggle("active", k === type);
+      });
+
+      resetHydroBaseReaction();
+    }
+
+    function heatHydroBaseReaction() {
+      academyState.hydroBaseHeated = true;
+      try { if (SFX && SFX.magic) SFX.magic(); } catch(_) {}
+      const topPhase = document.getElementById("hydroBaseTopPhase");
+      const bottomPhase = document.getElementById("hydroBaseBottomPhase");
+      const flame = document.getElementById("hydroBaseFlame");
+      const topLabel = document.getElementById("labelBaseTopPhase");
+      const bottomLabel = document.getElementById("labelBaseBottomPhase");
+      const eqDisplay = document.getElementById("hydroBaseEquationDisplay");
+
+      const spec = HYDRO_BASE_SPECS[academyState.hydroBaseEsterType || "regular"];
+
+      if (flame) flame.style.opacity = "1";
+
+      // Phản ứng xà phòng hóa trong môi trường kiềm là phản ứng 1 chiều hoàn toàn => dung dịch ĐỒNG NHẤT (topPhase = 0%, bottomPhase = 100%)
+      if (topPhase) topPhase.style.height = "0%";
+      if (bottomPhase) bottomPhase.style.height = "100%";
+
+      setTimeout(() => {
+        if (topLabel) topLabel.innerHTML = spec.topAfter;
+        if (bottomLabel) bottomLabel.innerHTML = spec.bottomAfter;
+        if (eqDisplay) {
+          eqDisplay.style.borderColor = "var(--success)";
+          eqDisplay.style.boxShadow = "0 0 16px rgba(46, 213, 115, 0.4)";
+        }
+        showAcademyToast(spec.toast);
+      }, 800);
+    }
+
+    function resetHydroBaseReaction() {
+      academyState.hydroBaseHeated = false;
+      const topPhase = document.getElementById("hydroBaseTopPhase");
+      const bottomPhase = document.getElementById("hydroBaseBottomPhase");
+      const flame = document.getElementById("hydroBaseFlame");
+      const topLabel = document.getElementById("labelBaseTopPhase");
+      const bottomLabel = document.getElementById("labelBaseBottomPhase");
+      const eqDisplay = document.getElementById("hydroBaseEquationDisplay");
+
+      const spec = HYDRO_BASE_SPECS[academyState.hydroBaseEsterType || "regular"];
+
+      if (flame) flame.style.opacity = "0.3";
+      if (topPhase) topPhase.style.height = "65%";
+      if (bottomPhase) bottomPhase.style.height = "35%";
+
+      if (topLabel) topLabel.innerHTML = spec.topBefore;
+      if (bottomLabel) bottomLabel.innerHTML = spec.bottomBefore;
+      if (eqDisplay) {
+        eqDisplay.style.borderColor = "";
+        eqDisplay.style.boxShadow = "";
+        eqDisplay.innerHTML = `
+          <div style="font-size:12.5px; color:var(--text-muted); margin-bottom:4px;">Phương trình phản ứng xà phòng hóa (1 chiều hoàn toàn):</div>
           <div class="chem-eq-container">${spec.eq}</div>
         `;
       }
@@ -8315,7 +8535,7 @@
       }
 
       if (qTextEl) {
-        qTextEl.innerHTML = q.q;
+        qTextEl.innerHTML = formatFormula(q.q);
       }
 
       if (optContainer) {
@@ -8325,7 +8545,7 @@
           optsHtml += `
             <button class="academy-opt-btn" onclick="checkAcademyQuiz(${lessonNum}, ${idx})">
               <strong style="color:var(--accent); min-width:20px;">${letters[idx]}.</strong>
-              <span>${opt}</span>
+              <span>${formatFormula(opt)}</span>
             </button>
           `;
         });
@@ -8378,7 +8598,7 @@
         const isLastQ = curQ >= qList.length - 1;
         if (!isLastQ) {
           feedback.innerHTML = `
-            <div style="margin-bottom:8px;">✅ <strong>Chính xác!</strong> ${q.explain}</div>
+            <div style="margin-bottom:8px;">✅ <strong>Chính xác!</strong> ${formatFormula(q.explain)}</div>
             <button class="btn-rpg-primary" style="margin-top:6px; padding:8px 16px; font-size:13.5px;" onclick="nextAcademyQuizQuestion(${lessonNum})">
               TIẾP TỤC CÂU ${curQ + 2}/${qList.length} ➔
             </button>
@@ -8386,7 +8606,7 @@
         } else {
           feedback.innerHTML = `
             <div style="margin-bottom:8px;">🎉 <strong>Xuất sắc!</strong> Bạn đã vượt qua toàn bộ ${qList.length} câu khảo nghiệm của bài học này!</div>
-            <div style="font-size:13px; color:#c7ecee;">${q.explain}</div>
+            <div style="font-size:13px; color:#c7ecee;">${formatFormula(q.explain)}</div>
           `;
           unlockAcademyLesson(lessonNum + 1);
           const unlockBtn = document.getElementById(`btnUnlockL${lessonNum + 1}`);
