@@ -117,7 +117,7 @@
     }
 
     /* ============================================================
-       0. MÀN MỞ ĐẦU ĐIỆN ẢNH SỬ THI (EPIC PROLOGUE INTRO OVERLAY)
+       0. MÀN MỞ ĐẦU VISUAL NOVEL SỬ THI (VISUAL NOVEL PROLOGUE INTRO)
        ============================================================ */
     .prologue-overlay {
       position: fixed;
@@ -125,16 +125,17 @@
       z-index: 9999;
       display: flex;
       flex-direction: column;
+      justify-content: space-between;
       align-items: center;
-      justify-content: flex-start;
       background: #030612;
-      overflow-y: auto;
-      overflow-x: hidden;
-      padding: 28px 16px 48px;
+      overflow: hidden;
+      padding: 0;
       opacity: 1;
       visibility: visible;
-      transition: opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.45s ease;
-      -webkit-overflow-scrolling: touch;
+      transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.5s ease;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      cursor: pointer;
     }
     .prologue-overlay.fade-out {
       opacity: 0;
@@ -142,38 +143,35 @@
       pointer-events: none;
     }
 
-    /* Cosmic Nebula & Stars Backdrop */
-    .prologue-backdrop {
-      position: fixed;
+    /* VN Stage Backdrop & Fullscreen Artworks */
+    .vn-backdrop {
+      position: absolute;
       inset: 0;
-      pointer-events: none;
       z-index: 0;
       overflow: hidden;
+      pointer-events: none;
     }
-    .cosmic-nebula {
-      position: absolute;
-      inset: -30%;
-      background:
-        radial-gradient(circle at 25% 20%, rgba(94, 43, 255, 0.25) 0%, transparent 45%),
-        radial-gradient(circle at 80% 65%, rgba(0, 210, 211, 0.2) 0%, transparent 50%),
-        radial-gradient(circle at 50% 50%, rgba(255, 209, 84, 0.12) 0%, transparent 60%),
-        radial-gradient(circle at 70% 15%, rgba(255, 71, 87, 0.15) 0%, transparent 40%);
-      filter: blur(50px);
-      animation: nebulaFloat 18s ease-in-out infinite alternate;
-    }
-    .cosmic-stars {
+    .vn-bg-slide {
       position: absolute;
       inset: 0;
-      background-image:
-        radial-gradient(1.5px 1.5px at 15% 20%, rgba(255,255,255,0.9), transparent),
-        radial-gradient(1.5px 1.5px at 35% 60%, rgba(0,210,211,0.8), transparent),
-        radial-gradient(2px 2px at 70% 30%, rgba(255,209,84,0.9), transparent),
-        radial-gradient(1px 1px at 85% 75%, rgba(255,255,255,0.7), transparent),
-        radial-gradient(2px 2px at 50% 85%, rgba(162,155,254,0.8), transparent),
-        radial-gradient(1px 1px at 20% 90%, rgba(0,210,211,0.6), transparent),
-        radial-gradient(1.5px 1.5px at 90% 15%, rgba(255,209,84,0.7), transparent);
-      background-size: 100% 100%;
-      opacity: 0.85;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      opacity: 0;
+      transform: scale(1.06);
+      transition: opacity 0.8s ease-in-out, transform 12s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .vn-bg-slide.active {
+      opacity: 1;
+      transform: scale(1);
+    }
+    .vn-vignette {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 50% 45%, rgba(0,0,0,0) 30%, rgba(3,6,18,0.55) 70%, rgba(3,6,18,0.92) 100%),
+        linear-gradient(180deg, rgba(3,6,18,0.7) 0%, transparent 16%, transparent 55%, rgba(3,6,18,0.95) 100%);
     }
 
     /* Floating Ester Crystals */
@@ -185,95 +183,48 @@
       pointer-events: none;
       opacity: 0.55;
       animation: floatCrystal 7s ease-in-out infinite alternate;
+      z-index: 2;
     }
-    .crystal-1 {
-      top: 14%; left: 5%;
-      font-size: 22px;
-      color: #00d2d3;
-      filter: drop-shadow(0 0 16px rgba(0, 210, 211, 0.8));
-      animation-duration: 8.5s;
-    }
-    .crystal-2 {
-      top: 28%; right: 7%;
-      font-size: 20px;
-      color: #ffd154;
-      filter: drop-shadow(0 0 12px rgba(255, 209, 84, 0.7));
-      animation-duration: 6.8s;
-      animation-delay: 0.8s;
-    }
-    .crystal-3 {
-      top: 54%; left: 7%;
-      font-size: 16px;
-      color: #a29bfe;
-      filter: drop-shadow(0 0 10px rgba(162, 155, 254, 0.6));
-      animation-duration: 7.2s;
-      animation-delay: 1.5s;
-    }
-    .crystal-4 {
-      top: 70%; right: 8%;
-      font-size: 28px;
-      filter: drop-shadow(0 0 18px rgba(255, 209, 84, 0.6));
-      animation-duration: 9.5s;
-      animation-delay: 0.4s;
-    }
-    .crystal-5 {
-      top: 86%; left: 10%;
-      font-size: 20px;
-      color: #00d2d3;
-      filter: drop-shadow(0 0 14px rgba(0, 210, 211, 0.7));
-      animation-duration: 8s;
-      animation-delay: 1.2s;
-    }
-    .crystal-6 {
-      top: 42%; right: 4%;
-      font-size: 18px;
-      color: #ff7675;
-      filter: drop-shadow(0 0 12px rgba(255, 118, 117, 0.6));
-      animation-duration: 6.2s;
-      animation-delay: 2s;
-    }
-    .crystal-7 {
-      top: 18%; right: 18%;
-      font-size: 22px;
-      filter: drop-shadow(0 0 14px rgba(46, 213, 115, 0.6));
-      animation-duration: 8.2s;
-      animation-delay: 1s;
-    }
-    .crystal-formula {
-      font-size: 12px;
-      font-weight: 700;
-      color: #00d2d3;
-      text-shadow: 0 0 8px rgba(0, 210, 211, 0.6);
-      margin-left: 6px;
-      letter-spacing: 0.5px;
-      vertical-align: middle;
-    }
+    .crystal-1 { top: 14%; left: 5%; font-size: 22px; color: #00d2d3; filter: drop-shadow(0 0 16px rgba(0, 210, 211, 0.8)); animation-duration: 8.5s; }
+    .crystal-2 { top: 24%; right: 6%; font-size: 20px; color: #ffd154; filter: drop-shadow(0 0 12px rgba(255, 209, 84, 0.7)); animation-duration: 6.8s; }
+    .crystal-3 { top: 48%; left: 6%; font-size: 16px; color: #a29bfe; filter: drop-shadow(0 0 10px rgba(162, 155, 254, 0.6)); animation-duration: 7.2s; }
+    .crystal-4 { top: 62%; right: 7%; font-size: 28px; filter: drop-shadow(0 0 18px rgba(255, 209, 84, 0.6)); animation-duration: 9.5s; }
+    .crystal-5 { top: 80%; left: 8%; font-size: 20px; color: #00d2d3; filter: drop-shadow(0 0 14px rgba(0, 210, 211, 0.7)); animation-duration: 8s; }
+    .crystal-6 { top: 38%; right: 4%; font-size: 18px; color: #ff7675; filter: drop-shadow(0 0 12px rgba(255, 118, 117, 0.6)); animation-duration: 6.2s; }
+    .crystal-7 { top: 18%; right: 18%; font-size: 22px; filter: drop-shadow(0 0 14px rgba(46, 213, 115, 0.6)); animation-duration: 8.2s; }
+    .crystal-formula { font-size: 12px; font-weight: 700; color: #00d2d3; text-shadow: 0 0 8px rgba(0, 210, 211, 0.6); margin-left: 6px; letter-spacing: 0.5px; vertical-align: middle; }
 
-    /* Top Navigation inside Prologue */
+    /* Top Navigation inside VN */
     .prologue-top-bar {
-      width: 100%;
-      max-width: 860px;
+      position: fixed;
+      top: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 28px);
+      max-width: 960px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      z-index: 2;
-      margin-bottom: 20px;
-      padding: 4px 8px;
+      z-index: 30;
+      padding: 0;
+      margin: 0;
+      pointer-events: auto;
     }
     .prologue-badge {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      font-size: 11px;
+      font-size: 11.5px;
       font-weight: 800;
       letter-spacing: 1.5px;
       text-transform: uppercase;
       color: var(--accent);
-      background: rgba(255, 209, 84, 0.1);
-      border: 1px solid rgba(255, 209, 84, 0.35);
-      padding: 6px 14px;
+      background: rgba(10, 16, 32, 0.88);
+      border: 1px solid rgba(255, 209, 84, 0.4);
+      padding: 7px 16px;
       border-radius: 999px;
-      backdrop-filter: blur(6px);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
     }
     .prologue-pulse-dot {
       width: 8px;
@@ -282,6 +233,23 @@
       background: #2ed573;
       box-shadow: 0 0 10px #2ed573;
       animation: dotPulse 2s infinite ease-in-out;
+    }
+    .vn-progress-dots {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .vn-dot {
+      width: 20px;
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.25);
+      transition: all 0.3s ease;
+    }
+    .vn-dot.active {
+      width: 36px;
+      background: var(--accent);
+      box-shadow: 0 0 12px var(--accent);
     }
     .btn-skip-prologue {
       background: rgba(16, 24, 48, 0.85);
@@ -311,108 +279,74 @@
       transform: translateY(1px);
     }
 
-    /* Main Prologue Layout Container */
-    .prologue-container {
-      width: 100%;
-      max-width: 820px;
-      z-index: 2;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin: auto 0;
-      text-align: center;
+    /* VN Click Hint (Shown when image appears and waiting for click) */
+    .vn-click-hint {
+      position: fixed;
+      bottom: 36px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 25;
+      pointer-events: none;
+      animation: vnHintBounce 2s infinite ease-in-out;
     }
-
-    /* Prologue Header */
-    .prologue-header {
-      margin-bottom: 24px;
-      width: 100%;
-    }
-    .prologue-logo-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-family: var(--font-ui);
-      font-size: 12px;
-      font-weight: 800;
-      color: #00d2d3;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      margin-bottom: 12px;
-      background: rgba(0, 210, 211, 0.12);
-      border: 1px solid rgba(0, 210, 211, 0.35);
-      padding: 6px 18px;
+    .vn-hint-content {
+      background: rgba(10, 16, 32, 0.9);
+      border: 1.5px solid rgba(255, 209, 84, 0.65);
       border-radius: 999px;
-      text-shadow: 0 0 10px rgba(0, 210, 211, 0.5);
-    }
-    .prologue-title {
-      font-family: var(--font-rpg);
-      font-size: clamp(26px, 5.5vw, 44px);
-      font-weight: 900;
-      line-height: 1.22;
-      color: #fff;
-      margin-bottom: 14px;
-      letter-spacing: 1px;
-    }
-    .prologue-title-glow {
-      background: linear-gradient(135deg, #fff 0%, #ffd154 50%, #4e8cff 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      filter: drop-shadow(0 0 25px rgba(255, 209, 84, 0.45));
-    }
-    .prologue-divider {
+      padding: 12px 26px;
+      color: #ffd154;
+      font-weight: 800;
+      font-size: 14.5px;
+      letter-spacing: 0.5px;
+      box-shadow: 0 0 25px rgba(255, 209, 84, 0.45), 0 8px 24px rgba(0,0,0,0.7);
+      backdrop-filter: blur(12px);
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 12px;
-      width: 100%;
-      max-width: 340px;
-      margin: 0 auto;
+      gap: 10px;
     }
-    .prologue-divider .divider-line {
-      flex: 1;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(255, 209, 84, 0.6), transparent);
-    }
-    .prologue-divider .divider-node {
-      color: var(--accent);
-      font-size: 14px;
-      text-shadow: 0 0 10px var(--accent);
-    }
+    .vn-hint-hand { font-size: 18px; animation: handPulse 1.4s infinite alternate; }
+    .vn-hint-arrow { font-size: 14px; animation: arrowDown 1.2s infinite alternate; }
 
-    /* Sequential Story Cards */
-    .prologue-cards-list {
+    /* VN Dialogue Box (Appears when clicked) */
+    .vn-dialogue-box {
+      position: fixed;
+      bottom: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 28px);
+      max-width: 900px;
+      z-index: 25;
+      background: rgba(10, 16, 32, 0.94);
+      border: 1.5px solid rgba(78, 140, 255, 0.45);
+      border-radius: 18px;
+      padding: 20px 26px;
+      box-shadow: 0 12px 45px rgba(0, 0, 0, 0.85), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(16px);
+      animation: vnSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      cursor: pointer;
+      user-select: none;
+      max-height: 56vh;
+      overflow-y: auto;
+    }
+    .vn-dialogue-box:hover {
+      border-color: rgba(255, 209, 84, 0.55);
+      box-shadow: 0 14px 50px rgba(0, 0, 0, 0.9), 0 0 25px rgba(78, 140, 255, 0.25);
+    }
+    .vn-dialogue-header {
       display: flex;
-      flex-direction: column;
-      gap: 16px;
-      width: 100%;
-      text-align: left;
-      margin-bottom: 28px;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
     }
-    .prologue-card {
-      background: rgba(14, 22, 45, 0.88);
-      border: 1px solid rgba(52, 74, 126, 0.7);
-      border-radius: 16px;
-      padding: 22px 26px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.65);
-      position: relative;
-      overflow: hidden;
-      backdrop-filter: blur(12px);
-      opacity: 0;
-      transform: translateY(24px);
-      animation: cardSlideIn 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-    .prologue-card.card-chapter-1 {
-      animation-delay: 0.2s;
-      border-left: 4px solid #2ed573;
-    }
-    .prologue-card.card-chapter-2 {
-      animation-delay: 0.55s;
-      border-left: 4px solid #ff4757;
-    }
-    .prologue-card.card-chapter-3 {
-      animation-delay: 0.9s;
-      border-left: 4px solid var(--accent);
+    .vn-scene-title {
+      font-family: var(--font-rpg);
+      font-size: 14.5px;
+      font-weight: 800;
+      color: #ffd154;
+      letter-spacing: 0.8px;
+      text-shadow: 0 0 10px rgba(255, 209, 84, 0.4);
     }
 
     .card-tag {
@@ -428,7 +362,6 @@
       border: 1px solid rgba(46, 213, 115, 0.3);
       padding: 4px 10px;
       border-radius: 6px;
-      margin-bottom: 10px;
     }
     .card-tag.tag-danger {
       color: #ff4757;
@@ -443,57 +376,74 @@
 
     .card-narrative {
       font-family: var(--font-body);
-      font-size: 15.5px;
-      line-height: 1.72;
-      color: #e1e6f0;
-      font-weight: 600;
+      font-size: 16px;
+      line-height: 1.74;
+      color: #f1f5f9;
+      font-weight: 500;
     }
     .card-narrative strong {
       color: #fff;
       font-weight: 800;
+      text-shadow: 0 0 8px rgba(255,255,255,0.3);
     }
     .card-narrative em {
       color: var(--accent);
       font-style: normal;
       font-weight: 700;
     }
-    .card-narrative.highlight-prophecy {
+    .card-narrative em.highlight-prophecy {
       font-family: var(--font-rpg);
       font-size: 16.5px;
       color: #ffeaa7;
       font-style: italic;
       line-height: 1.75;
-      text-shadow: 0 0 12px rgba(255, 234, 167, 0.25);
+      text-shadow: 0 0 12px rgba(255, 234, 167, 0.35);
     }
 
     .card-callout {
-      margin-top: 14px;
+      margin-top: 12px;
       padding: 12px 18px;
-      background: rgba(255, 209, 84, 0.09);
+      background: rgba(255, 209, 84, 0.1);
       border-left: 3px solid var(--accent);
       border-radius: 8px;
-      font-size: 14px;
+      font-size: 14.5px;
       font-weight: 700;
       color: var(--accent);
       line-height: 1.55;
     }
 
-    /* Enter Button and Actions */
-    .prologue-action-group {
+    .vn-dialogue-footer {
       display: flex;
-      justify-content: center;
-      width: 100%;
-      margin-bottom: 16px;
+      justify-content: flex-end;
+      align-items: center;
+      margin-top: 14px;
+      padding-top: 8px;
+      border-top: 1px dashed rgba(255, 255, 255, 0.12);
     }
+    .vn-prompt-continue {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13.5px;
+      font-weight: 800;
+      color: var(--accent);
+      letter-spacing: 0.5px;
+    }
+    .vn-blink-arrow {
+      animation: blinkArrow 0.9s infinite alternate;
+      font-size: 16px;
+      color: #fff;
+    }
+
     .btn-prologue-enter {
       background: linear-gradient(135deg, #ffd154 0%, #ff9f43 50%, #f368e0 100%);
       color: #0a0e1c;
       font-family: var(--font-ui);
-      font-size: 16px;
+      font-size: 15.5px;
       font-weight: 900;
       letter-spacing: 1.5px;
-      padding: 18px 44px;
-      border-radius: 16px;
+      padding: 16px 36px;
+      border-radius: 14px;
       border: none;
       cursor: pointer;
       display: inline-flex;
@@ -505,10 +455,10 @@
       position: relative;
       overflow: hidden;
       animation: enterGlowPulse 2.8s infinite alternate;
-      min-height: 54px;
+      min-height: 50px;
     }
     .btn-prologue-enter:hover {
-      transform: translateY(-3px) scale(1.03);
+      transform: translateY(-2px) scale(1.02);
       box-shadow: 0 0 50px rgba(255, 209, 84, 0.9), 0 15px 35px rgba(0, 0, 0, 0.7);
       filter: brightness(1.1);
     }
@@ -527,39 +477,32 @@
       pointer-events: none;
     }
     .btn-prologue-enter .enter-arrow {
-      font-size: 20px;
+      font-size: 18px;
       transition: transform 0.2s;
     }
     .btn-prologue-enter:hover .enter-arrow {
       transform: translateX(6px);
     }
 
-    .prologue-audio-tip {
-      font-size: 12.5px;
-      color: var(--text-muted);
+    .prologue-audio-tip.vn-audio-tip {
+      position: fixed;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 11.5px;
+      color: rgba(226, 232, 240, 0.6);
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      opacity: 0.85;
-      transition: opacity 0.3s;
+      gap: 6px;
+      opacity: 0.75;
+      z-index: 10;
+      pointer-events: none;
     }
-    .prologue-audio-tip .audio-icon {
-      animation: iconBounce 1.5s infinite;
-    }
-
 
     /* Keyframe Animations */
-    @keyframes nebulaFloat {
-      0% { transform: scale(1) translate(0, 0); }
-      100% { transform: scale(1.12) translate(-2%, 3%); }
-    }
     @keyframes floatCrystal {
       0% { transform: translateY(0px) rotate(0deg); }
       100% { transform: translateY(-16px) rotate(8deg); }
-    }
-    @keyframes cardSlideIn {
-      0% { opacity: 0; transform: translateY(24px); }
-      100% { opacity: 1; transform: translateY(0); }
     }
     @keyframes enterGlowPulse {
       0% { box-shadow: 0 0 25px rgba(255, 209, 84, 0.45), 0 8px 20px rgba(0, 0, 0, 0.5); }
@@ -573,9 +516,25 @@
       0%, 100% { opacity: 1; transform: scale(1); }
       50% { opacity: 0.4; transform: scale(0.8); }
     }
-    @keyframes iconBounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-3px); }
+    @keyframes vnHintBounce {
+      0%, 100% { transform: translate(-50%, 0); }
+      50% { transform: translate(-50%, -8px); }
+    }
+    @keyframes vnSlideUp {
+      0% { opacity: 0; transform: translate(-50%, 20px); }
+      100% { opacity: 1; transform: translate(-50%, 0); }
+    }
+    @keyframes blinkArrow {
+      0% { transform: translateX(0); opacity: 0.5; }
+      100% { transform: translateX(5px); opacity: 1; }
+    }
+    @keyframes handPulse {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.2); }
+    }
+    @keyframes arrowDown {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(4px); }
     }
 
     /* Start / Menu Screen */
@@ -3249,14 +3208,17 @@
 <body>
 
   <!-- ============================================================
-       MÀN MỞ ĐẦU ĐIỆN ẢNH SỬ THI (EPIC PROLOGUE INTRO OVERLAY)
+       0. MÀN MỞ ĐẦU VISUAL NOVEL SỬ THI (VISUAL NOVEL PROLOGUE INTRO)
        ============================================================ -->
-  <div id="prologueOverlay" class="prologue-overlay" role="dialog" aria-modal="true" aria-label="Màn mở đầu cốt truyện sử thi Ester Quest">
-    <!-- Nền vũ trụ & Tinh thể hóa học phát sáng neon -->
-    <div class="prologue-backdrop" aria-hidden="true">
-      <div class="cosmic-nebula"></div>
-      <div class="cosmic-stars"></div>
-      <!-- Tinh thể Ester lơ lửng không gian -->
+  <div id="prologueOverlay" class="prologue-overlay vn-mode" role="dialog" aria-modal="true" aria-label="Màn mở đầu cốt truyện sử thi Ester Quest" onclick="handleVNOverlayClick(event)">
+    <!-- Visual Novel Stage Background Backdrop -->
+    <div class="vn-backdrop" id="vnBackdrop" aria-hidden="true">
+      <div class="vn-bg-slide active" id="vnSlide0" style="background-image: url('assets/prologue_1_peace.jpg');"></div>
+      <div class="vn-bg-slide" id="vnSlide1" style="background-image: url('assets/prologue_2_chaos.jpg');"></div>
+      <div class="vn-bg-slide" id="vnSlide2" style="background-image: url('assets/prologue_3_hero.jpg');"></div>
+      <div class="vn-vignette"></div>
+      
+      <!-- Tinh thể Ester lơ lửng không gian nghệ thuật -->
       <div class="floating-crystal crystal-1" title="Ester Linkage">⬡ <span class="crystal-formula">R—COO—R'</span></div>
       <div class="floating-crystal crystal-2">✦</div>
       <div class="floating-crystal crystal-3">✧</div>
@@ -3266,86 +3228,71 @@
       <div class="floating-crystal crystal-7">🧪</div>
     </div>
 
-    <!-- Thanh điều hướng trên cùng của Prologue -->
-    <div class="prologue-top-bar">
-      <div class="prologue-badge">
+    <!-- Thanh điều hướng trên cùng của Visual Novel -->
+    <div class="prologue-top-bar vn-top-bar" id="vnTopBar" onclick="event.stopPropagation()">
+      <div class="prologue-badge vn-chapter-tracker">
         <span class="prologue-pulse-dot"></span>
-        <span>SỬ THI GIẢ KIM 2026</span>
+        <span id="vnChapterBadgeText">HỒI 1/3: KHỞI NGUYÊN</span>
       </div>
-      <button class="btn-skip-prologue" id="btnSkipPrologue" type="button" aria-label="Bỏ qua cốt truyện vào game ngay">
+      <!-- Dấu chấm tiến trình 3 hồi -->
+      <div class="vn-progress-dots" id="vnProgressDots" aria-label="Tiến trình cốt truyện">
+        <span class="vn-dot active" title="Hồi 1: Khởi Nguyên"></span>
+        <span class="vn-dot" title="Hồi 2: Hiểm Họa"></span>
+        <span class="vn-dot" title="Hồi 3: Sứ Mệnh"></span>
+      </div>
+      <button class="btn-skip-prologue" id="btnSkipPrologue" type="button" aria-label="Bỏ qua cốt truyện vào game ngay" onclick="closePrologue(true); event.stopPropagation();">
         Bỏ Qua ⏩
       </button>
     </div>
 
-    <!-- Khung nội dung cốt truyện trung tâm -->
-    <div class="prologue-container">
-      <div class="prologue-header">
-        <div class="prologue-logo-badge">
-          <span class="badge-icon">⚔️</span>
-          <span class="badge-text">ESTER QUEST CHRONICLES</span>
-          <span class="badge-icon">⚗️</span>
+    <!-- Gợi ý bấm khi chỉ xuất hiện ảnh (chưa hiện chữ) -->
+    <div class="vn-click-hint" id="vnClickHint">
+      <div class="vn-hint-content">
+        <span class="vn-hint-hand">👆</span>
+        <span class="vn-hint-text">Chạm hoặc Click để đọc lời dẫn</span>
+        <span class="vn-hint-arrow">▾</span>
+      </div>
+    </div>
+
+    <!-- Hộp thoại Visual Novel (xuất hiện khi bấm) -->
+    <div class="vn-dialogue-box" id="vnDialogueBox" style="display:none;" onclick="handleVNDialogueClick(event)">
+      <!-- Chapter Tag & Scene Title -->
+      <div class="vn-dialogue-header">
+        <div class="card-tag" id="vnTag">
+          <span class="tag-icon" id="vnTagIcon">🌿</span>
+          <span class="tag-label" id="vnTagLabel">KHỞI NGUYÊN HOÀNG KIM</span>
         </div>
-        <h1 class="prologue-title">
-          ĐẠI CHIẾN KHỞI NGUYÊN<br>
-          <span class="prologue-title-glow">VƯƠNG QUỐC ESTER</span>
-        </h1>
-        <div class="prologue-divider">
-          <span class="divider-line"></span>
-          <span class="divider-node">✦</span>
-          <span class="divider-line"></span>
+        <div class="vn-scene-title" id="vnSceneTitle">VƯƠNG QUỐC ESTER THỜI HOÀNG KIM</div>
+      </div>
+
+      <!-- Dialogue Body Text -->
+      <div class="vn-dialogue-body">
+        <p class="card-narrative" id="vnNarrativeText">
+          Từ thuở sơ khai của thế giới Giả Kim, <strong>Vương Quốc Ester</strong> ngự trị trong sự cân bằng hoàn mỹ của các liên kết hóa học. Dưới vòm trời lấp lánh tinh thể ester, muôn loài sống hòa thuận trong hương thơm thanh khiết của hoa cỏ, trái chín ngào ngạt và nguồn năng lượng trù phú từ tự nhiên.
+        </p>
+        <div class="card-callout" id="vnCallout" style="display:none;">
+          🛡️ Hỡi Người Hùng Được Chọn! Thời khắc lịch sử đã điểm, định mệnh của Vương Quốc Ester đang chờ đợi từng bước chân dũng cảm của bạn!
         </div>
       </div>
 
-      <!-- Chuỗi câu thoại cốt truyện xuất hiện tuần tự mượt mà -->
-      <div class="prologue-cards-list">
-        <article class="prologue-card card-chapter-1">
-          <div class="card-tag">
-            <span class="tag-icon">🌿</span>
-            <span class="tag-label">KHỞI NGUYÊN HOÀNG KIM</span>
-          </div>
-          <p class="card-narrative">
-            Từ thuở sơ khai của thế giới Giả Kim, <strong>Vương Quốc Ester</strong> ngự trị trong sự cân bằng hoàn mỹ của các liên kết hóa học. Dưới vòm trời lấp lánh tinh thể ester, muôn loài sống hòa thuận trong hương thơm thanh khiết của hoa cỏ, trái chín ngào ngạt và nguồn năng lượng trù phú từ tự nhiên.
-          </p>
-        </article>
-
-        <article class="prologue-card card-chapter-2">
-          <div class="card-tag tag-danger">
-            <span class="tag-icon">🔥</span>
-            <span class="tag-label">HIỂM HỌA VỰC THẲM HỖN MANG</span>
-          </div>
-          <p class="card-narrative">
-            Nhưng rồi thảm họa ập đến! Khi <strong>Vực Thẳm Hỗn Mang</strong> mở toang, <strong>Đại Ma Vương</strong> thức tỉnh từ ngàn năm phong ấn. Hắn giải phóng luồng tà khí hắc ám làm <em>biến dị các liên kết C—O</em>, đảo lộn trật tự phản ứng hữu cơ, tạo ra hàng đàn ma vật hung tợn đe dọa nuốt chửng toàn cõi vương triều!
-          </p>
-        </article>
-
-        <article class="prologue-card card-chapter-3">
-          <div class="card-tag tag-prophecy">
-            <span class="tag-icon">✨</span>
-            <span class="tag-label">LỜI SẤM TRUYỀN & SỨ MỆNH HIỆP SĨ</span>
-          </div>
-          <p class="card-narrative highlight-prophecy">
-            Lời sấm truyền ngàn năm báo trước: <em>"Chỉ có một Hiệp Sĩ thấu suốt mọi bí kíp danh pháp, quy luật nhiệt độ sôi và thuật thủy phân xà phòng hóa mới có thể cầm chắc thanh kiếm tri thức để cứu rỗi vương triều!"</em>
-          </p>
-          <div class="card-callout">
-            🛡️ Hỡi Người Hùng Được Chọn! Thời khắc lịch sử đã điểm, định mệnh của Vương Quốc Ester đang chờ đợi từng bước chân dũng cảm của bạn!
-          </div>
-        </article>
-      </div>
-
-      <!-- Nút hành động chính -->
-      <div class="prologue-action-group">
-        <button class="btn-prologue-enter" id="btnEnterWorld" type="button">
+      <!-- Dialogue Footer: Prompt hoặc Button kết thúc -->
+      <div class="vn-dialogue-footer">
+        <div class="vn-prompt-continue" id="vnPromptContinue">
+          <span>Nhấn để tiếp tục</span>
+          <span class="vn-blink-arrow">➔</span>
+        </div>
+        <button class="btn-prologue-enter" id="btnEnterWorld" type="button" style="display:none;" onclick="closePrologue(false); event.stopPropagation();">
           <span class="btn-shine"></span>
           <span class="enter-text">TIẾP TỤC BƯỚC VÀO THẾ GIỚI</span>
           <span class="enter-arrow">➔</span>
         </button>
       </div>
+    </div>
 
-      <!-- Gợi ý âm thanh -->
-      <div class="prologue-audio-tip" id="prologueAudioTip" aria-live="polite">
-        <span class="audio-icon">🎵</span>
-        <span>Chạm bất kỳ đâu trên màn hình để hòa mình vào khúc nhạc sử thi</span>
-      </div>
+    <!-- Gợi ý âm thanh -->
+    <div class="prologue-audio-tip vn-audio-tip" id="prologueAudioTip" aria-live="polite">
+      <span class="audio-icon">🎵</span>
+      <span>Chạm bất kỳ đâu trên màn hình để hòa mình vào khúc nhạc sử thi</span>
     </div>
   </div>
 
@@ -10044,9 +9991,165 @@
     }
 
     /* ============================================================
-       0. LOGIC MÀN MỞ ĐẦU SỬ THI (PROLOGUE CONTROLLER)
+       0. HỆ THỐNG VISUAL NOVEL CỐT TRUYỆN MỞ ĐẦU (PROLOGUE VN SYSTEM)
        ============================================================ */
+    const PROLOGUE_VN_SCENES = [
+      {
+        id: 1,
+        image: "assets/prologue_1_peace.jpg",
+        badge: "HỒI 1/3: KHỞI NGUYÊN",
+        tagIcon: "🌿",
+        tagLabel: "KHỞI NGUYÊN HOÀNG KIM",
+        tagClass: "",
+        title: "VƯƠNG QUỐC ESTER THỜI HOÀNG KIM",
+        narrative: "Từ thuở sơ khai của thế giới Giả Kim, <strong>Vương Quốc Ester</strong> ngự trị trong sự cân bằng hoàn mỹ của các liên kết hóa học. Dưới vòm trời lấp lánh tinh thể ester, muôn loài sống hòa thuận trong hương thơm thanh khiết của hoa cỏ, trái chín ngào ngạt và nguồn năng lượng trù phú từ tự nhiên.",
+        callout: null
+      },
+      {
+        id: 2,
+        image: "assets/prologue_2_chaos.jpg",
+        badge: "HỒI 2/3: HIỂM HỌA",
+        tagIcon: "🔥",
+        tagLabel: "HIỂM HỌA VỰC THẲM HỖN MANG",
+        tagClass: "tag-danger",
+        title: "ĐẠI MA VƯƠNG THỨC TỈNH",
+        narrative: "Nhưng rồi thảm họa ập đến! Khi <strong>Vực Thẳm Hỗn Mang</strong> mở toang, <strong>Đại Ma Vương</strong> thức tỉnh từ ngàn năm phong ấn. Hắn giải phóng luồng tà khí hắc ám làm <em>biến dị các liên kết C—O</em>, đảo lộn trật tự phản ứng hữu cơ, tạo ra hàng đàn ma vật hung tợn đe dọa nuốt chửng toàn cõi vương triều!",
+        callout: null
+      },
+      {
+        id: 3,
+        image: "assets/prologue_3_hero.jpg",
+        badge: "HỒI 3/3: SỨ MỆNH",
+        tagIcon: "✨",
+        tagLabel: "LỜI SẤM TRUYỀN & SỨ MỆNH HIỆP SĨ",
+        tagClass: "tag-prophecy",
+        title: "THANH KIẾM TRI THỨC GIẢ KIM",
+        narrative: "Lời sấm truyền ngàn năm báo trước: <em class=\"highlight-prophecy\">\"Chỉ có một Hiệp Sĩ thấu suốt mọi bí kíp danh pháp, quy luật nhiệt độ sôi và thuật thủy phân xà phòng hóa mới có thể cầm chắc thanh kiếm tri thức để cứu rỗi vương triều!\"</em>",
+        callout: "🛡️ Hỡi Người Hùng Được Chọn! Thời khắc lịch sử đã điểm, định mệnh của Vương Quốc Ester đang chờ đợi từng bước chân dũng cảm của bạn!"
+      }
+    ];
+
+    let vnState = {
+      sceneIndex: 0,
+      textVisible: false
+    };
+
     let prologueAudioPlayed = false;
+
+    function renderVNStep() {
+      const scene = PROLOGUE_VN_SCENES[vnState.sceneIndex];
+      if (!scene) return;
+
+      // Cập nhật slide ảnh nền
+      const slides = [
+        document.getElementById("vnSlide0"),
+        document.getElementById("vnSlide1"),
+        document.getElementById("vnSlide2")
+      ];
+      slides.forEach((sl, idx) => {
+        if (sl) sl.classList.toggle("active", idx === vnState.sceneIndex);
+      });
+
+      // Cập nhật thẻ hồi và các chấm tiến trình
+      const badge = document.getElementById("vnChapterBadgeText");
+      if (badge) badge.textContent = scene.badge;
+
+      const dots = document.querySelectorAll(".vn-dot");
+      dots.forEach((dot, idx) => {
+        dot.classList.toggle("active", idx === vnState.sceneIndex);
+      });
+
+      const hint = document.getElementById("vnClickHint");
+      const dlg = document.getElementById("vnDialogueBox");
+
+      if (!vnState.textVisible) {
+        // Trạng thái 1: Chỉ xuất hiện ảnh, chờ người chơi bấm để hiện chữ
+        if (hint) hint.style.display = "block";
+        if (dlg) dlg.style.display = "none";
+      } else {
+        // Trạng thái 2: Đã bấm -> Hiện chữ & hộp thoại
+        if (hint) hint.style.display = "none";
+        if (dlg) {
+          dlg.style.display = "block";
+          dlg.style.animation = "none";
+          void dlg.offsetWidth;
+          dlg.style.animation = "";
+        }
+
+        const tag = document.getElementById("vnTag");
+        const tagIcon = document.getElementById("vnTagIcon");
+        const tagLabel = document.getElementById("vnTagLabel");
+        const sceneTitle = document.getElementById("vnSceneTitle");
+        const narrText = document.getElementById("vnNarrativeText");
+        const callout = document.getElementById("vnCallout");
+        const promptCont = document.getElementById("vnPromptContinue");
+        const btnEnter = document.getElementById("btnEnterWorld");
+
+        if (tag) tag.className = `card-tag ${scene.tagClass || ''}`.trim();
+        if (tagIcon) tagIcon.textContent = scene.tagIcon;
+        if (tagLabel) tagLabel.textContent = scene.tagLabel;
+        if (sceneTitle) sceneTitle.textContent = scene.title;
+        if (narrText) narrText.innerHTML = scene.narrative;
+
+        if (scene.callout) {
+          if (callout) {
+            callout.style.display = "block";
+            callout.innerHTML = scene.callout;
+          }
+        } else {
+          if (callout) callout.style.display = "none";
+        }
+
+        const isLastScene = (vnState.sceneIndex >= PROLOGUE_VN_SCENES.length - 1);
+        if (isLastScene) {
+          if (promptCont) promptCont.style.display = "none";
+          if (btnEnter) btnEnter.style.display = "inline-flex";
+        } else {
+          if (promptCont) promptCont.style.display = "flex";
+          if (btnEnter) btnEnter.style.display = "none";
+        }
+      }
+    }
+
+    function advanceVN() {
+      const overlay = document.getElementById("prologueOverlay");
+      if (!overlay || overlay.style.display === "none") return;
+
+      playPrologueAudioOnFirstGesture();
+
+      if (!vnState.textVisible) {
+        // Bấm lần 1: Hiện dòng chữ
+        vnState.textVisible = true;
+        try { if (SFX && SFX.select) SFX.select(); } catch(_) {}
+        renderVNStep();
+      } else {
+        // Bấm lần 2: Sang ảnh tiếp theo
+        if (vnState.sceneIndex < PROLOGUE_VN_SCENES.length - 1) {
+          vnState.sceneIndex++;
+          vnState.textVisible = false;
+          try { if (SFX && SFX.prologueSynth) SFX.prologueSynth(); } catch(_) {}
+          renderVNStep();
+        } else {
+          // Kết thúc hồi cuối -> Vào thế giới game
+          closePrologue(false);
+        }
+      }
+    }
+
+    function handleVNOverlayClick(e) {
+      if (e.target.closest("#btnSkipPrologue") || e.target.closest("#btnEnterWorld")) {
+        return;
+      }
+      advanceVN();
+    }
+
+    function handleVNDialogueClick(e) {
+      if (e.target.closest("#btnEnterWorld")) {
+        return;
+      }
+      advanceVN();
+      e.stopPropagation();
+    }
 
     function playPrologueAudioOnFirstGesture() {
       if (prologueAudioPlayed) return;
@@ -10089,19 +10192,29 @@
       overlay.classList.remove("fade-out");
       overlay.scrollTop = 0;
 
-      // Kích hoạt lại animation cho các thẻ cốt truyện
-      const cards = overlay.querySelectorAll(".prologue-card");
-      cards.forEach(card => {
-        card.style.animation = "none";
-        void card.offsetWidth;
-        card.style.animation = "";
-      });
+      vnState.sceneIndex = 0;
+      vnState.textVisible = false;
+      renderVNStep();
 
       const tip = document.getElementById("prologueAudioTip");
       if (tip) tip.style.opacity = "0.85";
 
       SFX.prologueSynth();
     }
+
+    // Điều khiển bàn phím cho Visual Novel (Space, Enter, Phím mũi tên phải)
+    document.addEventListener("keydown", (e) => {
+      const overlay = document.getElementById("prologueOverlay");
+      if (overlay && overlay.style.display !== "none") {
+        if (e.code === "Space" || e.code === "Enter" || e.code === "ArrowRight") {
+          e.preventDefault();
+          advanceVN();
+        } else if (e.code === "Escape") {
+          e.preventDefault();
+          closePrologue(true);
+        }
+      }
+    });
 
     /* Button Events */
     document.getElementById("btnHomeLogo").addEventListener("click", returnToHome);
@@ -10221,12 +10334,19 @@
       } catch(e) {}
     })();
 
+    // Khởi tạo trạng thái ban đầu của Visual Novel
+    renderVNStep();
+
     // Xuất các hàm và đối tượng toàn cục cho kiểm thử và gỡ lỗi
     window.STAGES = STAGES;
     window.loadStage = loadStage;
     window.triggerBossPhase2 = triggerBossPhase2;
     window.SFX = SFX;
     window.state = state;
+    window.PROLOGUE_VN_SCENES = PROLOGUE_VN_SCENES;
+    window.vnState = vnState;
+    window.advanceVN = advanceVN;
+    window.renderVNStep = renderVNStep;
   </script>
 </body>
 </html>
