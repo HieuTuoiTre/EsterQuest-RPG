@@ -6119,6 +6119,39 @@
        ============================================================ */
 
     // Extended SFX for virtual labs & pedagogy
+    SFX.select = function() {
+      if (!state.soundEnabled) return;
+      try {
+        const ctx = getAudioCtx();
+        const now = ctx.currentTime;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(520, now);
+        osc.frequency.exponentialRampToValueAtTime(780, now + 0.08);
+        gain.gain.setValueAtTime(0.12, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+        osc.connect(gain); gain.connect(ctx.destination);
+        osc.start(now); osc.stop(now + 0.09);
+      } catch(_) {}
+    };
+
+    SFX.click = function() {
+      if (!state.soundEnabled) return;
+      try {
+        const ctx = getAudioCtx();
+        const now = ctx.currentTime;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = "triangle";
+        osc.frequency.setValueAtTime(420, now);
+        gain.gain.setValueAtTime(0.08, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
+        osc.connect(gain); gain.connect(ctx.destination);
+        osc.start(now); osc.stop(now + 0.06);
+      } catch(_) {}
+    };
+
     SFX.bubble = function() {
       if (!state.soundEnabled) return;
       try {
@@ -6192,6 +6225,14 @@
         });
       } catch(_) {}
     };
+
+    // Defensive proxy on SFX: Never crash on any missing audio call
+    window.SFX = new Proxy(SFX, {
+      get(target, prop) {
+        if (prop in target) return target[prop];
+        return () => {}; // Safe fallback no-op
+      }
+    });
 
     const academyState = {
       currentLesson: 1,
@@ -6417,7 +6458,7 @@
     function explainMoleculePart(partKey, molKey) {
       const box = document.getElementById("moleculeInfoBox");
       if (!box) return;
-      SFX.select();
+      try { if (SFX && SFX.select) SFX.select(); } catch(_) {}
 
       if (partKey === "acid") {
         if (molKey === "ethyl_acetate") {
@@ -6441,8 +6482,8 @@
       academyState.selectedNomenAcidVal = acidVal;
       academyState.selectedNomenAcidName = acidName;
       document.querySelectorAll("#nomenAcidOptions .nomen-pill").forEach(p => p.classList.remove("active"));
-      el.classList.add("active");
-      SFX.select();
+      if (el) el.classList.add("active");
+      try { if (SFX && SFX.select) SFX.select(); } catch(_) {}
       updateNomenDisplay();
     }
 
@@ -6450,8 +6491,8 @@
       academyState.selectedNomenAlcoholVal = alcVal;
       academyState.selectedNomenAlcoholName = alcName;
       document.querySelectorAll("#nomenAlcoholOptions .nomen-pill").forEach(p => p.classList.remove("active"));
-      el.classList.add("active");
-      SFX.select();
+      if (el) el.classList.add("active");
+      try { if (SFX && SFX.select) SFX.select(); } catch(_) {}
       updateNomenDisplay();
     }
 
@@ -6463,7 +6504,10 @@
       const f = `${academyState.selectedNomenAcidVal}${academyState.selectedNomenAlcoholVal}`;
       const n = `${academyState.selectedNomenAlcoholName} ${academyState.selectedNomenAcidName}`;
 
-      formulaEl.textContent = f;
+      const subscriptMap = { '0': '₀', '1': '₁', '2': '₂', '3': '₃', '4': '₄', '5': '₅', '6': '₆', '7': '₇', '8': '₈', '9': '₉' };
+      const prettyF = f.replace(/[0-9]/g, digit => subscriptMap[digit] || digit);
+
+      formulaEl.textContent = prettyF;
       nameEl.textContent = n;
     }
 
@@ -6477,14 +6521,21 @@
     function selectBoilingSubstance(key) {
       academyState.boilingSubstance = key;
       const spec = BOILING_SPECS[key];
-      SFX.select();
+      if (!spec) return;
+      try { if (SFX && SFX.select) SFX.select(); } catch(_) {}
 
-      document.getElementById("btnSubstanceEster").classList.toggle("active", key === "ethyl_acetate");
-      document.getElementById("btnSubstanceAlcohol").classList.toggle("active", key === "ethanol");
-      document.getElementById("btnSubstanceAcid").classList.toggle("active", key === "acetic_acid");
+      const btnEster = document.getElementById("btnSubstanceEster");
+      const btnAlcohol = document.getElementById("btnSubstanceAlcohol");
+      const btnAcid = document.getElementById("btnSubstanceAcid");
 
-      document.getElementById("boilingSubstanceName").textContent = spec.name;
-      document.getElementById("boilingPointSpec").textContent = `Nhiệt độ sôi lý thuyết: ${spec.bp}°C`;
+      if (btnEster) btnEster.classList.toggle("active", key === "ethyl_acetate");
+      if (btnAlcohol) btnAlcohol.classList.toggle("active", key === "ethanol");
+      if (btnAcid) btnAcid.classList.toggle("active", key === "acetic_acid");
+
+      const nameEl = document.getElementById("boilingSubstanceName");
+      const specEl = document.getElementById("boilingPointSpec");
+      if (nameEl) nameEl.textContent = spec.name;
+      if (specEl) specEl.textContent = `Nhiệt độ sôi lý thuyết: ${spec.bp}°C`;
 
       const liquid = document.getElementById("boilingLiquid");
       if (liquid) liquid.style.background = spec.color;
@@ -6543,7 +6594,7 @@
     /* Lesson 4: Hydrolysis Lab & Silver Mirror */
     function switchHydroLab(mode) {
       academyState.hydroLabMode = mode;
-      SFX.select();
+      try { if (SFX && SFX.select) SFX.select(); } catch(_) {}
       const tab1 = document.getElementById("btnSubtabHydro");
       const tab2 = document.getElementById("btnSubtabSilver");
       const panel1 = document.getElementById("hydroSeparationLab");
@@ -6620,9 +6671,11 @@
 
     function selectSilverSubstance(key) {
       academyState.silverSubstance = key;
-      SFX.select();
-      document.getElementById("btnSilverVinyl").classList.toggle("active", key === "vinyl_acetate");
-      document.getElementById("btnSilverEthyl").classList.toggle("active", key === "ethyl_acetate");
+      try { if (SFX && SFX.select) SFX.select(); } catch(_) {}
+      const btnV = document.getElementById("btnSilverVinyl");
+      const btnE = document.getElementById("btnSilverEthyl");
+      if (btnV) btnV.classList.toggle("active", key === "vinyl_acetate");
+      if (btnE) btnE.classList.toggle("active", key === "ethyl_acetate");
 
       const tube = document.getElementById("silverTestTube");
       const banner = document.getElementById("silverStatusBanner");
@@ -6641,7 +6694,7 @@
       if (flame) flame.style.opacity = "1";
 
       if (academyState.silverSubstance === "vinyl_acetate") {
-        SFX.silverMirror();
+        try { if (SFX && SFX.silverMirror) SFX.silverMirror(); } catch(_) {}
         if (tube) tube.classList.add("tube-silver-mirror");
         if (banner) {
           banner.style.background = "rgba(255,255,255,0.2)";
@@ -6650,7 +6703,7 @@
         }
         showAcademyToast("✨ Phủ bạc kim loại Ag sáng rực thành ống nghiệm!");
       } else {
-        SFX.wrong();
+        try { if (SFX && SFX.wrong) SFX.wrong(); } catch(_) {}
         if (tube) tube.classList.remove("tube-silver-mirror");
         if (banner) {
           banner.style.background = "rgba(255, 71, 87, 0.15)";
@@ -6663,19 +6716,27 @@
     /* Lesson 5: Synthesis Lab & Matching Game */
     function selectSynthesisAcid(acidKey) {
       academyState.synthAcid = acidKey;
-      SFX.select();
-      document.getElementById("btnAcidCH3COOH").classList.toggle("active", acidKey === "CH3COOH");
-      document.getElementById("btnAcidHCOOH").classList.toggle("active", acidKey === "HCOOH");
-      document.getElementById("btnAcidC2H5COOH").classList.toggle("active", acidKey === "C2H5COOH");
+      try { if (SFX && SFX.select) SFX.select(); } catch(_) {}
+      const btnCH3 = document.getElementById("btnAcidCH3COOH");
+      const btnH = document.getElementById("btnAcidHCOOH");
+      const btnC2 = document.getElementById("btnAcidC2H5COOH");
+
+      if (btnCH3) btnCH3.classList.toggle("active", acidKey === "CH3COOH");
+      if (btnH) btnH.classList.toggle("active", acidKey === "HCOOH");
+      if (btnC2) btnC2.classList.toggle("active", acidKey === "C2H5COOH");
       updateSynthEquation();
     }
 
     function selectSynthesisAlcohol(alcKey) {
       academyState.synthAlcohol = alcKey;
-      SFX.select();
-      document.getElementById("btnAlcEthanol").classList.toggle("active", alcKey === "C2H5OH");
-      document.getElementById("btnAlcMethanol").classList.toggle("active", alcKey === "CH3OH");
-      document.getElementById("btnAlcIsoamyl").classList.toggle("active", alcKey === "isoamyl");
+      try { if (SFX && SFX.select) SFX.select(); } catch(_) {}
+      const btnEth = document.getElementById("btnAlcEthanol");
+      const btnMeth = document.getElementById("btnAlcMethanol");
+      const btnIso = document.getElementById("btnAlcIsoamyl");
+
+      if (btnEth) btnEth.classList.toggle("active", alcKey === "C2H5OH");
+      if (btnMeth) btnMeth.classList.toggle("active", alcKey === "CH3OH");
+      if (btnIso) btnIso.classList.toggle("active", alcKey === "isoamyl");
       updateSynthEquation();
     }
 
@@ -6810,7 +6871,7 @@
         document.querySelectorAll("#colLeft .matching-card").forEach(c => c.classList.remove("selected"));
         cardEl.classList.add("selected");
         academyState.selectedLeftCard = { id, el: cardEl };
-        SFX.select();
+        try { if (SFX && SFX.select) SFX.select(); } catch(_) {}
       } else if (col === "right") {
         if (!academyState.selectedLeftCard) {
           showAcademyToast("👉 Hãy chạm chọn một thẻ ở Cột Trái trước!");
