@@ -111,7 +111,19 @@ def verify_bank():
             assert phrase not in q['explain'], f"Question ID {qid} still contains awkward phrase '{phrase}': {q['explain']}"
 
     print("✅ All awkward/templated explanation phrases eliminated across all questions!")
-    print("\n🎉 ALL 11 VERIFICATION CHECKS PASSED PERFECTLY! 🧪")
+    # 12. Verify Question 73 explains 'x' and formats subscripts properly
+    q73 = questions[73]
+    assert "x là số nhóm chức" in q73['q'] or "x là số nhóm chức" in q73['hint'], "Question 73 must explain what x is"
+    assert "C_{n}H_{2n+2-2k}O_{2x}" in q73['options'][0], "Option A must format subscripts for n, 2n+2-2k, and 2x"
+    print("✅ Question 73 (Defined 'x' as number of ester groups & proper subscripts) verified!")
+
+    # 13. Verify formatFormula regex in index.html handles algebraic subscripts
+    assert "C<sub>n</sub>" in html, "formatFormula must format Cn to C<sub>n</sub>"
+    assert "H<sub>$1</sub>" in html, "formatFormula must format H algebraic expressions"
+    assert "O<sub>$1</sub>" in html, "formatFormula must format O algebraic expressions"
+    print("✅ formatFormula algebraic subscript parsing verified!")
+
+    print("\n🎉 ALL 13 VERIFICATION CHECKS PASSED PERFECTLY! 🧪")
 
 if __name__ == "__main__":
     verify_bank()
