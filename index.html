@@ -2585,6 +2585,69 @@
       color: var(--mana);
     }
 
+    /* Chem Radicals Reference Table */
+    .radicals-table-container {
+      width: 100%;
+      overflow-x: auto;
+      margin: 14px 0 16px;
+      border-radius: 10px;
+      border: 1px solid rgba(78, 140, 255, 0.35);
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
+      background: rgba(12, 18, 36, 0.9);
+      -webkit-overflow-scrolling: touch;
+    }
+    .radicals-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      text-align: left;
+    }
+    .radicals-table th {
+      background: linear-gradient(135deg, #059669 0%, #0d9488 100%);
+      color: #ffffff;
+      padding: 10px 14px;
+      font-weight: 800;
+      font-size: 13.5px;
+      letter-spacing: 0.5px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      white-space: nowrap;
+    }
+    .radicals-table td {
+      padding: 8px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #e2e8f0;
+      line-height: 1.4;
+      vertical-align: middle;
+    }
+    .radicals-table tr:nth-child(even) td {
+      background: rgba(255, 255, 255, 0.025);
+    }
+    .radicals-table tr:hover td {
+      background: rgba(78, 140, 255, 0.08);
+    }
+    .radical-code {
+      font-family: monospace;
+      font-size: 13px;
+      font-weight: 700;
+      color: #ffd154;
+      background: rgba(255, 209, 84, 0.12);
+      border: 1px solid rgba(255, 209, 84, 0.25);
+      padding: 2px 6px;
+      border-radius: 4px;
+      margin-right: 6px;
+      display: inline-block;
+    }
+    .radical-name {
+      font-weight: 700;
+      color: #ffffff;
+    }
+    .radical-alias {
+      color: var(--text-muted);
+      font-style: italic;
+      font-size: 11.5px;
+      margin-left: 4px;
+    }
+
     /* Shelf chemical buttons */
     .chemical-shelf {
       display: flex;
@@ -3331,6 +3394,65 @@
               💡 Nhấn vào một nhóm nguyên tử ở trên để quan sát vai trò và cấu trúc liên kết!
             </div>
           </div>
+
+          <!-- Bảng Tra Cứu Toàn Bộ Các Gốc R' và RCOO- (Chuẩn SGK Hóa 12 CTM) -->
+          <div style="margin-top:20px;">
+            <div style="font-weight:700; color:var(--accent); font-size:15px; margin-bottom:6px; display:flex; align-items:center; gap:8px;">
+              <span>📜</span> Bảng Tra Cứu Toàn Diện Gốc R' &amp; Gốc Acid RCOO⁻ (Chuẩn SGK Hóa 12 CTM):
+            </div>
+            <div class="rule-box" style="margin-bottom:10px; font-size:13px; line-height:1.5;">
+              Quy tắc gọi tên ester hệ thống: <strong style="color:#ffd154;">Tên ester RCOOR' = Tên gốc R' + Tên gốc acid RCOO⁻ (đuôi -ate)</strong>.<br>
+              Dưới đây là bảng tổng hợp đầy đủ toàn bộ các gốc quan trọng nhất cần ghi nhớ:
+            </div>
+            <div class="radicals-table-container">
+              <table class="radicals-table">
+                <thead>
+                  <tr>
+                    <th style="width:50%;">Tên R' (Gốc Hydrocarbon từ Alcohol)</th>
+                    <th style="width:50%;">Tên RCOO⁻ (Gốc Acid Carboxylic)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><span class="radical-code">CH₃-</span> <span class="radical-name">methyl</span></td>
+                    <td><span class="radical-code">HCOO⁻</span> <span class="radical-name">formate</span> <span class="radical-alias">hoặc methanoate</span></td>
+                  </tr>
+                  <tr>
+                    <td><span class="radical-code">C₂H₅-</span> <span class="radical-name">ethyl</span></td>
+                    <td><span class="radical-code">CH₃COO⁻</span> <span class="radical-name">acetate</span> <span class="radical-alias">hoặc ethanoate</span></td>
+                  </tr>
+                  <tr>
+                    <td><span class="radical-code">CH₃-CH₂-CH₂-</span> <span class="radical-name">propyl</span></td>
+                    <td><span class="radical-code">C₂H₅COO⁻</span> <span class="radical-name">propionate</span> <span class="radical-alias">hoặc propanoate</span></td>
+                  </tr>
+                  <tr>
+                    <td><span class="radical-code">(CH₃)₂CH-</span> <span class="radical-name">isopropyl</span></td>
+                    <td><span class="radical-code">CH₃CH₂CH₂COO⁻</span> <span class="radical-name">butyrate</span> <span class="radical-alias">hoặc butanoate</span></td>
+                  </tr>
+                  <tr>
+                    <td><span class="radical-code">(CH₃)₂CH-CH₂-CH₂-</span> <span class="radical-name">isoamyl</span></td>
+                    <td><span class="radical-code">CH₂=CH-COO⁻</span> <span class="radical-name">acrylate</span> <span class="radical-alias">hoặc propenoate</span></td>
+                  </tr>
+                  <tr>
+                    <td><span class="radical-code">CH₂=CH-</span> <span class="radical-name">vinyl</span></td>
+                    <td><span class="radical-code">CH₂=C(CH₃)-COO⁻</span> <span class="radical-name">methacrylate</span></td>
+                  </tr>
+                  <tr>
+                    <td><span class="radical-code">CH₂=CH-CH₂-</span> <span class="radical-name">allyl</span></td>
+                    <td><span class="radical-code">C₆H₅COO⁻</span> <span class="radical-name">benzoate</span></td>
+                  </tr>
+                  <tr>
+                    <td><span class="radical-code">C₆H₅-</span> <span class="radical-name">phenyl</span></td>
+                    <td><span class="radical-code">(COO⁻)₂</span> <span class="radical-name">oxalate</span></td>
+                  </tr>
+                  <tr>
+                    <td><span class="radical-code">C₆H₅-CH₂-</span> <span class="radical-name">benzyl</span></td>
+                    <td style="color:var(--text-muted); font-style:italic;">—</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
 
         <!-- Quiz Challenge 1 -->
@@ -3393,7 +3515,10 @@
                 <button class="nomen-pill active" data-val="HCOO" data-name="formate" onclick="selectNomenAcid(this, 'HCOO', 'formate')">HCOO⁻ (formate)</button>
                 <button class="nomen-pill" data-val="CH3COO" data-name="acetate" onclick="selectNomenAcid(this, 'CH3COO', 'acetate')">CH₃COO⁻ (acetate)</button>
                 <button class="nomen-pill" data-val="C2H5COO" data-name="propionate" onclick="selectNomenAcid(this, 'C2H5COO', 'propionate')">C₂H₅COO⁻ (propionate)</button>
+                <button class="nomen-pill" data-val="CH3CH2CH2COO" data-name="butyrate" onclick="selectNomenAcid(this, 'CH3CH2CH2COO', 'butyrate')">CH₃CH₂CH₂COO⁻ (butyrate)</button>
                 <button class="nomen-pill" data-val="CH2=CHCOO" data-name="acrylate" onclick="selectNomenAcid(this, 'CH2=CHCOO', 'acrylate')">CH₂=CH-COO⁻ (acrylate)</button>
+                <button class="nomen-pill" data-val="CH2=C(CH3)COO" data-name="methacrylate" onclick="selectNomenAcid(this, 'CH2=C(CH3)COO', 'methacrylate')">CH₂=C(CH₃)-COO⁻ (methacrylate)</button>
+                <button class="nomen-pill" data-val="C6H5COO" data-name="benzoate" onclick="selectNomenAcid(this, 'C6H5COO', 'benzoate')">C₆H₅COO⁻ (benzoate)</button>
               </div>
             </div>
             <div class="nomen-row">
@@ -3401,7 +3526,12 @@
               <div class="nomen-options" id="nomenAlcoholOptions">
                 <button class="nomen-pill active" data-val="CH3" data-name="methyl" onclick="selectNomenAlcohol(this, 'CH3', 'methyl')">CH₃- (methyl)</button>
                 <button class="nomen-pill" data-val="C2H5" data-name="ethyl" onclick="selectNomenAlcohol(this, 'C2H5', 'ethyl')">C₂H₅- (ethyl)</button>
+                <button class="nomen-pill" data-val="CH3CH2CH2" data-name="propyl" onclick="selectNomenAlcohol(this, 'CH3CH2CH2', 'propyl')">CH₃CH₂CH₂- (propyl)</button>
+                <button class="nomen-pill" data-val="CH(CH3)2" data-name="isopropyl" onclick="selectNomenAlcohol(this, 'CH(CH3)2', 'isopropyl')">(CH₃)₂CH- (isopropyl)</button>
+                <button class="nomen-pill" data-val="(CH3)2CHCH2CH2" data-name="isoamyl" onclick="selectNomenAlcohol(this, '(CH3)2CHCH2CH2', 'isoamyl')">(CH₃)₂CH-CH₂CH₂- (isoamyl)</button>
                 <button class="nomen-pill" data-val="CH=CH2" data-name="vinyl" onclick="selectNomenAlcohol(this, 'CH=CH2', 'vinyl')">-CH=CH₂ (vinyl)</button>
+                <button class="nomen-pill" data-val="CH2CH=CH2" data-name="allyl" onclick="selectNomenAlcohol(this, 'CH2CH=CH2', 'allyl')">-CH₂-CH=CH₂ (allyl)</button>
+                <button class="nomen-pill" data-val="C6H5" data-name="phenyl" onclick="selectNomenAlcohol(this, 'C6H5', 'phenyl')">-C₆H₅ (phenyl)</button>
                 <button class="nomen-pill" data-val="CH2C6H5" data-name="benzyl" onclick="selectNomenAlcohol(this, 'CH2C6H5', 'benzyl')">-CH₂C₆H₅ (benzyl)</button>
               </div>
             </div>

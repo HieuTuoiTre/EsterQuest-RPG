@@ -11,7 +11,13 @@ def test_interactive_labs():
     assert "SFX.click = function" in html, "SFX.click must be defined"
     assert "window.SFX = new Proxy" in html, "Defensive SFX Proxy must exist"
 
-    # 2. Verify Lesson 2 Nomenclature updates
+    # 2. Verify Lesson 1 Radicals Table & Lesson 2 Nomenclature updates
+    assert "radicals-table" in html, "Radicals reference table must exist in Lesson 1"
+    assert "allyl" in html, "allyl radical must exist"
+    assert "phenyl" in html, "phenyl radical must exist"
+    assert "isopropyl" in html, "isopropyl radical must exist"
+    assert "methacrylate" in html, "methacrylate radical must exist"
+    assert "oxalate" in html, "oxalate radical must exist"
     assert "function updateNomenDisplay()" in html, "updateNomenDisplay must exist"
     assert "subscriptMap" in html, "Chemical formula formatting with subscripts must exist"
     assert "nomenFormulaDisplay" in html, "nomenFormulaDisplay element ID must exist"
