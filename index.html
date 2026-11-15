@@ -104,6 +104,87 @@
       box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
     }
 
+    /* Dark Fantasy BGM Audio Bar & Volume Slider */
+    .audio-control-bar {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(18, 26, 48, 0.75);
+      border: 1px solid rgba(78, 140, 255, 0.35);
+      padding: 4px 10px 4px 5px;
+      border-radius: 10px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+    }
+    .audio-control-bar .icon-btn {
+      border: none;
+      background: rgba(40, 60, 110, 0.55);
+      padding: 6px 11px;
+      font-size: 13px;
+      box-shadow: none;
+    }
+    .audio-control-bar .icon-btn:hover {
+      background: rgba(60, 90, 160, 0.75);
+      color: #ffd154;
+    }
+    .volume-slider-box {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .vol-icon {
+      font-size: 14px;
+      user-select: none;
+      opacity: 0.9;
+    }
+    .vol-num {
+      font-family: var(--font-ui);
+      font-size: 12px;
+      font-weight: 700;
+      color: #ffd154;
+      min-width: 34px;
+      text-align: right;
+      user-select: none;
+    }
+    #bgmVolumeSlider {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 75px;
+      height: 6px;
+      border-radius: 3px;
+      background: rgba(255, 255, 255, 0.22);
+      outline: none;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    #bgmVolumeSlider:hover {
+      background: rgba(255, 255, 255, 0.35);
+    }
+    #bgmVolumeSlider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: #ffd154;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(255, 209, 84, 0.85);
+      border: 2px solid #0f172a;
+      transition: transform 0.15s ease;
+    }
+    #bgmVolumeSlider::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+    }
+    #bgmVolumeSlider::-moz-range-thumb {
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: #ffd154;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(255, 209, 84, 0.85);
+      border: 2px solid #0f172a;
+    }
+
     /* Main Container */
     main {
       flex: 1;
@@ -1613,6 +1694,22 @@
       }
       header.menu-open .header-actions { display: flex; }
       .header-actions .icon-btn { justify-content: flex-start; min-height: 44px; font-size: 16px; }
+      .header-actions .audio-control-bar {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 6px 10px;
+        box-sizing: border-box;
+      }
+      .header-actions .volume-slider-box {
+        flex: 1;
+        justify-content: flex-end;
+      }
+      .header-actions #bgmVolumeSlider {
+        width: 100px;
+        height: 8px;
+      }
       main { min-width: 0; padding: 12px; }
       #menuScreen { min-height: 0; padding: 28px 16px; }
       .name-input-group label { font-size: 16px; }
@@ -3307,7 +3404,14 @@
       <button class="icon-btn" id="btnHeaderPrologue" title="Xem lại màn mở đầu cốt truyện điện ảnh">🎬 Cốt Truyện</button>
       <button class="icon-btn" id="btnHeaderAcademy" title="Vào Học Viện Đào Tạo Ester (Chương 1)">🎓 Học Viện (Chương 1)</button>
       <button class="icon-btn" id="btnLeaderboard">🏆 Bảng Xếp Hạng & Lịch Sử</button>
-      <button class="icon-btn" id="btnSound">🔊 Âm thanh</button>
+      <div class="audio-control-bar" id="audioControlBar" title="Nhạc Nền Dark Fantasy &amp; Âm Lượng">
+        <button class="icon-btn" id="btnSound" title="Bật/Tắt Âm Thanh &amp; Nhạc Nền">🔊 Nhạc: Bật</button>
+        <div class="volume-slider-box" id="volumeSliderBox" title="Kéo để chỉnh âm lượng nhạc nền Dark Fantasy">
+          <span class="vol-icon" id="volIcon">🎵</span>
+          <input type="range" id="bgmVolumeSlider" min="0" max="100" value="65" aria-label="Âm lượng nhạc nền Dark Fantasy">
+          <span class="vol-num" id="volNum">65%</span>
+        </div>
+      </div>
       <button class="icon-btn" id="btnCodex">📖 Sổ Tay Bí Kíp</button>
     </nav>
   </header>
@@ -6778,6 +6882,281 @@
         return () => {}; // Safe fallback no-op
       }
     });
+
+    /* ============================================================
+       4.5. NHẠC NỀN DARK FANTASY SỬ THI (WEB AUDIO AMBIENT ENGINE)
+       ============================================================ */
+    const DarkFantasyBGM = {
+      isPlaying: false,
+      volume: 0.65, // Âm lượng mặc định 65%
+      masterGain: null,
+      compressor: null,
+      filter: null,
+      schedulerTimer: null,
+      currentStep: 0,
+      nextStepTime: 0,
+      tempo: 68, // 68 BPM - tiết tấu Dark Fantasy trầm hùng, huyền bí
+
+      // 8 hợp âm vòng lặp: Dm -> Dm/F -> Bb -> Gm -> Dm/A -> Bb -> Gm -> A7
+      CHORDS: [
+        { bass: [36.71, 73.42, 110.00], choir: [293.66, 440.00, 698.46] }, // Dm
+        { bass: [36.71, 87.31, 146.83], choir: [293.66, 349.23, 587.33] }, // Dm/F
+        { bass: [58.27, 87.31, 116.54], choir: [466.16, 587.33, 698.46] }, // Bb
+        { bass: [49.00, 73.42, 98.00],  choir: [392.00, 466.16, 587.33] }, // Gm
+        { bass: [36.71, 73.42, 110.00], choir: [293.66, 440.00, 698.46] }, // Dm/A
+        { bass: [58.27, 116.54, 146.83], choir: [466.16, 587.33, 698.46] }, // Bb
+        { bass: [49.00, 98.00, 116.54], choir: [392.00, 466.16, 587.33] }, // Gm
+        { bass: [55.00, 110.00, 138.59], choir: [440.00, 554.37, 659.25] }  // A7
+      ],
+
+      // Chuỗi giai điệu arpeggio phong cách Gothic Lute/Harp (D Minor Harmonic)
+      ARP_PATTERNS: [
+        [146.83, 220.00, 293.66, 349.23, 440.00, 349.23, 293.66, 220.00], // D3, A3, D4, F4, A4, F4, D4, A3
+        [146.83, 174.61, 220.00, 293.66, 277.18, 293.66, 349.23, 329.63], // D3, F3, A3, D4, C#4, D4, F4, E4
+        [116.54, 174.61, 233.08, 293.66, 349.23, 293.66, 233.08, 174.61], // Bb2, F3, Bb3, D4, F4, D4, Bb3, F3
+        [98.00, 146.83, 196.00, 233.08, 293.66, 233.08, 196.00, 146.83],  // G2, D3, G3, Bb3, D4, Bb3, G3, D3
+        [146.83, 220.00, 293.66, 349.23, 392.00, 349.23, 329.63, 293.66], // D3, A3, D4, F4, G4, F4, E4, D4
+        [116.54, 146.83, 174.61, 233.08, 293.66, 277.18, 233.08, 220.00], // Bb2, D3, F3, Bb3, D4, C#4, Bb3, A3
+        [98.00, 116.54, 146.83, 196.00, 233.08, 220.00, 196.00, 174.61],  // G2, Bb2, D3, G3, Bb3, A3, G3, F3
+        [110.00, 164.81, 220.00, 277.18, 329.63, 293.66, 277.18, 220.00]  // A2, E3, A3, C#4, E4, D4, C#4, A3
+      ],
+
+      init() {
+        if (this.masterGain) return;
+        const ctx = getAudioCtx();
+
+        // Bộ nén dải động Dynamics Compressor tạo độ dày & ấm cho tổng thể mix
+        this.compressor = ctx.createDynamicsCompressor();
+        this.compressor.threshold.setValueAtTime(-16, ctx.currentTime);
+        this.compressor.knee.setValueAtTime(10, ctx.currentTime);
+        this.compressor.ratio.setValueAtTime(3.5, ctx.currentTime);
+        this.compressor.attack.setValueAtTime(0.005, ctx.currentTime);
+        this.compressor.release.setValueAtTime(0.3, ctx.currentTime);
+
+        // Bộ lọc Lowpass làm dịu dải cao, tạo âm hưởng điện ảnh cổ kính
+        this.filter = ctx.createBiquadFilter();
+        this.filter.type = "lowpass";
+        this.filter.frequency.setValueAtTime(3800, ctx.currentTime);
+
+        this.masterGain = ctx.createGain();
+        const initialVol = state.soundEnabled ? this.volume * 0.32 : 0;
+        this.masterGain.gain.setValueAtTime(initialVol, ctx.currentTime);
+
+        this.compressor.connect(this.filter);
+        this.filter.connect(this.masterGain);
+        this.masterGain.connect(ctx.destination);
+      },
+
+      setVolume(val) {
+        this.volume = Math.max(0, Math.min(1, val));
+        if (this.masterGain) {
+          const ctx = getAudioCtx();
+          const target = (state.soundEnabled && this.isPlaying) ? this.volume * 0.32 : 0;
+          this.masterGain.gain.setTargetAtTime(target, ctx.currentTime, 0.05);
+        }
+        try {
+          localStorage.setItem("esterQuest_bgmVolume", String(Math.round(this.volume * 100)));
+        } catch(_) {}
+      },
+
+      start() {
+        if (!state.soundEnabled) return;
+        this.init();
+        const ctx = getAudioCtx();
+        if (ctx.state === "suspended") {
+          ctx.resume();
+        }
+
+        if (this.isPlaying) return;
+        this.isPlaying = true;
+
+        const target = this.volume * 0.32;
+        this.masterGain.gain.setTargetAtTime(target, ctx.currentTime, 0.15);
+
+        this.stepDuration = (60 / this.tempo) / 4; // Độ dài mỗi nốt móc kép (16th note) ~0.22s
+        this.nextStepTime = ctx.currentTime + 0.05;
+        this.currentStep = 0;
+
+        if (this.schedulerTimer) clearInterval(this.schedulerTimer);
+        this.schedulerTimer = setInterval(() => this.schedule(), 45);
+      },
+
+      stop() {
+        if (!this.isPlaying) return;
+        this.isPlaying = false;
+        if (this.masterGain) {
+          const ctx = getAudioCtx();
+          this.masterGain.gain.setTargetAtTime(0, ctx.currentTime, 0.08);
+        }
+        if (this.schedulerTimer) {
+          clearInterval(this.schedulerTimer);
+          this.schedulerTimer = null;
+        }
+      },
+
+      schedule() {
+        if (!this.isPlaying || !state.soundEnabled) return;
+        const ctx = getAudioCtx();
+        const scheduleAhead = 0.25;
+        while (this.nextStepTime < ctx.currentTime + scheduleAhead) {
+          this.playStep(this.currentStep, this.nextStepTime);
+          this.nextStepTime += this.stepDuration;
+          this.currentStep = (this.currentStep + 1) % 128; // 8 ô nhịp x 16 nốt
+        }
+      },
+
+      playStep(step, time) {
+        const bar = Math.floor(step / 16);
+        const stepInBar = step % 16;
+
+        // 1. Dải Drone Trầm & Cello Ma Mị (Đầu mỗi ô nhịp)
+        if (stepInBar === 0) {
+          this.playBassDrone(bar, time);
+        }
+
+        // 2. Nhịp Tim Ngục Tối / Trống Trận Hắc Ám (Phách 1 & Phách 3)
+        if (stepInBar === 0 || stepInBar === 8) {
+          this.playDungeonPulse(bar, stepInBar, time);
+        }
+
+        // 3. Tiếng Đàn Hạc / Hộp Nhạc Cổ Điển Tỉ Tê (Mỗi 2 bước)
+        if (stepInBar % 2 === 0) {
+          const noteIndex = Math.floor(stepInBar / 2);
+          this.playGothicPluck(bar, noteIndex, time);
+        }
+
+        // 4. Dàn Hợp Xướng Ethereal Ngân Vang (Hòa âm phiêu bồng)
+        if (stepInBar === 0) {
+          this.playChoirSwell(bar, time);
+        }
+      },
+
+      playBassDrone(bar, time) {
+        const ctx = getAudioCtx();
+        const chord = this.CHORDS[bar % this.CHORDS.length];
+        const barDur = this.stepDuration * 16;
+
+        chord.bass.forEach((freq, idx) => {
+          const osc = ctx.createOscillator();
+          const filter = ctx.createBiquadFilter();
+          const gain = ctx.createGain();
+
+          osc.type = idx === 0 ? "sawtooth" : "triangle";
+          osc.frequency.setValueAtTime(freq, time);
+          osc.detune.setValueAtTime((idx - 1) * 4, time);
+
+          filter.type = "lowpass";
+          filter.frequency.setValueAtTime(140 + idx * 40, time);
+          filter.frequency.linearRampToValueAtTime(260 + idx * 30, time + barDur * 0.4);
+          filter.frequency.exponentialRampToValueAtTime(120, time + barDur);
+          filter.Q.setValueAtTime(2.5, time);
+
+          gain.gain.setValueAtTime(0.0001, time);
+          gain.gain.linearRampToValueAtTime(0.08 / (idx + 1), time + 0.4);
+          gain.gain.setValueAtTime(0.08 / (idx + 1), time + barDur - 0.3);
+          gain.gain.exponentialRampToValueAtTime(0.0001, time + barDur);
+
+          osc.connect(filter);
+          filter.connect(gain);
+          gain.connect(this.compressor);
+
+          osc.start(time);
+          osc.stop(time + barDur + 0.1);
+        });
+      },
+
+      playDungeonPulse(bar, stepInBar, time) {
+        const ctx = getAudioCtx();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        osc.type = "sine";
+        const startFreq = stepInBar === 0 ? 82 : 68;
+        osc.frequency.setValueAtTime(startFreq, time);
+        osc.frequency.exponentialRampToValueAtTime(32, time + 0.4);
+
+        const vol = stepInBar === 0 ? 0.32 : 0.18;
+        gain.gain.setValueAtTime(0.0001, time);
+        gain.gain.linearRampToValueAtTime(vol, time + 0.008);
+        gain.gain.exponentialRampToValueAtTime(0.0001, time + 0.42);
+
+        osc.connect(gain);
+        gain.connect(this.compressor);
+
+        osc.start(time);
+        osc.stop(time + 0.45);
+      },
+
+      playGothicPluck(bar, noteIdx, time) {
+        const ctx = getAudioCtx();
+        const freq = this.ARP_PATTERNS[bar % this.ARP_PATTERNS.length][noteIdx];
+        if (!freq) return;
+
+        const osc1 = ctx.createOscillator();
+        const osc2 = ctx.createOscillator();
+        const filter = ctx.createBiquadFilter();
+        const gain = ctx.createGain();
+
+        osc1.type = "triangle";
+        osc1.frequency.setValueAtTime(freq, time);
+
+        osc2.type = "sine";
+        osc2.frequency.setValueAtTime(freq * 2, time);
+        osc2.detune.setValueAtTime(6, time);
+
+        filter.type = "bandpass";
+        filter.frequency.setValueAtTime(freq * 1.5, time);
+        filter.Q.setValueAtTime(1.2, time);
+
+        const dur = this.stepDuration * 2.8;
+        gain.gain.setValueAtTime(0.0001, time);
+        gain.gain.linearRampToValueAtTime(0.075, time + 0.006);
+        gain.gain.exponentialRampToValueAtTime(0.0001, time + dur);
+
+        osc1.connect(filter);
+        osc2.connect(filter);
+        filter.connect(gain);
+        gain.connect(this.compressor);
+
+        osc1.start(time);
+        osc2.start(time);
+        osc1.stop(time + dur + 0.05);
+        osc2.stop(time + dur + 0.05);
+      },
+
+      playChoirSwell(bar, time) {
+        const ctx = getAudioCtx();
+        const chord = this.CHORDS[bar % this.CHORDS.length];
+        const barDur = this.stepDuration * 16;
+
+        chord.choir.forEach((freq, idx) => {
+          const osc = ctx.createOscillator();
+          const filter = ctx.createBiquadFilter();
+          const gain = ctx.createGain();
+
+          osc.type = "sine";
+          osc.frequency.setValueAtTime(freq, time);
+          osc.detune.setValueAtTime((idx - 1) * 7, time);
+
+          filter.type = "bandpass";
+          filter.frequency.setValueAtTime(freq, time);
+          filter.Q.setValueAtTime(2.0, time);
+
+          gain.gain.setValueAtTime(0.0001, time);
+          gain.gain.linearRampToValueAtTime(0.028, time + barDur * 0.35);
+          gain.gain.setValueAtTime(0.028, time + barDur * 0.7);
+          gain.gain.exponentialRampToValueAtTime(0.0001, time + barDur);
+
+          osc.connect(filter);
+          filter.connect(gain);
+          gain.connect(this.compressor);
+
+          osc.start(time);
+          osc.stop(time + barDur + 0.1);
+        });
+      }
+    };
+    window.DarkFantasyBGM = DarkFantasyBGM;
 
     const academyState = {
       currentLesson: 1,
@@ -10378,8 +10757,9 @@
         prologueAudioPlayed = true;
         const tip = document.getElementById("prologueAudioTip");
         if (tip) tip.style.opacity = "0.3";
-        SFX.prologueSynth();
+        try { if (SFX && SFX.prologueSynth) SFX.prologueSynth(); } catch(_) {}
       }
+      tryStartBGMOnUserGesture();
     }
 
     function closePrologue(isSkip = false) {
@@ -10448,10 +10828,28 @@
     document.getElementById("btnReplayPrologue").addEventListener("click", openPrologue);
     document.getElementById("btnHeaderPrologue").addEventListener("click", openPrologue);
 
-    // Kích hoạt âm thanh khi tương tác lần đầu
+    // Kích hoạt âm thanh khi tương tác lần đầu & phát nhạc nền Dark Fantasy xuyên suốt
+    function tryStartBGMOnUserGesture() {
+      if (state.soundEnabled && !DarkFantasyBGM.isPlaying) {
+        DarkFantasyBGM.start();
+      }
+    }
+
+    document.addEventListener("click", tryStartBGMOnUserGesture, { passive: true });
+    document.addEventListener("touchstart", tryStartBGMOnUserGesture, { passive: true });
+    document.addEventListener("keydown", tryStartBGMOnUserGesture, { passive: true });
+
     document.addEventListener("click", playPrologueAudioOnFirstGesture, { passive: true });
     document.addEventListener("touchstart", playPrologueAudioOnFirstGesture, { passive: true });
     document.addEventListener("keydown", playPrologueAudioOnFirstGesture, { passive: true });
+
+    // Khôi phục AudioContext khi người chơi quay lại tab
+    document.addEventListener("visibilitychange", () => {
+      if (!document.hidden && state.soundEnabled && DarkFantasyBGM.isPlaying) {
+        const ctx = getAudioCtx();
+        if (ctx && ctx.state === "suspended") ctx.resume();
+      }
+    });
     const header = document.querySelector("header");
     const mobileMenuToggle = document.getElementById("mobileMenuToggle");
     const closeMobileMenu = () => {
@@ -10465,7 +10863,7 @@
       mobileMenuToggle.setAttribute("aria-label", isOpen ? "Đóng menu" : "Mở menu");
     });
     document.querySelector(".header-actions").addEventListener("click", event => {
-      if (event.target.closest("button")) closeMobileMenu();
+      if (event.target.closest("button") && !event.target.closest("#audioControlBar")) closeMobileMenu();
     });
     document.addEventListener("click", event => {
       if (!header.contains(event.target)) closeMobileMenu();
@@ -10480,10 +10878,68 @@
     document.addEventListener("keydown", event => {
       if (event.key === "Escape") closeMobileMenu();
     });
-    document.getElementById("btnSound").addEventListener("click", () => {
-      state.soundEnabled = !state.soundEnabled;
-      document.getElementById("btnSound").textContent = state.soundEnabled ? "🔊 Âm thanh: Bật" : "🔇 Âm thanh: Tắt";
-    });
+    const btnSound = document.getElementById("btnSound");
+    const bgmVolumeSlider = document.getElementById("bgmVolumeSlider");
+    const volNum = document.getElementById("volNum");
+
+    // Khởi tạo âm lượng đã lưu từ localStorage
+    try {
+      const savedVol = localStorage.getItem("esterQuest_bgmVolume");
+      if (savedVol !== null) {
+        const val = parseInt(savedVol, 10);
+        if (!isNaN(val) && val >= 0 && val <= 100) {
+          DarkFantasyBGM.volume = val / 100;
+          if (bgmVolumeSlider) bgmVolumeSlider.value = val;
+          if (volNum) volNum.textContent = val + "%";
+          if (val === 0) {
+            state.soundEnabled = false;
+            if (btnSound) btnSound.textContent = "🔇 Nhạc: Tắt";
+          }
+        }
+      }
+    } catch(_) {}
+
+    if (btnSound) {
+      btnSound.addEventListener("click", () => {
+        state.soundEnabled = !state.soundEnabled;
+        if (state.soundEnabled) {
+          btnSound.textContent = "🔊 Nhạc: Bật";
+          btnSound.setAttribute("title", "Âm thanh & Nhạc Nền Dark Fantasy: Bật");
+          DarkFantasyBGM.start();
+        } else {
+          btnSound.textContent = "🔇 Nhạc: Tắt";
+          btnSound.setAttribute("title", "Âm thanh & Nhạc Nền Dark Fantasy: Tắt");
+          DarkFantasyBGM.stop();
+        }
+      });
+    }
+
+    if (bgmVolumeSlider) {
+      bgmVolumeSlider.addEventListener("input", (e) => {
+        const val = Number(e.target.value);
+        if (volNum) volNum.textContent = val + "%";
+        DarkFantasyBGM.setVolume(val / 100);
+        if (val === 0) {
+          state.soundEnabled = false;
+          if (btnSound) {
+            btnSound.textContent = "🔇 Nhạc: Tắt";
+            btnSound.setAttribute("title", "Âm thanh & Nhạc Nền Dark Fantasy: Tắt");
+          }
+          DarkFantasyBGM.stop();
+        } else {
+          if (!state.soundEnabled) {
+            state.soundEnabled = true;
+            if (btnSound) {
+              btnSound.textContent = "🔊 Nhạc: Bật";
+              btnSound.setAttribute("title", "Âm thanh & Nhạc Nền Dark Fantasy: Bật");
+            }
+          }
+          if (!DarkFantasyBGM.isPlaying) {
+            DarkFantasyBGM.start();
+          }
+        }
+      });
+    }
 
     const btnMenuDeck = document.getElementById("btnMenuDeck");
     if (btnMenuDeck) btnMenuDeck.addEventListener("click", openDeckModal);
@@ -10565,6 +11021,7 @@
     window.state = state;
     window.PROLOGUE_VN_SCENES = PROLOGUE_VN_SCENES;
     window.vnState = vnState;
+    window.DarkFantasyBGM = DarkFantasyBGM;
     window.advanceVN = advanceVN;
     window.renderVNStep = renderVNStep;
   </script>
