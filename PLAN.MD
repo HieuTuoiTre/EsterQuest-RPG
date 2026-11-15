@@ -196,18 +196,18 @@
   - Phong tước "🎖️ Hiệp Sĩ Ester Chính Thức", thưởng thêm 1 Bình Nước Cất dự trữ, lưu tiến độ vào `localStorage`.
   - Hiển thị nút lớn: `TIẾN VÀO TRANG BỊ KỸ NĂNG ➔`.
 
-- [ ] **Bước 1: Thiết kế giao diện Học Viện Giả Kim (`#academyScreen`) & Bộ Khung Thí Nghiệm Ảo**
+- [x] **Bước 1: Thiết kế giao diện Học Viện Giả Kim (`#academyScreen`) & Bộ Khung Thí Nghiệm Ảo**
   - Khung ống nghiệm CSS với chất lỏng 2 lớp, hiệu ứng bọt khí sôi, khói hơi nước, ngọn lửa đèn cồn.
   - Thanh trượt nhiệt độ 20°C - 150°C và kệ đựng hóa chất.
-- [ ] **Bước 2: Xây dựng logic Thí nghiệm Ảo Thủy Phân & Tráng Bạc**
+- [x] **Bước 2: Xây dựng logic Thí nghiệm Ảo Thủy Phân & Tráng Bạc**
   - Chuyển động co giãn thể tích 2 lớp (ester dư trên, dung dịch hỗn hợp dưới).
   - Hiệu ứng tráng bạc sáng loáng thành ống nghiệm.
-- [ ] **Bước 3: Xây dựng logic Thí nghiệm Ảo Điều Chế & Nhiệt Độ Sôi**
+- [x] **Bước 3: Xây dựng logic Thí nghiệm Ảo Điều Chế & Nhiệt Độ Sôi**
   - Lựa chọn Acid + Alcohol + $H_2SO_4$ đặc tạo ester.
   - Đun sôi theo nhiệt độ sôi đặc trưng của từng chất.
-- [ ] **Bước 4: Xây dựng Mini-game Ghép Nối Thẻ (Matching Pairs)**
+- [x] **Bước 4: Xây dựng Mini-game Ghép Nối Thẻ (Matching Pairs)**
   - Cơ chế kéo thả hoặc bấm chọn 2 thẻ tương ứng để nối mùi hương và ứng dụng thực tế.
-- [ ] **Bước 5: Kiểm tra và Commit**
+- [x] **Bước 5: Kiểm tra và Commit**
   ```bash
   git add index.html
   git commit -m "feat(academy): implement interactive virtual chemistry lab and matching mini-games in chapter 1"
