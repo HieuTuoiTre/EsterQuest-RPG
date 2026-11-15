@@ -333,4 +333,62 @@ Kế hoạch này đã kết hợp hài hòa và trọn vẹn:
 4. **Chiến Dịch 8 Ải Đánh Quái** với tên gọi quái vật đơn giản, 2 màn bầy quái, và **Ải 8 Đại Ma Vương 2 Giai Đoạn**.
 5. **Kho 162 câu hỏi chuẩn hóa** không trùng lặp, chia đều theo 3 cấp độ.
 
-Khi bạn đồng ý, chúng ta sẽ bắt đầu triển khai code từng nhiệm vụ một cách chuẩn xác nhất!
+---
+
+# Giai Đoạn 2: Nâng Cấp Toàn Diện Học Viện Đào Tạo & Thí Nghiệm Ảo (v2.5)
+
+> Kế hoạch nâng cấp chất lượng học tập sư phạm và trải nghiệm tương tác trực quan theo yêu cầu mới nhất của người dùng.
+
+### Task 7: Cơ Chế Khảo Nghiệm Mới (3 Câu/Bài, Không Tiết Lộ Đáp Án) & Typography Font Chữ
+- [ ] **Mục tiêu:**
+  1. Trả lời sai: Chỉ hiện thông báo "Chưa chính xác! Hãy đọc kỹ và thử lại", chuyển nút chọn sang màu đỏ, **tuyệt đối không highlight xanh đáp án đúng và không hiện lời giải**. Cho phép học sinh chọn lại đến khi đúng.
+  2. Mỗi bài có bộ **3 câu hỏi khảo nghiệm** (thanh tiến trình Câu 1/3, 2/3, 3/3). Hoàn thành cả 3 câu mới mở khóa Bài tiếp theo.
+  3. Cải thiện font chữ (typography, letter-spacing, line-height, màu sắc tương phản cao) của toàn bộ Học Viện.
+- [ ] **Files sửa đổi:** `index.html` (CSS typography, HTML quiz cards, JS `checkAcademyQuiz`, `loadAcademyQuizQuestion`).
+- [ ] **Kiểm thử:** `tests/verify_academy_v2.py` (kiểm tra 3 câu/bài và logic không lộ đáp án khi sai).
+
+### Task 8: Bài 1 - Nâng Cấp Mô Hình 2D Phân Tử (8 Hợp Chất, Gom 2 Cục) & Bổ Sung Lý Thuyết ID 73
+- [ ] **Mục tiêu:**
+  1. Gom 2 phần đầu thành 1 cục: Phân tử ester chia rõ 2 phần: **[Gốc Acid Carboxylic R-COO-]** và **[Gốc Alcohol -R']**.
+  2. Mở rộng kho mô hình lên **8 hợp chất tương tác**: Ethyl acetate, Methyl formate, Vinyl acetate, Methyl acrylate, Benzyl acetate, Isoamyl acetate, Phenyl acetate, Methyl methacrylate.
+  3. Bổ sung công thức tổng quát ester $x$ chức: $\text{C}_n\text{H}_{2n+2-2k}\text{O}_{2x}$ vào phần lý thuyết Bài 1 và Modal Sổ Tay Bí Kíp (Codex), giải thích rõ $n$ là số C, $k$ là số $\pi$ + vòng, $x$ là số nhóm chức ester.
+- [ ] **Files sửa đổi:** `index.html` (HTML Bài 1, JS `renderMolecule`, `explainMoleculePart`, Codex modal).
+
+### Task 9: Bài 2 - Bổ Sung Gốc Isopropenyl vào R'
+- [ ] **Mục tiêu:**
+  1. Thêm nút `CH2=C(CH3)` (isopropenyl) vào danh sách chọn gốc alcohol $R'$ ở Bàn ghép tên ester.
+  2. Hiển thị công thức ghép: ví dụ $\text{CH}_3\text{COOC(CH}_3)\text{=CH}_2$ ➔ isopropenyl acetate.
+  3. Bổ sung hàng gốc isopropenyl vào Bảng Tra Cứu Toàn Diện Gốc R' ở Bài 1 và Bài 2.
+- [ ] **Files sửa đổi:** `index.html` (HTML Bài 2, JS `selectNomenAlcohol`, `updateNomenResult`).
+
+### Task 10: Bài 3 - Kệ Nhiệt Độ Sôi Đa Dạng (Mỗi Kệ 4 Chất)
+- [ ] **Mục tiêu:**
+  1. Mở rộng mỗi kệ thành **4 chất tiêu biểu**:
+     - Kệ Ester: Methyl formate (31.8°C), Ethyl formate (54°C), Ethyl acetate (77°C), Isoamyl acetate (142°C).
+     - Kệ Alcohol: Methanol (64.7°C), Ethanol (78.3°C), Propan-1-ol (97°C), Butan-1-ol (117.7°C).
+     - Kệ Acid: Formic acid (100.8°C), Acetic acid (118°C), Propionic acid (141°C), Butyric acid (163.5°C).
+  2. Mở rộng dải nhiệt độ thanh trượt lên 180°C để đun sôi được Butyric acid.
+  3. Cập nhật nhãn, bọt khí và hiệu ứng bốc hơi chính xác theo từng chất được chọn.
+- [ ] **Files sửa đổi:** `index.html` (HTML Bài 3, JS `BOILING_DATA`, `selectBoilingSubstance`, `updateBoilingLab`).
+
+### Task 11: Bài 4 - Phản Ứng Đốt Cháy, Đổi Tên Thủy Phân MT Acid, 4 Loại Ester Đặc Trưng & Tráng Bạc Chuẩn Hóa
+- [ ] **Mục tiêu:**
+  1. Đổi tên Thí nghiệm 1 thành: **"Thủy phân trong môi trường acid"**.
+  2. Thêm lựa chọn **4 loại ester đặc trưng**:
+     - Ester bình thường (Ethyl acetate): Thủy phân thuận nghịch trong acid tách 2 lớp (ester dư co lại từ 65% xuống 25%).
+     - Vinyl ester (Vinyl acetate): Thủy phân sinh $\text{CH}_3\text{CHO}$ (có tráng bạc).
+     - Isopropenyl ester (Isopropenyl acetate): Thủy phân sinh acetone $\text{CH}_3\text{COCH}_3$ (ketone bền).
+     - Phenyl ester (Phenyl acetate): Thủy phân trong kiềm tỉ lệ 1:2 tạo 2 muối và nước.
+  3. Thêm **Thí Nghiệm 3: Phản Ứng Đốt Cháy Ester**:
+     - Đốt ester trong $O_2$, dẫn sản phẩm qua nước vôi trong $\text{Ca(OH)}_2$ dư hóa đục vẩn trắng $\text{CaCO}_3$, đọng nước, phương trình tỉ lệ $n_{\text{CO}_2} = n_{\text{H}_2\text{O}}$.
+  4. Chuẩn hóa **Thí Nghiệm Tráng Bạc**:
+     - Trong ống nghiệm luôn có sẵn thuốc thử Tollens ($\text{AgNO}_3$ trong $\text{NH}_3$ dư).
+     - Bổ sung đa dạng chất thử để nhỏ vào: Acetaldehyde, Formate ester, Glucose, Formic acid, Ethyl acetate (không tráng bạc), Acetone (không tráng bạc).
+- [ ] **Files sửa đổi:** `index.html` (HTML Bài 4, CSS subtabs, JS `switchHydroLab`, `heatHydrolysisReaction`, `selectSilverSubstance`, `runSilverMirrorTest`, `runCombustionLab`).
+
+### Task 12: Kiểm Thử Tự Động Toàn Diện & Triển Khai
+- [ ] **Mục tiêu:**
+  1. Viết script `tests/verify_academy_v2.py` kiểm định toàn bộ các tính năng mới của Tasks 7-11.
+  2. Chạy `verify_full_flow.py` và `verify_interactive_labs.py` đảm bảo không phát sinh lỗi hồi quy (regression).
+  3. Commit và push lên GitHub Pages.
+
