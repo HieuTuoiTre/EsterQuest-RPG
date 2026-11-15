@@ -123,7 +123,16 @@ def verify_bank():
     assert "O<sub>$1</sub>" in html, "formatFormula must format O algebraic expressions"
     print("✅ formatFormula algebraic subscript parsing verified!")
 
-    print("\n🎉 ALL 13 VERIFICATION CHECKS PASSED PERFECTLY! 🧪")
+    # 14. Verify Question 61 explanation and answer index
+    q61 = questions.get(61)
+    assert q61 is not None, "Question ID 61 must exist"
+    assert q61["answer"] == 2, "Question ID 61 answer must be index 2 (Option C)"
+    assert "k = (9.2 + 2 - 8)/2 = 6" in q61["explain"], "Question ID 61 must contain k formula"
+    assert "HCOOC6H4CH2OOCH" in q61["explain"], "Question ID 61 must identify structure of X"
+    assert "C sai vì T tác dụng với NaOH theo tỉ lệ 1 : 1" in q61["explain"], "Question ID 61 must state C is false"
+    print("✅ Question 61 (k=6, HCOOC6H4CH2OOCH & C sai vì 1:1) verified!")
+
+    print("\n🎉 ALL 14 VERIFICATION CHECKS PASSED PERFECTLY! 🧪")
 
 if __name__ == "__main__":
     verify_bank()
