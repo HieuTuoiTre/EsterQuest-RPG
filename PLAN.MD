@@ -1,65 +1,83 @@
-# Kế Hoạch Triển Khai: Làng Tân Thủ, Kỹ Năng AOE & Chiến Dịch 8 Ải Đánh Trùm (PLAN.MD)
+# Kế Hoạch Triển Khai: Mở Đầu Hoành Tráng, Chương 1 Đào Tạo Hiệp Sĩ & Chiến Dịch 8 Ải (PLAN.MD)
 
 > **Dành cho kỹ sư / Agent triển khai:** BẮT BUỘC SỬ DỤNG SUB-SKILL: `superpowers:subagent-driven-development` (khuyên dùng) hoặc `superpowers:executing-plans` để thực thi từng nhiệm vụ theo thứ tự. Các bước sử dụng cú pháp checkbox (`- [ ]`) để theo dõi tiến độ.
 
-**Mục tiêu (Goal):** Xây dựng Làng Tân Thủ bắt buộc học bí kíp & làm nhiệm vụ nhập môn; mở rộng chiến dịch lên **8 Ải**, hỗ trợ **nhiều quái vật trên sân đấu cùng lúc (Multi-Enemy)**; bổ sung **chiêu thức diện rộng (AOE)**; và thiết kế **Màn Đánh Boss Tối Thượng Độ Khó Cực Cao (Nightmare Super Boss)** với cơ chế 2 Phase tiến hóa và câu hỏi Vận Dụng Cao.
+**Mục tiêu (Goal):** 
+1. Xây dựng màn mở đầu cốt truyện điện ảnh hoành tráng (Epic Prologue Intro) ngay khi bấm vào trang web.
+2. Thiết kế **Chương 1: Học Viện Đào Tạo Chiến Binh Ester** với 5 bài học kiến thức tương ứng các mục trong Bí Kíp Ester (Khái niệm, Danh pháp, Lý tính, Hóa tính, Điều chế & Ứng dụng).
+3. Mở rộng kho kỹ năng chiến đấu (bao gồm các chiêu AOE diện rộng và chiêu đơn mục tiêu độc đáo) cùng bảng chọn 4 chiêu (Skill Deck).
+4. Mở rộng chiến dịch lên **8 Ải Đánh Quái** (với 2 ải nhiều quái) và **Ải 8 Nightmare Super Boss** 2 Giai đoạn độ khó cực cao.
 
 **Kiến trúc (Architecture):**
-- Màn hình `#villageScreen` làm cổng trung chuyển với 3 nhiệm vụ mở khóa.
-- Động cơ chiến đấu (`Battle Engine`) nâng cấp từ đơn mục tiêu (`state.enemy`) sang đa mục tiêu (`state.enemies: Array<Enemy>` và `state.selectedTargetIndex`).
-- Hệ thống chiêu thức hỗ trợ gắn nhãn mục tiêu `targetType: 'single' | 'all'`, tự động phân bổ sát thương đơn hoặc AOE diện rộng.
-- Cơ chế Boss Tối Thượng 2 Phase: Khi Boss Phase 1 hết máu, tự động kích hoạt hoạt ảnh biến dị sang Phase 2 với bộ chiêu thức và nội tại cuồng nộ mới.
+- **Luồng phân cảnh mới:** `Prologue Cinematic Screen` ➔ `Menu Nhập Tên & Lớp` ➔ `Chương 1: Học Viện Đào Tạo Hiệp Sĩ (5 Bài Học Bí Kíp)` ➔ `Trang Bị Kỹ Năng (Deck Loadout)` ➔ `Chiến Trường 8 Ải`.
+- **Động cơ học tập tương tác (Academy Learning Engine):** Mỗi bài học có thẻ lý thuyết rút gọn đẹp mắt kèm 1 câu hỏi kiểm tra nhanh để mở khóa bài tiếp theo.
+- **Động cơ chiến đấu đa mục tiêu (Multi-Enemy & AOE Engine):** Hỗ trợ dàn 1-3 quái vật trên sàn đấu, cơ chế ngắm bắn click-to-target và sát thương toàn sân.
+- **Trùm cuối 2 Phase biến dị:** Tự động hồi sinh, đổi sprite/tên và kích hoạt cuồng nộ ở Phase 2.
 
-**Công nghệ (Tech Stack):** Pure Vanilla JavaScript (ES6+), HTML5, CSS3 (CSS Grid/Flexbox, Keyframes Animations, Pixelated Rendering), Web Audio API Synthesizers.
-
-**Tài liệu đặc tả (Spec):** 
-1. Làng tân thủ bắt buộc học bí kíp & làm nhiệm vụ nhỏ trước khi vào đánh quái.
-2. Mở rộng thêm 3 ải chiến đấu mới (nâng tổng số lên 8 ải).
-3. Có các màn xuất hiện nhiều quái vật cùng lúc (Multi-enemy).
-4. Thêm các chiêu thức có sát thương diện rộng (AOE).
-5. Thêm 1 màn Boss tối thượng có độ khó cực cao (Nightmare Super Boss).
-6. Ghi toàn bộ kế hoạch vào `PLAN.MD`.
+**Công nghệ (Tech Stack):** Pure Vanilla JavaScript (ES6+), HTML5, CSS3 (Keyframes Animations, Flexbox/Grid, Pixelated Rendering), Web Audio API Synthesizers.
 
 ---
 
 ## Ràng Buộc Toàn Cục (Global Constraints)
 
-1. **Không cài thư viện bên ngoài:** Toàn bộ game chạy thuần trên tệp `index.html` và tài nguyên trong thư mục `assets/`.
-2. **Đáp ứng đa thiết bị (Responsive Design):** Sàn đấu khi có 1, 2, hoặc 3 quái vật đều phải hiển thị cân đối, không tràn màn hình trên Mobile (<= 480px) và Tablet (768px).
-3. **Bảo toàn dữ liệu cũ:** Giữ nguyên các câu hỏi trong ngân hàng đề, cơ chế trừ mana khi niệm chiêu và phong cách đồ họa RPG turn-based.
-4. **Cơ chế chọn mục tiêu trực quan:** Khi có nhiều quái vật, người chơi có thể click vào quái để đổi mục tiêu đánh đơn; chiêu AOE sẽ tự động đánh trúng toàn bộ quái còn sống.
+1. **Chuẩn hóa danh pháp tiếng Anh:** Toàn bộ thuật ngữ trong giao diện, cốt truyện và kỹ năng sử dụng: `ester`, `acid`, `alcohol`, `glycerol` (chuẩn SGK mới GDPT 2018).
+2. **Tên quái vật giản dị, chuẩn RPG:** Quái vật đặt tên ngắn gọn, quen thuộc (`Slime`, `Bầy Slime`, `Sói Băng`, `Thạch Quái`, `Song Quái`, `Hỏa Long`, `Chúa Tể Bóng Tối`, `Đại Ma Vương`).
+3. **Tên chiêu thức đậm chất hóa học:** Vừa mang âm hưởng RPG vừa gắn liền với bản chất phản ứng hóa học (`Đòn Acid Chấn Động`, `Hỏa Cầu Ester Hóa`, `Khiên Dung Môi Hữu Cơ`, `Bão Xà Phòng Hóa`, `Sóng Thủy Phân Toàn Diện`, `Bão Nhiệt Phản Ứng`).
+4. **Không cài thư viện bên ngoài:** Toàn bộ vận hành trơn tru trong một tệp `index.html` và thư mục `assets/`.
+5. **Đáp ứng đa thiết bị (Responsive):** Mọi màn hình từ điện ảnh Prologue, Chương 1 Đào tạo đến Sàn đấu 3 quái đều cân đối trên Mobile (<= 480px) và Tablet (768px).
 
 ---
 
 ## Tiêu Điểm Đánh Giá Rủi Ro (Review Focus)
 
-1. **Sát thương AOE trên quái đã tử trận:** Khi tung chiêu AOE, sát thương và hiệu ứng nổi chỉ được hiển thị trên các quái vật còn sống (`hp > 0`), không tạo hiệu ứng rác trên quái đã chết.
-2. **Lượt phản công của bầy quái (Multi-enemy turn queue):** Nếu có 3 quái cùng sống, chúng sẽ lần lượt tấn công theo chuỗi nhịp nhàng (có độ trễ 400ms giữa các đòn) kèm âm thanh riêng biệt, tránh xung đột animation.
-3. **Chuyển giao 2 Phase của Boss Tối Thượng:** Khi HP Boss Phase 1 về 0, không được kích hoạt hàm `handleEnemyDefeated()`, mà phải kích hoạt hoạt ảnh chuyển Phase (`transformBossPhase2()`), nạp thanh máu Phase 2 và đổi sprite/tên quái.
-4. **Kiểm tra kết thúc ải bầy quái:** Ải chỉ được xem là hoàn thành khi TẤT CẢ quái vật trong mảng `state.enemies` đều có `hp <= 0`.
-5. **Cân bằng năng lượng Mana đối với chiêu AOE:** Chiêu AOE có uy lực quét bầy quái lớn nên chi phí MP và độ khó câu hỏi phải tương xứng để tránh người chơi spam chiêu lạm dụng.
+1. **Trải nghiệm vào trang mượt mà (Prologue Skipping):** Màn giới thiệu mở đầu phải có nút "Bỏ Qua (Skip) ⏩" để những người chơi quay lại không bị bắt buộc phải xem lại toàn bộ hoạt ảnh chữ chạy.
+2. **Lưu tiến độ Chương 1 Đào Tạo:** Khi người chơi đã hoàn thành Chương 1, lưu `localStorage.setItem("esterQuest_ch1Completed", "true")`. Lần sau vào chơi có thể chọn "Vào Thẳng Chiến Trường" hoặc "Học Lại Chương 1".
+3. **Sát thương AOE trên quái vật đã chết:** Đảm bảo chiêu AOE chỉ trừ máu và hiện hiệu ứng trên các quái còn sống (`hp > 0`).
+4. **Chuỗi lượt phản công của bầy quái:** Khi có nhiều quái vật, các đòn phản công diễn ra tuần tự với độ trễ 400ms, không gây xung đột animation hoặc đè âm thanh.
+5. **Chuyển giao 2 Phase của Đại Ma Vương:** Khi HP Phase 1 về 0, không được kết thúc game mà phải kích hoạt hiệu ứng sấm sét chớp giật, nạp thanh máu 500 HP và chuyển sang Phase 2.
 
 ---
 
-## Sơ Đồ Cấu Trúc Toàn Bộ Chiến Dịch 8 Ải
+## Sơ Đồ Toàn Bộ Tuyến Nội Dung Trò Chơi
 
 ```
-[Màn Hình Menu]
-      ↓
-[Làng Tân Thủ Giả Kim] ➔ Hoàn thành 3 Nhiệm vụ ➔ [Chọn 4 Kỹ Năng / Deck]
-      ↓
+┌────────────────────────────────────────────────────────────────────────┐
+│  MÀN MỞ ĐẦU ĐIỆN ẢNH (PROLOGUE CINEMATIC - CỐT TRUYỆN HOÀNH TRÁNG)     │
+│  "Kỷ nguyên Hóa Học năm 2026... Vương Quốc Ester chìm trong bóng tối...│
+│   Các liên kết C-O bị xáo trộn, Ma Vật trỗi dậy từ Vực Thẳm..."       │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    ↓
+┌────────────────────────────────────────────────────────────────────────┐
+│  MÀN HÌNH NHẬP THÔNG TIN (CHARACTER CREATION): Tên Hiệp Sĩ & Lớp Học   │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    ↓
+┌────────────────────────────────────────────────────────────────────────┐
+│  CHƯƠNG 1: HỌC VIỆN ĐÀO TẠO CHIẾN BINH ESTER (BẮT BUỘC NHẬP MÔN)     │
+├────────────────────────────────────────────────────────────────────────┤
+│  Bài 1: Khái Niệm & Nhóm Chức Ester (Cấu trúc R-COO-R', CnH2nO2)       │
+│  Bài 2: Danh Pháp Thần Bí (Quy tắc gọi tên: Gốc R' + Gốc Acid -ate)    │
+│  Bài 3: Vật Lý & Mùi Hương Hoa Quả (Nhiệt độ sôi, mùi chuối, dứa, nhài)│
+│  Bài 4: Thuật Thủy Phân & Xà Phòng Hóa (MT Acid 2 chiều, MT Base 1 chiều│
+│  Bài 5: Điều Chế & Ứng Dụng Đời Sống (Xúc tác H2SO4 đặc, thủy tinh hữu cơ│
+│  ➔ Lễ Tốt Nghiệp: Nhận Danh Hiệu "Hiệp Sĩ Ester" + Thưởng Bình Hồi Phục│
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    ↓
+┌────────────────────────────────────────────────────────────────────────┐
+│  BẢNG CHỌN 4 KỸ NĂNG RA TRẬN (DECK LOADOUT - CHỌN 4 TRONG 10 CHIÊU)    │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    ↓
 ┌────────────────────────────────────────────────────────────────────────┐
 │                        CHIẾN DỊCH 8 ẢI CHIẾN ĐẤU                      │
 ├────────────────────────────────────────────────────────────────────────┤
-│ Ải 1: Slime (Lv.1) - 1 Quái [Khởi động]                                │
-│ Ải 2: Bầy Slime (Lv.1) - 3 QUÁI (Slime Xanh, Slime Đỏ, Slime Vàng)    │
-│ Ải 3: Sói Băng (Lv.2) - 1 Quái                                         │
-│ Ải 4: Thạch Quái (Lv.3) - 1 Quái                                       │
-│ Ải 5: Song Quái (Lv.3) - 2 QUÁI (Chiến Binh Đao & Chiến Binh Khiên)    │
-│ Ải 6: Hỏa Long (Lv.4) - 1 Quái                                         │
-│ Ải 7: Chúa Tể Bóng Tối (Lv.5) - 1 Boss                                 │
+│ Ải 1: Slime (Lv.1) - 1 Quái [Khởi động tiền tuyến]                     │
+│ Ải 2: Bầy Slime (Lv.1) - 3 QUÁI (Slime Xanh, Đỏ, Vàng) [Tập chiêu AOE!]│
+│ Ải 3: Sói Băng (Lv.2) - 1 Quái [Tốc độ & Nhiệt độ sôi]                │
+│ Ải 4: Thạch Quái (Lv.3) - 1 Quái [Thủy phân bền vững]                  │
+│ Ải 5: Song Quái (Lv.3) - 2 QUÁI TINH ANH (Chiến Binh Đao & Khiên)     │
+│ Ải 6: Hỏa Long (Lv.4) - 1 Quái [Nhiệt lượng bùng nổ]                   │
+│ Ải 7: Chúa Tể Bóng Tối (Lv.5) - 1 Boss [Hắc ám áp sát]                 │
 │ Ải 8: 👑 ĐẠI MA VƯƠNG [NIGHTMARE SUPER BOSS 2 GIAI ĐOẠN]               │
-│       ├── Phase 1: Đại Ma Vương (350 HP, Khiên Giảm Sát Thương)        │
+│       ├── Phase 1: Đại Ma Vương (350 HP, Khiên Giảm Sát Thương 25%)    │
 │       └── Phase 2: Đại Ma Vương Thức Tỉnh (500 HP, Cuồng Nộ Sức Mạnh) │
 └────────────────────────────────────────────────────────────────────────┘
 ```
@@ -70,152 +88,78 @@
 
 ---
 
-### Task 1: Thiết Kế Giao Diện & Luồng Trạng Thái Làng Tân Thủ (`#villageScreen`)
+### Task 1: Màn Mở Đầu Điện Ảnh Hoành Tráng (Epic Prologue Intro Overlay)
 
-**Mục tiêu:** Tạo giao diện Làng Tân Thủ với NPC Giáo Sư Hóa Học, bảng danh sách 3 nhiệm vụ nhập môn và nút tiến vào chiến trường.
+**Mục tiêu:** Tạo màn hình mở đầu đậm chất sử thi viễn tưởng RPG ngay khi tải trang web, tạo cảm xúc hào hùng và bối cảnh lôi cuốn cho người chơi.
 
 **Files:**
-- Sửa đổi: `index.html` (Thêm khối `<section id="villageScreen">` và CSS phong cách RPG làng cổ).
-- Kiểm tra: Mở trình duyệt xem giao diện Làng Tân Thủ hiển thị đúng khi nhấn "Bắt Đầu" từ Menu.
+- Sửa đổi: `index.html` (Thêm khối `<div id="prologueOverlay">`, CSS hiệu ứng chữ chạy viễn tưởng, nút tiếp tục/bỏ qua).
 
-**Interfaces:**
-- Consumes: `state.playerName`, `state.playerClass`.
-- Produces: `state.villageQuests = { readCodex: false, dummyDefeated: false, craftedEster: false }`, hàm `openVillageScreen()`, `checkVillageCompletion()`.
-
-- [ ] **Bước 1: Viết mã HTML cho `#villageScreen`**
-  - Khung hội thoại NPC: Đại Pháp Sư Lavoisier / Mendeleev chào đón tân thủ.
-  - Bảng 3 nhiệm vụ tân thủ dạng thẻ (Quest Cards) với icon, mô tả và trạng thái (Chưa hoàn thành / Đã xong).
-  - Nút "Xuất Quân Ra Tiền Tuyến" (mặc định mờ/disabled cho đến khi cả 3 nhiệm vụ đều có tick xanh).
-- [ ] **Bước 2: Viết CSS cho Làng Tân Thủ**
-  - Màu nền làng tân thủ ấm áp (màu gỗ cổ tích, ánh hoàng hôn giả kim: `radial-gradient(...)`).
-  - Hiệu ứng huy hiệu nhiệm vụ lấp lánh khi hoàn thành.
-  - Responsive mượt mà trên Mobile (1 cột thẻ) và Desktop (3 cột thẻ nằm ngang).
-- [ ] **Bước 3: Cập nhật hàm chuyển cảnh**
-  - Khi bấm `btnStartGame` ở Menu -> Chuyển sang `villageScreen` thay vì vào thẳng `battleScreen`.
-  - Nếu người chơi đã từng vượt qua Làng Tân Thủ trong phiên trước (`localStorage.getItem("esterQuest_tutorialDone") === "true"`), hiển thị thêm nút phụ "Bỏ qua & Vào Thẳng Trận Đấu ➔".
-- [ ] **Bước 4: Kiểm tra và Commit**
+- [ ] **Bước 1: Viết nội dung lời dẫn sử thi**
+  - *"Từ thuở sơ khai của thế giới Giả Kim, Vương Quốc Ester ngự trị trong sự cân bằng hoàn mỹ của các liên kết hóa học. Nhưng khi Vực Thẳm Hỗn Mang mở ra, Đại Ma Vương đã làm biến dị các phân tử, giải phóng bầy ma vật tàn phá muôn nơi..."*
+  - *"Lời sấm truyền ngàn năm báo trước: Chỉ có một Hiệp Sĩ thấu suốt mọi bí kíp danh pháp và quy luật phản ứng xà phòng hóa mới có thể cầm chắc thanh kiếm tri thức để cứu rỗi vương triều!"*
+- [ ] **Bước 2: Hiệu ứng giao diện Prologue**
+  - Khung cảnh vũ trụ u tối với tinh thể ester phát sáng lấp lánh.
+  - Chữ xuất hiện theo phong cách Cinematic từng đoạn uy nghi.
+  - Âm thanh nền huyền bí mở đầu (nếu bật âm thanh).
+  - Nút bấm rực sáng: `TIẾP TỤC BƯỚC VÀO THẾ GIỚI ➔` và nút góc `Bỏ Qua ⏩`.
+- [ ] **Bước 3: Kiểm tra và Commit**
   ```bash
   git add index.html
-  git commit -m "feat(village): scaffold novice village UI and transition logic"
+  git commit -m "feat(intro): add epic cinematic prologue storyline overlay"
   ```
 
 ---
 
-### Task 2: Nhiệm Vụ 1 - Thụ Đắc Bí Kíp (Bắt Buộc Học Sổ Tay Ester)
+### Task 2: Chương 1 - Học Viện Đào Tạo Chiến Binh Ester (5 Bài Học Nhập Môn)
 
-**Mục tiêu:** Buộc người chơi phải mở Sổ Tay Bí Kíp và xem qua các mục cốt lõi (Khái niệm, Danh pháp, Lý tính, Hóa tính, Điều chế) để hoàn thành nhiệm vụ đầu tiên.
+**Mục tiêu:** Xây dựng Chương 1 thành một Học viện đào tạo bài bản với 5 bài học tương ứng 5 chuyên đề cốt lõi trong Bí Kíp Ester, mỗi bài có 1 thử thách kiểm tra nhanh để mở khóa bài tiếp theo.
 
 **Files:**
-- Sửa đổi: `index.html` (Logic hàm `switchCodexTab`, `closeCodex`).
+- Sửa đổi: `index.html` (Thêm `<section id="academyScreen">`, logic chuyển bài học, thanh tiến trình đào tạo).
 
-**Interfaces:**
-- Consumes: Mảng các tab trong `#codexModal` (`overview`, `naming`, `physical`, `chemical`, `application`).
-- Produces: `state.codexTabsViewed = Set<string>`, sự kiện hoàn thành `villageQuests.readCodex = true`.
+**Cấu trúc 5 Bài Học Trong Chương 1:**
 
-- [ ] **Bước 1: Cơ chế ghi nhận tiến trình đọc Bí kíp**
-  - Khởi tạo `state.codexTabsViewed = new Set()`.
-  - Mỗi khi người chơi click chuyển qua một tab trong Codex, thêm ID tab đó vào Set.
-  - Thêm thanh tiến trình nhỏ trên đầu modal Bí Kíp: `Tiến độ lĩnh hội: X / 5 mục`.
-- [ ] **Bước 2: Hoàn thành nhiệm vụ khi đọc đủ 5 mục**
-  - Khi `state.codexTabsViewed.size >= 5`, phát âm thanh `SFX.levelUp()` và hiện thông báo: "🎉 Bạn đã thấu suốt Bí Kíp Ester!".
-  - Đánh dấu `state.villageQuests.readCodex = true`.
-  - Thẻ Nhiệm Vụ 1 trong Làng Tân Thủ chuyển sang trạng thái "✅ ĐÃ LĨNH HỘI".
-- [ ] **Bước 3: Tích hợp nút "Mở Bí Kíp Học Ngay" trực tiếp từ thẻ nhiệm vụ**
+1. **Bài 1: Căn Bản Khái Niệm & Cấu Trúc Ester**
+   - *Kiến thức:* Khi thay thế nhóm `-OH` ở nhóm carboxyl (`-COOH`) bằng nhóm `-OR'` ta được ester ($RCOOR'$). Công thức no, đơn chức, mạch hở: $C_nH_{2n}O_2$ ($n \ge 2$).
+   - *Thử thách 1:* Nhận diện công thức ester trong 4 chất cho trước.
+2. **Bài 2: Danh Pháp Thần Bí (Quy Tắc Gọi Tên Ester)**
+   - *Kiến thức:* Tên ester = Tên gốc $R'$ + Tên gốc acid $RCOO^-$ (đuôi *ate*). Ví dụ: $CH_3COOC_2H_5$ là ethyl acetate, $HCOOCH_3$ là methyl formate.
+   - *Thử thách 2:* Gọi tên đúng chất $CH_3COOCH_3$.
+3. **Bài 3: Tính Chất Vật Lý & Mùi Hương Hoa Quả**
+   - *Kiến thức:* Nhiệt độ sôi: Acid > Alcohol > Ester > Hydrocarbon. Mùi hương: Isoamyl acetate (mùi chuối chín), Ethyl propionate (mùi dứa), Benzyl acetate (hoa nhài).
+   - *Thử thách 3:* Nối đúng ester với mùi hương tương ứng.
+4. **Bài 4: Thuật Thủy Phân & Phản Ứng Xà Phòng Hóa**
+   - *Kiến thức:* Thủy phân môi trường acid (thuận nghịch $H^+, t^\circ$ tạo acid + alcohol). Thủy phân môi trường kiềm (xà phòng hóa 1 chiều tạo muối + alcohol/aldehyde/phenol).
+   - *Thử thách 4:* Dự đoán sản phẩm khi thủy phân $CH_3COOC_2H_5 + NaOH$.
+5. **Bài 5: Bí Thuật Điều Chế & Ứng Dụng Thực Tiễn**
+   - *Kiến thức:* Phản ứng ester hóa dùng $H_2SO_4$ đặc làm xúc tác và hút nước để chuyển dịch cân bằng. Trùng hợp methyl methacrylate làm thủy tinh hữu cơ plexiglas.
+   - *Thử thách 5:* Thao tác tương tác chọn hóa chất và điều kiện phản ứng ester hóa.
+
+- [ ] **Bước 1: Giao diện Học Viện Giả Kim (`#academyScreen`)**
+  - Lộ trình 5 bước huấn luyện (Step-by-step Training Stepper).
+  - Khung nội dung bài học súc tích, chữ to rõ, công thức định dạng chuẩn.
+- [ ] **Bước 2: Cơ chế mở khóa bài học tuần tự**
+  - Người chơi đọc lý thuyết -> Bấm "Làm Bài Kiểm Tra Lĩnh Hội" -> Trả lời đúng sẽ mở khóa bài học tiếp theo và nhận huy hiệu sao.
+- [ ] **Bước 3: Lễ Tốt Nghiệp Chương 1**
+  - Khi hoàn thành cả 5 bài: Phong tước "🎖️ Hiệp Sĩ Ester Chính Thức", thưởng thêm 1 Bình Nước Cất dự trữ, lưu `localStorage`.
+  - Hiển thị nút lớn: `TIẾN VÀO TRANG BỊ KỸ NĂNG ➔`.
 - [ ] **Bước 4: Kiểm tra và Commit**
   ```bash
   git add index.html
-  git commit -m "feat(village): implement mandatory codex reading quest with tab tracking"
+  git commit -m "feat(ch1): build chapter 1 knight training academy with 5 interactive lessons"
   ```
 
 ---
 
-### Task 3: Nhiệm Vụ 2 - Thao Trường Ma Nơ Canh (Thực Hành Tấn Công Thử Nghiệm)
+### Task 3: Bảng Chọn 4 Kỹ Năng Ra Trận (Active Skill Deck Loadout)
 
-**Mục tiêu:** Tạo một trận đấu tập nhỏ với "Bù Nhìn Rơm Giả Kim" (Training Dummy) trong làng để người chơi làm quen với việc chọn chiêu thức và trả lời câu hỏi trắc nghiệm không áp lực mất máu.
-
-**Files:**
-- Sửa đổi: `index.html` (Thêm chế độ đấu tập Dummy trong `#dummyModal` hoặc arena thu nhỏ).
-
-**Interfaces:**
-- Consumes: Câu hỏi mức độ Nhận biết (Level 1) từ `QUESTION_BANK`.
-- Produces: `state.villageQuests.dummyDefeated = true`.
-
-- [ ] **Bước 1: Thiết kế giao diện Thao Trường Tập Luyện**
-  - Đối thủ: 🎯 Bù Nhìn Rơm Giả Kim (HP: 60/60, Sát thương: 0, không đánh trả).
-- [ ] **Bước 2: Cơ chế chiến đấu tập sự**
-  - Người chơi chọn chiêu thức -> Trả lời câu hỏi -> Nếu đúng gây sát thương; nếu sai không bị trừ HP và được xem lời giải.
-- [ ] **Bước 3: Kết thúc huấn luyện**
-  - Khi HP Bù Nhìn về 0 -> Hoàn thành Nhiệm vụ 2, cập nhật huy hiệu thẻ nhiệm vụ.
-- [ ] **Bước 4: Kiểm tra và Commit**
-  ```bash
-  git add index.html
-  git commit -m "feat(village): add training dummy practice battle quest"
-  ```
-
----
-
-### Task 4: Nhiệm Vụ 3 - Thí Nghiệm Mini Điều Chế Este Chuối ($Isoamyl\ acetate$)
-
-**Mục tiêu:** Cho người chơi tự tay thao tác thí nghiệm pha chế este đơn giản thông qua mini-game tương tác chọn hóa chất và điều kiện phản ứng.
+**Mục tiêu:** Cho phép người chơi tự do lựa chọn 4 trong số 10 chiêu thức để trang bị vào thanh chiến đấu (Deck building chiến thuật).
 
 **Files:**
-- Sửa đổi: `index.html` (Thêm widget thí nghiệm mini `#labQuestModal`).
+- Sửa đổi: `index.html` (Thêm modal / panel chọn kỹ năng, lưu cấu hình vào `state.activeSkills`).
 
-**Interfaces:**
-- Consumes: Kiến thức phản ứng ester hóa $CH_3COOH + (CH_3)_2CHCH_2CH_2OH \overset{H_2SO_4\text{ đặc, } t^\circ}{\rightleftharpoons} CH_3COOCH_2CH_2CH(CH_3)_2 + H_2O$.
-- Produces: `state.villageQuests.craftedEster = true`, thưởng thêm 1 Bình Nước Cất khởi đầu.
-
-- [ ] **Bước 1: Giao diện Bàn Thí Nghiệm Giả Kim**
-  - Hiển thị 1 ống nghiệm và 4 nhóm chọn: Axit ($CH_3COOH$), Ancol (Isoamylic), Xúc tác ($H_2SO_4$ đặc), Nhiệt độ ($t^\circ$).
-- [ ] **Bước 2: Xử lý phản ứng và hiển thị kết quả**
-  - Chọn đúng: Ống nghiệm tỏa bọt phát sáng, hoàn thành nhiệm vụ 3.
-  - Chọn sai: Hiện lời giải thích hóa học và cho phép chọn lại.
-- [ ] **Bước 3: Tốt Nghiệp Làng Tân Thủ**
-  - Mở khóa nút "XUẤT QUÂN RA CHIẾN TRƯỜNG ➔", tặng thêm 1 Bình Nước Cất.
-- [ ] **Bước 4: Kiểm tra và Commit**
-  ```bash
-  git add index.html
-  git commit -m "feat(village): add ester synthesis mini-lab quest and graduation reward"
-  ```
-
----
-
-### Task 5: Nâng Cấp Động Cơ Chiến Đấu Đa Quái Vật (Multi-Enemy Battle Engine)
-
-**Mục tiêu:** Nâng cấp sàn đấu hỗ trợ xuất hiện từ 1 đến 3 quái vật cùng lúc trên màn hình, hỗ trợ click chọn mục tiêu (`selectedTargetIndex`) và cơ chế lượt đánh của bầy quái.
-
-**Files:**
-- Sửa đổi: `index.html` (Cấu trúc HTML `.arena-container`, CSS `.enemy-group`, JavaScript `state.enemies`).
-
-**Interfaces:**
-- Consumes: Mảng `stage.enemies: Array<Enemy>` trong cấu hình Ải.
-- Produces: `state.enemies`, `state.selectedTargetIndex`, hàm `selectTarget(idx)`, `renderEnemyGroup()`.
-
-- [ ] **Bước 1: Cấu trúc dữ liệu và giao diện Nhóm Quái Vật (Enemy Group)**
-  - Thay thế 1 thẻ quái đơn bằng container `<div class="enemies-container" id="enemiesContainer"></div>`.
-  - Mỗi quái trong bầy có: Khung sprite riêng, thanh HP riêng, tên riêng và vòng tròn ngắm bắn (`target-reticle`) khi được chọn.
-- [ ] **Bước 2: Cơ chế click đổi mục tiêu đánh đơn**
-  - Người chơi click vào bất kỳ quái vật nào để đặt làm mục tiêu chính (`state.selectedTargetIndex = idx`).
-  - Quái được chọn sẽ có viền sáng neon nhấp nháy. Mặc định tự động chọn quái đầu tiên còn sống.
-- [ ] **Bước 3: Chuỗi phản công của bầy quái (`multiEnemyTurn`)**
-  - Khi đến lượt đối thủ, các quái còn sống (`hp > 0`) sẽ lần lượt thi triển đòn đánh với độ trễ ngắn, tạo cảm giác bị bao vây chân thực.
-  - Khiên Dung Môi của người chơi chặn được 1 đòn tấn công đầu tiên của bầy quái.
-- [ ] **Bước 4: Kiểm tra và Commit**
-  ```bash
-  git add index.html
-  git commit -m "feat(combat): implement multi-enemy group rendering and targeting system"
-  ```
-
----
-
-### Task 6: Kho Kỹ Năng Mới & Kỹ Năng Diện Rộng (AOE Spells System)
-
-**Mục tiêu:** Mở rộng hệ thống chiêu thức với cả chiêu thức Đơn Mục Tiêu độc đáo (DoT, Hút sinh lực, Làm mù, Mana Burst) và **Chiêu Thức Diện Rộng (AOE)** để quét sạch bầy quái.
-
-**Files:**
-- Sửa đổi: `index.html` (`SKILL_DATABASE`, `resolveTurnAction`).
-
-**Bảng Tổng Hợp Chiêu Thức Mở Rộng:**
+**Danh sách 10 Chiêu Thức Hóa Học Hoàn Chỉnh:**
 
 | ID | Tên Chiêu Thức | Kiểu Đánh | MP | Sát Thương | Hiệu Ứng RPG Đặc Biệt | Mức Câu Hỏi |
 |:---:|:---|:---:|:---:|:---:|:---|:---:|
@@ -228,104 +172,102 @@
 | **7** | 🪞 **Gương Bạc Lóa Mắt** | Đơn | 22 | 65 ST | **Gây mù (Blind):** Phản xạ chói lòa, đòn quái trượt 70% | ⭐⭐ Thông Hiểu |
 | **8** | 💥 **Bộc Phá Oxi Hóa** | Đơn | Toàn bộ | $MP \times 3.5$ | **Mana Burst:** Đốt cháy toàn bộ MP dứt điểm đối thủ | ⭐⭐⭐ Vận Dụng |
 | **9** | 🌊 **Sóng Thủy Phân Toàn Diện** | **AOE** | 28 | 60 ST/quái | **Sát thương diện rộng:** Quét sạch TẤT CẢ quái vật trên sân | ⭐⭐ Thông Hiểu |
-| **10**| 🌪️ **Bão Nhiệt Phản Ứng** | **AOE** | 42 | 95 ST/quái | **AOE Cực Đại:** Quét sạch toàn bộ quái & giảm 25% công của chúng | ⭐⭐⭐ Vận Dụng |
+| **10**| 🌪️ **Bão Nhiệt Phản Ứng** | **AOE** | 42 | 95 ST/quái | **AOE Cực Đại:** Quét sạch toàn bộ quái & giảm 25% công | ⭐⭐⭐ Vận Dụng |
 
-- [ ] **Bước 1: Tích hợp logic xử lý AOE trong `resolveTurnAction`**
-  - Kiểm tra `skill.targetType === 'all'`:
-    - Duyệt qua tất cả `state.enemies.filter(e => e.hp > 0)`.
-    - Gây sát thương và hiển thị số nổi sát thương đồng loạt trên từng quái vật.
-    - Phát hiệu ứng chớp sáng toàn sàn đấu (`arena-flash-aoe`).
-- [ ] **Bước 2: Xử lý hiệu ứng trạng thái (DoT, Blind)**
-  - Tích hợp đếm lượt độc và tính tỉ lệ trượt 70% khi quái bị mù.
-- [ ] **Bước 3: Bảng Chọn 4 Kỹ Năng Ra Trận (Deck Loadout)**
-  - Cho phép người chơi tự chọn 4 trong 10 chiêu thức để mang vào chiến trường.
-- [ ] **Bước 4: Kiểm tra và Commit**
+- [ ] **Bước 1: Giao diện Thư Viện Kỹ Năng (Grimoire)**
+  - Hiển thị 10 thẻ chiêu thức với thông số rõ ràng.
+  - Khung 4 ô kích hoạt (Active Slots) cho phép kéo/chọn linh hoạt.
+- [ ] **Bước 2: Đồng bộ hóa vào Dashboard chiến đấu**
+  - Render đúng 4 chiêu mà người chơi đã trang bị lên màn hình trận chiến.
+- [ ] **Bước 3: Kiểm tra và Commit**
   ```bash
   git add index.html
-  git commit -m "feat(skills): add AOE mass spells and expand skill registry to 10 chemical abilities"
+  git commit -m "feat(deck): implement 10-skill grimoire and 4-slot tactical deck loadout"
   ```
 
 ---
 
-### Task 7: Mở Rộng 8 Ải Chiến Đấu & Thiết Kế Boss Tối Thượng (Nightmare Super Boss)
+### Task 4: Nâng Cấp Động Cơ Chiến Đấu Đa Quái Vật & Kỹ Năng AOE
 
-**Mục tiêu:** Cấu hình chi tiết 8 Ải chiến đấu (bao gồm 2 ải nhiều quái) với tên gọi quái vật đơn giản, chuẩn RPG, và thiết kế Màn 8 với Đại Ma Vương 2 Phase.
+**Mục tiêu:** Nâng cấp sàn đấu hỗ trợ xuất hiện từ 1 đến 3 quái vật đồng thời, hỗ trợ chọn mục tiêu ngắm bắn và thi triển đòn đánh diện rộng AOE.
 
 **Files:**
-- Sửa đổi: `index.html` (Mảng `STAGES`, hàm `loadStage`, `transformBossPhase2`).
+- Sửa đổi: `index.html` (CSS `.enemies-container`, JS `state.enemies`, `resolveTurnAction` phân nhánh AOE).
 
-**Cấu hình chi tiết 8 Ải:**
-
-1. **Ải 1: Rừng Ẩm Ướt** — 1 Quái: `Slime` (`Lv.1`, HP: 100, ATK: 15).
-2. **Ải 2: Đầm Lầy Bầy Nhầy (MỚI - 3 QUÁI):**
-   - 3 Quái: `Slime Xanh` (HP: 60), `Slime Đỏ` (HP: 70), `Slime Vàng` (HP: 80).
-   - *Chiến thuật gợi ý:* Dùng chiêu AOE 🌊 **Sóng Thủy Phân Toàn Diện** để quét sạch bầy Slime!
-3. **Ải 3: Thung Lũng Băng** — 1 Quái: `Sói Băng` (`Lv.2`, HP: 160, ATK: 24).
-4. **Ải 4: Hầm Ngục Thạch** — 1 Quái: `Thạch Quái` (`Lv.3`, HP: 220, ATK: 30).
-5. **Ải 5: Tháp Canh Đôi (MỚI - 2 QUÁI TINH ANH):**
-   - 2 Quái: `Chiến Binh Đao` (HP: 150, ATK: 22) & `Chiến Binh Khiên` (HP: 150, ATK: 22).
-   - Hai hộ vệ phối hợp công thủ, cần tiêu diệt dứt khoát!
-6. **Ải 6: Tháp Địa Ngục** — 1 Quái: `Hỏa Long` (`Lv.4`, HP: 280, ATK: 36).
-7. **Ải 7: Điện Thờ Hắc Ám** — 1 Quái: `Chúa Tể Bóng Tối` (`Lv.5`, HP: 360, ATK: 42).
-8. **Ải 8: VỰC THẲM HỖN MANG - ĐẠI CHIẾN ĐẠI MA VƯƠNG (NIGHTMARE SUPER BOSS):**
-   - **Giai Đoạn 1 (Phase 1):** `Đại Ma Vương` (HP: 350, ATK: 45).
-     - *Nội tại:* **Khiên Hắc Ám** (Giảm 25% sát thương nhận vào).
-     - Khi HP về 0: Màn hình rung chuyển dữ dội, âm thanh sấm sét, kích hoạt chuyển Phase!
-   - **Giai Đoạn 2 (Phase 2):** `Đại Ma Vương Thức Tỉnh` 👑 (HP: 500, ATK: 55).
-     - *Nội tại:* **Cuồng Nộ Hắc Hóa** (Cứ mỗi 2 lượt tự tăng 15% sức tấn công).
-     - *Bộ câu hỏi:* Rút ngẫu nhiên từ 38 câu hỏi mức độ **Vận Dụng Cao** (tính toán bảo toàn khối lượng, hiệu suất este hóa, este của phenol, thủy phân chất béo đa chức).
-     - Đòi hỏi người chơi phải vận dụng tối đa các kỹ năng chiến thuật (Mù, Khiên, Hút máu) để giành chiến thắng!
-
-- [ ] **Bước 1: Cập nhật mảng `STAGES` chứa đủ 8 Ải**
-  - Cấu trúc hỗ trợ cả ải đơn mục tiêu lẫn ải nhiều quái `enemies: [...]`.
-- [ ] **Bước 2: Xây dựng cơ chế chuyển Phase cho Boss Ải 8**
-  - Viết hàm `triggerBossPhase2()`:
-    - Hiệu ứng rung lắc màn hình cực mạnh, đổi màu nền arena sang đỏ rực u ám.
-    - Đổi tên Boss thành "👑 ĐẠI MA VƯƠNG TRIGLYCERIDE BIẾN DỊ (PHASE 2)".
-    - Đổi icon/sprite sang hình tượng quái vật hung hãn và nạp đầy cây máu 500 HP.
-- [ ] **Bước 3: Tích hợp Ngân hàng Đề 162 Câu Hỏi Chuẩn Hóa**
-  - Đã mở rộng ngân hàng câu hỏi từ 68 câu lên **162 câu hỏi phong phú** trích xuất từ tài liệu PDF và DOCX (chỉ lấy các câu có đáp án tô vàng):
-    - **Mức 1 (Nhận Biết): 73 câu** (danh pháp, khái niệm, công thức este - lipid, phân loại chất giặt rửa).
-    - **Mức 2 (Thông Hiểu): 51 câu** (nhiệt độ sôi, thủy phân kiềm/axit, phản ứng tráng bạc, đồng phân).
-    - **Mức 3 (Vận Dụng & Vận Dụng Cao): 38 câu** (bài toán đốt cháy, bảo toàn khối lượng, hiệu suất este hóa, este của phenol, thủy phân chất béo đa chức phục vụ riêng cho các Ải khó và Ải 8 Nightmare Boss).
-  - Áp dụng thuật toán chọn câu hỏi không trùng lặp: `filter(q => q.level === targetLevel && !state.historyLogs.some(h => h.id === q.id))` đảm bảo người chơi trong suốt 8 ải hầu như không bao giờ gặp lại câu đã làm.
+- [ ] **Bước 1: Cấu trúc hiển thị nhiều quái vật**
+  - Hỗ trợ dàn 1, 2 hoặc 3 quái trên cùng một hàng ngang với thanh máu và sprite độc lập.
+  - Vòng tròn ngắm bắn neon (`target-indicator`) hiển thị quái đang được chọn.
+- [ ] **Bước 2: Logic thi triển chiêu AOE (`targetType === 'all'`)**
+  - Gây sát thương đồng loạt lên tất cả quái vật có `hp > 0`.
+  - Hiệu ứng chớp sáng toàn sàn đấu và số nổi sát thương hiển thị trên từng quái.
+- [ ] **Bước 3: Chuỗi phản công của bầy quái**
+  - Từng quái vật còn sống sẽ lần lượt lao lên tấn công người chơi cách nhau 400ms.
 - [ ] **Bước 4: Kiểm tra và Commit**
   ```bash
   git add index.html
-  git commit -m "feat(stages): expand to 8 stages with multi-mob encounters and 2-phase nightmare super boss"
+  git commit -m "feat(combat): implement multi-enemy targeting and AOE spell execution engine"
   ```
 
 ---
 
-### Task 8: Kiểm Thử Toàn Diện, Responsive & Hoàn Thiện Tài Liệu
+### Task 5: Cấu Hình Chiến Dịch 8 Ải Đánh Quái & Boss Tối Thượng 2 Giai Đoạn
 
-**Mục tiêu:** Kiểm tra toàn diện mọi tính năng từ Làng Tân Thủ, Chiêu AOE, Ải Bầy Quái đến Boss 2 Phase trên cả Desktop, Tablet và Mobile.
+**Mục tiêu:** Xây dựng trọn vẹn 8 Ải chiến đấu với tên gọi quái vật đơn giản chuẩn RPG, bao gồm 2 ải nhiều quái và Ải 8 Nightmare Boss.
+
+**Files:**
+- Sửa đổi: `index.html` (Mảng `STAGES`, hàm `loadStage`, `triggerBossPhase2`).
+
+**Danh sách 8 Ải Chi Tiết:**
+1. **Ải 1: Rừng Ẩm Ướt** — 1 Quái: `Slime` (`Lv.1`, HP: 100).
+2. **Ải 2: Đầm Lầy Bầy Nhầy (MỚI - 3 QUÁI):** `Bầy Slime` (`Slime Xanh` HP 60, `Slime Đỏ` HP 70, `Slime Vàng` HP 80). *Màn tập luyện chiêu AOE!*
+3. **Ải 3: Thung Lũng Băng** — 1 Quái: `Sói Băng` (`Lv.2`, HP: 160).
+4. **Ải 4: Hầm Ngục Thạch** — 1 Quái: `Thạch Quái` (`Lv.3`, HP: 220).
+5. **Ải 5: Tháp Canh Đôi (MỚI - 2 QUÁI TINH ANH):** `Song Quái` (`Chiến Binh Đao` HP 150, `Chiến Binh Khiên` HP 150).
+6. **Ải 6: Tháp Địa Ngục** — 1 Quái: `Hỏa Long` (`Lv.4`, HP: 280).
+7. **Ải 7: Điện Thờ Hắc Ám** — 1 Quái: `Chúa Tể Bóng Tối` (`Lv.5`, HP: 360).
+8. **Ải 8: VỰC THẲM HỖN MANG - ĐẠI CHIẾN ĐẠI MA VƯƠNG (NIGHTMARE SUPER BOSS):**
+   - **Phase 1:** `Đại Ma Vương` (HP: 350, ATK: 45) — Giảm 25% sát thương nhận vào.
+   - **Phase 2:** `Đại Ma Vương Thức Tỉnh` 👑 (HP: 500, ATK: 55) — Kích hoạt Cuồng nộ tăng 15% ATK mỗi 2 lượt.
+   - **Bộ câu hỏi:** Chuyên dụng 38 câu hỏi Vận Dụng Cao.
+
+- [ ] **Bước 1: Cập nhật cấu hình 8 Ải trong `STAGES`**
+- [ ] **Bước 2: Xây dựng cơ chế chuyển Phase cho Đại Ma Vương**
+  - Màn hình rung chuyển dữ dội, sân đấu chuyển đỏ rực u tối, nạp cây máu Phase 2.
+- [ ] **Bước 3: Kiểm tra và Commit**
+  ```bash
+  git add index.html
+  git commit -m "feat(stages): configure 8 classic RPG stages with 2-phase nightmare boss"
+  ```
+
+---
+
+### Task 6: Kiểm Thử Toàn Diện, Responsive & Hoàn Thiện
+
+**Mục tiêu:** Kiểm tra toàn bộ hành trình: Prologue -> Nhập Tên -> Chương 1 (5 Bài) -> Chọn Deck -> 8 Ải -> Chiến Thắng.
 
 **Files:**
 - Sửa đổi: `index.html`, `README.md`.
-- Script kiểm tra: `tests/verify_full_features.py`.
+- Script kiểm tra: `tests/verify_full_flow.py`.
 
-- [ ] **Bước 1: Viết script Python tự động kiểm tra logic**
-  - Kiểm tra tính toán sát thương AOE, danh sách 8 ải, logic 2 Phase của Boss.
-- [ ] **Bước 2: Kiểm tra Responsive sàn đấu bầy quái**
-  - Đảm bảo 3 quái vật trên điện thoại di động hiển thị ngay ngắn, không bị che khuất thanh kỹ năng hoặc HUD máu.
-- [ ] **Bước 3: Cập nhật `README.md`**
-  - Hướng dẫn chế độ Làng Tân Thủ, danh sách 10 chiêu thức (bao gồm chiêu AOE), và chiến thuật vượt Boss Ải 8.
+- [ ] **Bước 1: Viết script Python tự động kiểm tra toàn bộ DOM và cú pháp**
+- [ ] **Bước 2: Kiểm tra Responsive trên Mobile và Desktop**
+- [ ] **Bước 3: Cập nhật `README.md` đầy đủ hướng dẫn**
 - [ ] **Bước 4: Commit và đẩy lên GitHub**
   ```bash
   git add .
-  git commit -m "docs: complete implementation plan with multi-enemy AOE combat and nightmare boss"
+  git commit -m "docs: finalize complete game design with prologue, training academy, and 8 stages"
   git push origin main
   ```
 
 ---
 
-## Trạng Thái & Xác Nhận Bắt Đầu
+## Xác Nhận Sẵn Sàng Triển Khai
 
-Kế hoạch toàn diện đã bao gồm:
-1. **Làng Tân Thủ** bắt buộc học bí kíp & làm 3 nhiệm vụ nhập môn.
-2. **Chiến Dịch 8 Ải**, trong đó có 2 ải xuất hiện nhiều quái vật (Ải 2 có 3 quái, Ải 5 có 2 quái).
-3. **2 Chiêu Thức Diện Rộng (AOE)** công phá toàn bộ đối thủ (`targetType: 'all'`).
-4. **Màn Boss Tối Thượng (Ải 8)** độ khó cực cao với 2 Phase biến dị và câu hỏi Vận Dụng Cao.
+Kế hoạch này đã kết hợp hài hòa và trọn vẹn:
+1. **Phần mở đầu hoành tráng (Epic Prologue Intro)** ngay khi truy cập web.
+2. **Chương 1: Học Viện Đào Tạo Chiến Binh Ester** với 5 bài học tương ứng 5 mục Bí Kíp Ester.
+3. **Kho 10 Chiêu Thức Giả Kim** (bao gồm 2 chiêu AOE diện rộng và các hiệu ứng RPG đặc sắc).
+4. **Chiến Dịch 8 Ải Đánh Quái** với tên gọi quái vật đơn giản, 2 màn bầy quái, và **Ải 8 Đại Ma Vương 2 Giai Đoạn**.
+5. **Kho 162 câu hỏi chuẩn hóa** không trùng lặp, chia đều theo 3 cấp độ.
 
-Khi bạn xem qua và cảm thấy hài lòng, hãy phản hồi để chúng ta bắt đầu tiến hành code theo kế hoạch này!
+Khi bạn đồng ý, chúng ta sẽ bắt đầu triển khai code từng nhiệm vụ một cách chuẩn xác nhất!
