@@ -283,8 +283,12 @@
     - Hiệu ứng rung lắc màn hình cực mạnh, đổi màu nền arena sang đỏ rực u ám.
     - Đổi tên Boss thành "👑 ĐẠI MA VƯƠNG TRIGLYCERIDE BIẾN DỊ (PHASE 2)".
     - Đổi icon/sprite sang hình tượng quái vật hung hãn và nạp đầy cây máu 500 HP.
-- [ ] **Bước 3: Ngân hàng đề riêng cho Boss Ải 8**
-  - Đảm bảo các câu hỏi của Ải 8 đều là câu hỏi Vận Dụng mang tính thách thức cao.
+- [ ] **Bước 3: Tích hợp Ngân hàng Đề 162 Câu Hỏi Chuẩn Hóa**
+  - Đã mở rộng ngân hàng câu hỏi từ 68 câu lên **162 câu hỏi phong phú** trích xuất từ tài liệu PDF và DOCX (chỉ lấy các câu có đáp án tô vàng):
+    - **Mức 1 (Nhận Biết): 73 câu** (danh pháp, khái niệm, công thức este - lipid, phân loại chất giặt rửa).
+    - **Mức 2 (Thông Hiểu): 51 câu** (nhiệt độ sôi, thủy phân kiềm/axit, phản ứng tráng bạc, đồng phân).
+    - **Mức 3 (Vận Dụng & Vận Dụng Cao): 38 câu** (bài toán đốt cháy, bảo toàn khối lượng, hiệu suất este hóa, este của phenol, thủy phân chất béo đa chức phục vụ riêng cho các Ải khó và Ải 8 Nightmare Boss).
+  - Áp dụng thuật toán chọn câu hỏi không trùng lặp: `filter(q => q.level === targetLevel && !state.historyLogs.some(h => h.id === q.id))` đảm bảo người chơi trong suốt 8 ải hầu như không bao giờ gặp lại câu đã làm.
 - [ ] **Bước 4: Kiểm tra và Commit**
   ```bash
   git add index.html
