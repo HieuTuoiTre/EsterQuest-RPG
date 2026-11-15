@@ -237,12 +237,12 @@
 | **9** | 🌊 **Sóng Thủy Phân Toàn Diện** | **AOE** | 28 | 60 ST/quái | **Sát thương diện rộng:** Quét sạch TẤT CẢ quái vật trên sân | ⭐⭐ Thông Hiểu |
 | **10**| 🌪️ **Bão Nhiệt Phản Ứng** | **AOE** | 42 | 95 ST/quái | **AOE Cực Đại:** Quét sạch toàn bộ quái & giảm 25% công | ⭐⭐⭐ Vận Dụng |
 
-- [ ] **Bước 1: Giao diện Thư Viện Kỹ Năng (Grimoire)**
+- [x] **Bước 1: Giao diện Thư Viện Kỹ Năng (Grimoire)**
   - Hiển thị 10 thẻ chiêu thức với thông số rõ ràng.
   - Khung 4 ô kích hoạt (Active Slots) cho phép click chọn linh hoạt.
-- [ ] **Bước 2: Đồng bộ hóa vào Dashboard chiến đấu**
+- [x] **Bước 2: Đồng bộ hóa vào Dashboard chiến đấu**
   - Render đúng 4 chiêu mà người chơi đã trang bị lên màn hình trận chiến.
-- [ ] **Bước 3: Kiểm tra và Commit**
+- [x] **Bước 3: Kiểm tra và Commit**
   ```bash
   git add index.html
   git commit -m "feat(deck): implement 10-skill grimoire and 4-slot tactical deck loadout"
@@ -257,15 +257,15 @@
 **Files:**
 - Sửa đổi: `index.html` (CSS `.enemies-container`, JS `state.enemies`, `resolveTurnAction` phân nhánh AOE).
 
-- [ ] **Bước 1: Cấu trúc hiển thị nhiều quái vật**
+- [x] **Bước 1: Cấu trúc hiển thị nhiều quái vật**
   - Hỗ trợ dàn 1, 2 hoặc 3 quái trên cùng một hàng ngang với thanh máu và sprite độc lập.
   - Vòng tròn ngắm bắn neon (`target-indicator`) hiển thị quái đang được chọn.
-- [ ] **Bước 2: Logic thi triển chiêu AOE (`targetType === 'all'`)**
+- [x] **Bước 2: Logic thi triển chiêu AOE (`targetType === 'all'`)**
   - Gây sát thương đồng loạt lên tất cả quái vật có `hp > 0`.
   - Hiệu ứng chớp sáng toàn sàn đấu và số nổi sát thương hiển thị trên từng quái.
-- [ ] **Bước 3: Chuỗi phản công của bầy quái**
+- [x] **Bước 3: Chuỗi phản công của bầy quái**
   - Từng quái vật còn sống sẽ lần lượt lao lên tấn công người chơi cách nhau 400ms.
-- [ ] **Bước 4: Kiểm tra và Commit**
+- [x] **Bước 4: Kiểm tra và Commit**
   ```bash
   git add index.html
   git commit -m "feat(combat): implement multi-enemy targeting and AOE spell execution engine"

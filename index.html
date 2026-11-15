@@ -757,6 +757,117 @@
       40%, 80% { transform: translateX(12px); }
     }
 
+    /* Multi-Enemy Arena & Units */
+    .enemies-container {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-end;
+      gap: 12px;
+      max-width: 65%;
+    }
+    .enemy-unit {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.2s ease;
+    }
+    .enemy-unit:hover:not(.is-dead) {
+      transform: translateY(-4px);
+    }
+    .enemy-unit.is-targeted .sprite-box {
+      border-color: #00cec9 !important;
+      box-shadow: 0 0 20px rgba(0, 206, 201, 0.85), inset 0 0 15px rgba(0, 206, 201, 0.45);
+    }
+    .enemy-unit.is-targeted .combatant-status {
+      border-color: #00cec9;
+    }
+    .target-indicator {
+      position: absolute;
+      top: -24px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 11px;
+      font-weight: 900;
+      color: #00cec9;
+      background: rgba(0, 206, 201, 0.25);
+      border: 1px solid #00cec9;
+      padding: 2px 6px;
+      border-radius: 4px;
+      white-space: nowrap;
+      pointer-events: none;
+      animation: targetPulse 1.1s infinite alternate;
+      text-shadow: 0 0 8px #00cec9;
+      z-index: 20;
+    }
+    @keyframes targetPulse {
+      0% { transform: translateX(-50%) translateY(0); opacity: 0.85; }
+      100% { transform: translateX(-50%) translateY(-5px); opacity: 1; }
+    }
+    .enemy-unit.is-dead {
+      opacity: 0.35;
+      filter: grayscale(1);
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+    .enemy-unit.damaged {
+      animation: shake 0.4s ease-in-out;
+      filter: brightness(1.8) drop-shadow(0 0 15px red);
+    }
+    .enemy-unit.enemy-attacking {
+      transform: translateX(-35px) scale(1.08);
+    }
+    .enemies-container.count-1 .sprite-box { width: 110px; height: 110px; }
+    .enemies-container.count-1 .combatant-status { width: 160px; }
+    .enemies-container.count-2 .sprite-box { width: 92px; height: 92px; }
+    .enemies-container.count-2 .combatant-status { width: 130px; }
+    .enemies-container.count-3 .sprite-box { width: 76px; height: 76px; }
+    .enemies-container.count-3 .combatant-status { width: 108px; padding: 6px 6px; }
+    .enemies-container.count-3 .combatant-name { font-size: 11px; }
+
+    .enemy-status-badges {
+      display: flex;
+      gap: 3px;
+      flex-wrap: wrap;
+      justify-content: center;
+      min-height: 16px;
+    }
+    .status-badge {
+      font-size: 9px;
+      font-weight: 800;
+      padding: 1px 4px;
+      border-radius: 4px;
+      line-height: 1.2;
+    }
+    .status-badge.dot { background: rgba(255, 107, 129, 0.25); color: #ff6b81; border: 1px solid #ff6b81; }
+    .status-badge.stun { background: rgba(255, 211, 84, 0.25); color: #ffd354; border: 1px solid #ffd354; }
+    .status-badge.blind { background: rgba(162, 155, 254, 0.25); color: #a29bfe; border: 1px solid #a29bfe; }
+    .status-badge.weaken { background: rgba(9, 132, 227, 0.25); color: #74b9ff; border: 1px solid #74b9ff; }
+
+    /* AOE Visual Effects */
+    .arena-aoe-flash {
+      animation: aoeFlash 0.6s ease-out;
+    }
+    @keyframes aoeFlash {
+      0% { filter: brightness(2.2) contrast(1.3); }
+      50% { filter: brightness(1.7) drop-shadow(0 0 35px #00cec9); }
+      100% { filter: none; }
+    }
+    .arena-shake {
+      animation: arenaShake 0.5s ease-in-out;
+    }
+    @keyframes arenaShake {
+      0%, 100% { transform: translate(0, 0); }
+      20% { transform: translate(-8px, 6px); }
+      40% { transform: translate(8px, -6px); }
+      60% { transform: translate(-6px, -4px); }
+      80% { transform: translate(6px, 4px); }
+    }
+
     .sprite-box {
       width: 120px;
       height: 120px;
@@ -953,6 +1064,111 @@
       display: flex;
       align-items: center;
       gap: 4px;
+    }
+    .skill-key-badge {
+      font-size: 11px;
+      font-weight: 800;
+      color: #cbd5e1;
+      background: #0c1428;
+      border: 1px solid #334d80;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    /* Active Skill Deck Modal Styles */
+    .deck-active-slots {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .deck-slot-card {
+      background: #141e38;
+      border: 2px dashed #3a5080;
+      border-radius: 12px;
+      padding: 10px 12px;
+      min-height: 94px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      transition: all 0.2s;
+    }
+    .deck-slot-card.filled {
+      border-style: solid;
+      border-color: var(--accent);
+      background: #182544;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+    .deck-slot-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+    .deck-slot-num {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--accent);
+      background: rgba(255, 210, 84, 0.15);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .deck-slot-remove {
+      background: none;
+      border: none;
+      color: #ff6b81;
+      font-weight: 800;
+      font-size: 13px;
+      cursor: pointer;
+      padding: 2px 6px;
+      border-radius: 4px;
+      transition: background 0.15s;
+    }
+    .deck-slot-remove:hover {
+      background: rgba(255, 107, 129, 0.2);
+    }
+    .deck-library-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 10px;
+      max-height: 48vh;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+    .deck-lib-card {
+      background: #10182e;
+      border: 2px solid #283a66;
+      border-radius: 10px;
+      padding: 10px 12px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      transition: all 0.2s;
+      position: relative;
+    }
+    .deck-lib-card:hover {
+      border-color: var(--accent);
+      background: #162242;
+      transform: translateY(-2px);
+    }
+    .deck-lib-card.equipped {
+      border-color: #2ed573;
+      background: #0d2228;
+      box-shadow: 0 0 10px rgba(46, 213, 115, 0.25);
+    }
+    .deck-lib-badge {
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 4px;
+      width: fit-content;
+    }
+    .deck-lib-badge.equipped {
+      background: rgba(46, 213, 115, 0.2);
+      color: #2ed573;
+      border: 1px solid #2ed573;
     }
 
     /* Inventory Items Bar */
@@ -1276,6 +1492,13 @@
       .combatant-name, .bar-label { gap: 4px; }
       .skills-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .skills-panel { min-width: 0; padding: 12px; }
+      .enemies-container { max-width: 62%; gap: 6px; }
+      .enemies-container.count-3 .sprite-box { width: 58px; height: 58px; }
+      .enemies-container.count-3 .combatant-status { width: 84px; padding: 4px; }
+      .enemies-container.count-3 .combatant-name { font-size: 10px !important; }
+      .enemies-container.count-3 .bar-label { font-size: 9px !important; }
+      .enemies-container.count-3 .sprite-icon { font-size: 30px; }
+      .deck-active-slots { grid-template-columns: repeat(2, 1fr); }
       .panel-header { flex-wrap: wrap; gap: 6px; }
       .skill-card { min-height: 44px; }
       .skill-card-top { gap: 8px; }
@@ -2649,6 +2872,7 @@
 
       <div class="menu-actions" style="display:flex; gap:12px; width:100%; max-width:440px; flex-wrap:wrap; justify-content:center; align-items:stretch;">
         <button class="btn-rpg-primary" id="btnStartGame" style="flex:2; min-width:180px;">VÀO TRẬN CHIẾN</button>
+        <button class="btn-rpg-secondary" id="btnMenuDeck" type="button" title="Trang bị 4 kỹ năng ra trận (Deck Loadout)" style="flex:1; min-width:160px;" onclick="openDeckModal()">⚔️ Trang Bị Kỹ Năng</button>
         <button class="btn-rpg-secondary" id="btnMenuAcademy" type="button" title="Vào Học Viện Đào Tạo Ester (Chương 1)" style="flex:1; min-width:160px;">🎓 Học Viện (Chương 1)</button>
         <button class="btn-replay-prologue" id="btnReplayPrologue" type="button" title="Xem lại màn mở đầu cốt truyện điện ảnh">🎬 Xem Lại Cốt Truyện</button>
       </div>
@@ -3331,27 +3555,9 @@
           </div>
         </div>
 
-        <!-- Enemy -->
-        <div class="combatant" id="enemyCombatant">
-          <div class="combatant-status">
-            <div class="combatant-name">
-              <span id="enemyName">Slime</span>
-              <span class="combatant-level" id="enemyLevel">Lv.1</span>
-            </div>
-            <div class="bar-wrap">
-              <div class="bar-label">
-                <span>HP Quái Vật</span>
-                <span id="enemyHpText">120/120</span>
-              </div>
-              <div class="bar-track">
-                <div class="bar-fill-enemy-hp" id="enemyHpBar"></div>
-              </div>
-            </div>
-          </div>
-
-          <div class="sprite-box" style="border-color: #eb4d4b;">
-            <div class="sprite-icon" id="enemySprite"><img src="assets/slime.png" alt="Slime" class="sprite-img" onerror="this.onerror=null; this.parentElement.textContent='🧪';"></div>
-          </div>
+        <!-- Enemies Container (Hỗ trợ 1-3 quái vật dàn hàng ngang) -->
+        <div class="enemies-container" id="enemiesContainer">
+          <!-- Dynamically populated by renderEnemies() -->
         </div>
       </div>
 
@@ -3365,50 +3571,15 @@
       <div class="battle-dashboard">
         <div class="skills-panel">
           <div class="panel-header">
-            <span>Chiêu Thức Chiến Đấu (Chọn chiêu để trả lời câu hỏi)</span>
-            <span id="manaHint">Năng lượng: 50 MP</span>
+            <span>Chiêu Thức Chiến Đấu (Chọn chiêu hoặc bấm phím 1 - 4)</span>
+            <div style="display:flex; align-items:center; gap:10px;">
+              <button class="icon-btn mobile-readable" id="btnBattleDeck" onclick="openDeckModal()" title="Thay đổi 4 kỹ năng đang trang bị" style="padding:4px 10px; font-size:12px;">🔄 Đổi Kỹ Năng</button>
+              <span id="manaHint">Năng lượng: 50 MP</span>
+            </div>
           </div>
 
-          <div class="skills-grid">
-            <!-- Skill 1 -->
-            <div class="skill-card" id="skillAcidStrike" onclick="castSkill(1)">
-              <div class="skill-card-top">
-                <div class="skill-name">🗡️ Đòn Acid Cơ Bản</div>
-                <div class="skill-cost" style="color:#2ed573; background:rgba(46,213,115,0.15)">0 MP</div>
-              </div>
-              <div class="skill-desc">Đòn tấn công chuẩn. Gây 35 ST. Hồi 10 MP nếu trả lời đúng.</div>
-              <div class="skill-difficulty">⭐ Độ khó: Nhận Biết</div>
-            </div>
-
-            <!-- Skill 2 -->
-            <div class="skill-card" id="skillEsterFlare" onclick="castSkill(2)">
-              <div class="skill-card-top">
-                <div class="skill-name">🔥 Hỏa Cầu Ester Hóa</div>
-                <div class="skill-cost">20 MP</div>
-              </div>
-              <div class="skill-desc">Tích tụ nhiệt độ xúc tác H2SO4 đặc, gây 75 ST cực mạnh!</div>
-              <div class="skill-difficulty">⭐⭐ Độ khó: Thông Hiểu</div>
-            </div>
-
-            <!-- Skill 3 -->
-            <div class="skill-card" id="skillSolventShield" onclick="castSkill(3)">
-              <div class="skill-card-top">
-                <div class="skill-name">🛡️ Khiên Dung Môi</div>
-                <div class="skill-cost">15 MP</div>
-              </div>
-              <div class="skill-desc">Tạo lớp màng bảo vệ chặn đòn tiếp theo của quái và hồi 35 HP.</div>
-              <div class="skill-difficulty">⭐⭐ Độ khó: Thông Hiểu</div>
-            </div>
-
-            <!-- Skill 4 -->
-            <div class="skill-card" id="skillSaponification" onclick="castSkill(4)">
-              <div class="skill-card-top">
-                <div class="skill-name">⚡ Bão Xà Phòng Hóa</div>
-                <div class="skill-cost" style="color:#ff9f43; background:rgba(255,159,67,0.15)">35 MP</div>
-              </div>
-              <div class="skill-desc">Tuyệt chiêu tối thượng thủy phân 1 chiều! Gây 150 ST và Choáng quái 1 lượt!</div>
-              <div class="skill-difficulty">⭐⭐⭐ Độ khó: Vận Dụng</div>
-            </div>
+          <div class="skills-grid" id="battleSkillsGrid">
+            <!-- Dynamically populated by renderBattleSkills() -->
           </div>
 
           <!-- Inventory Items -->
@@ -3523,6 +3694,53 @@
       <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
         <button class="icon-btn" style="color:var(--danger); border-color:rgba(255,71,87,0.4);" onclick="clearAllHistory()">🗑️ Xóa Lịch Sử</button>
         <button class="btn-rpg-primary mobile-readable" style="padding:10px 24px; font-size:15px;" onclick="closeLeaderboard()">ĐÃ HIỂU</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Active Skill Deck Loadout (Bảng Chọn 4 Kỹ Năng Ra Trận) -->
+  <div class="modal-overlay" id="deckModal" style="display:none;">
+    <div class="modal-card" id="deckScreen" style="max-width: 960px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <div>
+          <h2 style="font-family:var(--font-rpg); color:var(--accent); font-size:20px; display:flex; align-items:center; gap:8px;">
+            ⚔️ Bảng Chọn 4 Kỹ Năng Ra Trận (Deck Loadout)
+          </h2>
+          <p style="font-size:13px; color:var(--text-muted); margin-top:4px;">
+            Chọn 4 trong 10 chiêu thức hóa học để trang bị vào thanh chiến đấu. Bấm vào chiêu để gỡ hoặc gắn vào ô trống.
+          </p>
+        </div>
+        <button class="icon-btn" id="btnCloseDeckModal" onclick="closeDeckModal()">Đóng ✖</button>
+      </div>
+
+      <!-- Active Slots (4 Ô Trang Bị) -->
+      <div class="deck-active-section" style="margin-bottom:14px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <span style="font-size:14px; font-weight:800; color:#fff;">4 Ô KỸ NĂNG ĐANG TRANG BỊ:</span>
+          <span style="font-size:12px; font-weight:700; color:var(--accent);" id="deckEquippedCount">4 / 4 Đã chọn</span>
+        </div>
+        <div class="deck-active-slots" id="deckActiveSlots">
+          <!-- Rendered dynamically -->
+        </div>
+      </div>
+
+      <!-- Grimoire Library (10 Chiêu Thức) -->
+      <div class="deck-library-section">
+        <div style="font-size:14px; font-weight:800; color:#fff; margin-bottom:8px;">
+          THƯ VIỆN 10 CHIÊU THỨC GIẢ KIM:
+        </div>
+        <div class="deck-library-grid" id="deckLibraryGrid">
+          <!-- Rendered dynamically -->
+        </div>
+      </div>
+
+      <!-- Footer Actions -->
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-top:16px; flex-wrap:wrap; gap:10px;">
+        <button class="btn-rpg-secondary mobile-readable" id="btnResetDefaultDeck" onclick="resetDefaultDeck()">🔄 Mặc Định [1, 2, 3, 4]</button>
+        <div style="display:flex; gap:10px;">
+          <button class="icon-btn mobile-readable" onclick="closeDeckModal()">Hủy Bỏ</button>
+          <button class="btn-rpg-primary mobile-readable" id="btnSaveDeck" onclick="saveDeckLoadout()">💾 XÁC NHẬN & LƯU TRANG BỊ</button>
+        </div>
       </div>
     </div>
   </div>
@@ -5088,6 +5306,173 @@
     ];
 
     /* ============================================================
+       THƯ VIỆN 10 CHIÊU THỨC CHIẾN ĐẤU (SKILL LIBRARY - 10 SKILLS)
+       ============================================================ */
+    const SKILL_LIBRARY = [
+      {
+        id: 1,
+        name: "🗡️ Đòn Acid Chấn Động",
+        shortName: "Đòn Acid",
+        icon: "🗡️",
+        type: "single",
+        targetType: "single",
+        mpCost: 0,
+        damage: 35,
+        heal: 0,
+        level: 1,
+        difficultyLabel: "Nhận Biết",
+        stars: "⭐",
+        desc: "Đòn tấn công chuẩn mang tính acid. Gây 35 ST. Hồi 10 MP nếu trả lời đúng.",
+        effectDesc: "Hồi 10 MP nếu đúng"
+      },
+      {
+        id: 2,
+        name: "🔥 Hỏa Cầu Ester Hóa",
+        shortName: "Hỏa Cầu",
+        icon: "🔥",
+        type: "single",
+        targetType: "single",
+        mpCost: 20,
+        damage: 75,
+        heal: 0,
+        level: 2,
+        difficultyLabel: "Thông Hiểu",
+        stars: "⭐⭐",
+        desc: "Tích tụ nhiệt độ xúc tác H2SO4 đặc, gây 75 ST hỏa năng cực mạnh!",
+        effectDesc: "75 ST hỏa năng"
+      },
+      {
+        id: 3,
+        name: "🛡️ Khiên Dung Môi Hữu Cơ",
+        shortName: "Khiên Dung Môi",
+        icon: "🛡️",
+        type: "support",
+        targetType: "self",
+        mpCost: 15,
+        damage: 0,
+        heal: 35,
+        level: 2,
+        difficultyLabel: "Thông Hiểu",
+        stars: "⭐⭐",
+        desc: "Tạo lớp màng bảo vệ dung môi hữu cơ chặn hoàn toàn đòn đánh kế tiếp và hồi 35 HP.",
+        effectDesc: "+35 HP & Chặn đòn kế tiếp"
+      },
+      {
+        id: 4,
+        name: "⚡ Bão Xà Phòng Hóa",
+        shortName: "Bão Xà Phòng",
+        icon: "⚡",
+        type: "single",
+        targetType: "single",
+        mpCost: 35,
+        damage: 150,
+        heal: 0,
+        level: 3,
+        difficultyLabel: "Vận Dụng",
+        stars: "⭐⭐⭐",
+        desc: "Thủy phân cực đại môi trường kiềm 1 chiều! Gây 150 ST và Choáng quái 1 lượt.",
+        effectDesc: "150 ST & Choáng 1 lượt"
+      },
+      {
+        id: 5,
+        name: "🌸 Độc Khí Ester Thơm",
+        shortName: "Độc Khí Thơm",
+        icon: "🌸",
+        type: "single",
+        targetType: "single",
+        mpCost: 18,
+        damage: 40,
+        heal: 0,
+        level: 2,
+        difficultyLabel: "Thông Hiểu",
+        stars: "⭐⭐",
+        desc: "Phát tán phân tử ester thơm nồng độ cao, gây 40 ST và nhiễm Độc mất 15 HP/lượt trong 3 lượt.",
+        effectDesc: "40 ST + DoT 15 HP/lượt x3"
+      },
+      {
+        id: 6,
+        name: "🧪 Chiết Tách Dung Môi",
+        shortName: "Chiết Tách",
+        icon: "🧪",
+        type: "single",
+        targetType: "single",
+        mpCost: 12,
+        damage: 45,
+        heal: 25,
+        level: 2,
+        difficultyLabel: "Thông Hiểu",
+        stars: "⭐⭐",
+        desc: "Tách chiết tinh chất dung môi từ mục tiêu, gây 45 ST và hút hồi 25 HP cho bản thân.",
+        effectDesc: "45 ST & Hút máu hồi 25 HP"
+      },
+      {
+        id: 7,
+        name: "🪞 Gương Bạc Lóa Mắt",
+        shortName: "Gương Bạc",
+        icon: "🪞",
+        type: "single",
+        targetType: "single",
+        mpCost: 22,
+        damage: 65,
+        heal: 0,
+        level: 2,
+        difficultyLabel: "Thông Hiểu",
+        stars: "⭐⭐",
+        desc: "Phản ứng tráng bạc tạo gương phản chiếu chói lòa, gây 65 ST và làm Mù quái khiến đòn tấn công trượt 70%.",
+        effectDesc: "65 ST & Gây Mù (trượt 70%)"
+      },
+      {
+        id: 8,
+        name: "💥 Bộc Phá Oxi Hóa",
+        shortName: "Bộc Phá MP",
+        icon: "💥",
+        type: "single",
+        targetType: "single",
+        mpCost: "all",
+        damage: "mp*3.5",
+        heal: 0,
+        level: 3,
+        difficultyLabel: "Vận Dụng",
+        stars: "⭐⭐⭐",
+        desc: "Bộc phát toàn bộ MP thành năng lượng oxi hóa mãnh liệt! Gây (MP × 3.5) ST cực lớn (Cần ít nhất 1 MP).",
+        effectDesc: "Đốt toàn bộ MP: ST = MP × 3.5"
+      },
+      {
+        id: 9,
+        name: "🌊 Sóng Thủy Phân Toàn Diện",
+        shortName: "Sóng Thủy Phân",
+        icon: "🌊",
+        type: "aoe",
+        targetType: "all",
+        mpCost: 28,
+        damage: 60,
+        heal: 0,
+        level: 2,
+        difficultyLabel: "Thông Hiểu",
+        stars: "⭐⭐",
+        desc: "Phóng xuất luồng sóng thủy phân tràn ngập sàn đấu! Gây 60 ST lên TẤT CẢ quái vật trên sân.",
+        effectDesc: "AOE: 60 ST lên tất cả quái"
+      },
+      {
+        id: 10,
+        name: "🌪️ Bão Nhiệt Phản Ứng",
+        shortName: "Bão Nhiệt",
+        icon: "🌪️",
+        type: "aoe",
+        targetType: "all",
+        mpCost: 42,
+        damage: 95,
+        heal: 0,
+        level: 3,
+        difficultyLabel: "Vận Dụng",
+        stars: "⭐⭐⭐",
+        desc: "Tạo cơn bão nhiệt phản ứng quét sạch sàn đấu! Gây 95 ST lên TẤT CẢ quái và giảm 25% công của quái.",
+        effectDesc: "AOE: 95 ST tất cả quái & giảm 25% ATK"
+      }
+    ];
+    const SKILLS = SKILL_LIBRARY;
+
+    /* ============================================================
        2. HỆ THỐNG CÁC MÀN CHƠI (STAGES & BOSSES)
        ============================================================ */
     const STAGES = [
@@ -5095,30 +5480,47 @@
         id: 1,
         name: "Ải 1: Rừng Ẩm Ướt",
         bg: "radial-gradient(circle at 50% 100%, #192a56 0%, #0c1022 100%)",
+        enemies: [
+          { name: "Slime", icon: "assets/slime.png", hp: 100, maxHp: 100, atk: 15, baseAtk: 15, level: "Lv.1", desc: "Quái dịch hữu cơ mang tính tráng bạc" }
+        ],
         enemy: { name: "Slime", icon: "assets/slime.png", hp: 100, maxHp: 100, atk: 15, level: "Lv.1", desc: "Quái dịch hữu cơ mang tính tráng bạc" }
       },
       {
         id: 2,
-        name: "Ải 2: Thung Lũng Băng",
-        bg: "radial-gradient(circle at 50% 100%, #2c3e50 0%, #0d1624 100%)",
-        enemy: { name: "Sói Băng", icon: "🐺", hp: 150, maxHp: 150, atk: 22, level: "Lv.2", desc: "Tốc độ nhanh, nhiệt độ sôi thấp" }
+        name: "Ải 2: Đầm Lầy Bầy Nhầy (Bầy Slime 3 Con)",
+        bg: "radial-gradient(circle at 50% 100%, #1c3326 0%, #0c1a13 100%)",
+        enemies: [
+          { name: "Slime Xanh", icon: "assets/slime.png", hp: 60, maxHp: 60, atk: 10, baseAtk: 10, level: "Lv.1", desc: "Quái dịch ester đơn chức" },
+          { name: "Slime Đỏ", icon: "assets/slime.png", hp: 70, maxHp: 70, atk: 12, baseAtk: 12, level: "Lv.1", desc: "Quái dịch phản ứng tỏa nhiệt" },
+          { name: "Slime Vàng", icon: "assets/slime.png", hp: 80, maxHp: 80, atk: 14, baseAtk: 14, level: "Lv.1", desc: "Quái dịch xúc tác acid đậm đặc" }
+        ],
+        enemy: { name: "Bầy Slime", icon: "assets/slime.png", hp: 210, maxHp: 210, atk: 14, level: "Lv.1", desc: "Bầy quái dịch 3 con" }
       },
       {
         id: 3,
-        name: "Ải 3: Hầm Ngục Thạch",
-        bg: "radial-gradient(circle at 50% 100%, #401f4c 0%, #120a1c 100%)",
-        enemy: { name: "Thạch Quái", icon: "🗿", hp: 200, maxHp: 200, atk: 28, level: "Lv.3", desc: "Thủy phân 1 chiều cực kỳ nguy hiểm" }
+        name: "Ải 3: Thung Lũng Băng",
+        bg: "radial-gradient(circle at 50% 100%, #2c3e50 0%, #0d1624 100%)",
+        enemies: [
+          { name: "Sói Băng", icon: "🐺", hp: 150, maxHp: 150, atk: 22, baseAtk: 22, level: "Lv.2", desc: "Tốc độ nhanh, nhiệt độ sôi thấp" }
+        ],
+        enemy: { name: "Sói Băng", icon: "🐺", hp: 150, maxHp: 150, atk: 22, level: "Lv.2", desc: "Tốc độ nhanh, nhiệt độ sôi thấp" }
       },
       {
         id: 4,
-        name: "Ải 4: Tháp Địa Ngục",
-        bg: "radial-gradient(circle at 50% 100%, #633318 0%, #1c0e06 100%)",
-        enemy: { name: "Hỏa Long", icon: "🐉", hp: 260, maxHp: 260, atk: 35, level: "Lv.4", desc: "Chuyển dịch cân bằng sang chiều hủy diệt" }
+        name: "Ải 4: Hầm Ngục Thạch",
+        bg: "radial-gradient(circle at 50% 100%, #401f4c 0%, #120a1c 100%)",
+        enemies: [
+          { name: "Thạch Quái", icon: "🗿", hp: 200, maxHp: 200, atk: 28, baseAtk: 28, level: "Lv.3", desc: "Thủy phân 1 chiều cực kỳ nguy hiểm" }
+        ],
+        enemy: { name: "Thạch Quái", icon: "🗿", hp: 200, maxHp: 200, atk: 28, level: "Lv.3", desc: "Thủy phân 1 chiều cực kỳ nguy hiểm" }
       },
       {
         id: 5,
         name: "ẢI CUỐI: ĐẠI CHIẾN CHÚA TỂ BÓNG TỐI",
         bg: "radial-gradient(circle at 50% 100%, #581845 0%, #14040e 100%)",
+        enemies: [
+          { name: "Chúa Tể Bóng Tối", icon: "👑", hp: 350, maxHp: 350, atk: 45, baseAtk: 45, level: "👑 BOSS", desc: "Trùm cuối sở hữu bí thuật ester đa chức & bẫy trắc nghiệm!" }
+        ],
         enemy: { name: "Chúa Tể Bóng Tối", icon: "👑", hp: 350, maxHp: 350, atk: 45, level: "👑 BOSS", desc: "Trùm cuối sở hữu bí thuật ester đa chức & bẫy trắc nghiệm!" }
       }
     ];
@@ -5129,6 +5531,7 @@
     const state = {
       soundEnabled: true,
       playerName: "Dược Sĩ",
+      playerClass: "12A1",
       playerLvl: 1,
       playerHp: 100,
       playerMaxHp: 100,
@@ -5138,8 +5541,11 @@
       potions: 2,
       h2so4Hints: 2,
       currentStageIndex: 0,
-      enemy: null,
-      isEnemyStunned: false,
+      enemies: [],
+      selectedEnemyIndex: 0,
+      enemy: null, // backward compatibility
+      isEnemyStunned: false, // backward compatibility
+      activeSkills: [1, 2, 3, 4], // 4 chiêu trang bị mặc định
       turnPendingAction: null,
       historyLogs: [], // Lưu câu hỏi đã làm
       currentQuestion: null,
@@ -5532,6 +5938,8 @@
       document.getElementById("codexModal").style.display = "none";
       document.getElementById("leaderboardModal").style.display = "none";
       document.getElementById("reviewModal").style.display = "none";
+      const deckModal = document.getElementById("deckModal");
+      if (deckModal) deckModal.style.display = "none";
 
       const academy = document.getElementById("academyScreen");
       academy.style.display = "flex";
@@ -6247,11 +6655,37 @@
       }
     }
 
+    /* ============================================================
+       QUẢN LÝ SÀN ĐẤU & CHIẾN ĐẤU ĐA QUÁI VẬT (ARENA & COMBAT ENGINE)
+       ============================================================ */
     function loadStage(index) {
       state.currentStageIndex = index;
       const stage = STAGES[index];
-      state.enemy = JSON.parse(JSON.stringify(stage.enemy));
-      state.isEnemyStunned = false;
+
+      // Hỗ trợ cả mảng bầy quái enemies[] và quái đơn lẻ enemy
+      const rawEnemies = (stage.enemies && stage.enemies.length > 0)
+        ? stage.enemies
+        : (stage.enemy ? [stage.enemy] : []);
+
+      state.enemies = rawEnemies.map(e => ({
+        name: e.name,
+        icon: e.icon,
+        hp: e.hp,
+        maxHp: e.maxHp || e.hp,
+        atk: e.atk,
+        baseAtk: e.baseAtk || e.atk,
+        level: e.level || "Lv.1",
+        desc: e.desc || "",
+        isStunned: false,
+        isBlind: false,
+        dotTurns: 0,
+        dotDmg: 0,
+        atkDebuff: false
+      }));
+
+      state.selectedEnemyIndex = 0;
+      state.enemy = state.enemies[0] || null; // backward compatibility
+      state.isEnemyStunned = false; // backward compatibility
       state.isTurnBusy = false;
       state.questionAnswered = false;
       state.turnPendingAction = null;
@@ -6260,12 +6694,124 @@
       document.getElementById("stageProgress").textContent = `Tiến trình: Ải ${index + 1} / ${STAGES.length}`;
       document.getElementById("arenaBg").style.background = stage.bg;
 
-      document.getElementById("enemyName").textContent = state.enemy.name;
-      renderSprite(document.getElementById("enemySprite"), state.enemy.icon, state.enemy.name, "🧪");
-      document.getElementById("enemyLevel").textContent = state.enemy.level;
+      renderEnemies();
+      renderBattleSkills();
 
-      setNarrator("⚔️", `Bạn đã bước vào ${stage.name}. Hãy chọn chiêu thức để giao chiến!`);
+      const countStr = state.enemies.length > 1 ? ` (${state.enemies.length} quái vật)` : "";
+      setNarrator("⚔️", `Bạn đã bước vào ${stage.name}${countStr}. Hãy chọn chiêu thức hoặc bấm phím 1 - 4 để giao chiến!`);
       updateUI();
+    }
+
+    function renderEnemies() {
+      const container = document.getElementById("enemiesContainer");
+      if (!container) return;
+      container.innerHTML = "";
+
+      const enemyCount = state.enemies.length;
+      container.className = `enemies-container count-${enemyCount}`;
+
+      state.enemies.forEach((enemy, idx) => {
+        const isTargeted = (idx === state.selectedEnemyIndex && enemy.hp > 0);
+        const isDead = enemy.hp <= 0;
+
+        const unitDiv = document.createElement("div");
+        unitDiv.className = `enemy-unit ${isTargeted ? 'is-targeted' : ''} ${isDead ? 'is-dead' : ''}`;
+        unitDiv.id = `enemyUnit_${idx}`;
+        unitDiv.setAttribute("role", "button");
+        unitDiv.setAttribute("tabindex", "0");
+        unitDiv.setAttribute("aria-label", `Quái vật ${enemy.name}, máu ${Math.ceil(enemy.hp)} trên ${enemy.maxHp}`);
+        unitDiv.onclick = () => selectEnemyTarget(idx);
+
+        unitDiv.innerHTML = `
+          <div class="target-indicator" id="targetIndicator_${idx}" style="display:${isTargeted ? 'block' : 'none'};">
+            🎯 MỤC TIÊU
+          </div>
+          <div class="combatant-status">
+            <div class="combatant-name">
+              <span id="enemyName_${idx}">${enemy.name}</span>
+              <span class="combatant-level" id="enemyLevel_${idx}">${enemy.level}</span>
+            </div>
+            <div class="enemy-status-badges" id="statusBadges_${idx}"></div>
+            <div class="bar-wrap">
+              <div class="bar-label">
+                <span>HP Quái</span>
+                <span id="enemyHpText_${idx}">${Math.ceil(enemy.hp)}/${enemy.maxHp}</span>
+              </div>
+              <div class="bar-track">
+                <div class="bar-fill-enemy-hp" id="enemyHpBar_${idx}" style="width: 100%;"></div>
+              </div>
+            </div>
+          </div>
+          <div class="sprite-box" style="border-color: #eb4d4b;">
+            <div class="sprite-icon" id="enemySprite_${idx}"></div>
+          </div>
+        `;
+
+        container.appendChild(unitDiv);
+
+        const spriteEl = unitDiv.querySelector(`#enemySprite_${idx}`);
+        renderSprite(spriteEl, enemy.icon, enemy.name, "🧪");
+      });
+
+      // Backward compatibility alias: attach legacy id to first enemy if not present
+      const firstUnit = document.getElementById("enemyUnit_0");
+      if (firstUnit) {
+        firstUnit.setAttribute("data-legacy-id", "enemyCombatant");
+      }
+    }
+
+    function selectEnemyTarget(index) {
+      if (state.isTurnBusy) return;
+      const target = state.enemies[index];
+      if (!target || target.hp <= 0) return;
+      state.selectedEnemyIndex = index;
+      state.enemy = target; // backward compatibility
+      if (SFX.click) SFX.click();
+      setNarrator("🎯", `Đang ngắm mục tiêu: ${target.name} (${Math.ceil(target.hp)}/${target.maxHp} HP). Hãy chọn chiêu thức!`);
+      updateUI();
+    }
+
+    function autoSelectNextLivingEnemy() {
+      const firstLiving = state.enemies.findIndex(e => e.hp > 0);
+      if (firstLiving !== -1) {
+        state.selectedEnemyIndex = firstLiving;
+        state.enemy = state.enemies[firstLiving];
+      }
+    }
+
+    function renderEnemyStatusBadges(idx, enemy) {
+      const badgeContainer = document.getElementById(`statusBadges_${idx}`);
+      if (!badgeContainer) return;
+      badgeContainer.innerHTML = "";
+
+      if (enemy.dotTurns > 0) {
+        const b = document.createElement("span");
+        b.className = "status-badge dot";
+        b.title = `Nhiễm độc: Mất ${enemy.dotDmg} HP/lượt trong ${enemy.dotTurns} lượt`;
+        b.textContent = `🌸 ${enemy.dotDmg}/lượt (${enemy.dotTurns})`;
+        badgeContainer.appendChild(b);
+      }
+      if (enemy.isStunned) {
+        const b = document.createElement("span");
+        b.className = "status-badge stun";
+        b.title = "Bị choáng: Mất lượt kế tiếp";
+        b.textContent = "💫 Choáng";
+        badgeContainer.appendChild(b);
+      }
+      if (enemy.isBlind) {
+        const b = document.createElement("span");
+        b.className = "status-badge blind";
+        b.title = "Mù lòa: Đòn đánh có 70% tỉ lệ trượt";
+        b.textContent = "🪞 Mù (70%)";
+        badgeContainer.appendChild(b);
+      }
+      if (enemy.atkDebuff) {
+        const b = document.createElement("span");
+        b.className = "status-badge weaken";
+        b.title = "Bị suy yếu: Sát thương giảm 25%";
+        b.textContent = "🌪️ -25% ATK";
+        badgeContainer.appendChild(b);
+      }
     }
 
     function updateUI() {
@@ -6278,11 +6824,36 @@
       document.getElementById("playerManaText").textContent = `${Math.ceil(state.playerMana)}/${state.playerMaxMana}`;
       document.getElementById("playerLvlDisplay").textContent = `Lv.${state.playerLvl}`;
 
-      // Enemy HP
+      // Update Enemies
+      if (state.enemies && state.enemies.length > 0) {
+        state.enemies.forEach((enemy, idx) => {
+          const unitEl = document.getElementById(`enemyUnit_${idx}`);
+          if (unitEl) {
+            unitEl.classList.toggle("is-targeted", idx === state.selectedEnemyIndex && enemy.hp > 0);
+            unitEl.classList.toggle("is-dead", enemy.hp <= 0);
+            const ind = document.getElementById(`targetIndicator_${idx}`);
+            if (ind) ind.style.display = (idx === state.selectedEnemyIndex && enemy.hp > 0) ? "block" : "none";
+            const hpPct = Math.max(0, Math.min(100, (enemy.hp / enemy.maxHp) * 100));
+            const bar = document.getElementById(`enemyHpBar_${idx}`);
+            if (bar) bar.style.width = hpPct + "%";
+            const txt = document.getElementById(`enemyHpText_${idx}`);
+            if (txt) txt.textContent = enemy.hp <= 0 ? "Hạ gục" : `${Math.ceil(enemy.hp)}/${enemy.maxHp}`;
+            renderEnemyStatusBadges(idx, enemy);
+          }
+        });
+      }
+
+      // Backward compatibility for single enemy elements if any exist
       if (state.enemy) {
-        const eHpPct = Math.max(0, Math.min(100, (state.enemy.hp / state.enemy.maxHp) * 100));
-        document.getElementById("enemyHpBar").style.width = eHpPct + "%";
-        document.getElementById("enemyHpText").textContent = `${Math.ceil(state.enemy.hp)}/${state.enemy.maxHp}`;
+        const legacyBar = document.getElementById("enemyHpBar");
+        if (legacyBar) {
+          const eHpPct = Math.max(0, Math.min(100, (state.enemy.hp / state.enemy.maxHp) * 100));
+          legacyBar.style.width = eHpPct + "%";
+        }
+        const legacyTxt = document.getElementById("enemyHpText");
+        if (legacyTxt) {
+          legacyTxt.textContent = `${Math.ceil(state.enemy.hp)}/${state.enemy.maxHp}`;
+        }
       }
 
       // Items
@@ -6295,11 +6866,23 @@
       const skillsPanel = document.querySelector(".skills-panel");
       if (skillsPanel) skillsPanel.classList.toggle("turn-busy", state.isTurnBusy);
 
-      // Skill mana availability
-      document.getElementById("skillAcidStrike").classList.toggle("disabled", state.isTurnBusy);
-      document.getElementById("skillEsterFlare").classList.toggle("disabled", state.isTurnBusy || state.playerMana < 20);
-      document.getElementById("skillSolventShield").classList.toggle("disabled", state.isTurnBusy || state.playerMana < 15);
-      document.getElementById("skillSaponification").classList.toggle("disabled", state.isTurnBusy || state.playerMana < 35);
+      // Update Active Skills availability
+      state.activeSkills.forEach((skillId, slotIdx) => {
+        const card = document.getElementById(`battleSkillSlot_${slotIdx}`);
+        if (card) {
+          const skill = SKILL_LIBRARY.find(s => s.id === skillId);
+          let canCast = true;
+          if (skill) {
+            if (skill.mpCost === "all") {
+              canCast = state.playerMana > 0;
+            } else {
+              canCast = state.playerMana >= skill.mpCost;
+            }
+          }
+          card.classList.toggle("disabled", state.isTurnBusy || !canCast);
+        }
+      });
+
       document.getElementById("manaHint").textContent = state.isTurnBusy ? "Đang thi triển..." : `Năng lượng: ${Math.ceil(state.playerMana)} MP`;
 
       // Shield visual
@@ -6312,6 +6895,7 @@
     }
 
     function spawnFloatingText(targetEl, text, color = "#ffd154") {
+      if (!targetEl) return;
       const ft = document.createElement("div");
       ft.className = "floating-text";
       ft.textContent = text;
@@ -6320,49 +6904,267 @@
       setTimeout(() => ft.remove(), 1200);
     }
 
+    /* ============================================================
+       BẢNG CHỌN 4 KỸ NĂNG RA TRẬN (DECK CONTROLLER)
+       ============================================================ */
+    let deckTempSelected = [1, 2, 3, 4];
+
+    function openDeckModal() {
+      if (state.isTurnBusy) return;
+      deckTempSelected = (state.activeSkills && state.activeSkills.length === 4)
+        ? [...state.activeSkills]
+        : [1, 2, 3, 4];
+      const modal = document.getElementById("deckModal");
+      if (modal) modal.style.display = "flex";
+      renderDeckUI();
+    }
+
+    function closeDeckModal() {
+      const modal = document.getElementById("deckModal");
+      if (modal) modal.style.display = "none";
+    }
+
+    function renderDeckUI() {
+      const slotsContainer = document.getElementById("deckActiveSlots");
+      const gridContainer = document.getElementById("deckLibraryGrid");
+      const countEl = document.getElementById("deckEquippedCount");
+
+      if (countEl) countEl.textContent = `${deckTempSelected.length} / 4 Đã chọn`;
+
+      // Render 4 active slots
+      if (slotsContainer) {
+        slotsContainer.innerHTML = "";
+        for (let i = 0; i < 4; i++) {
+          const skillId = deckTempSelected[i];
+          const skill = skillId ? SKILL_LIBRARY.find(s => s.id === skillId) : null;
+          const slotDiv = document.createElement("div");
+
+          if (skill) {
+            slotDiv.className = "deck-slot-card filled";
+            const costText = skill.mpCost === "all" ? "Toàn bộ MP" : `${skill.mpCost} MP`;
+            slotDiv.innerHTML = `
+              <div class="deck-slot-card-top">
+                <span class="deck-slot-num">Ô [${i + 1}] (Phím ${i + 1})</span>
+                <button class="deck-slot-remove" onclick="unequipDeckSlot(${i})" title="Gỡ chiêu này">✖ Gỡ</button>
+              </div>
+              <div style="font-weight:700; font-size:13px; color:#fff; display:flex; align-items:center; gap:6px;">
+                <span>${skill.icon}</span> <span>${skill.name.replace(/^[^\s]+\s/, '')}</span>
+              </div>
+              <div style="font-size:11px; color:var(--text-muted); display:flex; justify-content:space-between; align-items:center;">
+                <span style="color:var(--mana);">${costText}</span>
+                <span style="color:var(--accent); font-weight:700;">${skill.stars}</span>
+              </div>
+            `;
+          } else {
+            slotDiv.className = "deck-slot-card";
+            slotDiv.innerHTML = `
+              <div class="deck-slot-card-top">
+                <span class="deck-slot-num">Ô [${i + 1}] (Phím ${i + 1})</span>
+              </div>
+              <div style="font-size:12px; color:var(--text-muted); text-align:center; padding:10px 0;">
+                ➕ Trống<br><span style="font-size:10px;">(Chọn chiêu bên dưới)</span>
+              </div>
+              <div></div>
+            `;
+          }
+          slotsContainer.appendChild(slotDiv);
+        }
+      }
+
+      // Render 10 skills in library
+      if (gridContainer) {
+        gridContainer.innerHTML = "";
+        SKILL_LIBRARY.forEach(skill => {
+          const isEquipped = deckTempSelected.includes(skill.id);
+          const card = document.createElement("div");
+          card.className = `deck-lib-card ${isEquipped ? 'equipped' : ''}`;
+          card.onclick = () => toggleDeckSkill(skill.id);
+
+          const costText = skill.mpCost === "all" ? "Toàn bộ MP" : `${skill.mpCost} MP`;
+          const costColor = skill.mpCost === 0 ? "#2ed573" : (skill.mpCost >= 35 || skill.mpCost === "all" ? "#ff9f43" : "#00d2d3");
+
+          const typeBadge = skill.type === "aoe"
+            ? '<span style="font-size:10px; font-weight:800; background:rgba(235,77,75,0.25); color:#eb4d4b; padding:1px 5px; border-radius:4px; border:1px solid #eb4d4b;">AOE</span>'
+            : (skill.type === "support"
+              ? '<span style="font-size:10px; font-weight:800; background:rgba(46,213,115,0.25); color:#2ed573; padding:1px 5px; border-radius:4px; border:1px solid #2ed573;">HỖ TRỢ</span>'
+              : '<span style="font-size:10px; font-weight:800; background:rgba(74,144,226,0.25); color:#4a90e2; padding:1px 5px; border-radius:4px; border:1px solid #4a90e2;">ĐƠN</span>');
+
+          card.innerHTML = `
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span style="font-weight:700; font-size:13px; color:#fff;">${skill.name}</span>
+              ${typeBadge}
+            </div>
+            <div style="font-size:11.5px; color:#cbd5e1; line-height:1.3;">${skill.desc}</div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:2px;">
+              <span style="font-size:11px; font-weight:800; color:${costColor};">${costText}</span>
+              <span style="font-size:11px; font-weight:700; color:var(--accent);">${skill.stars} ${skill.difficultyLabel}</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:4px; padding-top:4px; border-top:1px solid rgba(255,255,255,0.06);">
+              <span style="font-size:11px; color:#e2e8f0;">⚡ ${skill.effectDesc}</span>
+              ${isEquipped ? '<span class="deck-lib-badge equipped">✓ ĐÃ TRANG BỊ</span>' : '<span class="deck-lib-badge" style="background:#1e293b; color:#94a3b8;">+ Chọn</span>'}
+            </div>
+          `;
+          gridContainer.appendChild(card);
+        });
+      }
+    }
+
+    function toggleDeckSkill(skillId) {
+      const idx = deckTempSelected.indexOf(skillId);
+      if (idx !== -1) {
+        deckTempSelected.splice(idx, 1);
+        if (SFX.click) SFX.click();
+      } else {
+        if (deckTempSelected.length >= 4) {
+          alert("Bạn chỉ có thể trang bị tối đa 4 kỹ năng! Hãy gỡ bớt 1 chiêu ở trên để thay thế.");
+          return;
+        }
+        deckTempSelected.push(skillId);
+        if (SFX.select) SFX.select();
+      }
+      renderDeckUI();
+    }
+
+    function unequipDeckSlot(slotIdx) {
+      if (slotIdx >= 0 && slotIdx < deckTempSelected.length) {
+        deckTempSelected.splice(slotIdx, 1);
+        if (SFX.click) SFX.click();
+        renderDeckUI();
+      }
+    }
+
+    function resetDefaultDeck() {
+      deckTempSelected = [1, 2, 3, 4];
+      if (SFX.click) SFX.click();
+      renderDeckUI();
+    }
+
+    function saveDeckLoadout() {
+      if (deckTempSelected.length !== 4) {
+        alert("Vui lòng chọn đủ 4 kỹ năng để sẵn sàng ra trận!");
+        return;
+      }
+      state.activeSkills = [...deckTempSelected];
+      try {
+        localStorage.setItem("esterQuest_activeSkills", JSON.stringify(state.activeSkills));
+      } catch(_) {}
+
+      if (SFX.correct) SFX.correct();
+      closeDeckModal();
+      renderBattleSkills();
+      updateUI();
+      setNarrator("⚔️", "Đã cập nhật bộ 4 kỹ năng ra trận thành công! Hãy chọn chiêu thức để giao chiến!");
+    }
+
+    /* ============================================================
+       THANH KỸ NĂNG TRẬN ĐẤU (BATTLE SKILLS & CASTING)
+       ============================================================ */
+    function renderBattleSkills() {
+      const grid = document.getElementById("battleSkillsGrid");
+      if (!grid) return;
+      grid.innerHTML = "";
+
+      state.activeSkills.forEach((skillId, slotIdx) => {
+        const skill = SKILL_LIBRARY.find(s => s.id === skillId);
+        if (!skill) return;
+
+        const card = document.createElement("div");
+        card.className = "skill-card";
+        card.id = `battleSkillSlot_${slotIdx}`;
+        card.setAttribute("role", "button");
+        card.setAttribute("tabindex", "0");
+        card.setAttribute("data-skill-id", String(skill.id));
+        card.onclick = () => castEquippedSkill(slotIdx);
+
+        const costText = skill.mpCost === "all" ? "Toàn bộ MP" : `${skill.mpCost} MP`;
+        const costColor = skill.mpCost === 0 ? "#2ed573" : (skill.mpCost >= 35 || skill.mpCost === "all" ? "#ff9f43" : "#00d2d3");
+        const costBg = skill.mpCost === 0 ? "rgba(46,213,115,0.15)" : (skill.mpCost >= 35 || skill.mpCost === "all" ? "rgba(255,159,67,0.15)" : "rgba(0,210,211,0.15)");
+
+        const typeBadge = skill.type === "aoe"
+          ? '<span style="font-size:10px; font-weight:800; background:rgba(235,77,75,0.25); color:#eb4d4b; padding:2px 6px; border-radius:4px; border:1px solid #eb4d4b;">AOE</span>'
+          : (skill.type === "support"
+            ? '<span style="font-size:10px; font-weight:800; background:rgba(46,213,115,0.25); color:#2ed573; padding:2px 6px; border-radius:4px; border:1px solid #2ed573;">HỖ TRỢ</span>'
+            : '<span style="font-size:10px; font-weight:800; background:rgba(74,144,226,0.25); color:#4a90e2; padding:2px 6px; border-radius:4px; border:1px solid #4a90e2;">ĐƠN</span>');
+
+        card.innerHTML = `
+          <div class="skill-card-top">
+            <div class="skill-name">
+              <span>${skill.name}</span>
+              ${typeBadge}
+            </div>
+            <div class="skill-cost" style="color:${costColor}; background:${costBg};">${costText}</div>
+          </div>
+          <div class="skill-desc">${skill.desc}</div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:4px;">
+            <div class="skill-difficulty">${skill.stars} ${skill.difficultyLabel}</div>
+            <span class="skill-key-badge">Phím [${slotIdx + 1}]</span>
+          </div>
+        `;
+
+        grid.appendChild(card);
+      });
+    }
+
+    function castEquippedSkill(slotIndex) {
+      if (slotIndex < 0 || slotIndex >= state.activeSkills.length) return;
+      const skillId = state.activeSkills[slotIndex];
+      castSkill(skillId);
+    }
+
     /* Kỹ năng người chơi */
     function castSkill(skillId) {
       // Chặn nếu đang trong lượt hoạt họa hoặc đang mở câu hỏi
       if (state.isTurnBusy) return;
 
-      if (skillId === 2 && state.playerMana < 20) {
-        setNarrator("⚠️", "Bạn không đủ MP để thi triển Hỏa Cầu Ester Hóa! Hãy dùng Đòn Acid để nạp thêm MP.");
-        return;
-      }
-      if (skillId === 3 && state.playerMana < 15) {
-        setNarrator("⚠️", "Bạn không đủ MP để tạo Khiên Dung Môi! Hãy dùng Đòn Acid để nạp thêm MP.");
-        return;
-      }
-      if (skillId === 4 && state.playerMana < 35) {
-        setNarrator("⚠️", "Bạn không đủ MP để thi triển Tuyệt Kỹ Xà Phòng Hóa! Hãy dùng Đòn Acid để nạp thêm MP.");
+      const skill = SKILL_LIBRARY.find(s => s.id === skillId);
+      if (!skill) return;
+
+      // Kiểm tra MP
+      if (skill.mpCost === "all") {
+        if (state.playerMana <= 0) {
+          setNarrator("⚠️", "Bạn không có MP để bộc phát oxi hóa! Hãy dùng Đòn Acid Chấn Động để nạp MP.");
+          return;
+        }
+      } else if (state.playerMana < skill.mpCost) {
+        setNarrator("⚠️", `Bạn không đủ MP để thi triển ${skill.name}! (Cần ${skill.mpCost} MP). Hãy dùng Đòn Acid Chấn Động để nạp thêm MP.`);
         return;
       }
 
-      // Xác định câu hỏi và lượng mana tiêu hao
-      let targetLevel = 1;
-      let skillName = "";
-      let manaCost = 0;
-      if (skillId === 1) { targetLevel = 1; skillName = "🗡️ Đòn Acid Cơ Bản (35 ST)"; manaCost = 0; }
-      else if (skillId === 2) { targetLevel = 2; skillName = "🔥 Hỏa Cầu Ester Hóa (75 ST)"; manaCost = 20; }
-      else if (skillId === 3) { targetLevel = 2; skillName = "🛡️ Khiên Dung Môi (+35 HP & Chặn đòn)"; manaCost = 15; }
-      else if (skillId === 4) { targetLevel = 3; skillName = "⚡ Bão Xà Phòng Hóa (150 ST & Gây Choáng)"; manaCost = 35; }
+      // Kiểm tra mục tiêu quái vật cho đòn đơn
+      if (skill.targetType === "single") {
+        if (!state.enemies[state.selectedEnemyIndex] || state.enemies[state.selectedEnemyIndex].hp <= 0) {
+          autoSelectNextLivingEnemy();
+        }
+        if (!state.enemies[state.selectedEnemyIndex] || state.enemies[state.selectedEnemyIndex].hp <= 0) {
+          setNarrator("⚠️", "Không còn quái vật nào còn sống để ngắm bắn!");
+          return;
+        }
+      }
 
-      // Tiêu hao Mana ngay khi thi triển chiêu (dù đúng hay sai đều bị trừ)
+      // Tiêu hao Mana ngay khi thi triển chiêu (dù đúng hay sai đều bị trừ MP)
+      const manaCost = skill.mpCost === "all" ? Math.floor(state.playerMana) : skill.mpCost;
       if (manaCost > 0) {
         state.playerMana = Math.max(0, state.playerMana - manaCost);
       }
 
-      // Đánh dấu đang bận lượt
       state.isTurnBusy = true;
       updateUI();
 
-      // Lọc câu hỏi chưa làm thuộc độ khó tương ứng (hoặc ngẫu nhiên nếu đã hết)
+      // Lọc câu hỏi chưa làm theo cấp độ kỹ năng
+      const targetLevel = skill.level;
       const unasked = QUESTION_BANK.filter(q => q.level === targetLevel && !state.historyLogs.some(h => h.id === q.id));
       const pool = unasked.length > 0 ? unasked : QUESTION_BANK.filter(q => q.level === targetLevel);
       const chosenQuestion = pool[Math.floor(Math.random() * pool.length)];
 
-      state.turnPendingAction = { skillId, skillName, manaCost };
-      openQuestionModal(chosenQuestion, targetLevel, skillName);
+      state.turnPendingAction = {
+        skillId: skill.id,
+        skill: skill,
+        skillName: skill.name,
+        manaCost: manaCost,
+        targetIndex: state.selectedEnemyIndex
+      };
+
+      openQuestionModal(chosenQuestion, targetLevel, skill.name);
     }
 
     function openQuestionModal(q, level, skillName) {
@@ -6474,49 +7276,131 @@
       if (!action) return;
 
       const playerEl = document.getElementById("playerCombatant");
-      const enemyEl = document.getElementById("enemyCombatant");
+      const targetIndex = action.targetIndex;
 
       if (action.isCorrect) {
         // Thực thi kỹ năng thành công (Mana đã trừ ngay khi bấm cast)
-        if (action.skillId === 1) { // Basic: hồi 10 MP nếu đúng
-          state.playerMana = Math.min(state.playerMaxMana, state.playerMana + 10);
-          spawnFloatingText(playerEl, "+10 MP 💧", "#4a90e2");
-          playerEl.classList.add("attacking");
-          SFX.attack();
-          setTimeout(() => {
-            playerEl.classList.remove("attacking");
-            dealDamageToEnemy(35, "35 SÁT THƯƠNG!");
-          }, 250);
-        } else if (action.skillId === 2) { // Fire
-          spawnFloatingText(playerEl, "-20 MP", "#4a90e2");
-          playerEl.classList.add("attacking");
-          SFX.magic();
-          setTimeout(() => {
-            playerEl.classList.remove("attacking");
-            dealDamageToEnemy(75, "CRITICAL! 75 ST 🔥");
-          }, 250);
-        } else if (action.skillId === 3) { // Shield
-          state.playerHp = Math.min(state.playerMaxHp, state.playerHp + 35);
-          state.shieldActive = true;
-          SFX.shield();
-          spawnFloatingText(playerEl, "+35 HP 🛡️", "#2ed573");
-          setTimeout(() => spawnFloatingText(playerEl, "-15 MP", "#4a90e2"), 350);
-          setNarrator("🛡️", "Bạn đã tạo Khiên Dung Môi! Hồi 35 HP và miễn nhiễm đòn tấn công tiếp theo!");
-          updateUI();
-          setTimeout(enemyTurn, 1000);
-        } else if (action.skillId === 4) { // Ultimate
-          spawnFloatingText(playerEl, "-35 MP", "#4a90e2");
-          state.isEnemyStunned = true;
-          playerEl.classList.add("attacking");
-          SFX.magic();
-          setTimeout(() => {
-            playerEl.classList.remove("attacking");
-            dealDamageToEnemy(150, "BÃO XÀ PHÒNG! 150 ST ⚡");
-            setNarrator("⚡", "Quái vật bị Xà phòng hóa cực mạnh và Choáng 1 lượt!");
-          }, 250);
+        switch (action.skillId) {
+          case 1: // 🗡️ Đòn Acid Chấn Động (35 ST, +10 MP)
+            state.playerMana = Math.min(state.playerMaxMana, state.playerMana + 10);
+            spawnFloatingText(playerEl, "+10 MP 💧", "#4a90e2");
+            playerEl.classList.add("attacking");
+            SFX.attack();
+            setTimeout(() => {
+              playerEl.classList.remove("attacking");
+              dealDamageToEnemy(targetIndex, 35, "35 ST! 🗡️");
+              setNarrator("🗡️", "Đòn Acid Chấn Động chính xác! Gây 35 ST và nạp hồi 10 MP!");
+            }, 250);
+            break;
+
+          case 2: // 🔥 Hỏa Cầu Ester Hóa (75 ST)
+            playerEl.classList.add("attacking");
+            SFX.magic();
+            setTimeout(() => {
+              playerEl.classList.remove("attacking");
+              dealDamageToEnemy(targetIndex, 75, "75 ST HỎA CẦU! 🔥");
+              setNarrator("🔥", "Hỏa Cầu Ester Hóa bùng nổ nhiệt lượng cực đại! Gây 75 sát thương!");
+            }, 250);
+            break;
+
+          case 3: // 🛡️ Khiên Dung Môi Hữu Cơ (+35 HP, Chặn đòn)
+            state.playerHp = Math.min(state.playerMaxHp, state.playerHp + 35);
+            state.shieldActive = true;
+            SFX.shield();
+            spawnFloatingText(playerEl, "+35 HP 🛡️", "#2ed573");
+            setNarrator("🛡️", "Bạn đã tạo Khiên Dung Môi Hữu Cơ! Hồi 35 HP và miễn nhiễm hoàn toàn đòn đánh kế tiếp!");
+            updateUI();
+            setTimeout(enemyTurnSequence, 1000);
+            break;
+
+          case 4: // ⚡ Bão Xà Phòng Hóa (150 ST, Choáng 1 lượt)
+            playerEl.classList.add("attacking");
+            SFX.magic();
+            setTimeout(() => {
+              playerEl.classList.remove("attacking");
+              const target = state.enemies[targetIndex] || state.enemies.find(e => e.hp > 0);
+              if (target) target.isStunned = true;
+              dealDamageToEnemy(targetIndex, 150, "150 ST XÀ PHÒNG! ⚡");
+              setNarrator("⚡", "Bão Xà Phòng Hóa thủy phân 1 chiều cực đại! Gây 150 ST và Choáng quái 1 lượt!");
+            }, 250);
+            break;
+
+          case 5: // 🌸 Độc Khí Ester Thơm (40 ST, DoT 15x3)
+            playerEl.classList.add("attacking");
+            SFX.magic();
+            setTimeout(() => {
+              playerEl.classList.remove("attacking");
+              const target = state.enemies[targetIndex] || state.enemies.find(e => e.hp > 0);
+              if (target) {
+                target.dotTurns = 3;
+                target.dotDmg = 15;
+              }
+              dealDamageToEnemy(targetIndex, 40, "40 ST ĐỘC KHÍ! 🌸");
+              setNarrator("🌸", "Độc Khí Ester Thơm phát tán! Gây 40 ST và khiến quái mất 15 HP/lượt trong 3 lượt!");
+            }, 250);
+            break;
+
+          case 6: // 🧪 Chiết Tách Dung Môi (45 ST, Hút máu 25 HP)
+            playerEl.classList.add("attacking");
+            SFX.magic();
+            setTimeout(() => {
+              playerEl.classList.remove("attacking");
+              state.playerHp = Math.min(state.playerMaxHp, state.playerHp + 25);
+              spawnFloatingText(playerEl, "+25 HP 🩸", "#2ed573");
+              dealDamageToEnemy(targetIndex, 45, "45 ST CHIẾT TÁCH! 🧪");
+              setNarrator("🧪", "Chiết tách dung môi thành công! Gây 45 ST và hút hồi phục 25 HP cho bạn!");
+            }, 250);
+            break;
+
+          case 7: // 🪞 Gương Bạc Lóa Mắt (65 ST, Gây Mù)
+            playerEl.classList.add("attacking");
+            if (SFX.silverMirror) SFX.silverMirror(); else SFX.magic();
+            setTimeout(() => {
+              playerEl.classList.remove("attacking");
+              const target = state.enemies[targetIndex] || state.enemies.find(e => e.hp > 0);
+              if (target) target.isBlind = true;
+              dealDamageToEnemy(targetIndex, 65, "65 ST TRÁNG BẠC! 🪞");
+              setNarrator("🪞", "Phản ứng tráng bạc tạo gương chói lòa! Gây 65 ST và làm quái bị Mù (70% trượt đòn)!");
+            }, 250);
+            break;
+
+          case 8: // 💥 Bộc Phá Oxi Hóa (Toàn bộ MP * 3.5)
+            const burstDmg = Math.max(1, Math.floor(action.manaCost * 3.5));
+            playerEl.classList.add("attacking");
+            SFX.magic();
+            setTimeout(() => {
+              playerEl.classList.remove("attacking");
+              dealDamageToEnemy(targetIndex, burstDmg, `${burstDmg} ST BỘC PHÁ! 💥`);
+              setNarrator("💥", `Bộc Phá Oxi Hóa thiêu đốt toàn bộ ${action.manaCost} MP tạo thành vụ nổ cực mạnh ${burstDmg} ST!`);
+            }, 250);
+            break;
+
+          case 9: // 🌊 Sóng Thủy Phân Toàn Diện (AOE, 60 ST)
+            playerEl.classList.add("attacking");
+            SFX.magic();
+            setTimeout(() => {
+              playerEl.classList.remove("attacking");
+              dealAoeDamage(60, "60 ST THỦY PHÂN! 🌊", false);
+              setNarrator("🌊", "Sóng Thủy Phân Toàn Diện quét sạch sàn đấu! Gây 60 ST lên TẤT CẢ quái vật!");
+            }, 250);
+            break;
+
+          case 10: // 🌪️ Bão Nhiệt Phản Ứng (AOE, 95 ST & Giảm 25% ATK)
+            playerEl.classList.add("attacking");
+            SFX.magic();
+            setTimeout(() => {
+              playerEl.classList.remove("attacking");
+              dealAoeDamage(95, "95 ST BÃO NHIỆT! 🌪️", true);
+              setNarrator("🌪️", "Bão Nhiệt Phản Ứng cực đại quét sạch sàn đấu! Gây 95 ST lên TẤT CẢ quái và giảm 25% công!");
+            }, 250);
+            break;
+
+          default:
+            setTimeout(enemyTurnSequence, 800);
+            break;
         }
       } else {
-        // Trả lời sai -> Phản phệ (Mana đã bị trừ khi cast)
+        // Trả lời sai -> Phản phệ (Mana đã bị trừ khi bấm cast)
         playerEl.classList.add("damaged");
         state.playerHp = Math.max(0, state.playerHp - 10);
         spawnFloatingText(playerEl, "-10 HP", "#ff4757");
@@ -6536,41 +7420,77 @@
           return;
         }
 
-        setTimeout(enemyTurn, 1200);
+        setTimeout(enemyTurnSequence, 1200);
       }
     }
 
-    function dealDamageToEnemy(dmg, floatMsg) {
-      const enemyEl = document.getElementById("enemyCombatant");
-      enemyEl.classList.add("damaged");
-      state.enemy.hp = Math.max(0, state.enemy.hp - dmg);
-      spawnFloatingText(enemyEl, floatMsg, "#ffd154");
+    function dealDamageToEnemy(targetIndex, dmg, floatMsg) {
+      const enemy = state.enemies[targetIndex] || state.enemies.find(e => e.hp > 0);
+      if (!enemy) return;
+      const actualIndex = state.enemies.indexOf(enemy);
+      const enemyEl = document.getElementById(`enemyUnit_${actualIndex}`);
+      if (enemyEl) {
+        enemyEl.classList.add("damaged");
+        spawnFloatingText(enemyEl, floatMsg, "#ffd154");
+      }
+      enemy.hp = Math.max(0, enemy.hp - dmg);
       updateUI();
 
       setTimeout(() => {
-        enemyEl.classList.remove("damaged");
-        if (state.enemy.hp <= 0) {
-          handleEnemyDefeated();
+        if (enemyEl) enemyEl.classList.remove("damaged");
+        autoSelectNextLivingEnemy();
+        updateUI();
+
+        const remainingLiving = state.enemies.filter(e => e.hp > 0);
+        if (remainingLiving.length === 0) {
+          handleAllEnemiesDefeated();
         } else {
-          setTimeout(enemyTurn, 800);
+          setTimeout(enemyTurnSequence, 800);
         }
       }, 450);
     }
 
-    function enemyTurn() {
-      if (state.enemy.hp <= 0 || state.playerHp <= 0) {
-        state.isTurnBusy = false;
-        state.questionAnswered = false;
-        updateUI();
-        return;
+    function dealAoeDamage(baseDmg, floatMsg, applyWeaken = false) {
+      const arena = document.querySelector(".arena-container");
+      if (arena) {
+        arena.classList.add("arena-aoe-flash", "arena-shake");
+        setTimeout(() => arena.classList.remove("arena-aoe-flash", "arena-shake"), 600);
       }
 
-      const enemyEl = document.getElementById("enemyCombatant");
-      const playerEl = document.getElementById("playerCombatant");
+      const livingEnemies = state.enemies.filter(e => e.hp > 0);
+      livingEnemies.forEach(enemy => {
+        const originalIndex = state.enemies.indexOf(enemy);
+        const enemyEl = document.getElementById(`enemyUnit_${originalIndex}`);
+        if (enemyEl) {
+          enemyEl.classList.add("damaged");
+          setTimeout(() => enemyEl.classList.remove("damaged"), 450);
+          spawnFloatingText(enemyEl, floatMsg, "#00cec9");
+        }
+        enemy.hp = Math.max(0, enemy.hp - baseDmg);
+        if (applyWeaken) {
+          enemy.atkDebuff = true;
+          enemy.atk = Math.max(1, Math.round(enemy.baseAtk * 0.75));
+        }
+      });
 
-      if (state.isEnemyStunned) {
-        state.isEnemyStunned = false;
-        setNarrator("💫", `${state.enemy.name} đang bị Choáng nên không thể hành động! Đến lượt bạn!`);
+      updateUI();
+
+      setTimeout(() => {
+        autoSelectNextLivingEnemy();
+        updateUI();
+
+        const remainingLiving = state.enemies.filter(e => e.hp > 0);
+        if (remainingLiving.length === 0) {
+          handleAllEnemiesDefeated();
+        } else {
+          setTimeout(enemyTurnSequence, 800);
+        }
+      }, 500);
+    }
+
+    function enemyTurnSequence() {
+      const livingBeforeDot = state.enemies.filter(e => e.hp > 0);
+      if (livingBeforeDot.length === 0 || state.playerHp <= 0) {
         state.isTurnBusy = false;
         state.questionAnswered = false;
         state.turnPendingAction = null;
@@ -6578,20 +7498,100 @@
         return;
       }
 
-      setNarrator("⚠️", `${state.enemy.name} đang phản công!`);
-      enemyEl.classList.add("enemy-attacking");
+      // 1. Xử lý sát thương DoT (Độc) trên tất cả quái vật còn sống
+      let dotDamageTriggered = false;
+      state.enemies.forEach((enemy, idx) => {
+        if (enemy.hp > 0 && enemy.dotTurns > 0) {
+          enemy.dotTurns--;
+          enemy.hp = Math.max(0, enemy.hp - enemy.dotDmg);
+          dotDamageTriggered = true;
+          const enemyEl = document.getElementById(`enemyUnit_${idx}`);
+          if (enemyEl) {
+            enemyEl.classList.add("damaged");
+            setTimeout(() => enemyEl.classList.remove("damaged"), 400);
+            spawnFloatingText(enemyEl, `-${enemy.dotDmg} HP 🌸`, "#ff6b81");
+          }
+        }
+      });
+
+      if (dotDamageTriggered) {
+        updateUI();
+        autoSelectNextLivingEnemy();
+      }
+
+      // Kiểm tra nếu quái chết hết vì độc
+      const livingAfterDot = state.enemies.filter(e => e.hp > 0);
+      if (livingAfterDot.length === 0) {
+        setTimeout(handleAllEnemiesDefeated, 600);
+        return;
+      }
+
+      // 2. Chuỗi phản công tuần tự của từng quái vật còn sống
+      const attackers = [...livingAfterDot];
+      executeNextEnemyAttack(attackers, 0);
+    }
+
+    function executeNextEnemyAttack(attackers, attackIndex) {
+      if (attackIndex >= attackers.length) {
+        setTimeout(() => {
+          setNarrator("⚔️", "Đến lượt của bạn! Hãy chọn chiêu thức thích hợp hoặc bấm phím 1 - 4.");
+          state.isTurnBusy = false;
+          state.questionAnswered = false;
+          state.turnPendingAction = null;
+          updateUI();
+        }, 400);
+        return;
+      }
+
+      const attacker = attackers[attackIndex];
+      if (attacker.hp <= 0 || state.playerHp <= 0) {
+        executeNextEnemyAttack(attackers, attackIndex + 1);
+        return;
+      }
+
+      const actualIndex = state.enemies.indexOf(attacker);
+      const enemyEl = document.getElementById(`enemyUnit_${actualIndex}`);
+      const playerEl = document.getElementById("playerCombatant");
+
+      // Check Stun
+      if (attacker.isStunned) {
+        attacker.isStunned = false;
+        setNarrator("💫", `${attacker.name} đang bị Choáng nên không thể hành động!`);
+        if (enemyEl) spawnFloatingText(enemyEl, "CHOÁNG! 💫", "#ffd354");
+        updateUI();
+        setTimeout(() => executeNextEnemyAttack(attackers, attackIndex + 1), 600);
+        return;
+      }
+
+      // Check Blind
+      if (attacker.isBlind) {
+        attacker.isBlind = false;
+        const isMissed = Math.random() < 0.7; // 70% miss
+        if (isMissed) {
+          setNarrator("🪞", `${attacker.name} bị lóa mắt do tráng bạc nên đòn tấn công TRƯỢT hoàn toàn!`);
+          SFX.attack();
+          if (playerEl) spawnFloatingText(playerEl, "TRƯỢT! 🪞", "#a29bfe");
+          updateUI();
+          setTimeout(() => executeNextEnemyAttack(attackers, attackIndex + 1), 600);
+          return;
+        }
+      }
+
+      // Normal Attack
+      setNarrator("⚠️", `${attacker.name} đang phản công!`);
+      if (enemyEl) enemyEl.classList.add("enemy-attacking");
       SFX.attack();
 
       setTimeout(() => {
-        enemyEl.classList.remove("enemy-attacking");
+        if (enemyEl) enemyEl.classList.remove("enemy-attacking");
 
         if (state.shieldActive) {
           state.shieldActive = false;
           SFX.shield();
-          spawnFloatingText(playerEl, "KHIÊN CHẶN ĐÒN!", "#00d2d3");
-          setNarrator("🛡️", "Khiên Dung Môi đã vô hiệu hóa hoàn toàn đòn đánh của quái vật!");
+          spawnFloatingText(playerEl, "KHIÊN CHẶN ĐÒN! 🛡️", "#00cec9");
+          setNarrator("🛡️", `Khiên Dung Môi đã vô hiệu hóa hoàn toàn đòn đánh của ${attacker.name}!`);
         } else {
-          const enemyDmg = state.enemy.atk;
+          const enemyDmg = attacker.atk;
           playerEl.classList.add("damaged");
           state.playerHp = Math.max(0, state.playerHp - enemyDmg);
           spawnFloatingText(playerEl, `-${enemyDmg} HP`, "#ff4757");
@@ -6605,21 +7605,22 @@
         }
 
         updateUI();
+        // 400ms spacing between attacks as requested
         setTimeout(() => {
-          setNarrator("⚔️", "Đến lượt của bạn! Hãy chọn chiêu thức thích hợp.");
-          state.isTurnBusy = false;
-          state.questionAnswered = false;
-          state.turnPendingAction = null;
-          updateUI();
-        }, 600);
+          executeNextEnemyAttack(attackers, attackIndex + 1);
+        }, 400);
       }, 350);
     }
 
-    function handleEnemyDefeated() {
-      SFX.levelUp();
-      setNarrator("🎉", `Bạn đã tiêu diệt thành công ${state.enemy.name}!`);
+    function enemyTurn() {
+      enemyTurnSequence();
+    }
 
-      // Thưởng EXP và hồi phục nhẹ
+    function handleAllEnemiesDefeated() {
+      SFX.levelUp();
+      const stageName = STAGES[state.currentStageIndex] ? STAGES[state.currentStageIndex].name : "Ải";
+      setNarrator("🎉", `Bạn đã quét sạch toàn bộ quái vật và vượt qua ${stageName}!`);
+
       state.playerLvl++;
       state.playerMaxHp += 20;
       state.playerHp = state.playerMaxHp;
@@ -6637,6 +7638,10 @@
           handleGameOver(true);
         }
       }, 1600);
+    }
+
+    function handleEnemyDefeated() {
+      handleAllEnemiesDefeated();
     }
 
     function usePotion() {
@@ -6982,6 +7987,8 @@
       document.getElementById("codexModal").style.display = "none";
       document.getElementById("leaderboardModal").style.display = "none";
       document.getElementById("reviewModal").style.display = "none";
+      const deckModal = document.getElementById("deckModal");
+      if (deckModal) deckModal.style.display = "none";
 
       document.getElementById("menuScreen").style.display = "flex";
       state.isTurnBusy = false;
@@ -7097,6 +8104,65 @@
       state.soundEnabled = !state.soundEnabled;
       document.getElementById("btnSound").textContent = state.soundEnabled ? "🔊 Âm thanh: Bật" : "🔇 Âm thanh: Tắt";
     });
+
+    const btnMenuDeck = document.getElementById("btnMenuDeck");
+    if (btnMenuDeck) btnMenuDeck.addEventListener("click", openDeckModal);
+    const btnBattleDeck = document.getElementById("btnBattleDeck");
+    if (btnBattleDeck) btnBattleDeck.addEventListener("click", openDeckModal);
+    const btnCloseDeckModal = document.getElementById("btnCloseDeckModal");
+    if (btnCloseDeckModal) btnCloseDeckModal.addEventListener("click", closeDeckModal);
+    const btnSaveDeck = document.getElementById("btnSaveDeck");
+    if (btnSaveDeck) btnSaveDeck.addEventListener("click", saveDeckLoadout);
+    const btnResetDefaultDeck = document.getElementById("btnResetDefaultDeck");
+    if (btnResetDefaultDeck) btnResetDefaultDeck.addEventListener("click", resetDefaultDeck);
+
+    // Bàn phím số 1, 2, 3, 4 để xuất chiêu nhanh trong trận đấu
+    document.addEventListener("keydown", (e) => {
+      if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA" || e.target.isContentEditable) {
+        return;
+      }
+      const battleScreen = document.getElementById("battleScreen");
+      if (!battleScreen || battleScreen.style.display !== "flex") return;
+
+      const questionModal = document.getElementById("questionModal");
+      const deckModal = document.getElementById("deckModal");
+      const codexModal = document.getElementById("codexModal");
+      const leaderboardModal = document.getElementById("leaderboardModal");
+
+      if ((questionModal && questionModal.style.display === "flex") ||
+          (deckModal && deckModal.style.display === "flex") ||
+          (codexModal && codexModal.style.display === "flex") ||
+          (leaderboardModal && leaderboardModal.style.display === "flex")) {
+        return;
+      }
+
+      if (e.key === "1" || e.code === "Digit1" || e.code === "Numpad1") {
+        e.preventDefault();
+        castEquippedSkill(0);
+      } else if (e.key === "2" || e.code === "Digit2" || e.code === "Numpad2") {
+        e.preventDefault();
+        castEquippedSkill(1);
+      } else if (e.key === "3" || e.code === "Digit3" || e.code === "Numpad3") {
+        e.preventDefault();
+        castEquippedSkill(2);
+      } else if (e.key === "4" || e.code === "Digit4" || e.code === "Numpad4") {
+        e.preventDefault();
+        castEquippedSkill(3);
+      }
+    });
+
+    // Tự động khôi phục Deck đã lưu trước đó nếu có
+    (function restoreSavedDeck() {
+      try {
+        const savedDeck = localStorage.getItem("esterQuest_activeSkills");
+        if (savedDeck) {
+          const parsed = JSON.parse(savedDeck);
+          if (Array.isArray(parsed) && parsed.length === 4) {
+            state.activeSkills = parsed;
+          }
+        }
+      } catch(e) {}
+    })();
 
     // Tự động khôi phục tên & lớp đã lưu trước đó
     (function restoreSavedPlayer() {
