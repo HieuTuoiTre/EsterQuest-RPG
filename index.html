@@ -3299,6 +3299,144 @@
       .synthesis-center-card { padding: 8px 4px; font-size: 11px; }
       .tube-legend-row { flex-direction: column; gap: 4px; font-size: 11px; }
     }
+    
+    /* Keep phone overrides last so later lesson styles cannot shrink text or controls. */
+    @media (max-width: 960px) {
+      .game-logo span,
+      .icon-btn,
+      .audio-control-bar .icon-btn,
+      .vol-icon,
+      .vol-num,
+      .prologue-badge,
+      .btn-skip-prologue,
+      .vn-hint-content,
+      .vn-hint-arrow,
+      .vn-scene-title,
+      .card-tag,
+      .card-callout,
+      .vn-prompt-continue,
+      .btn-prologue-enter,
+      .prologue-audio-tip.vn-audio-tip,
+      .lore-box,
+      .name-input-group label,
+      .btn-rpg-secondary,
+      .btn-sub-story, .btn-replay-prologue,
+      .stage-bar,
+      .stage-progress,
+      .target-indicator,
+      .enemies-container.count-3 .combatant-name,
+      .status-badge,
+      .combatant-name,
+      .combatant-level,
+      .bar-label,
+      .combat-narrator,
+      .panel-header,
+      .skill-name,
+      .skill-cost,
+      .skill-desc,
+      .skill-difficulty,
+      .skill-key-badge,
+      .deck-slot-num,
+      .deck-slot-remove,
+      .deck-lib-badge,
+      .item-pill,
+      .item-badge,
+      .question-badge,
+      .feedback-box,
+      .feedback-title,
+      .hint-btn,
+      .hint-content,
+      .stat-name,
+      .codex-table,
+      .enemies-container.count-3 .bar-label,
+      .card-narrative,
+      .game-logo,
+      .bxh-tab-btn,
+      .bxh-table,
+      .rank-tag,
+      .codex-tab-btn,
+      .codex-card-title,
+      .codex-badge,
+      .formula-box,
+      .rule-box,
+      .danger-box,
+      .card-narrative.highlight-prophecy,
+      .academy-badge-tag,
+      .academy-subtitle,
+      .step-num-bubble,
+      .step-text-title,
+      .step-text-status,
+      .phase-callout,
+      .temp-slider-header,
+      .temp-scale-marks,
+      .temp-step-btn,
+      .pin-tag,
+      .temp-accurate-ticks,
+      .temp-preset-btn,
+      .chem-eq-container,
+      .chem-arrow-condition,
+      .radicals-table,
+      .radicals-table th,
+      .radical-code,
+      .radical-alias,
+      .chem-shelf-btn,
+      .molecule-info-box,
+      .nomen-label,
+      .nomen-pill,
+      .academy-quiz-badge,
+      .academy-quiz-question,
+      .academy-opt-btn,
+      .quiz-progress-text,
+      .academy-feedback-box,
+      .lab-subtab-btn,
+      .synthesis-card-title,
+      .synthesis-center-card,
+      .matching-card,
+      .graduation-reward-badge,
+      .academy-toast,
+      .tube-legend-row,
+      [style*="font-size:10"], [style*="font-size: 10"],
+      [style*="font-size:11"], [style*="font-size: 11"],
+      [style*="font-size:12"], [style*="font-size: 12"],
+      [style*="font-size:13"], [style*="font-size: 13"],
+      [style*="font-size:14"], [style*="font-size: 14"],
+      [style*="font-size:15"], [style*="font-size: 15"] { font-size: 16px !important; }
+      a[href], button, input, select, textarea, [role="button"], [onclick],
+      .deck-slot-remove { min-width: 44px; min-height: 44px; }
+      .header-actions .audio-control-bar { flex-wrap: wrap; gap: 8px; }
+      .header-actions .volume-slider-box { flex-wrap: wrap; }
+      #bgmVolumeSlider, .temp-range-input {
+        height: 44px;
+        background: linear-gradient(#536486, #536486) center / 100% 6px no-repeat;
+      }
+      .prologue-top-bar { flex-wrap: wrap; gap: 8px; }
+      .prologue-badge { letter-spacing: 0; }
+      .vn-click-hint { width: calc(100% - 28px); max-width: 480px; }
+      .vn-hint-content { justify-content: center; padding: 12px; text-align: center; }
+      .vn-dialogue-box { max-height: calc(100dvh - 170px); padding: 16px; }
+      .prologue-audio-tip.vn-audio-tip { width: calc(100% - 28px); justify-content: center; text-align: center; }
+      .academy-header-card, .lab-panel, .nomen-builder-stage { padding: 16px 12px; }
+      .academy-stepper { flex-wrap: wrap; overflow: visible; }
+      .step-btn { flex: 1 1 200px; min-width: 0; }
+      .step-text-title { white-space: normal; }
+      .temp-slider-header, .temp-adjust-btn-group, .academy-nav-group,
+      .lab-subtabs { flex-wrap: wrap; gap: 8px; }
+      .temp-accurate-ticks { height: 28px; }
+      .radicals-table { width: 100%; table-layout: fixed; }
+      .radicals-table th, .radicals-table td { overflow-wrap: anywhere; padding: 8px 4px; }
+      .deck-slot-card-top { flex-wrap: wrap; gap: 8px; }
+    }
+    @media (max-width: 600px) {
+      .vn-progress-dots { order: 3; width: 100%; justify-content: center; }
+      #academyScreen { padding: 12px 0 28px; }
+      .enemies-container { flex-direction: column; max-width: 52%; gap: 28px; }
+      .enemies-container .enemy-unit { width: 100%; }
+      .enemies-container[class*="count-"] .combatant-status { width: 100%; }
+      .enemies-container[class*="count-"] .sprite-box { max-width: 100%; }
+      .arena-container { align-items: center; }
+      .arena-container > .combatant { align-self: center; }
+      .target-indicator { white-space: normal; text-align: center; width: 100%; }
+    }
 
   </style>
 </head>
