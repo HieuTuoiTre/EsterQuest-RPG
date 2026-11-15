@@ -3958,9 +3958,6 @@
               <button class="chem-shelf-btn" id="btnSilverFormicAcid" onclick="selectSilverSubstance('formic_acid')">
                 🐜 Formic acid (HCOOH - acid chứa -CHO)
               </button>
-              <button class="chem-shelf-btn" id="btnSilverGlucose" onclick="selectSilverSubstance('glucose')">
-                🍇 Glucose (C₆H₁₂O₆ - monosaccharide chứa -CHO)
-              </button>
               <button class="chem-shelf-btn" id="btnSilverEthyl" onclick="selectSilverSubstance('ethyl_acetate')">
                 🧴 Ethyl acetate (CH₃COOC₂H₅ - ester thường)
               </button>
@@ -7449,7 +7446,6 @@
         vinyl_acetate: "btnSilverVinyl",
         ethyl_formate: "btnSilverFormate",
         formic_acid: "btnSilverFormicAcid",
-        glucose: "btnSilverGlucose",
         ethyl_acetate: "btnSilverEthyl",
         acetone: "btnSilverAcetone"
       };
@@ -7463,7 +7459,6 @@
         vinyl_acetate: "Acetaldehyde (CH₃CHO - sinh từ vinyl ester)",
         ethyl_formate: "Ethyl formate (HCOOC₂H₅)",
         formic_acid: "Formic acid (HCOOH)",
-        glucose: "Glucose (C₆H₁₂O₆)",
         ethyl_acetate: "Ethyl acetate (CH₃COOC₂H₅)",
         acetone: "Acetone (CH₃COCH₃)"
       };
@@ -7489,7 +7484,7 @@
       if (flame) flame.style.opacity = "1";
 
       const sub = academyState.silverSubstance || "vinyl_acetate";
-      const silverPositive = ["vinyl_acetate", "ethyl_formate", "formic_acid", "glucose"];
+      const silverPositive = ["vinyl_acetate", "ethyl_formate", "formic_acid"];
 
       if (silverPositive.includes(sub)) {
         try { if (SFX && SFX.silverMirror) SFX.silverMirror(); } catch(_) {}
@@ -7504,8 +7499,6 @@
             eqDisplay.innerHTML = "Phản ứng tráng bạc của Ester Formate:<br><strong>HCOOC₂H₅ + 2[Ag(NH₃)₂]OH ➔ NH₄O-COOC₂H₅ + 2Ag↓ + 3NH₃ + H₂O</strong>";
           } else if (sub === "formic_acid") {
             eqDisplay.innerHTML = "Phản ứng tráng bạc của Formic Acid:<br><strong>HCOOH + 2[Ag(NH₃)₂]OH ➔ (NH₄)₂CO₃ + 2Ag↓ + 2NH₃ + H₂O</strong>";
-          } else if (sub === "glucose") {
-            eqDisplay.innerHTML = "Phản ứng tráng bạc của Glucose:<br><strong>CH₂OH(CHOH)₄CHO + 2[Ag(NH₃)₂]OH ➔ CH₂OH(CHOH)₄COONH₄ + 2Ag↓ + 3NH₃ + H₂O</strong>";
           } else {
             eqDisplay.innerHTML = "Phản ứng tráng bạc của Aldehyde:<br><strong>CH₃CHO + 2[Ag(NH₃)₂]OH ➔ CH₃COONH₄ + 2Ag↓ (Gương Bạc) + 3NH₃ + H₂O</strong>";
           }
