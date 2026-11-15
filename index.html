@@ -1563,6 +1563,24 @@
       .card-narrative { font-size: 13.5px; }
     }
 
+    @media (max-width: 360px) {
+      .game-logo { gap: 4px; font-size: 15px; }
+      .arena-container { padding-right: 4px; padding-left: 4px; gap: 6px; }
+      .combatant-status { width: 104px; padding: 4px 6px; }
+      .sprite-box { width: 64px; height: 64px; }
+      .sprite-icon { font-size: 36px; }
+      .enemies-container { max-width: 66%; gap: 4px; }
+      .enemies-container.count-3 .sprite-box { width: 50px; height: 50px; }
+      .enemies-container.count-3 .combatant-status { width: 72px; padding: 3px; }
+      .enemies-container.count-3 .sprite-icon { font-size: 26px; }
+      .enemies-container.count-3 .combatant-name { font-size: 9px !important; }
+      .enemies-container.count-3 .bar-label { font-size: 8px !important; }
+      .prologue-title { font-size: 18.5px; }
+      .btn-prologue-enter { font-size: 13px; padding: 12px 14px; }
+      .card-narrative { font-size: 13px; }
+      .deck-active-slots { grid-template-columns: repeat(2, 1fr); gap: 6px; }
+    }
+
     .game-logo:hover {
       transform: scale(1.04);
       filter: drop-shadow(0 0 10px var(--accent-glow));
@@ -2755,6 +2773,22 @@
       .virtual-test-tube { width: 50px; height: 160px; }
       .academy-footer { flex-direction: column; align-items: stretch; }
       .academy-nav-group { justify-content: space-between; }
+      .matching-card { min-height: 48px; }
+      .chem-shelf-btn { min-height: 44px; }
+      .btn-action-lab { min-height: 44px; }
+    }
+    @media (max-width: 360px) {
+      .academy-title { font-size: 18px; }
+      .step-btn { min-width: 95px; padding: 6px 8px; }
+      .virtual-test-tube { width: 44px; height: 145px; }
+      .apparatus-stage { padding: 12px 6px; gap: 12px; }
+      .matching-card { font-size: 12px; padding: 8px 6px; min-height: 44px; }
+      .chem-shelf-btn { font-size: 12px; padding: 6px 10px; min-height: 44px; }
+      .deck-lib-card { padding: 8px; }
+      .deck-slot-card { min-height: 78px; padding: 6px 8px; }
+      .temp-control-wrap { width: 100%; padding: 0 4px; }
+      .synthesis-center-card { padding: 8px 4px; font-size: 11px; }
+      .tube-legend-row { flex-direction: column; gap: 4px; font-size: 11px; }
     }
 
   </style>

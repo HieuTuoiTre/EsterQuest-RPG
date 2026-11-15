@@ -312,10 +312,10 @@
 - Sửa đổi: `index.html`, `README.md`.
 - Script kiểm tra: `tests/verify_full_flow.py`.
 
-- [ ] **Bước 1: Viết script Python tự động kiểm tra toàn bộ DOM, hàm JavaScript và cú pháp**
-- [ ] **Bước 2: Kiểm tra Responsive trên Mobile và Desktop**
-- [ ] **Bước 3: Cập nhật `README.md` đầy đủ hướng dẫn**
-- [ ] **Bước 4: Commit và đẩy lên GitHub**
+- [x] **Bước 1: Viết script Python tự động kiểm tra toàn bộ DOM, hàm JavaScript và cú pháp**
+- [x] **Bước 2: Kiểm tra Responsive trên Mobile và Desktop**
+- [x] **Bước 3: Cập nhật `README.md` đầy đủ hướng dẫn**
+- [x] **Bước 4: Commit và đẩy lên GitHub**
   ```bash
   git add .
   git commit -m "docs: finalize complete game design with prologue, virtual lab academy, and 8 stages"
