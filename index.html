@@ -1082,11 +1082,11 @@
   <main>
     <!-- Screen 1: Start Menu -->
     <section id="menuScreen">
-      <div class="game-title">Đại Chiến Vương Quốc Este</div>
+      <div class="game-title">Đại Chiến Vương Quốc Ester</div>
       <div class="game-subtitle">Hành trình Chinh Phục Kiến Thức Hóa Học Lớp 12</div>
 
       <div class="lore-box">
-        Vương quốc Giả kim đang bị xâm chiếm bởi các Ma Vật Hóa Học! Bạn trong vai <strong>Hiệp Sĩ Este</strong> phải vận dụng các định luật thủy phân, danh pháp, mùi hương và phản ứng xà phòng hóa để đánh bại 5 Thủ Lĩnh Hắc Ám và giải cứu vương triều!
+        Vương quốc Giả kim đang bị xâm chiếm bởi các Ma Vật Hóa Học! Bạn trong vai <strong>Hiệp Sĩ Ester</strong> phải vận dụng các định luật thủy phân, danh pháp, mùi hương và phản ứng xà phòng hóa để đánh bại các Thủ Lĩnh Hắc Ám và giải cứu vương triều!
       </div>
 
       <div class="player-details" style="display:flex; gap:14px; width:100%; max-width:440px; margin-bottom:25px;">
@@ -1190,7 +1190,7 @@
             <!-- Skill 1 -->
             <div class="skill-card" id="skillAcidStrike" onclick="castSkill(1)">
               <div class="skill-card-top">
-                <div class="skill-name">🗡️ Đòn Axit Cơ Bản</div>
+                <div class="skill-name">🗡️ Đòn Acid Cơ Bản</div>
                 <div class="skill-cost" style="color:#2ed573; background:rgba(46,213,115,0.15)">0 MP</div>
               </div>
               <div class="skill-desc">Đòn tấn công chuẩn. Gây 35 ST. Hồi 10 MP nếu trả lời đúng.</div>
@@ -1200,7 +1200,7 @@
             <!-- Skill 2 -->
             <div class="skill-card" id="skillEsterFlare" onclick="castSkill(2)">
               <div class="skill-card-top">
-                <div class="skill-name">🔥 Hỏa Cầu Este Hóa</div>
+                <div class="skill-name">🔥 Hỏa Cầu Ester Hóa</div>
                 <div class="skill-cost">20 MP</div>
               </div>
               <div class="skill-desc">Tích tụ nhiệt độ xúc tác H2SO4 đặc, gây 75 ST cực mạnh!</div>
@@ -1349,7 +1349,7 @@
     <div class="modal-card">
       <div style="display:flex; justify-content:space-between; align-items:center;">
         <div class="question-badge" id="qBadge">⭐ Mức độ Nhận Biết</div>
-        <div style="font-size:13px; color:var(--text-muted); font-weight:700;" id="qSkillName">🗡️ Đòn Axit Cơ Bản</div>
+        <div style="font-size:13px; color:var(--text-muted); font-weight:700;" id="qSkillName">🗡️ Đòn Acid Cơ Bản</div>
       </div>
 
       <div class="question-text" id="qText">Nội dung câu hỏi...</div>
@@ -3210,15 +3210,15 @@
       if (state.isTurnBusy) return;
 
       if (skillId === 2 && state.playerMana < 20) {
-        setNarrator("⚠️", "Bạn không đủ MP để thi triển Hỏa Cầu Este Hóa! Hãy dùng Đòn Axit để nạp thêm MP.");
+        setNarrator("⚠️", "Bạn không đủ MP để thi triển Hỏa Cầu Ester Hóa! Hãy dùng Đòn Acid để nạp thêm MP.");
         return;
       }
       if (skillId === 3 && state.playerMana < 15) {
-        setNarrator("⚠️", "Bạn không đủ MP để tạo Khiên Dung Môi! Hãy dùng Đòn Axit để nạp thêm MP.");
+        setNarrator("⚠️", "Bạn không đủ MP để tạo Khiên Dung Môi! Hãy dùng Đòn Acid để nạp thêm MP.");
         return;
       }
       if (skillId === 4 && state.playerMana < 35) {
-        setNarrator("⚠️", "Bạn không đủ MP để thi triển Tuyệt Kỹ Xà Phòng Hóa! Hãy dùng Đòn Axit để nạp thêm MP.");
+        setNarrator("⚠️", "Bạn không đủ MP để thi triển Tuyệt Kỹ Xà Phòng Hóa! Hãy dùng Đòn Acid để nạp thêm MP.");
         return;
       }
 
@@ -3226,8 +3226,8 @@
       let targetLevel = 1;
       let skillName = "";
       let manaCost = 0;
-      if (skillId === 1) { targetLevel = 1; skillName = "🗡️ Đòn Axit Cơ Bản (35 ST)"; manaCost = 0; }
-      else if (skillId === 2) { targetLevel = 2; skillName = "🔥 Hỏa Cầu Este Hóa (75 ST)"; manaCost = 20; }
+      if (skillId === 1) { targetLevel = 1; skillName = "🗡️ Đòn Acid Cơ Bản (35 ST)"; manaCost = 0; }
+      else if (skillId === 2) { targetLevel = 2; skillName = "🔥 Hỏa Cầu Ester Hóa (75 ST)"; manaCost = 20; }
       else if (skillId === 3) { targetLevel = 2; skillName = "🛡️ Khiên Dung Môi (+35 HP & Chặn đòn)"; manaCost = 15; }
       else if (skillId === 4) { targetLevel = 3; skillName = "⚡ Bão Xà Phòng Hóa (150 ST & Gây Choáng)"; manaCost = 35; }
 

@@ -51,16 +51,16 @@
 ┌────────────────────────────────────────────────────────────────────────┐
 │                        CHIẾN DỊCH 8 ẢI CHIẾN ĐẤU                      │
 ├────────────────────────────────────────────────────────────────────────┤
-│ Ải 1: Slime Nhựa (Lv.1) - 1 Quái [Khởi động]                           │
-│ Ải 2: Bầy Tiểu Slime Este (Lv.1) - 3 QUÁI [Tập luyện chiêu AOE!]      │
-│ Ải 3: Sói Băng Dung Môi (Lv.2) - 1 Quái                                │
-│ Ải 4: Thạch Quái Tráng Bạc (Lv.3) - 1 Quái                             │
-│ Ải 5: Song Thủ Vệ Este (Lv.3) - 2 QUÁI TINH ANH [Hộ Vệ Axit & Ancol]  │
-│ Ải 6: Hỏa Long Nhiệt Độ (Lv.4) - 1 Quái                                │
+│ Ải 1: Slime (Lv.1) - 1 Quái [Khởi động]                                │
+│ Ải 2: Bầy Slime (Lv.1) - 3 QUÁI (Slime Xanh, Slime Đỏ, Slime Vàng)    │
+│ Ải 3: Sói Băng (Lv.2) - 1 Quái                                         │
+│ Ải 4: Thạch Quái (Lv.3) - 1 Quái                                       │
+│ Ải 5: Song Quái (Lv.3) - 2 QUÁI (Chiến Binh Đao & Chiến Binh Khiên)    │
+│ Ải 6: Hỏa Long (Lv.4) - 1 Quái                                         │
 │ Ải 7: Chúa Tể Bóng Tối (Lv.5) - 1 Boss                                 │
-│ Ải 8: 👑 ĐẠI MA VƯƠNG TRIGLYCERIDE [NIGHTMARE BOSS 2 GIAI ĐOẠN]        │
-│       ├── Phase 1: Thân Thể Este Đa Chức (350 HP, Khiên Phản Sát)      │
-│       └── Phase 2: Đại Ma Vương Biến Dị (500 HP, Cuồng Nộ + Vận Dụng) │
+│ Ải 8: 👑 ĐẠI MA VƯƠNG [NIGHTMARE SUPER BOSS 2 GIAI ĐOẠN]               │
+│       ├── Phase 1: Đại Ma Vương (350 HP, Khiên Giảm Sát Thương)        │
+│       └── Phase 2: Đại Ma Vương Thức Tỉnh (500 HP, Cuồng Nộ Sức Mạnh) │
 └────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -219,16 +219,16 @@
 
 | ID | Tên Chiêu Thức | Kiểu Đánh | MP | Sát Thương | Hiệu Ứng RPG Đặc Biệt | Mức Câu Hỏi |
 |:---:|:---|:---:|:---:|:---:|:---|:---:|
-| **1** | 🗡️ **Đòn Axit Cơ Bản** | Đơn | 0 | 35 ST | Hồi 10 MP nếu trả lời đúng | ⭐ Nhận Biết |
-| **2** | 🔥 **Hỏa Cầu Este Hóa** | Đơn | 20 | 75 ST | Đòn phép công phá đơn mục tiêu | ⭐⭐ Thông Hiểu |
-| **3** | 🛡️ **Khiên Dung Môi** | Hỗ trợ | 15 | +35 HP | Tạo khiên chặn đòn đánh tiếp theo | ⭐⭐ Thông Hiểu |
-| **4** | ⚡ **Bão Xà Phòng Hóa** | Đơn | 35 | 150 ST | Gây sát thương cực lớn & Choáng quái 1 lượt | ⭐⭐⭐ Vận Dụng |
-| **5** | 🌸 **Hương Hoa Độc Tố** | Đơn | 18 | 40 ST | **Gây độc (DoT):** Quái mất 15 HP/lượt trong 3 lượt | ⭐⭐ Thông Hiểu |
-| **6** | 🧪 **Chiết Tách Dung Môi** | Đơn | 12 | 45 ST | **Hút máu:** Hồi phục 25 HP cho người chơi | ⭐⭐ Thông Hiểu |
-| **7** | 🪞 **Tráng Bạc Quý Tộc** | Đơn | 22 | 65 ST | **Gây mù (Blind):** Đòn đánh kế tiếp của quái trượt 70% | ⭐⭐ Thông Hiểu |
-| **8** | 💥 **Bùng Nổ Oxi Hóa** | Đơn | Toàn bộ | $MP \times 3.5$ | **Mana Burst:** Đốt toàn bộ MP gây sát thương dứt điểm | ⭐⭐⭐ Vận Dụng |
-| **9** | 🌊 **Sóng Thủy Phân Toàn Thể** | **AOE** | 28 | 60 ST/quái | **Sát thương diện rộng:** Tấn công TẤT CẢ quái vật trên sân | ⭐⭐ Thông Hiểu |
-| **10**| 🌪️ **Lốc Bão Nhiệt Đốt Cháy** | **AOE** | 42 | 95 ST/quái | **AOE Cực Đại:** Quét sạch toàn bộ quái & giảm 25% công của chúng | ⭐⭐⭐ Vận Dụng |
+| **1** | 🗡️ **Đòn Acid Chấn Động** | Đơn | 0 | 35 ST | Hồi 10 MP nếu trả lời đúng | ⭐ Nhận Biết |
+| **2** | 🔥 **Hỏa Cầu Ester Hóa** | Đơn | 20 | 75 ST | Đòn nhiệt năng công phá đơn mục tiêu | ⭐⭐ Thông Hiểu |
+| **3** | 🛡️ **Khiên Dung Môi Hữu Cơ** | Hỗ trợ | 15 | +35 HP | Tạo màng bọc chặn hoàn toàn đòn đánh kế tiếp | ⭐⭐ Thông Hiểu |
+| **4** | ⚡ **Bão Xà Phòng Hóa** | Đơn | 35 | 150 ST | Thủy phân cực đại & Choáng quái 1 lượt | ⭐⭐⭐ Vận Dụng |
+| **5** | 🌸 **Độc Khí Ester Thơm** | Đơn | 18 | 40 ST | **Gây độc (DoT):** Quái mất 15 HP/lượt trong 3 lượt | ⭐⭐ Thông Hiểu |
+| **6** | 🧪 **Chiết Tách Dung Môi** | Đơn | 12 | 45 ST | **Hút máu:** Tách chiết hồi phục 25 HP cho người chơi | ⭐⭐ Thông Hiểu |
+| **7** | 🪞 **Gương Bạc Lóa Mắt** | Đơn | 22 | 65 ST | **Gây mù (Blind):** Phản xạ chói lòa, đòn quái trượt 70% | ⭐⭐ Thông Hiểu |
+| **8** | 💥 **Bộc Phá Oxi Hóa** | Đơn | Toàn bộ | $MP \times 3.5$ | **Mana Burst:** Đốt cháy toàn bộ MP dứt điểm đối thủ | ⭐⭐⭐ Vận Dụng |
+| **9** | 🌊 **Sóng Thủy Phân Toàn Diện** | **AOE** | 28 | 60 ST/quái | **Sát thương diện rộng:** Quét sạch TẤT CẢ quái vật trên sân | ⭐⭐ Thông Hiểu |
+| **10**| 🌪️ **Bão Nhiệt Phản Ứng** | **AOE** | 42 | 95 ST/quái | **AOE Cực Đại:** Quét sạch toàn bộ quái & giảm 25% công của chúng | ⭐⭐⭐ Vận Dụng |
 
 - [ ] **Bước 1: Tích hợp logic xử lý AOE trong `resolveTurnAction`**
   - Kiểm tra `skill.targetType === 'all'`:
@@ -249,32 +249,32 @@
 
 ### Task 7: Mở Rộng 8 Ải Chiến Đấu & Thiết Kế Boss Tối Thượng (Nightmare Super Boss)
 
-**Mục tiêu:** Cấu hình chi tiết 8 Ải chiến đấu (bao gồm 2 ải nhiều quái) và thiết kế Màn 8 với Boss Tối Thượng 2 Phase có độ khó cực cao.
+**Mục tiêu:** Cấu hình chi tiết 8 Ải chiến đấu (bao gồm 2 ải nhiều quái) với tên gọi quái vật đơn giản, chuẩn RPG, và thiết kế Màn 8 với Đại Ma Vương 2 Phase.
 
 **Files:**
 - Sửa đổi: `index.html` (Mảng `STAGES`, hàm `loadStage`, `transformBossPhase2`).
 
 **Cấu hình chi tiết 8 Ải:**
 
-1. **Ải 1: Rừng Ẩm Ướt** — 1 Quái: Slime Nhựa (`Lv.1`, HP: 100, ATK: 15).
+1. **Ải 1: Rừng Ẩm Ướt** — 1 Quái: `Slime` (`Lv.1`, HP: 100, ATK: 15).
 2. **Ải 2: Đầm Lầy Bầy Nhầy (MỚI - 3 QUÁI):**
-   - 3 Tiểu Slime: *Slime Formate* (HP: 60), *Slime Acetate* (HP: 70), *Slime Propionate* (HP: 80).
-   - *Chiến thuật gợi ý:* Dùng chiêu AOE 🌊 **Sóng Thủy Phân** để quét sạch nhanh chóng!
-3. **Ải 3: Thung Lũng Băng** — 1 Quái: Sói Băng (`Lv.2`, HP: 160, ATK: 24).
-4. **Ải 4: Hầm Ngục Thạch** — 1 Quái: Thạch Quái Tráng Bạc (`Lv.3`, HP: 220, ATK: 30).
+   - 3 Quái: `Slime Xanh` (HP: 60), `Slime Đỏ` (HP: 70), `Slime Vàng` (HP: 80).
+   - *Chiến thuật gợi ý:* Dùng chiêu AOE 🌊 **Sóng Thủy Phân Toàn Diện** để quét sạch bầy Slime!
+3. **Ải 3: Thung Lũng Băng** — 1 Quái: `Sói Băng` (`Lv.2`, HP: 160, ATK: 24).
+4. **Ải 4: Hầm Ngục Thạch** — 1 Quái: `Thạch Quái` (`Lv.3`, HP: 220, ATK: 30).
 5. **Ải 5: Tháp Canh Đôi (MỚI - 2 QUÁI TINH ANH):**
-   - 2 Quái: *Hộ Vệ Axit Carboxylic* (HP: 150, ATK: 22) & *Hộ Vệ Ancol Đơn Chức* (HP: 150, ATK: 22).
-   - Hai hộ vệ tương trợ nhau nếu không diệt đồng thời!
-6. **Ải 6: Tháp Địa Ngục** — 1 Quái: Hỏa Long Nhiệt Độ (`Lv.4`, HP: 280, ATK: 36).
-7. **Ải 7: Điện Thờ Hắc Ám** — 1 Quái: Chúa Tể Bóng Tối (`Lv.5`, HP: 360, ATK: 42).
-8. **Ải 8: VỰC THẲM HỖN MANG - ĐẠI CHIẾN ĐẠI MA VƯƠNG TRIGLYCERIDE (NIGHTMARE SUPER BOSS):**
-   - **Giai Đoạn 1 (Phase 1):** *Thân Thể Este Đa Chức* (HP: 350, ATK: 45).
-     - *Nội tại:* **Khiên Este Chắn Sát Thương** (Giảm 25% sát thương nhận vào).
-     - Khi HP về 0: Màn hình rung chuyển dữ dội, âm thanh gầm rú, kích hoạt chuyển Phase!
-   - **Giai Đoạn 2 (Phase 2):** *Đại Ma Vương Biến Dị Triglyceride* (HP: 500, ATK: 55).
-     - *Nội tại:* **Cuồng Nộ Thủy Phân** (Cứ mỗi 2 lượt tăng 15% sức tấn công).
-     - *Bộ câu hỏi:* Chỉ rút các câu hỏi thuộc mức độ **Vận Dụng Cao** (tính toán bảo toàn khối lượng este/chất béo, este phenol, phản ứng xà phòng hóa hỗn hợp).
-     - Người chơi phải tính toán kỹ từng giọt Mana và từng bình hồi máu để chiến thắng!
+   - 2 Quái: `Chiến Binh Đao` (HP: 150, ATK: 22) & `Chiến Binh Khiên` (HP: 150, ATK: 22).
+   - Hai hộ vệ phối hợp công thủ, cần tiêu diệt dứt khoát!
+6. **Ải 6: Tháp Địa Ngục** — 1 Quái: `Hỏa Long` (`Lv.4`, HP: 280, ATK: 36).
+7. **Ải 7: Điện Thờ Hắc Ám** — 1 Quái: `Chúa Tể Bóng Tối` (`Lv.5`, HP: 360, ATK: 42).
+8. **Ải 8: VỰC THẲM HỖN MANG - ĐẠI CHIẾN ĐẠI MA VƯƠNG (NIGHTMARE SUPER BOSS):**
+   - **Giai Đoạn 1 (Phase 1):** `Đại Ma Vương` (HP: 350, ATK: 45).
+     - *Nội tại:* **Khiên Hắc Ám** (Giảm 25% sát thương nhận vào).
+     - Khi HP về 0: Màn hình rung chuyển dữ dội, âm thanh sấm sét, kích hoạt chuyển Phase!
+   - **Giai Đoạn 2 (Phase 2):** `Đại Ma Vương Thức Tỉnh` 👑 (HP: 500, ATK: 55).
+     - *Nội tại:* **Cuồng Nộ Hắc Hóa** (Cứ mỗi 2 lượt tự tăng 15% sức tấn công).
+     - *Bộ câu hỏi:* Rút ngẫu nhiên từ 38 câu hỏi mức độ **Vận Dụng Cao** (tính toán bảo toàn khối lượng, hiệu suất este hóa, este của phenol, thủy phân chất béo đa chức).
+     - Đòi hỏi người chơi phải vận dụng tối đa các kỹ năng chiến thuật (Mù, Khiên, Hút máu) để giành chiến thắng!
 
 - [ ] **Bước 1: Cập nhật mảng `STAGES` chứa đủ 8 Ải**
   - Cấu trúc hỗ trợ cả ải đơn mục tiêu lẫn ải nhiều quái `enemies: [...]`.
