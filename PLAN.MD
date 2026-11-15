@@ -293,10 +293,10 @@
    - **Phase 2:** `Đại Ma Vương Thức Tỉnh` 👑 (HP: 500, ATK: 55) — Kích hoạt Cuồng nộ tăng 15% ATK mỗi 2 lượt.
    - **Bộ câu hỏi:** Chuyên dụng 38 câu hỏi Vận Dụng Cao.
 
-- [ ] **Bước 1: Cập nhật cấu hình 8 Ải trong `STAGES`**
-- [ ] **Bước 2: Xây dựng cơ chế chuyển Phase cho Đại Ma Vương**
+- [x] **Bước 1: Cập nhật cấu hình 8 Ải trong `STAGES`**
+- [x] **Bước 2: Xây dựng cơ chế chuyển Phase cho Đại Ma Vương**
   - Màn hình rung chuyển dữ dội, sân đấu chuyển đỏ rực u tối, nạp cây máu Phase 2.
-- [ ] **Bước 3: Kiểm tra và Commit**
+- [x] **Bước 3: Kiểm tra và Commit**
   ```bash
   git add index.html
   git commit -m "feat(stages): configure 8 classic RPG stages with 2-phase nightmare boss"

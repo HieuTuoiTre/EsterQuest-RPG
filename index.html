@@ -868,6 +868,35 @@
       80% { transform: translate(6px, 4px); }
     }
 
+    /* Nightmare Super Boss Phase 2 Effects */
+    .boss-awakening-shake {
+      animation: bossAwakeningShake 1.8s cubic-bezier(.36,.07,.19,.97) both;
+    }
+    @keyframes bossAwakeningShake {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      10% { transform: translate(-10px, -6px) rotate(-2deg); }
+      20% { transform: translate(12px, 8px) rotate(2deg); }
+      30% { transform: translate(-14px, 6px) rotate(-2.5deg); }
+      40% { transform: translate(14px, -10px) rotate(2deg); }
+      50% { transform: translate(-12px, 12px) rotate(-1.5deg); }
+      60% { transform: translate(10px, -8px) rotate(1.5deg); }
+      70% { transform: translate(-8px, 6px) rotate(-1deg); }
+      80% { transform: translate(6px, -4px) rotate(0.8deg); }
+      90% { transform: translate(-3px, 2px) rotate(0deg); }
+    }
+
+    .boss-phase-flash {
+      animation: bossPhaseFlash 1.8s ease-out;
+    }
+    @keyframes bossPhaseFlash {
+      0% { box-shadow: inset 0 0 100px rgba(255, 0, 0, 0.9), 0 0 80px rgba(255, 60, 60, 0.8); }
+      15% { box-shadow: inset 0 0 180px rgba(255, 255, 255, 1), 0 0 140px rgba(255, 0, 0, 1); }
+      30% { box-shadow: inset 0 0 100px rgba(255, 0, 0, 0.85), 0 0 70px rgba(200, 0, 0, 0.7); }
+      45% { box-shadow: inset 0 0 200px rgba(255, 255, 255, 1), 0 0 160px rgba(255, 0, 0, 1); }
+      60% { box-shadow: inset 0 0 130px rgba(255, 0, 0, 0.9), 0 0 90px rgba(255, 50, 50, 0.8); }
+      100% { box-shadow: none; }
+    }
+
     .sprite-box {
       width: 120px;
       height: 120px;
@@ -3514,8 +3543,8 @@
     <section id="battleScreen">
       <!-- Stage Info -->
       <div class="stage-bar">
-        <div class="stage-title" id="stageTitle">Ải 1: Rừng Danh Pháp & Mùi Hương</div>
-        <div class="stage-progress" id="stageProgress">Tiến trình: Ải 1 / 5</div>
+        <div class="stage-title" id="stageTitle">Ải 1: Rừng Ẩm Ướt</div>
+        <div class="stage-progress" id="stageProgress">Tiến trình: Ải 1 / 8</div>
       </div>
 
       <!-- Arena View -->
@@ -3600,8 +3629,8 @@
 
     <!-- Screen 3: Victory / Defeat Screen -->
     <section id="endGameScreen">
-      <div class="end-title" id="endTitle">CHIẾN THẮNG HUY HOÀNG!</div>
-      <div id="endSubtitle" style="color:var(--text-muted); font-size:16px;">Bạn đã tiêu diệt toàn bộ Quái vật và làm chủ Vương quốc Ester!</div>
+      <div class="end-title" id="endTitle">🏆 PHÁ ĐẢO VƯƠNG QUỐC ESTER!</div>
+      <div id="endSubtitle" style="color:var(--text-muted); font-size:16px;">Bạn đã hoàn thành xuất sắc toàn bộ 8 Ải Thử Thách và đánh bại Đại Ma Vương Thức Tỉnh!</div>
 
       <div class="stats-card">
         <div class="stat-item">
@@ -3972,7 +4001,7 @@
        ============================================================ */
     const QUESTION_BANK = [
       /* ==========================================
-         MỨC ĐỘ 1: NHẬN BIẾT (Level 1 - Dành cho Đòn Axit Cơ Bản)
+         MỨC ĐỘ 1: NHẬN BIẾT (Level 1 - Dành cho Đòn Acid Cơ Bản)
          ========================================== */
       {
         id: 1, level: 1, skillType: 1,
@@ -4556,8 +4585,8 @@
         q: "Chất nào sau đây không phải là ester ?",
         options: ["HCOOCH3.", "HOOCC2H5.", "CH3OOCC2H5.", "C3H5(COOCH3)3."],
         answer: 1,
-        hint: "Ester có nhóm chức -COO-. Axit cacboxylic có nhóm -COOH, ancol có nhóm -OH.",
-        explain: "Chất HOOCC2H5. không phải ester (thuộc nhóm axit cacboxylic hoặc chức khác không có liên kết R-COO-R')."
+        hint: "Ester có nhóm chức -COO-. Acid cacboxylic có nhóm -COOH, alcohol có nhóm -OH.",
+        explain: "Chất HOOCC2H5. không phải ester (thuộc nhóm acid cacboxylic hoặc chức khác không có liên kết R-COO-R')."
       },
       {
         id: 70, level: 1, skillType: 1,
@@ -4596,48 +4625,48 @@
         q: "HCOOCH3 được sử dụng làm dung môi hoà tan cellulose acetate, làm chất tạo bọt và chất xông hơi diệt khuẩn trong nông nghiệp. Tên gọi của HCOOCH3 là",
         options: ["ethyl formate.", "ethyl acetate.", "methyl formate.", "methyl acetate."],
         answer: 2,
-        hint: "Tên ester = Tên gốc hydrocarbon R' + tên gốc axit RCOO (đuôi ate).",
-        explain: "Gọi tên theo quy tắc danh pháp: Gốc ancol/hydrocarbon kết hợp gốc axit cho ra methyl formate.."
+        hint: "Tên ester = Tên gốc hydrocarbon R' + tên gốc acid RCOO (đuôi ate).",
+        explain: "Gọi tên theo quy tắc danh pháp: Gốc alcohol/hydrocarbon kết hợp gốc acid cho ra methyl formate.."
       },
       {
         id: 75, level: 1, skillType: 1,
         q: "Hợp chất X có công thức cấu tạo CH3COOC2H5. Tên gọi của X là",
         options: ["methyl acetate.", "methyl propionate.", "ethyl acetate.", "ethyl propionate."],
         answer: 2,
-        hint: "Tên ester = Tên gốc hydrocarbon R' + tên gốc axit RCOO (đuôi ate).",
-        explain: "Gọi tên theo quy tắc danh pháp: Gốc ancol/hydrocarbon kết hợp gốc axit cho ra ethyl acetate.."
+        hint: "Tên ester = Tên gốc hydrocarbon R' + tên gốc acid RCOO (đuôi ate).",
+        explain: "Gọi tên theo quy tắc danh pháp: Gốc alcohol/hydrocarbon kết hợp gốc acid cho ra ethyl acetate.."
       },
       {
         id: 76, level: 1, skillType: 1,
         q: "Chất X có cấu tạo CH3CH2COOCH3. Tên gọi của X là",
         options: ["methyl acetate", "methyl propionate", "propyl acetate", "ethyl acetate"],
         answer: 1,
-        hint: "Tên ester = Tên gốc hydrocarbon R' + tên gốc axit RCOO (đuôi ate).",
-        explain: "Gọi tên theo quy tắc danh pháp: Gốc ancol/hydrocarbon kết hợp gốc axit cho ra methyl propionate."
+        hint: "Tên ester = Tên gốc hydrocarbon R' + tên gốc acid RCOO (đuôi ate).",
+        explain: "Gọi tên theo quy tắc danh pháp: Gốc alcohol/hydrocarbon kết hợp gốc acid cho ra methyl propionate."
       },
       {
         id: 77, level: 1, skillType: 1,
         q: "Hợp chất X có công thức cấu tạo: CH3COOCH2CH3. Tên gọi của X là",
         options: ["ethyl acetate.", "methyl propionate.", "methyl acetate", "propyl acetate"],
         answer: 0,
-        hint: "Tên ester = Tên gốc hydrocarbon R' + tên gốc axit RCOO (đuôi ate).",
-        explain: "Gọi tên theo quy tắc danh pháp: Gốc ancol/hydrocarbon kết hợp gốc axit cho ra ethyl acetate.."
+        hint: "Tên ester = Tên gốc hydrocarbon R' + tên gốc acid RCOO (đuôi ate).",
+        explain: "Gọi tên theo quy tắc danh pháp: Gốc alcohol/hydrocarbon kết hợp gốc acid cho ra ethyl acetate.."
       },
       {
         id: 78, level: 1, skillType: 1,
         q: "Hợp chất CH3COOCH=CH2 có tên gọi là",
         options: ["vinyl acetate.", "methyl formate.", "methyl acrylate.", "ethyl formate."],
         answer: 0,
-        hint: "Tên ester = Tên gốc hydrocarbon R' + tên gốc axit RCOO (đuôi ate).",
-        explain: "Gọi tên theo quy tắc danh pháp: Gốc ancol/hydrocarbon kết hợp gốc axit cho ra vinyl acetate.."
+        hint: "Tên ester = Tên gốc hydrocarbon R' + tên gốc acid RCOO (đuôi ate).",
+        explain: "Gọi tên theo quy tắc danh pháp: Gốc alcohol/hydrocarbon kết hợp gốc acid cho ra vinyl acetate.."
       },
       {
         id: 79, level: 1, skillType: 1,
         q: "Ester X có công thức cấu tạo C2H5COOCH3 được sử dụng trong công nghiệp chế tạo hương, dung môi. Tên gọi của X là",
         options: ["Methyl propionate.", "Ethyl acetate.", "Methyl acrylate", "Ethyl propionate."],
         answer: 0,
-        hint: "Tên ester = Tên gốc hydrocarbon R' + tên gốc axit RCOO (đuôi ate).",
-        explain: "Gọi tên theo quy tắc danh pháp: Gốc ancol/hydrocarbon kết hợp gốc axit cho ra Methyl propionate.."
+        hint: "Tên ester = Tên gốc hydrocarbon R' + tên gốc acid RCOO (đuôi ate).",
+        explain: "Gọi tên theo quy tắc danh pháp: Gốc alcohol/hydrocarbon kết hợp gốc acid cho ra Methyl propionate.."
       },
       {
         id: 80, level: 1, skillType: 1,
@@ -4700,8 +4729,8 @@
         q: "Phản ứng ester hoá giữa ethyl alcohol và ethanoic tạo thành ester có tên gọi là",
         options: ["methyl acetate", "acetyl etylate", "Ethyl acetate", "axyl ethylate"],
         answer: 2,
-        hint: "Tên ester = Tên gốc hydrocarbon R' + tên gốc axit RCOO (đuôi ate).",
-        explain: "Gọi tên theo quy tắc danh pháp: Gốc ancol/hydrocarbon kết hợp gốc axit cho ra Ethyl acetate."
+        hint: "Tên ester = Tên gốc hydrocarbon R' + tên gốc acid RCOO (đuôi ate).",
+        explain: "Gọi tên theo quy tắc danh pháp: Gốc alcohol/hydrocarbon kết hợp gốc acid cho ra Ethyl acetate."
       },
       {
         id: 88, level: 1, skillType: 1,
@@ -4772,8 +4801,8 @@
         q: "Dầu chuối là một loại ester có tên gọi là isomyl acetate, được sử dụng chủ yếu làm hương liệu trong thực phẩm (chè, bánh, kẹo) và mỹ phẩm (chăm sóc da, tóc). Nó còn có các ứng dụng công nghiệp như dung môi cho sơn, mực in và phụ gia sản xuất nhựa, cũng như được dùng trong các phương pháp massage hoặc trị nứt gót chân. Để điều chế dầu chuối người ta cho isoamyl alcohol tác dụng với acid nào sau đây?",
         options: ["acetic acid.", "sodium ethylate.", "sodium acetate.", "ethyl alcohol."],
         answer: 0,
-        hint: "Tên ester = Tên gốc hydrocarbon R' + tên gốc axit RCOO (đuôi ate).",
-        explain: "Gọi tên theo quy tắc danh pháp: Gốc ancol/hydrocarbon kết hợp gốc axit cho ra acetic acid.."
+        hint: "Tên ester = Tên gốc hydrocarbon R' + tên gốc acid RCOO (đuôi ate).",
+        explain: "Gọi tên theo quy tắc danh pháp: Gốc alcohol/hydrocarbon kết hợp gốc acid cho ra acetic acid.."
       },
       {
         id: 97, level: 1, skillType: 1,
@@ -4836,7 +4865,7 @@
         q: "Chất nào có nhiệt độ sôi thấp nhất?",
         options: ["C4H9OH", "C3H7COOH", "CH3COOC2H5", "C6H5OH"],
         answer: 2,
-        hint: "Thứ tự nhiệt độ sôi: Axit cacboxylic > Ancol > Ester > Hydrocarbon (do liên kết hydrogen liên phân tử).",
+        hint: "Thứ tự nhiệt độ sôi: Acid cacboxylic > Alcohol > Ester > Hydrocarbon (do liên kết hydrogen liên phân tử).",
         explain: "Do ảnh hưởng của liên kết hydrogen liên phân tử, thứ tự nhiệt độ sôi phù hợp là CH3COOC2H5."
       },
       {
@@ -4844,7 +4873,7 @@
         q: "Cho các chất: CH3COOH, C2H5OH, CH3COOC2H5. Thứ t các chất theo chiều tăng dần nhiệt độ sôi là",
         options: ["C2H5OH, CH3COOH, CH3COOC2H5,.", "CH3COOC2H5, CH3COOH, C2H5OH.", "CH3COOC2H5, C2H5OH, CH3COOH.", "C2H5OH, CH3COOC2H5, CH3COOH."],
         answer: 2,
-        hint: "Thứ tự nhiệt độ sôi: Axit cacboxylic > Ancol > Ester > Hydrocarbon (do liên kết hydrogen liên phân tử).",
+        hint: "Thứ tự nhiệt độ sôi: Acid cacboxylic > Alcohol > Ester > Hydrocarbon (do liên kết hydrogen liên phân tử).",
         explain: "Do ảnh hưởng của liên kết hydrogen liên phân tử, thứ tự nhiệt độ sôi phù hợp là CH3COOC2H5, C2H5OH, CH3COOH.."
       },
       {
@@ -4852,7 +4881,7 @@
         q: "Sắp xếp các chất sau theo trật tự giảm dần nhiệt độ sôi: CH3COOH, HCOOCH3, CH3COOCH3, C3H7OH.",
         options: ["CH3COOH, HCOOCH3, CH3COOCH3, C3H7OH.", "CH3COOCH3, HCOOCH3, C3H7OH, CH3COOH.", "HCOOCH3, C3H7OH, CH3COOH, CH3COOCH3.", "CH3COOH, C3H7OH, CH3COOCH3, HCOOCH3."],
         answer: 3,
-        hint: "Thứ tự nhiệt độ sôi: Axit cacboxylic > Ancol > Ester > Hydrocarbon (do liên kết hydrogen liên phân tử).",
+        hint: "Thứ tự nhiệt độ sôi: Acid cacboxylic > Alcohol > Ester > Hydrocarbon (do liên kết hydrogen liên phân tử).",
         explain: "Do ảnh hưởng của liên kết hydrogen liên phân tử, thứ tự nhiệt độ sôi phù hợp là CH3COOH, C3H7OH, CH3COOCH3, HCOOCH3.."
       },
       {
@@ -4860,7 +4889,7 @@
         q: "Sắp xếp các chất sau theo trật tự tăng dần nhiệt độ sôi: CH3COOH, CH3COOCH3, HCOOCH3, C2H5COOH, C3H7OH. Trường hợp nào sau đây đúng?",
         options: ["HCOOCH3 < CH3COOCH3 < C3H7OH < CH3COOH < C2H5COOH", "CH3COOCH3 < HCOOCH3 < C3H7OH < CH3COOH < C2H5COOH", "HCOOCH3 < CH3COOCH3 < CH3COOH < C3H7OH < C2H5COOH", "HCOOCH3 < C3H7OH < CH3COOH < CH3COOCH3 < C2H5COOH"],
         answer: 0,
-        hint: "Thứ tự nhiệt độ sôi: Axit cacboxylic > Ancol > Ester > Hydrocarbon (do liên kết hydrogen liên phân tử).",
+        hint: "Thứ tự nhiệt độ sôi: Acid cacboxylic > Alcohol > Ester > Hydrocarbon (do liên kết hydrogen liên phân tử).",
         explain: "Do ảnh hưởng của liên kết hydrogen liên phân tử, thứ tự nhiệt độ sôi phù hợp là HCOOCH3 < CH3COOCH3 < C3H7OH < CH3COOH < C2H5COOH."
       },
       {
@@ -4868,7 +4897,7 @@
         q: "Sắp xếp các chất sau theo chiều giảm dần nhiệt độ sôi: CH3COOH (1), HCOOCH3 (2), CH3CH2COOH (3), CH3COOCH3 (4), CH3CH2CH2OH (5).",
         options: ["(3) > (5) > (1) > (2) > (4).", "(1) > (3) > (4) > (5) > (2).", "(3) > (1) > (4) > (5) > (2).", "(3) > (1) > (5) > (4) > (2)."],
         answer: 3,
-        hint: "Thứ tự nhiệt độ sôi: Axit cacboxylic > Ancol > Ester > Hydrocarbon (do liên kết hydrogen liên phân tử).",
+        hint: "Thứ tự nhiệt độ sôi: Acid cacboxylic > Alcohol > Ester > Hydrocarbon (do liên kết hydrogen liên phân tử).",
         explain: "Do ảnh hưởng của liên kết hydrogen liên phân tử, thứ tự nhiệt độ sôi phù hợp là (3) > (1) > (5) > (4) > (2).."
       },
       {
@@ -4956,8 +4985,8 @@
         q: "Tên gọi của ester HCOOCH3 là",
         options: ["methyl acetate.", "methyl formate.", "ethyl formate.", "ethyl acetate."],
         answer: 1,
-        hint: "Tên ester = Tên gốc hydrocarbon R' + tên gốc axit RCOO (đuôi ate).",
-        explain: "Gọi tên theo quy tắc danh pháp: Gốc ancol/hydrocarbon kết hợp gốc axit cho ra methyl formate.."
+        hint: "Tên ester = Tên gốc hydrocarbon R' + tên gốc acid RCOO (đuôi ate).",
+        explain: "Gọi tên theo quy tắc danh pháp: Gốc alcohol/hydrocarbon kết hợp gốc acid cho ra methyl formate.."
       },
       {
         id: 120, level: 1, skillType: 1,
@@ -5036,7 +5065,7 @@
         q: "Trong số các chất sau đây, chất nào có nhiệt độ sôi lớn nhất?",
         options: ["C2H5OH", "CH3COOH", "CH3CHO", "HCOOCH3"],
         answer: 1,
-        hint: "Thứ tự nhiệt độ sôi: Axit cacboxylic > Ancol > Ester > Hydrocarbon (do liên kết hydrogen liên phân tử).",
+        hint: "Thứ tự nhiệt độ sôi: Acid cacboxylic > Alcohol > Ester > Hydrocarbon (do liên kết hydrogen liên phân tử).",
         explain: "Do ảnh hưởng của liên kết hydrogen liên phân tử, thứ tự nhiệt độ sôi phù hợp là CH3COOH."
       },
       {
@@ -5045,7 +5074,7 @@
         options: ["CH3COOCH3.", "CH3COOC2H5.", "HCOOC2H5.", "CH3COOC3H7."],
         answer: 2,
         hint: "Phản ứng xà phòng hóa: RCOOR' + NaOH -> RCOONa + R'OH (hoặc muối/anđehit/xeton).",
-        explain: "Khi phản ứng với kiềm hoặc axit, ester bị phân cắt liên kết C-O tạo thành HCOOC2H5.."
+        explain: "Khi phản ứng với kiềm hoặc acid, ester bị phân cắt liên kết C-O tạo thành HCOOC2H5.."
       },
       {
         id: 131, level: 2, skillType: 2,
@@ -5061,7 +5090,7 @@
         options: ["C2H5ONa.", "C2H5COONa.", "CH3COONa.", "HCOONa."],
         answer: 2,
         hint: "Phản ứng xà phòng hóa: RCOOR' + NaOH -> RCOONa + R'OH (hoặc muối/anđehit/xeton).",
-        explain: "Khi phản ứng với kiềm hoặc axit, ester bị phân cắt liên kết C-O tạo thành CH3COONa.."
+        explain: "Khi phản ứng với kiềm hoặc acid, ester bị phân cắt liên kết C-O tạo thành CH3COONa.."
       },
       {
         id: 133, level: 2, skillType: 2,
@@ -5084,8 +5113,8 @@
         q: "Thủy phân ester X có công thức C4H8O2, thu được ethyl alcohol. Tên gọi của X là",
         options: ["ethyl propionate.", "methyl acetate.", "methyl propionate.", "ethyl acetate."],
         answer: 3,
-        hint: "Tên ester = Tên gốc hydrocarbon R' + tên gốc axit RCOO (đuôi ate).",
-        explain: "Gọi tên theo quy tắc danh pháp: Gốc ancol/hydrocarbon kết hợp gốc axit cho ra ethyl acetate.."
+        hint: "Tên ester = Tên gốc hydrocarbon R' + tên gốc acid RCOO (đuôi ate).",
+        explain: "Gọi tên theo quy tắc danh pháp: Gốc alcohol/hydrocarbon kết hợp gốc acid cho ra ethyl acetate.."
       },
       {
         id: 136, level: 2, skillType: 2,
@@ -5148,8 +5177,8 @@
         q: "Cho 8,8 gam ester X đơn chức phản ứng hoàn toàn với dung dịch NaOH, thu được 3,2 gam CH3OH. Tên của X là",
         options: ["propyl formate", "ethyl acetate.", "methyl propionate", "methyl acetate."],
         answer: 2,
-        hint: "Tên ester = Tên gốc hydrocarbon R' + tên gốc axit RCOO (đuôi ate).",
-        explain: "Gọi tên theo quy tắc danh pháp: Gốc ancol/hydrocarbon kết hợp gốc axit cho ra methyl propionate."
+        hint: "Tên ester = Tên gốc hydrocarbon R' + tên gốc acid RCOO (đuôi ate).",
+        explain: "Gọi tên theo quy tắc danh pháp: Gốc alcohol/hydrocarbon kết hợp gốc acid cho ra methyl propionate."
       },
       {
         id: 144, level: 3, skillType: 3,
@@ -5157,7 +5186,7 @@
         options: ["25 gam", "33 gam", "22 gam", "30 gam"],
         answer: 2,
         hint: "Phản ứng xà phòng hóa: RCOOR' + NaOH -> RCOONa + R'OH (hoặc muối/anđehit/xeton).",
-        explain: "Khi phản ứng với kiềm hoặc axit, ester bị phân cắt liên kết C-O tạo thành 22 gam."
+        explain: "Khi phản ứng với kiềm hoặc acid, ester bị phân cắt liên kết C-O tạo thành 22 gam."
       },
       {
         id: 145, level: 3, skillType: 3,
@@ -5165,7 +5194,7 @@
         options: ["8,56 gam.", "3,28 gam.", "10,4 gam.", "8,2 gam."],
         answer: 3,
         hint: "Phản ứng xà phòng hóa: RCOOR' + NaOH -> RCOONa + R'OH (hoặc muối/anđehit/xeton).",
-        explain: "Khi phản ứng với kiềm hoặc axit, ester bị phân cắt liên kết C-O tạo thành 8,2 gam.."
+        explain: "Khi phản ứng với kiềm hoặc acid, ester bị phân cắt liên kết C-O tạo thành 8,2 gam.."
       },
       {
         id: 146, level: 3, skillType: 3,
@@ -5173,7 +5202,7 @@
         options: ["9 gam", "4,08 gam", "4,92 gam", "8,32 gam"],
         answer: 0,
         hint: "Phản ứng xà phòng hóa: RCOOR' + NaOH -> RCOONa + R'OH (hoặc muối/anđehit/xeton).",
-        explain: "Khi phản ứng với kiềm hoặc axit, ester bị phân cắt liên kết C-O tạo thành 9 gam."
+        explain: "Khi phản ứng với kiềm hoặc acid, ester bị phân cắt liên kết C-O tạo thành 9 gam."
       },
       {
         id: 147, level: 3, skillType: 3,
@@ -5277,7 +5306,7 @@
         options: ["CH3COO-CH=CH2.", "HCOO-CH2CHO.", "HCOO-CH=CH2.", "HCOO-CH=CHCH3."],
         answer: 2,
         hint: "Phản ứng xà phòng hóa: RCOOR' + NaOH -> RCOONa + R'OH (hoặc muối/anđehit/xeton).",
-        explain: "Khi phản ứng với kiềm hoặc axit, ester bị phân cắt liên kết C-O tạo thành HCOO-CH=CH2.."
+        explain: "Khi phản ứng với kiềm hoặc acid, ester bị phân cắt liên kết C-O tạo thành HCOO-CH=CH2.."
       },
       {
         id: 160, level: 3, skillType: 3,
@@ -5297,7 +5326,7 @@
       },
       {
         id: 162, level: 3, skillType: 3,
-        q: "Hợp chất hữu cơ mạch hở X (C8H12O5) tác dụng với lượng dư dung dịch NaOH đun nóng, thu được glixerol và hai muối Y và Z (MY < MZ). Hai chất Y và Z đều không có phản ứng tráng bạc. Phát biểu nào sau đây đúng?",
+        q: "Hợp chất hữu cơ mạch hở X (C8H12O5) tác dụng với lượng dư dung dịch NaOH đun nóng, thu được glycerol và hai muối Y và Z (MY < MZ). Hai chất Y và Z đều không có phản ứng tráng bạc. Phát biểu nào sau đây đúng?",
         options: ["Tên gọi của Z là sodium acrylate.", "Cacboxylic acid của muối Z có đồng phân hình học.", "Phân tử X chỉ chứa một loại nhóm chức.", "Có hai công thức cấu tạo thỏa mãn tính chất của X."],
         answer: 0,
         hint: "Chỉ ester của formic acid (dạng HCOOR) hoặc sản phẩm thủy phân có nhóm -CHO mới có phản ứng tráng bạc.",
@@ -5490,9 +5519,9 @@
         name: "Ải 2: Đầm Lầy Bầy Nhầy (Bầy Slime 3 Con)",
         bg: "radial-gradient(circle at 50% 100%, #1c3326 0%, #0c1a13 100%)",
         enemies: [
-          { name: "Slime Xanh", icon: "assets/slime.png", hp: 60, maxHp: 60, atk: 10, baseAtk: 10, level: "Lv.1", desc: "Quái dịch ester đơn chức" },
-          { name: "Slime Đỏ", icon: "assets/slime.png", hp: 70, maxHp: 70, atk: 12, baseAtk: 12, level: "Lv.1", desc: "Quái dịch phản ứng tỏa nhiệt" },
-          { name: "Slime Vàng", icon: "assets/slime.png", hp: 80, maxHp: 80, atk: 14, baseAtk: 14, level: "Lv.1", desc: "Quái dịch xúc tác acid đậm đặc" }
+          { name: "Slime Xanh", icon: "assets/slime.png", hp: 60, maxHp: 60, atk: 12, baseAtk: 12, level: "Lv.1", desc: "Quái dịch ester đơn chức" },
+          { name: "Slime Đỏ", icon: "🔴", hp: 70, maxHp: 70, atk: 14, baseAtk: 14, level: "Lv.1", desc: "Quái dịch phản ứng tỏa nhiệt" },
+          { name: "Slime Vàng", icon: "🟡", hp: 80, maxHp: 80, atk: 16, baseAtk: 16, level: "Lv.1", desc: "Quái dịch xúc tác acid đậm đặc" }
         ],
         enemy: { name: "Bầy Slime", icon: "assets/slime.png", hp: 210, maxHp: 210, atk: 14, level: "Lv.1", desc: "Bầy quái dịch 3 con" }
       },
@@ -5501,27 +5530,74 @@
         name: "Ải 3: Thung Lũng Băng",
         bg: "radial-gradient(circle at 50% 100%, #2c3e50 0%, #0d1624 100%)",
         enemies: [
-          { name: "Sói Băng", icon: "🐺", hp: 150, maxHp: 150, atk: 22, baseAtk: 22, level: "Lv.2", desc: "Tốc độ nhanh, nhiệt độ sôi thấp" }
+          { name: "Sói Băng", icon: "🐺", hp: 160, maxHp: 160, atk: 22, baseAtk: 22, level: "Lv.2", desc: "Tốc độ nhanh, nhiệt độ sôi thấp" }
         ],
-        enemy: { name: "Sói Băng", icon: "🐺", hp: 150, maxHp: 150, atk: 22, level: "Lv.2", desc: "Tốc độ nhanh, nhiệt độ sôi thấp" }
+        enemy: { name: "Sói Băng", icon: "🐺", hp: 160, maxHp: 160, atk: 22, level: "Lv.2", desc: "Tốc độ nhanh, nhiệt độ sôi thấp" }
       },
       {
         id: 4,
         name: "Ải 4: Hầm Ngục Thạch",
         bg: "radial-gradient(circle at 50% 100%, #401f4c 0%, #120a1c 100%)",
         enemies: [
-          { name: "Thạch Quái", icon: "🗿", hp: 200, maxHp: 200, atk: 28, baseAtk: 28, level: "Lv.3", desc: "Thủy phân 1 chiều cực kỳ nguy hiểm" }
+          { name: "Thạch Quái", icon: "🗿", hp: 220, maxHp: 220, atk: 28, baseAtk: 28, level: "Lv.3", desc: "Thủy phân 1 chiều cực kỳ nguy hiểm" }
         ],
-        enemy: { name: "Thạch Quái", icon: "🗿", hp: 200, maxHp: 200, atk: 28, level: "Lv.3", desc: "Thủy phân 1 chiều cực kỳ nguy hiểm" }
+        enemy: { name: "Thạch Quái", icon: "🗿", hp: 220, maxHp: 220, atk: 28, level: "Lv.3", desc: "Thủy phân 1 chiều cực kỳ nguy hiểm" }
       },
       {
         id: 5,
-        name: "ẢI CUỐI: ĐẠI CHIẾN CHÚA TỂ BÓNG TỐI",
+        name: "Ải 5: Tháp Canh Đôi (Song Quái Tinh Anh)",
+        bg: "radial-gradient(circle at 50% 100%, #3d3d29 0%, #17170f 100%)",
+        enemies: [
+          { name: "Chiến Binh Đao", icon: "🗡️", hp: 150, maxHp: 150, atk: 24, baseAtk: 24, level: "Lv.3", desc: "Chiến binh tinh anh với nhát chém thủy phân sắc lẹm" },
+          { name: "Chiến Binh Khiên", icon: "🛡️", hp: 150, maxHp: 150, atk: 20, baseAtk: 20, level: "Lv.3", desc: "Chiến binh tinh anh với khiên liên kết ester kiên cố" }
+        ],
+        enemy: { name: "Song Quái", icon: "⚔️", hp: 300, maxHp: 300, atk: 22, level: "Lv.3", desc: "Cặp đôi chiến binh tinh anh canh giữ Tháp Canh Đôi" }
+      },
+      {
+        id: 6,
+        name: "Ải 6: Tháp Địa Ngục",
+        bg: "radial-gradient(circle at 50% 100%, #5a1800 0%, #1a0600 100%)",
+        enemies: [
+          { name: "Hỏa Long", icon: "🐉", hp: 280, maxHp: 280, atk: 35, baseAtk: 35, level: "Lv.4", desc: "Rồng lửa tỏa nhiệt lượng ester hóa dữ dội" }
+        ],
+        enemy: { name: "Hỏa Long", icon: "🐉", hp: 280, maxHp: 280, atk: 35, level: "Lv.4", desc: "Rồng lửa tỏa nhiệt lượng ester hóa dữ dội" }
+      },
+      {
+        id: 7,
+        name: "Ải 7: Điện Thờ Hắc Ám",
+        bg: "radial-gradient(circle at 50% 100%, #3b115a 0%, #0e0319 100%)",
+        enemies: [
+          { name: "Chúa Tể Bóng Tối", icon: "🦹", hp: 360, maxHp: 360, atk: 45, baseAtk: 45, level: "Lv.5", desc: "Kẻ gieo rắc hỗn mang và xáo trộn liên kết ester" }
+        ],
+        enemy: { name: "Chúa Tể Bóng Tối", icon: "🦹", hp: 360, maxHp: 360, atk: 45, level: "Lv.5", desc: "Kẻ gieo rắc hỗn mang và xáo trộn liên kết ester" }
+      },
+      {
+        id: 8,
+        name: "Ải 8: Vực Thẳm Hỗn Mang (NIGHTMARE SUPER BOSS)",
         bg: "radial-gradient(circle at 50% 100%, #581845 0%, #14040e 100%)",
         enemies: [
-          { name: "Chúa Tể Bóng Tối", icon: "👑", hp: 350, maxHp: 350, atk: 45, baseAtk: 45, level: "👑 BOSS", desc: "Trùm cuối sở hữu bí thuật ester đa chức & bẫy trắc nghiệm!" }
+          {
+            name: "Đại Ma Vương",
+            icon: "👑",
+            hp: 350,
+            maxHp: 350,
+            atk: 45,
+            baseAtk: 45,
+            level: "👑 BOSS",
+            dmgReduction: 0.25,
+            desc: "Trùm tối thượng phong ấn Vực Thẳm Hỗn Mang (Phase 1) - Có khiên giảm 25% sát thương!"
+          }
         ],
-        enemy: { name: "Chúa Tể Bóng Tối", icon: "👑", hp: 350, maxHp: 350, atk: 45, level: "👑 BOSS", desc: "Trùm cuối sở hữu bí thuật ester đa chức & bẫy trắc nghiệm!" }
+        enemy: {
+          name: "Đại Ma Vương",
+          icon: "👑",
+          hp: 350,
+          maxHp: 350,
+          atk: 45,
+          level: "👑 BOSS",
+          dmgReduction: 0.25,
+          desc: "Trùm tối thượng phong ấn Vực Thẳm Hỗn Mang (Phase 1) - Có khiên giảm 25% sát thương!"
+        }
       }
     ];
 
@@ -5541,6 +5617,8 @@
       potions: 2,
       h2so4Hints: 2,
       currentStageIndex: 0,
+      bossPhase: 0,
+      bossEnrageTurnCount: 0,
       enemies: [],
       selectedEnemyIndex: 0,
       enemy: null, // backward compatibility
@@ -5655,6 +5733,57 @@
             gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.1 + 0.3);
             osc.connect(gain); gain.connect(ctx.destination);
             osc.start(now + idx * 0.1); osc.stop(now + idx * 0.1 + 0.35);
+          });
+        } catch(_) {}
+      },
+      bossPhase2() {
+        if (!state.soundEnabled) return;
+        try {
+          const ctx = getAudioCtx();
+          const now = ctx.currentTime;
+
+          // 1. Sấm sét rền vang (White noise burst với lowpass filter sweep)
+          const bufferSize = ctx.sampleRate * 1.5;
+          const noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+          const output = noiseBuffer.getChannelData(0);
+          for (let i = 0; i < bufferSize; i++) {
+            output[i] = Math.random() * 2 - 1;
+          }
+
+          const whiteNoise = ctx.createBufferSource();
+          whiteNoise.buffer = noiseBuffer;
+
+          const filter = ctx.createBiquadFilter();
+          filter.type = "lowpass";
+          filter.frequency.setValueAtTime(1400, now);
+          filter.frequency.exponentialRampToValueAtTime(70, now + 1.2);
+
+          const noiseGain = ctx.createGain();
+          noiseGain.gain.setValueAtTime(0.5, now);
+          noiseGain.gain.exponentialRampToValueAtTime(0.01, now + 1.4);
+
+          whiteNoise.connect(filter);
+          filter.connect(noiseGain);
+          noiseGain.connect(ctx.destination);
+
+          whiteNoise.start(now);
+          whiteNoise.stop(now + 1.5);
+
+          // 2. Chấn động địa chấn Vực Thẳm (Sub-bass rumble)
+          [40, 58, 75].forEach((freq, idx) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = "sawtooth";
+            osc.frequency.setValueAtTime(freq, now);
+            osc.frequency.exponentialRampToValueAtTime(freq * 0.5, now + 1.8);
+
+            gain.gain.setValueAtTime(0.25 / (idx + 1), now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 1.8);
+
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(now);
+            osc.stop(now + 1.8);
           });
         } catch(_) {}
       },
@@ -6631,6 +6760,8 @@
       state.potions = 2;
       state.h2so4Hints = 2;
       state.currentStageIndex = 0;
+      state.bossPhase = 0;
+      state.bossEnrageTurnCount = 0;
       state.historyLogs = [];
       state.isTurnBusy = false;
       state.questionAnswered = false;
@@ -6660,6 +6791,8 @@
        ============================================================ */
     function loadStage(index) {
       state.currentStageIndex = index;
+      state.bossPhase = (index === (STAGES.length - 1)) ? 1 : 0;
+      state.bossEnrageTurnCount = 0;
       const stage = STAGES[index];
 
       // Hỗ trợ cả mảng bầy quái enemies[] và quái đơn lẻ enemy
@@ -6676,6 +6809,7 @@
         baseAtk: e.baseAtk || e.atk,
         level: e.level || "Lv.1",
         desc: e.desc || "",
+        dmgReduction: e.dmgReduction || 0,
         isStunned: false,
         isBlind: false,
         dotTurns: 0,
@@ -7150,8 +7284,11 @@
       state.isTurnBusy = true;
       updateUI();
 
-      // Lọc câu hỏi chưa làm theo cấp độ kỹ năng
-      const targetLevel = skill.level;
+      // Lọc câu hỏi chưa làm theo cấp độ kỹ năng (Ải 8 Phase 2: Ưu tiên Vận Dụng Cao - Level 3)
+      let targetLevel = skill.level;
+      if (state.currentStageIndex === (STAGES.length - 1) && state.bossPhase === 2) {
+        targetLevel = 3;
+      }
       const unasked = QUESTION_BANK.filter(q => q.level === targetLevel && !state.historyLogs.some(h => h.id === q.id));
       const pool = unasked.length > 0 ? unasked : QUESTION_BANK.filter(q => q.level === targetLevel);
       const chosenQuestion = pool[Math.floor(Math.random() * pool.length)];
@@ -7173,7 +7310,7 @@
 
       const modal = document.getElementById("questionModal");
       const badge = document.getElementById("qBadge");
-      badge.textContent = level === 1 ? "⭐ Mức độ Nhận Biết" : (level === 2 ? "⭐⭐ Mức độ Thông Hiểu" : "⭐⭐⭐ Mức độ Vận Dụng");
+      badge.textContent = level === 1 ? "⭐ Mức độ Nhận Biết" : (level === 2 ? "⭐⭐ Mức độ Thông Hiểu" : "⭐⭐⭐ Mức độ Vận Dụng Cao");
       document.getElementById("qSkillName").textContent = skillName;
       document.getElementById("qText").innerHTML = formatFormula(q.q);
 
@@ -7429,11 +7566,19 @@
       if (!enemy) return;
       const actualIndex = state.enemies.indexOf(enemy);
       const enemyEl = document.getElementById(`enemyUnit_${actualIndex}`);
+      
+      // Áp dụng giảm sát thương nếu quái có khiên (như Đại Ma Vương Phase 1 giảm 25%)
+      let finalDmg = dmg;
+      if (enemy.dmgReduction && enemy.dmgReduction > 0) {
+        finalDmg = Math.max(1, Math.round(dmg * (1 - enemy.dmgReduction)));
+        floatMsg = `${finalDmg} ST 🛡️(-25%)`;
+      }
+
       if (enemyEl) {
         enemyEl.classList.add("damaged");
         spawnFloatingText(enemyEl, floatMsg, "#ffd154");
       }
-      enemy.hp = Math.max(0, enemy.hp - dmg);
+      enemy.hp = Math.max(0, enemy.hp - finalDmg);
       updateUI();
 
       setTimeout(() => {
@@ -7443,6 +7588,10 @@
 
         const remainingLiving = state.enemies.filter(e => e.hp > 0);
         if (remainingLiving.length === 0) {
+          if (state.currentStageIndex === (STAGES.length - 1) && state.bossPhase === 1) {
+            triggerBossPhase2();
+            return;
+          }
           handleAllEnemiesDefeated();
         } else {
           setTimeout(enemyTurnSequence, 800);
@@ -7461,12 +7610,20 @@
       livingEnemies.forEach(enemy => {
         const originalIndex = state.enemies.indexOf(enemy);
         const enemyEl = document.getElementById(`enemyUnit_${originalIndex}`);
+        
+        let finalDmg = baseDmg;
+        let customMsg = floatMsg;
+        if (enemy.dmgReduction && enemy.dmgReduction > 0) {
+          finalDmg = Math.max(1, Math.round(baseDmg * (1 - enemy.dmgReduction)));
+          customMsg = `${finalDmg} ST 🛡️(-25%)`;
+        }
+
         if (enemyEl) {
           enemyEl.classList.add("damaged");
           setTimeout(() => enemyEl.classList.remove("damaged"), 450);
-          spawnFloatingText(enemyEl, floatMsg, "#00cec9");
+          spawnFloatingText(enemyEl, customMsg, "#00cec9");
         }
-        enemy.hp = Math.max(0, enemy.hp - baseDmg);
+        enemy.hp = Math.max(0, enemy.hp - finalDmg);
         if (applyWeaken) {
           enemy.atkDebuff = true;
           enemy.atk = Math.max(1, Math.round(enemy.baseAtk * 0.75));
@@ -7481,6 +7638,10 @@
 
         const remainingLiving = state.enemies.filter(e => e.hp > 0);
         if (remainingLiving.length === 0) {
+          if (state.currentStageIndex === (STAGES.length - 1) && state.bossPhase === 1) {
+            triggerBossPhase2();
+            return;
+          }
           handleAllEnemiesDefeated();
         } else {
           setTimeout(enemyTurnSequence, 800);
@@ -7503,13 +7664,17 @@
       state.enemies.forEach((enemy, idx) => {
         if (enemy.hp > 0 && enemy.dotTurns > 0) {
           enemy.dotTurns--;
-          enemy.hp = Math.max(0, enemy.hp - enemy.dotDmg);
+          let dotDmg = enemy.dotDmg;
+          if (enemy.dmgReduction && enemy.dmgReduction > 0) {
+            dotDmg = Math.max(1, Math.round(enemy.dotDmg * (1 - enemy.dmgReduction)));
+          }
+          enemy.hp = Math.max(0, enemy.hp - dotDmg);
           dotDamageTriggered = true;
           const enemyEl = document.getElementById(`enemyUnit_${idx}`);
           if (enemyEl) {
             enemyEl.classList.add("damaged");
             setTimeout(() => enemyEl.classList.remove("damaged"), 400);
-            spawnFloatingText(enemyEl, `-${enemy.dotDmg} HP 🌸`, "#ff6b81");
+            spawnFloatingText(enemyEl, `-${dotDmg} HP 🌸`, "#ff6b81");
           }
         }
       });
@@ -7522,6 +7687,10 @@
       // Kiểm tra nếu quái chết hết vì độc
       const livingAfterDot = state.enemies.filter(e => e.hp > 0);
       if (livingAfterDot.length === 0) {
+        if (state.currentStageIndex === (STAGES.length - 1) && state.bossPhase === 1) {
+          setTimeout(triggerBossPhase2, 600);
+          return;
+        }
         setTimeout(handleAllEnemiesDefeated, 600);
         return;
       }
@@ -7578,6 +7747,16 @@
       }
 
       // Normal Attack
+      // Kích hoạt Cuồng nộ tăng sát thương ở Ải 8 Phase 2 (mỗi 2 lượt tăng 15% ATK)
+      if (state.currentStageIndex === (STAGES.length - 1) && state.bossPhase === 2) {
+        state.bossEnrageTurnCount = (state.bossEnrageTurnCount || 0) + 1;
+        if (state.bossEnrageTurnCount > 0 && state.bossEnrageTurnCount % 2 === 0) {
+          attacker.atk = Math.round(attacker.atk * 1.15);
+          if (enemyEl) spawnFloatingText(enemyEl, "CUỒNG NỘ! 🔥 +15% ATK", "#ff4757");
+          setNarrator("👿🔥", `Đại Ma Vương Thức Tỉnh gầm rống kích hoạt Cuồng Nộ! Sát thương tăng vọt lên ${attacker.atk} ATK!`);
+        }
+      }
+
       setNarrator("⚠️", `${attacker.name} đang phản công!`);
       if (enemyEl) enemyEl.classList.add("enemy-attacking");
       SFX.attack();
@@ -7616,7 +7795,87 @@
       enemyTurnSequence();
     }
 
+    /* ============================================================
+       CƠ CHẾ BOSS GIAI ĐOẠN 2 (2-PHASE NIGHTMARE SUPER BOSS)
+       ============================================================ */
+    function triggerBossPhase2() {
+      state.bossPhase = 2;
+      state.bossEnrageTurnCount = 0;
+      state.isTurnBusy = true;
+
+      // 1. Phát âm thanh sấm sét hủy diệt
+      if (SFX.bossPhase2) {
+        SFX.bossPhase2();
+      }
+
+      // 2. Màn hình rung chuyển dữ dội (.boss-awakening-shake), hiệu ứng sấm sét chớp đỏ toàn màn hình (.boss-phase-flash)
+      const battleScreen = document.getElementById("battleScreen") || document.body;
+      const arena = document.querySelector(".arena-container") || document.getElementById("arenaBg");
+      battleScreen.classList.add("boss-awakening-shake", "boss-phase-flash");
+      if (arena) arena.classList.add("boss-awakening-shake", "boss-phase-flash");
+
+      // Đổi nền sàn đấu sang tông đỏ rực sấm sét của Vực Thẳm Thức Tỉnh
+      const arenaBg = document.getElementById("arenaBg");
+      if (arenaBg) {
+        arenaBg.style.background = "radial-gradient(circle at 50% 100%, #800a0a 0%, #300005 50%, #0a0003 100%)";
+      }
+
+      // 3. Cập nhật thông tin boss: tên "Đại Ma Vương Thức Tỉnh", level "👑 NIGHTMARE BOSS", hồi đầy cây máu 500 HP, tăng ATK lên 55
+      if (!state.enemies || state.enemies.length === 0) {
+        state.enemies = [{ name: "Đại Ma Vương", hp: 0, maxHp: 350, atk: 45, level: "👑 BOSS" }];
+      }
+      const boss = state.enemies[0];
+      boss.name = "Đại Ma Vương Thức Tỉnh";
+      boss.level = "👑 NIGHTMARE BOSS";
+      boss.icon = "👿";
+      boss.hp = 500;
+      boss.maxHp = 500;
+      boss.atk = 55;
+      boss.baseAtk = 55;
+      boss.dmgReduction = 0; // Khiên vỡ hoàn toàn ở Phase 2
+      boss.isStunned = false;
+      boss.isBlind = false;
+      boss.dotTurns = 0;
+      boss.atkDebuff = false;
+      boss.desc = "Đại Ma Vương thức tỉnh hình thái Nightmare! Cuồng nộ tăng sát thương, thử thách Vận Dụng Cao!";
+
+      state.enemy = boss; // backward compatibility
+      state.selectedEnemyIndex = 0;
+
+      // Cập nhật viền rực lửa cho Boss
+      const spriteBox = document.querySelector("#enemyUnit_0 .sprite-box");
+      if (spriteBox) {
+        spriteBox.style.borderColor = "#ff4757";
+        spriteBox.style.boxShadow = "0 0 25px #ff4757, inset 0 0 15px #ff0000";
+      }
+
+      // 4. Hiển thị thông báo sử thi hào hùng trên Narrator
+      setNarrator("👿", "⚡ SẤM SÉT VỰC THẲM! Đại Ma Vương đã THỨC TỈNH dạng NIGHTMARE! Hồi đầy 500 HP và tăng sát thương lên 55 ATK! Hãy tập trung cao độ!");
+
+      // Cập nhật giao diện quái
+      renderEnemies();
+      updateUI();
+
+      const bossUnit = document.getElementById("enemyUnit_0");
+      if (bossUnit) {
+        spawnFloatingText(bossUnit, "THỨC TỈNH! 👑🔥 500 HP", "#ff4757");
+      }
+
+      setTimeout(() => {
+        battleScreen.classList.remove("boss-awakening-shake", "boss-phase-flash");
+        if (arena) arena.classList.remove("boss-awakening-shake", "boss-phase-flash");
+        state.isTurnBusy = false;
+        state.questionAnswered = false;
+        state.turnPendingAction = null;
+        updateUI();
+      }, 1800);
+    }
+
     function handleAllEnemiesDefeated() {
+      if (state.currentStageIndex === (STAGES.length - 1) && state.bossPhase === 1) {
+        triggerBossPhase2();
+        return;
+      }
       SFX.levelUp();
       const stageName = STAGES[state.currentStageIndex] ? STAGES[state.currentStageIndex].name : "Ải";
       setNarrator("🎉", `Bạn đã quét sạch toàn bộ quái vật và vượt qua ${stageName}!`);
@@ -7672,7 +7931,7 @@
       if (isWin) {
         title.className = "end-title win";
         title.textContent = "🏆 PHÁ ĐẢO VƯƠNG QUỐC ESTER!";
-        subtitle.textContent = "Chúc mừng bạn đã hoàn thành xuất sắc toàn bộ 5 Ải Thử Thách Hóa Học!";
+        subtitle.textContent = "Chúc mừng bạn đã hoàn thành xuất sắc toàn bộ 8 Ải Thử Thách và đánh bại Đại Ma Vương Thức Tỉnh!";
       } else {
         title.className = "end-title lose";
         title.textContent = "💀 BẠN ĐÃ THẤT THỦ!";
@@ -7782,7 +8041,7 @@
       const acc = totalDone > 0 ? Math.round((correctDone / totalDone) * 100) : 0;
       
       // Công thức tính điểm: Mỗi câu đúng = 100đ, mỗi ải qua = 200đ, máu còn lại = HP x 2
-      const totalScore = (correctDone * 100) + ((isWin ? 5 : state.currentStageIndex) * 200) + Math.max(0, Math.ceil(state.playerHp) * 2);
+      const totalScore = (correctDone * 100) + ((isWin ? STAGES.length : state.currentStageIndex) * 200) + Math.max(0, Math.ceil(state.playerHp) * 2);
 
       const entry = {
         name: state.playerName || "Hiệp Sĩ",
@@ -7791,7 +8050,7 @@
         correct: correctDone,
         total: totalDone,
         accuracy: acc,
-        stage: isWin ? "Phá Đảo Ải 5 👑" : `Dừng ở Ải ${state.currentStageIndex + 1}`,
+        stage: isWin ? `Phá Đảo Ải ${STAGES.length} 👑` : `Dừng ở Ải ${state.currentStageIndex + 1}`,
         isWin: isWin,
         date: new Date().toLocaleString("vi-VN", {
           hour: "2-digit",
@@ -8173,6 +8432,13 @@
         if (savedClass) document.getElementById("playerClass").value = savedClass;
       } catch(e) {}
     })();
+
+    // Xuất các hàm và đối tượng toàn cục cho kiểm thử và gỡ lỗi
+    window.STAGES = STAGES;
+    window.loadStage = loadStage;
+    window.triggerBossPhase2 = triggerBossPhase2;
+    window.SFX = SFX;
+    window.state = state;
   </script>
 </body>
 </html>
