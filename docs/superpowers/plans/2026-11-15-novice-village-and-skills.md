@@ -1,44 +1,72 @@
-# Kế Hoạch Triển Khai: Làng Tân Thủ & Hệ Thống Kỹ Năng Mới (PLAN.MD)
+# Kế Hoạch Triển Khai: Làng Tân Thủ, Kỹ Năng AOE & Chiến Dịch 8 Ải Đánh Trùm (PLAN.MD)
 
 > **Dành cho kỹ sư / Agent triển khai:** BẮT BUỘC SỬ DỤNG SUB-SKILL: `superpowers:subagent-driven-development` (khuyên dùng) hoặc `superpowers:executing-plans` để thực thi từng nhiệm vụ theo thứ tự. Các bước sử dụng cú pháp checkbox (`- [ ]`) để theo dõi tiến độ.
 
-**Mục tiêu (Goal):** Xây dựng phân đoạn "Làng Tân Thủ Giả Kim" (Novice Village / Academy) bắt buộc người chơi phải tìm hiểu Bí Kíp Ester và hoàn thành các thử thách nhập môn trước khi ra trận, đồng thời mở rộng kho chiêu thức chiến đấu với các cơ chế RPG turn-based độc đáo (Độc dược DoT, Hút sinh lực Drain, Gây mù Blind, Nổ tung Mana Burst).
+**Mục tiêu (Goal):** Xây dựng Làng Tân Thủ bắt buộc học bí kíp & làm nhiệm vụ nhập môn; mở rộng chiến dịch lên **8 Ải**, hỗ trợ **nhiều quái vật trên sân đấu cùng lúc (Multi-Enemy)**; bổ sung **chiêu thức diện rộng (AOE)**; và thiết kế **Màn Đánh Boss Tối Thượng Độ Khó Cực Cao (Nightmare Super Boss)** với cơ chế 2 Phase tiến hóa và câu hỏi Vận Dụng Cao.
 
-**Kiến trúc (Architecture):** Bổ sung màn hình trung gian `#villageScreen` giữa `#menuScreen` và `#battleScreen`; tích hợp cơ chế theo dõi tiến độ nhiệm vụ tân thủ lưu vào `localStorage`; mở rộng động cơ kỹ năng chiến đấu (`SKILL_REGISTRY`) hỗ trợ hiệu ứng trạng thái (Status Effects: DoT, Blind, Stun) và bộ chọn kỹ năng (Skill Loadout Deck 4 ô).
+**Kiến trúc (Architecture):**
+- Màn hình `#villageScreen` làm cổng trung chuyển với 3 nhiệm vụ mở khóa.
+- Động cơ chiến đấu (`Battle Engine`) nâng cấp từ đơn mục tiêu (`state.enemy`) sang đa mục tiêu (`state.enemies: Array<Enemy>` và `state.selectedTargetIndex`).
+- Hệ thống chiêu thức hỗ trợ gắn nhãn mục tiêu `targetType: 'single' | 'all'`, tự động phân bổ sát thương đơn hoặc AOE diện rộng.
+- Cơ chế Boss Tối Thượng 2 Phase: Khi Boss Phase 1 hết máu, tự động kích hoạt hoạt ảnh biến dị sang Phase 2 với bộ chiêu thức và nội tại cuồng nộ mới.
 
-**Công nghệ (Tech Stack):** Pure Vanilla JavaScript (ES6+), HTML5, CSS3 (CSS Grid/Flexbox, Keyframe Animations, Pixelated Rendering), Web Audio API Synthesizers.
+**Công nghệ (Tech Stack):** Pure Vanilla JavaScript (ES6+), HTML5, CSS3 (CSS Grid/Flexbox, Keyframes Animations, Pixelated Rendering), Web Audio API Synthesizers.
 
-**Tài liệu đặc tả (Spec):** Yêu cầu từ người dùng: (1) Bắt buộc học bí kíp & làm nhiệm vụ nhỏ tại Làng Tân Thủ trước khi vào đánh quái; (2) Thiết kế các chiêu thức mới lạ, đậm chất RPG và kiến thức hóa học; (3) Lưu kế hoạch vào `PLAN.MD`.
+**Tài liệu đặc tả (Spec):** 
+1. Làng tân thủ bắt buộc học bí kíp & làm nhiệm vụ nhỏ trước khi vào đánh quái.
+2. Mở rộng thêm 3 ải chiến đấu mới (nâng tổng số lên 8 ải).
+3. Có các màn xuất hiện nhiều quái vật cùng lúc (Multi-enemy).
+4. Thêm các chiêu thức có sát thương diện rộng (AOE).
+5. Thêm 1 màn Boss tối thượng có độ khó cực cao (Nightmare Super Boss).
+6. Ghi toàn bộ kế hoạch vào `PLAN.MD`.
 
 ---
 
 ## Ràng Buộc Toàn Cục (Global Constraints)
 
-1. **Không cài thêm thư viện bên ngoài:** Toàn bộ ứng dụng chạy thuần trên một trang duy nhất (`index.html`) kèm tài nguyên ảnh trong thư mục `assets/`.
-2. **Đáp ứng đa thiết bị (Responsive Design):** Màn hình Làng Tân Thủ và các bảng kỹ năng mới phải hoạt động chuẩn trên Desktop, Tablet (768px) và Mobile (<= 480px, chạm tối thiểu 44x44px).
-3. **Bảo toàn dữ liệu cũ:** Giữ nguyên ngân hàng 68 câu hỏi trắc nghiệm, 5 Ải chiến đấu và cơ chế âm thanh Web Audio API hiện tại.
-4. **Cơ chế lưu trạng thái thông minh:** Người chơi đã hoàn thành Làng Tân Thủ một lần sẽ có tùy chọn "Vào Thẳng Chiến Trường" ở các lần chơi sau, hoặc có thể chọn "Học Lại Tân Thủ" bất kỳ lúc nào.
+1. **Không cài thư viện bên ngoài:** Toàn bộ game chạy thuần trên tệp `index.html` và tài nguyên trong thư mục `assets/`.
+2. **Đáp ứng đa thiết bị (Responsive Design):** Sàn đấu khi có 1, 2, hoặc 3 quái vật đều phải hiển thị cân đối, không tràn màn hình trên Mobile (<= 480px) và Tablet (768px).
+3. **Bảo toàn dữ liệu cũ:** Giữ nguyên các câu hỏi trong ngân hàng đề, cơ chế trừ mana khi niệm chiêu và phong cách đồ họa RPG turn-based.
+4. **Cơ chế chọn mục tiêu trực quan:** Khi có nhiều quái vật, người chơi có thể click vào quái để đổi mục tiêu đánh đơn; chiêu AOE sẽ tự động đánh trúng toàn bộ quái còn sống.
 
 ---
 
 ## Tiêu Điểm Đánh Giá Rủi Ro (Review Focus)
 
-1. **Hiệu ứng Trúng Độc (DoT) kết liễu quái:** Khi sát thương độc rút hết HP của quái vật vào đầu hoặc cuối lượt, hệ thống phải kích hoạt chiến thắng ải ngay lập tức, không để quái vật phản công trong trạng thái 0 HP.
-2. **Hút Máu / Hút Mana vượt ngưỡng (Over-drain):** Chiêu thức hút máu/mana từ quái vật phải được chặn chặn trên bằng `Math.min(maxVal, currentVal + gain)` để không gây lỗi vỡ thanh hiển thị UI.
-3. **Thời gian tồn tại của trạng thái Mù (Blind):** Khi quái vật bị mù, đòn đánh kế tiếp của quái có tỉ lệ trượt 70%. Dù đánh trúng hay trượt, trạng thái Mù phải được giải trừ sau lượt đó, không kéo dài vĩnh viễn.
-4. **Bỏ qua nhiệm vụ bằng console / DOM:** Nút "Xuất Quân Ra Chiến Trường" phải bị vô hiệu hóa (`disabled`) cả về giao diện lẫn logic chặn trong hàm `startBattleFromVillage()`, ngăn người chơi vượt ải tân thủ khi chưa hoàn thành 3 nhiệm vụ.
-5. **Đồng bộ hóa 4 ô kỹ năng kích hoạt (Skill Deck):** Khi người chơi đổi chiêu thức trong Làng Tân Thủ, thanh kỹ năng chiến đấu trong trận phải cập nhật đúng icon, tên chiêu, lượng MP và độ khó câu hỏi tương ứng.
+1. **Sát thương AOE trên quái đã tử trận:** Khi tung chiêu AOE, sát thương và hiệu ứng nổi chỉ được hiển thị trên các quái vật còn sống (`hp > 0`), không tạo hiệu ứng rác trên quái đã chết.
+2. **Lượt phản công của bầy quái (Multi-enemy turn queue):** Nếu có 3 quái cùng sống, chúng sẽ lần lượt tấn công theo chuỗi nhịp nhàng (có độ trễ 400ms giữa các đòn) kèm âm thanh riêng biệt, tránh xung đột animation.
+3. **Chuyển giao 2 Phase của Boss Tối Thượng:** Khi HP Boss Phase 1 về 0, không được kích hoạt hàm `handleEnemyDefeated()`, mà phải kích hoạt hoạt ảnh chuyển Phase (`transformBossPhase2()`), nạp thanh máu Phase 2 và đổi sprite/tên quái.
+4. **Kiểm tra kết thúc ải bầy quái:** Ải chỉ được xem là hoàn thành khi TẤT CẢ quái vật trong mảng `state.enemies` đều có `hp <= 0`.
+5. **Cân bằng năng lượng Mana đối với chiêu AOE:** Chiêu AOE có uy lực quét bầy quái lớn nên chi phí MP và độ khó câu hỏi phải tương xứng để tránh người chơi spam chiêu lạm dụng.
+
+---
+
+## Sơ Đồ Cấu Trúc Toàn Bộ Chiến Dịch 8 Ải
+
+```
+[Màn Hình Menu]
+      ↓
+[Làng Tân Thủ Giả Kim] ➔ Hoàn thành 3 Nhiệm vụ ➔ [Chọn 4 Kỹ Năng / Deck]
+      ↓
+┌────────────────────────────────────────────────────────────────────────┐
+│                        CHIẾN DỊCH 8 ẢI CHIẾN ĐẤU                      │
+├────────────────────────────────────────────────────────────────────────┤
+│ Ải 1: Slime Nhựa (Lv.1) - 1 Quái [Khởi động]                           │
+│ Ải 2: Bầy Tiểu Slime Este (Lv.1) - 3 QUÁI [Tập luyện chiêu AOE!]      │
+│ Ải 3: Sói Băng Dung Môi (Lv.2) - 1 Quái                                │
+│ Ải 4: Thạch Quái Tráng Bạc (Lv.3) - 1 Quái                             │
+│ Ải 5: Song Thủ Vệ Este (Lv.3) - 2 QUÁI TINH ANH [Hộ Vệ Axit & Ancol]  │
+│ Ải 6: Hỏa Long Nhiệt Độ (Lv.4) - 1 Quái                                │
+│ Ải 7: Chúa Tể Bóng Tối (Lv.5) - 1 Boss                                 │
+│ Ải 8: 👑 ĐẠI MA VƯƠNG TRIGLYCERIDE [NIGHTMARE BOSS 2 GIAI ĐOẠN]        │
+│       ├── Phase 1: Thân Thể Este Đa Chức (350 HP, Khiên Phản Sát)      │
+│       └── Phase 2: Đại Ma Vương Biến Dị (500 HP, Cuồng Nộ + Vận Dụng) │
+└────────────────────────────────────────────────────────────────────────┘
+```
 
 ---
 
 ## Chi Tiết Các Nhiệm Vụ Triển Khai (Tasks)
-
-```
-[Màn Hình Menu] ➔ [Làng Tân Thủ Giả Kim] ➔ [Chọn 4 Kỹ Năng] ➔ [Chiến Trường 5 Ải]
-                      ├── Nhiệm vụ 1: Thụ Đắc Bí Kíp (Đọc 5 tab)
-                      ├── Nhiệm vụ 2: Thao Trường Ma Nơ Canh (Tập đánh 2 câu)
-                      └── Nhiệm vụ 3: Pha Chế Este Chuối (Thí nghiệm mini)
-```
 
 ---
 
@@ -55,7 +83,7 @@
 - Produces: `state.villageQuests = { readCodex: false, dummyDefeated: false, craftedEster: false }`, hàm `openVillageScreen()`, `checkVillageCompletion()`.
 
 - [ ] **Bước 1: Viết mã HTML cho `#villageScreen`**
-  - Khung hội thoại NPC: Đại Pháp Sư Lavoisier / Mendeleev chào đón tân thủ.
+  - Khung hội thoại NPC: Đại Pháp Svr Lavoisier / Mendeleev chào đón tân thủ.
   - Bảng 3 nhiệm vụ tân thủ dạng thẻ (Quest Cards) với icon, mô tả và trạng thái (Chưa hoàn thành / Đã xong).
   - Nút "Xuất Quân Ra Tiền Tuyến" (mặc định mờ/disabled cho đến khi cả 3 nhiệm vụ đều có tick xanh).
 - [ ] **Bước 2: Viết CSS cho Làng Tân Thủ**
@@ -66,7 +94,6 @@
   - Khi bấm `btnStartGame` ở Menu -> Chuyển sang `villageScreen` thay vì vào thẳng `battleScreen`.
   - Nếu người chơi đã từng vượt qua Làng Tân Thủ trong phiên trước (`localStorage.getItem("esterQuest_tutorialDone") === "true"`), hiển thị thêm nút phụ "Bỏ qua & Vào Thẳng Trận Đấu ➔".
 - [ ] **Bước 4: Kiểm tra và Commit**
-  - Chạy lệnh kiểm tra cú pháp và commit:
   ```bash
   git add index.html
   git commit -m "feat(village): scaffold novice village UI and transition logic"
@@ -94,7 +121,6 @@
   - Đánh dấu `state.villageQuests.readCodex = true`.
   - Thẻ Nhiệm Vụ 1 trong Làng Tân Thủ chuyển sang trạng thái "✅ ĐÃ LĨNH HỘI".
 - [ ] **Bước 3: Tích hợp nút "Mở Bí Kíp Học Ngay" trực tiếp từ thẻ nhiệm vụ**
-  - Giúp người chơi mới không phải tự mò nút trên thanh Header mà có thể bấm trực tiếp từ bảng nhiệm vụ làng.
 - [ ] **Bước 4: Kiểm tra và Commit**
   ```bash
   git add index.html
@@ -116,14 +142,10 @@
 
 - [ ] **Bước 1: Thiết kế giao diện Thao Trường Tập Luyện**
   - Đối thủ: 🎯 Bù Nhìn Rơm Giả Kim (HP: 60/60, Sát thương: 0, không đánh trả).
-  - Hướng dẫn tương tác nổi bật: "Hãy thử dùng Đòn Axit Cơ Bản hoặc Hỏa Cầu để tấn công Bù Nhìn!".
 - [ ] **Bước 2: Cơ chế chiến đấu tập sự**
-  - Người chơi chọn chiêu thức -> Hiện câu hỏi trắc nghiệm mức độ Nhận Biết.
-  - Nếu trả lời đúng: Gây sát thương lên bù nhìn, cộng điểm và tạo hiệu ứng âm thanh sống động.
-  - Nếu trả lời sai: Bù nhìn nhắc nhở lời giải chi tiết, không trừ máu người chơi và cho phép thử lại.
+  - Người chơi chọn chiêu thức -> Trả lời câu hỏi -> Nếu đúng gây sát thương; nếu sai không bị trừ HP và được xem lời giải.
 - [ ] **Bước 3: Kết thúc huấn luyện**
-  - Khi HP Bù Nhìn về 0 -> Bù nhìn vỡ tung hoa tuyết, hoàn thành Nhiệm vụ 2.
-  - Cập nhật thẻ Nhiệm Vụ 2: "✅ THAO TRƯỜNG TỐT NGHIỆP".
+  - Khi HP Bù Nhìn về 0 -> Hoàn thành Nhiệm vụ 2, cập nhật huy hiệu thẻ nhiệm vụ.
 - [ ] **Bước 4: Kiểm tra và Commit**
   ```bash
   git add index.html
@@ -144,22 +166,12 @@
 - Produces: `state.villageQuests.craftedEster = true`, thưởng thêm 1 Bình Nước Cất khởi đầu.
 
 - [ ] **Bước 1: Giao diện Bàn Thí Nghiệm Giả Kim**
-  - Hiển thị 1 ống nghiệm / bình cầu đáy tròn và 4 nhóm lựa chọn:
-    1. Axit hữu cơ: $CH_3COOH$ (Axit axetic) vs $HCOOH$ vs $HCl$.
-    2. Ancol: Ancol isoamylic vs Ancol etylic vs Glixerol.
-    3. Chất xúc tác: $H_2SO_4$ đặc vs $HCl$ loãng vs $NaOH$.
-    4. Điều kiện nhiệt độ: Đun cách thủy / Đun sôi nhẹ vs Làm lạnh đá.
+  - Hiển thị 1 ống nghiệm và 4 nhóm chọn: Axit ($CH_3COOH$), Ancol (Isoamylic), Xúc tác ($H_2SO_4$ đặc), Nhiệt độ ($t^\circ$).
 - [ ] **Bước 2: Xử lý phản ứng và hiển thị kết quả**
-  - Khi người chơi chọn đúng ($CH_3COOH$ + Ancol isoamylic + $H_2SO_4$ đặc + Đun nóng nhẹ):
-    - Ống nghiệm phát sáng hiệu ứng sủi bọt, tỏa hương chuối chín ngọt ngào!
-    - Hoàn thành nhiệm vụ 3.
-  - Nếu chọn sai: Hiện phản hồi giải thích tại sao cần $H_2SO_4$ đặc (vừa làm xúc tác vừa hút nước chuyển dịch cân bằng) và cho chọn lại.
-- [ ] **Bước 3: Lễ Tốt Nghiệp Làng Tân Thủ**
-  - Khi hoàn thành cả 3 nhiệm vụ:
-    - Kích hoạt nút "XUẤT QUÂN RA CHIẾN TRƯỜNG ➔".
-    - Mở khóa danh hiệu: "🎖️ Giả Kim Sĩ Chính Thức".
-    - Tặng thêm 1 Bình Nước Cất khởi đầu (tổng cộng có 3 bình).
-    - Lưu `localStorage.setItem("esterQuest_tutorialDone", "true")`.
+  - Chọn đúng: Ống nghiệm tỏa bọt phát sáng, hoàn thành nhiệm vụ 3.
+  - Chọn sai: Hiện lời giải thích hóa học và cho phép chọn lại.
+- [ ] **Bước 3: Tốt Nghiệp Làng Tân Thủ**
+  - Mở khóa nút "XUẤT QUÂN RA CHIẾN TRƯỜNG ➔", tặng thêm 1 Bình Nước Cất.
 - [ ] **Bước 4: Kiểm tra và Commit**
   ```bash
   git add index.html
@@ -168,105 +180,148 @@
 
 ---
 
-### Task 5: Thiết Kế & Xây Dựng 4 Chiêu Thức Mới Lạ (Combat Spells Expansion)
+### Task 5: Nâng Cấp Động Cơ Chiến Đấu Đa Quái Vật (Multi-Enemy Battle Engine)
 
-**Mục tiêu:** Mở rộng kho kỹ năng chiến đấu từ 4 chiêu lên 8 chiêu độc đáo, kết hợp sâu sắc giữa tính chất hóa học và cơ chế RPG (DoT, Hút sinh lực, Làm mù, Mana Burst).
-
-**Files:**
-- Sửa đổi: `index.html` (Mở rộng cấu trúc `SKILL_DATABASE`, logic hàm `resolveTurnAction`, hiệu ứng trạng thái trong `enemyTurn`).
-
-**Danh sách 4 chiêu thức mới:**
-
-| STT | Tên Chiêu Thức | MP | Sát Thương | Hiệu Ứng RPG Đặc Biệt | Cơ Sở Hóa Học | Mức Độ |
-|:---:|:---|:---:|:---:|:---|:---|:---:|
-| **5** | 🌸 **Hương Hoa Độc Tố** *(Aroma Poison)* | 18 | 40 ST | **Gây độc (DoT):** Quái mất 15 HP mỗi lượt trong 3 lượt tiếp theo. | Este có mùi thơm hoa quả nhưng nồng độ cao gây ngạt/choáng | ⭐⭐ Thông Hiểu |
-| **6** | 🧪 **Chiết Tách Dung Môi** *(Solvent Drain)* | 12 | 45 ST | **Hút tài nguyên:** Hút 25 HP hoặc 15 MP từ quái vật về cho bản thân. | Chiết este nhẹ hơn nước nổi lên trên dung dịch muối ăn | ⭐⭐ Thông Hiểu |
-| **7** | 🪞 **Tráng Bạc Quý Tộc** *(Silver Mirror)* | 22 | 65 ST | **Gây Mù (Blind):** Đòn đánh kế tiếp của quái vật có **70% tỉ lệ trượt** (Miss). | Phản ứng tráng bạc của este fomic ($HCOOR$) tạo gương sáng chói | ⭐⭐ Thông Hiểu |
-| **8** | 💥 **Bùng Nổ Oxi Hóa** *(Combustion Burst)* | Toàn bộ (min 30) | $MP \times 3.5$ ST | **Mana Burst:** Đốt sạch toàn bộ Mana hiện có để gây sát thương hủy diệt ($50\text{ MP} \rightarrow 175\text{ ST}$). | Phản ứng đốt cháy hoàn toàn este tỏa lượng nhiệt cực lớn | ⭐⭐⭐ Vận Dụng |
-
-- [ ] **Bước 1: Mở rộng State lưu trữ hiệu ứng chiến đấu**
-  - Bổ sung vào `state`:
-    ```javascript
-    state.enemyStatusEffects = {
-      poisonDuration: 0, // số lượt độc còn lại
-      poisonDmg: 0,      // sát thương độc mỗi lượt
-      blind: false       // có đang bị lóa mắt/mù không
-    };
-    ```
-- [ ] **Bước 2: Cập nhật hàm giải quyết chiêu thức (`resolveTurnAction`)**
-  - Chiêu 5 (Hương Hoa Độc Tố): Trừ 18 MP, gây 40 ST, kích hoạt `poisonDuration = 3`, `poisonDmg = 15`.
-  - Chiêu 6 (Chiết Tách Dung Môi): Trừ 12 MP, gây 45 ST, hồi `Math.min(playerMaxHp, playerHp + 25)`.
-  - Chiêu 7 (Tráng Bạc Quý Tộc): Trừ 22 MP, gây 65 ST, kích hoạt `state.enemyStatusEffects.blind = true`.
-  - Chiêu 8 (Bùng Nổ Oxi Hóa): Tiêu hao toàn bộ `state.playerMana`, tính sát thương $= \text{spentMana} \times 3.5$.
-- [ ] **Bước 3: Xử lý hiệu ứng trong lượt của quái vật (`enemyTurn`)**
-  - **Xử lý Độc (DoT):** Đầu lượt quái, nếu `poisonDuration > 0`: Trừ máu quái, hiện số nổi xanh lục `-15 HP (Độc 🧪)`. Nếu quái chết vì độc -> Gọi `handleEnemyDefeated()`.
-  - **Xử lý Mù (Blind):** Khi quái tấn công, nếu `blind === true`: Quay số ngẫu nhiên 70%. Nếu trượt: Hiện chữ nổi `TRƯỢT (MISS)! 💨`, người chơi không nhận sát thương, sau đó giải trừ trạng thái mù `blind = false`.
-- [ ] **Bước 4: Kiểm tra và Commit**
-  ```bash
-  git add index.html
-  git commit -m "feat(combat): implement 4 new chemical spells with DoT, drain, blind, and burst mechanics"
-  ```
-
----
-
-### Task 6: Hệ Thống Chọn 4 Kỹ Năng Ra Trận (Active Skill Deck Loadout)
-
-**Mục tiêu:** Cho phép người chơi tự do lựa chọn 4 trong số 8 chiêu thức để mang vào trận đấu (Deck Building RPG).
+**Mục tiêu:** Nâng cấp sàn đấu hỗ trợ xuất hiện từ 1 đến 3 quái vật cùng lúc trên màn hình, hỗ trợ click chọn mục tiêu (`selectedTargetIndex`) và cơ chế lượt đánh của bầy quái.
 
 **Files:**
-- Sửa đổi: `index.html` (Modal / Panel chọn kỹ năng trong Làng Tân Thủ và trước mỗi Ải đấu).
+- Sửa đổi: `index.html` (Cấu trúc HTML `.arena-container`, CSS `.enemy-group`, JavaScript `state.enemies`).
 
 **Interfaces:**
-- Consumes: Danh sách 8 kỹ năng từ `SKILL_DATABASE`.
-- Produces: `state.activeSkills = [id1, id2, id3, id4]`, hàm `renderActiveSkills()`.
+- Consumes: Mảng `stage.enemies: Array<Enemy>` trong cấu hình Ải.
+- Produces: `state.enemies`, `state.selectedTargetIndex`, hàm `selectTarget(idx)`, `renderEnemyGroup()`.
 
-- [ ] **Bước 1: Giao diện Bảng Kỹ Năng (Grimoire Deck)**
-  - Hiển thị kho 8 thẻ kỹ năng với đầy đủ thông số: Tên, icon, lượng MP, mô tả hiệu ứng, độ khó câu hỏi tương ứng.
-  - Khung 4 ô kích hoạt (Active Slots): Người chơi có thể bấm vào thẻ để trang bị hoặc tháo gỡ.
-- [ ] **Bước 2: Thiết lập cấu hình mặc định & Lưu trữ**
-  - Mặc định khởi đầu: 4 chiêu truyền thống (Đòn Axit, Hỏa Cầu, Khiên Dung Môi, Bão Xà Phòng).
-  - Có nút "Đổi Chiêu Nhanh" ngay trước khi vào trận chiến.
-- [ ] **Bước 3: Hiển thị động 4 chiêu trên Dashboard giao chiến**
-  - Thay thế 4 nút cứng cũ bằng vòng lặp `state.activeSkills.map(...)` để render đúng 4 chiêu mà người chơi đã trang bị.
+- [ ] **Bước 1: Cấu trúc dữ liệu và giao diện Nhóm Quái Vật (Enemy Group)**
+  - Thay thế 1 thẻ quái đơn bằng container `<div class="enemies-container" id="enemiesContainer"></div>`.
+  - Mỗi quái trong bầy có: Khung sprite riêng, thanh HP riêng, tên riêng và vòng tròn ngắm bắn (`target-reticle`) khi được chọn.
+- [ ] **Bước 2: Cơ chế click đổi mục tiêu đánh đơn**
+  - Người chơi click vào bất kỳ quái vật nào để đặt làm mục tiêu chính (`state.selectedTargetIndex = idx`).
+  - Quái được chọn sẽ có viền sáng neon nhấp nháy. Mặc định tự động chọn quái đầu tiên còn sống.
+- [ ] **Bước 3: Chuỗi phản công của bầy quái (`multiEnemyTurn`)**
+  - Khi đến lượt đối thủ, các quái còn sống (`hp > 0`) sẽ lần lượt thi triển đòn đánh với độ trễ ngắn, tạo cảm giác bị bao vây chân thực.
+  - Khiên Dung Môi của người chơi chặn được 1 đòn tấn công đầu tiên của bầy quái.
 - [ ] **Bước 4: Kiểm tra và Commit**
   ```bash
   git add index.html
-  git commit -m "feat(loadout): implement 4-slot skill loadout system for tactical customization"
+  git commit -m "feat(combat): implement multi-enemy group rendering and targeting system"
   ```
 
 ---
 
-### Task 7: Kiểm Thử Toàn Diện, Responsive & Hoàn Thiện
+### Task 6: Kho Kỹ Năng Mới & Kỹ Năng Diện Rộng (AOE Spells System)
 
-**Mục tiêu:** Kiểm tra trơn tru toàn bộ luồng chơi từ Menu -> Làng Tân Thủ -> 3 Nhiệm vụ -> Chọn Chiêu -> Chiến Đấu 5 Ải -> Chiến Thắng.
+**Mục tiêu:** Mở rộng hệ thống chiêu thức với cả chiêu thức Đơn Mục Tiêu độc đáo (DoT, Hút sinh lực, Làm mù, Mana Burst) và **Chiêu Thức Diện Rộng (AOE)** để quét sạch bầy quái.
+
+**Files:**
+- Sửa đổi: `index.html` (`SKILL_DATABASE`, `resolveTurnAction`).
+
+**Bảng Tổng Hợp Chiêu Thức Mở Rộng:**
+
+| ID | Tên Chiêu Thức | Kiểu Đánh | MP | Sát Thương | Hiệu Ứng RPG Đặc Biệt | Mức Câu Hỏi |
+|:---:|:---|:---:|:---:|:---:|:---|:---:|
+| **1** | 🗡️ **Đòn Axit Cơ Bản** | Đơn | 0 | 35 ST | Hồi 10 MP nếu trả lời đúng | ⭐ Nhận Biết |
+| **2** | 🔥 **Hỏa Cầu Este Hóa** | Đơn | 20 | 75 ST | Đòn phép công phá đơn mục tiêu | ⭐⭐ Thông Hiểu |
+| **3** | 🛡️ **Khiên Dung Môi** | Hỗ trợ | 15 | +35 HP | Tạo khiên chặn đòn đánh tiếp theo | ⭐⭐ Thông Hiểu |
+| **4** | ⚡ **Bão Xà Phòng Hóa** | Đơn | 35 | 150 ST | Gây sát thương cực lớn & Choáng quái 1 lượt | ⭐⭐⭐ Vận Dụng |
+| **5** | 🌸 **Hương Hoa Độc Tố** | Đơn | 18 | 40 ST | **Gây độc (DoT):** Quái mất 15 HP/lượt trong 3 lượt | ⭐⭐ Thông Hiểu |
+| **6** | 🧪 **Chiết Tách Dung Môi** | Đơn | 12 | 45 ST | **Hút máu:** Hồi phục 25 HP cho người chơi | ⭐⭐ Thông Hiểu |
+| **7** | 🪞 **Tráng Bạc Quý Tộc** | Đơn | 22 | 65 ST | **Gây mù (Blind):** Đòn đánh kế tiếp của quái trượt 70% | ⭐⭐ Thông Hiểu |
+| **8** | 💥 **Bùng Nổ Oxi Hóa** | Đơn | Toàn bộ | $MP \times 3.5$ | **Mana Burst:** Đốt toàn bộ MP gây sát thương dứt điểm | ⭐⭐⭐ Vận Dụng |
+| **9** | 🌊 **Sóng Thủy Phân Toàn Thể** | **AOE** | 28 | 60 ST/quái | **Sát thương diện rộng:** Tấn công TẤT CẢ quái vật trên sân | ⭐⭐ Thông Hiểu |
+| **10**| 🌪️ **Lốc Bão Nhiệt Đốt Cháy** | **AOE** | 42 | 95 ST/quái | **AOE Cực Đại:** Quét sạch toàn bộ quái & giảm 25% công của chúng | ⭐⭐⭐ Vận Dụng |
+
+- [ ] **Bước 1: Tích hợp logic xử lý AOE trong `resolveTurnAction`**
+  - Kiểm tra `skill.targetType === 'all'`:
+    - Duyệt qua tất cả `state.enemies.filter(e => e.hp > 0)`.
+    - Gây sát thương và hiển thị số nổi sát thương đồng loạt trên từng quái vật.
+    - Phát hiệu ứng chớp sáng toàn sàn đấu (`arena-flash-aoe`).
+- [ ] **Bước 2: Xử lý hiệu ứng trạng thái (DoT, Blind)**
+  - Tích hợp đếm lượt độc và tính tỉ lệ trượt 70% khi quái bị mù.
+- [ ] **Bước 3: Bảng Chọn 4 Kỹ Năng Ra Trận (Deck Loadout)**
+  - Cho phép người chơi tự chọn 4 trong 10 chiêu thức để mang vào chiến trường.
+- [ ] **Bước 4: Kiểm tra và Commit**
+  ```bash
+  git add index.html
+  git commit -m "feat(skills): add AOE mass spells and expand skill registry to 10 chemical abilities"
+  ```
+
+---
+
+### Task 7: Mở Rộng 8 Ải Chiến Đấu & Thiết Kế Boss Tối Thượng (Nightmare Super Boss)
+
+**Mục tiêu:** Cấu hình chi tiết 8 Ải chiến đấu (bao gồm 2 ải nhiều quái) và thiết kế Màn 8 với Boss Tối Thượng 2 Phase có độ khó cực cao.
+
+**Files:**
+- Sửa đổi: `index.html` (Mảng `STAGES`, hàm `loadStage`, `transformBossPhase2`).
+
+**Cấu hình chi tiết 8 Ải:**
+
+1. **Ải 1: Rừng Ẩm Ướt** — 1 Quái: Slime Nhựa (`Lv.1`, HP: 100, ATK: 15).
+2. **Ải 2: Đầm Lầy Bầy Nhầy (MỚI - 3 QUÁI):**
+   - 3 Tiểu Slime: *Slime Formate* (HP: 60), *Slime Acetate* (HP: 70), *Slime Propionate* (HP: 80).
+   - *Chiến thuật gợi ý:* Dùng chiêu AOE 🌊 **Sóng Thủy Phân** để quét sạch nhanh chóng!
+3. **Ải 3: Thung Lũng Băng** — 1 Quái: Sói Băng (`Lv.2`, HP: 160, ATK: 24).
+4. **Ải 4: Hầm Ngục Thạch** — 1 Quái: Thạch Quái Tráng Bạc (`Lv.3`, HP: 220, ATK: 30).
+5. **Ải 5: Tháp Canh Đôi (MỚI - 2 QUÁI TINH ANH):**
+   - 2 Quái: *Hộ Vệ Axit Carboxylic* (HP: 150, ATK: 22) & *Hộ Vệ Ancol Đơn Chức* (HP: 150, ATK: 22).
+   - Hai hộ vệ tương trợ nhau nếu không diệt đồng thời!
+6. **Ải 6: Tháp Địa Ngục** — 1 Quái: Hỏa Long Nhiệt Độ (`Lv.4`, HP: 280, ATK: 36).
+7. **Ải 7: Điện Thờ Hắc Ám** — 1 Quái: Chúa Tể Bóng Tối (`Lv.5`, HP: 360, ATK: 42).
+8. **Ải 8: VỰC THẲM HỖN MANG - ĐẠI CHIẾN ĐẠI MA VƯƠNG TRIGLYCERIDE (NIGHTMARE SUPER BOSS):**
+   - **Giai Đoạn 1 (Phase 1):** *Thân Thể Este Đa Chức* (HP: 350, ATK: 45).
+     - *Nội tại:* **Khiên Este Chắn Sát Thương** (Giảm 25% sát thương nhận vào).
+     - Khi HP về 0: Màn hình rung chuyển dữ dội, âm thanh gầm rú, kích hoạt chuyển Phase!
+   - **Giai Đoạn 2 (Phase 2):** *Đại Ma Vương Biến Dị Triglyceride* (HP: 500, ATK: 55).
+     - *Nội tại:* **Cuồng Nộ Thủy Phân** (Cứ mỗi 2 lượt tăng 15% sức tấn công).
+     - *Bộ câu hỏi:* Chỉ rút các câu hỏi thuộc mức độ **Vận Dụng Cao** (tính toán bảo toàn khối lượng este/chất béo, este phenol, phản ứng xà phòng hóa hỗn hợp).
+     - Người chơi phải tính toán kỹ từng giọt Mana và từng bình hồi máu để chiến thắng!
+
+- [ ] **Bước 1: Cập nhật mảng `STAGES` chứa đủ 8 Ải**
+  - Cấu trúc hỗ trợ cả ải đơn mục tiêu lẫn ải nhiều quái `enemies: [...]`.
+- [ ] **Bước 2: Xây dựng cơ chế chuyển Phase cho Boss Ải 8**
+  - Viết hàm `triggerBossPhase2()`:
+    - Hiệu ứng rung lắc màn hình cực mạnh, đổi màu nền arena sang đỏ rực u ám.
+    - Đổi tên Boss thành "👑 ĐẠI MA VƯƠNG TRIGLYCERIDE BIẾN DỊ (PHASE 2)".
+    - Đổi icon/sprite sang hình tượng quái vật hung hãn và nạp đầy cây máu 500 HP.
+- [ ] **Bước 3: Ngân hàng đề riêng cho Boss Ải 8**
+  - Đảm bảo các câu hỏi của Ải 8 đều là câu hỏi Vận Dụng mang tính thách thức cao.
+- [ ] **Bước 4: Kiểm tra và Commit**
+  ```bash
+  git add index.html
+  git commit -m "feat(stages): expand to 8 stages with multi-mob encounters and 2-phase nightmare super boss"
+  ```
+
+---
+
+### Task 8: Kiểm Thử Toàn Diện, Responsive & Hoàn Thiện Tài Liệu
+
+**Mục tiêu:** Kiểm tra toàn diện mọi tính năng từ Làng Tân Thủ, Chiêu AOE, Ải Bầy Quái đến Boss 2 Phase trên cả Desktop, Tablet và Mobile.
 
 **Files:**
 - Sửa đổi: `index.html`, `README.md`.
-- Kiểm thử tự động: `tests/verify_gameplay.py` (Script python mô phỏng logic và kiểm tra DOM/cú pháp JS).
+- Script kiểm tra: `tests/verify_full_features.py`.
 
-- [ ] **Bước 1: Viết script Python xác thực logic cú pháp**
-  - Đảm bảo không có lỗi cú pháp JS, regex trích xuất đầy đủ 8 kỹ năng, 3 nhiệm vụ làng tân thủ, và các hàm điều hướng.
-- [ ] **Bước 2: Kiểm tra Responsive trên các độ phân giải**
-  - Màn hình Desktop (1920x1080 & 1366x768).
-  - Màn hình Tablet iPad (768px - 1024px).
-  - Màn hình Mobile iPhone / Android (375px - 414px - 480px).
-- [ ] **Bước 3: Cập nhật tài liệu hướng dẫn (`README.md`)**
-  - Giới thiệu khu vực Làng Tân Thủ.
-  - Bảng tra cứu 8 chiêu thức giả kim thuật và mẹo phối hợp chiêu (Combo chiến thuật: Mù + Bão Xà Phòng; Độc DoT + Khiên phòng thủ).
+- [ ] **Bước 1: Viết script Python tự động kiểm tra logic**
+  - Kiểm tra tính toán sát thương AOE, danh sách 8 ải, logic 2 Phase của Boss.
+- [ ] **Bước 2: Kiểm tra Responsive sàn đấu bầy quái**
+  - Đảm bảo 3 quái vật trên điện thoại di động hiển thị ngay ngắn, không bị che khuất thanh kỹ năng hoặc HUD máu.
+- [ ] **Bước 3: Cập nhật `README.md`**
+  - Hướng dẫn chế độ Làng Tân Thủ, danh sách 10 chiêu thức (bao gồm chiêu AOE), và chiến thuật vượt Boss Ải 8.
 - [ ] **Bước 4: Commit và đẩy lên GitHub**
   ```bash
   git add .
-  git commit -m "docs: finalize novice village tutorial and new combat mechanics documentation"
+  git commit -m "docs: complete implementation plan with multi-enemy AOE combat and nightmare boss"
   git push origin main
   ```
 
 ---
 
-## Tóm Tắt Kế Hoạch & Các Bước Tiếp Theo
+## Trạng Thái & Xác Nhận Bắt Đầu
 
-Kế hoạch này phân tách công việc thành **7 nhiệm vụ độc lập, tuần tự và khép kín**:
-1. **Nhiệm vụ 1-4:** Xây dựng trọn vẹn Làng Tân Thủ & 3 thử thách học bí kíp thực hành.
-2. **Nhiệm vụ 5-6:** Mở rộng hệ thống chiến đấu với 4 chiêu thức độc đáo và cơ chế chọn 4 chiêu mang vào trận.
-3. **Nhiệm vụ 7:** Kiểm thử toàn diện và cập nhật tài liệu.
+Kế hoạch toàn diện đã bao gồm:
+1. **Làng Tân Thủ** bắt buộc học bí kíp & làm 3 nhiệm vụ nhập môn.
+2. **Chiến Dịch 8 Ải**, trong đó có 2 ải xuất hiện nhiều quái vật (Ải 2 có 3 quái, Ải 5 có 2 quái).
+3. **2 Chiêu Thức Diện Rộng (AOE)** công phá toàn bộ đối thủ (`targetType: 'all'`).
+4. **Màn Boss Tối Thượng (Ải 8)** độ khó cực cao với 2 Phase biến dị và câu hỏi Vận Dụng Cao.
 
-File kế hoạch đã được ghi lại tại `PLAN.MD`. Bạn hãy xem qua và cho biết các ý tưởng bổ sung tiếp theo để hoàn thiện kế hoạch trước khi bắt tay vào code nhé!
+Khi bạn xem qua và cảm thấy hài lòng, hãy phản hồi để chúng ta bắt đầu tiến hành code theo kế hoạch này!
