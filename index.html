@@ -3519,6 +3519,7 @@
                 <button class="nomen-pill" data-val="CH2=CHCOO" data-name="acrylate" onclick="selectNomenAcid(this, 'CH2=CHCOO', 'acrylate')">CH₂=CH-COO⁻ (acrylate)</button>
                 <button class="nomen-pill" data-val="CH2=C(CH3)COO" data-name="methacrylate" onclick="selectNomenAcid(this, 'CH2=C(CH3)COO', 'methacrylate')">CH₂=C(CH₃)-COO⁻ (methacrylate)</button>
                 <button class="nomen-pill" data-val="C6H5COO" data-name="benzoate" onclick="selectNomenAcid(this, 'C6H5COO', 'benzoate')">C₆H₅COO⁻ (benzoate)</button>
+                <button class="nomen-pill" data-val="(COO)2" data-name="oxalate" onclick="selectNomenAcid(this, '(COO)2', 'oxalate')">(COO⁻)₂ (oxalate)</button>
               </div>
             </div>
             <div class="nomen-row">
@@ -3832,6 +3833,9 @@
               <button class="chem-shelf-btn" id="btnSilverEthyl" onclick="selectSilverSubstance('ethyl_acetate')">
                 🧴 Thủy phân Ethyl acetate (CH₃COOC₂H₅ ➔ sinh C₂H₅OH)
               </button>
+              <button class="chem-shelf-btn" id="btnSilverFormate" onclick="selectSilverSubstance('ethyl_formate')">
+                ✨ Ester Formate (HCOOC₂H₅ ➔ chứa nhóm -CHO tráng bạc)
+              </button>
             </div>
 
             <div class="apparatus-stage">
@@ -3936,6 +3940,18 @@
               <button class="chem-shelf-btn" id="btnAcidC2H5COOH" onclick="selectSynthesisAcid('C2H5COOH')">
                 C₂H₅COOH (Propionic acid)
               </button>
+              <button class="chem-shelf-btn" id="btnAcidC3H7COOH" onclick="selectSynthesisAcid('C3H7COOH')">
+                CH₃CH₂CH₂COOH (Butyric acid)
+              </button>
+              <button class="chem-shelf-btn" id="btnAcidAcrylic" onclick="selectSynthesisAcid('acrylic')">
+                CH₂=CH-COOH (Acrylic acid)
+              </button>
+              <button class="chem-shelf-btn" id="btnAcidMethacrylic" onclick="selectSynthesisAcid('methacrylic')">
+                CH₂=C(CH₃)COOH (Methacrylic acid)
+              </button>
+              <button class="chem-shelf-btn" id="btnAcidC6H5COOH" onclick="selectSynthesisAcid('C6H5COOH')">
+                C₆H₅COOH (Benzoic acid)
+              </button>
             </div>
 
             <!-- Center: Catalyst -->
@@ -3956,9 +3972,30 @@
                 CH₃OH (Methanol)
               </button>
               <button class="chem-shelf-btn" id="btnAlcIsoamyl" onclick="selectSynthesisAlcohol('isoamyl')">
-                C₅H₁₁OH (Isoamyl alcohol)
+                (CH₃)₂CHCH₂CH₂OH (Isoamyl alcohol)
+              </button>
+              <button class="chem-shelf-btn" id="btnAlcPropyl" onclick="selectSynthesisAlcohol('propyl')">
+                CH₃CH₂CH₂OH (Propyl alcohol)
+              </button>
+              <button class="chem-shelf-btn" id="btnAlcIsopropyl" onclick="selectSynthesisAlcohol('isopropyl')">
+                (CH₃)₂CHOH (Isopropyl alcohol)
+              </button>
+              <button class="chem-shelf-btn" id="btnAlcAllyl" onclick="selectSynthesisAlcohol('allyl')">
+                CH₂=CH-CH₂OH (Allyl alcohol)
+              </button>
+              <button class="chem-shelf-btn" id="btnAlcBenzyl" onclick="selectSynthesisAlcohol('benzyl')">
+                C₆H₅CH₂OH (Benzyl alcohol - Hoa nhài)
+              </button>
+              <button class="chem-shelf-btn" id="btnAlcPhenol" onclick="selectSynthesisAlcohol('phenol')" style="border-style:dashed;">
+                C₆H₅OH (Phenol - Thử nghiệm bẫy thi)
               </button>
             </div>
+          </div>
+
+          <div class="rule-box" style="margin:8px 0 14px; font-size:12.5px; line-height:1.5;">
+            ⚠️ <strong>Bí kíp điểm 10 - Trường hợp KHÔNG điều chế trực tiếp từ acid + alcohol:</strong><br>
+            • <strong>Vinyl ester</strong> (như vinyl acetate CH₃COOCH=CH₂): Điều chế từ <em>CH₃COOH + C₂H₂ (acetylene)</em> vì vinyl alcohol không bền, tự chuyển thành acetaldehyde.<br>
+            • <strong>Phenyl ester</strong> (như phenyl acetate CH₃COOC₆H₅): Điều chế từ <em>(CH₃CO)₂O (acetic anhydride) + C₆H₅OH (phenol)</em> vì phenol có tính acid yếu, không phản ứng thuận nghịch với carboxylic acid.
           </div>
 
           <!-- Synthesis Action and Display -->
@@ -6826,10 +6863,18 @@
       const nameEl = document.getElementById("nomenNameDisplay");
       if (!formulaEl || !nameEl) return;
 
+      const subscriptMap = { '0': '₀', '1': '₁', '2': '₂', '3': '₃', '4': '₄', '5': '₅', '6': '₆', '7': '₇', '8': '₈', '9': '₉' };
+
+      if (academyState.selectedNomenAcidVal === "(COO)2") {
+        const rawF = `(COO${academyState.selectedNomenAlcoholVal})2`;
+        formulaEl.textContent = rawF.replace(/[0-9]/g, digit => subscriptMap[digit] || digit);
+        nameEl.textContent = `di${academyState.selectedNomenAlcoholName} oxalate`;
+        return;
+      }
+
       const f = `${academyState.selectedNomenAcidVal}${academyState.selectedNomenAlcoholVal}`;
       const n = `${academyState.selectedNomenAlcoholName} ${academyState.selectedNomenAcidName}`;
 
-      const subscriptMap = { '0': '₀', '1': '₁', '2': '₂', '3': '₃', '4': '₄', '5': '₅', '6': '₆', '7': '₇', '8': '₈', '9': '₉' };
       const prettyF = f.replace(/[0-9]/g, digit => subscriptMap[digit] || digit);
 
       formulaEl.textContent = prettyF;
@@ -7057,16 +7102,28 @@
       try { if (SFX && SFX.select) SFX.select(); } catch(_) {}
       const btnV = document.getElementById("btnSilverVinyl");
       const btnE = document.getElementById("btnSilverEthyl");
+      const btnF = document.getElementById("btnSilverFormate");
       if (btnV) btnV.classList.toggle("active", key === "vinyl_acetate");
       if (btnE) btnE.classList.toggle("active", key === "ethyl_acetate");
+      if (btnF) btnF.classList.toggle("active", key === "ethyl_formate");
 
       const tube = document.getElementById("silverTestTube");
       const banner = document.getElementById("silverStatusBanner");
+      const eqDisplay = document.getElementById("silverEquationDisplay");
       if (tube) tube.classList.remove("tube-silver-mirror");
       if (banner) {
         banner.style.background = "rgba(255,255,255,0.05)";
         banner.style.borderColor = "#33446c";
         banner.textContent = "Đang chờ thêm thuốc thử tráng bạc...";
+      }
+      if (eqDisplay) {
+        if (key === "vinyl_acetate") {
+          eqDisplay.innerHTML = `Phản ứng tráng bạc của Aldehyde sinh ra từ Vinyl acetate:<br><strong>CH₃CHO + 2[Ag(NH₃)₂]OH ➔ CH₃COONH₄ + 2Ag↓ (Gương Bạc) + 3NH₃ + H₂O</strong>`;
+        } else if (key === "ethyl_formate") {
+          eqDisplay.innerHTML = `Phản ứng tráng bạc của Ester Formate (chứa nhóm formyl -CHO):<br><strong>HCOOC₂H₅ + 2[Ag(NH₃)₂]OH ➔ NH₄O-COOC₂H₅ + 2Ag↓ (Gương Bạc) + 3NH₃ + H₂O</strong>`;
+        } else {
+          eqDisplay.innerHTML = `Ester thông thường (như Ethyl acetate) không chứa nhóm -CHO:<br><strong>CH₃COOC₂H₅ + [Ag(NH₃)₂]OH ➔ KHÔNG CÓ PHẢN ỨNG TRÁNG BẠC</strong>`;
+        }
       }
     }
 
@@ -7085,13 +7142,22 @@
           banner.innerHTML = "✨ <strong>HIỆN TƯỢNG TRÁNG GƯƠNG BẠC SÁNG LOÁNG!</strong><br>Vinyl acetate thủy phân sinh acetaldehyde (CH₃CHO) có nhóm -CHO nên tráng gương tạo lớp bạc kim loại Ag lấp lánh.";
         }
         showAcademyToast("✨ Phủ bạc kim loại Ag sáng rực thành ống nghiệm!");
+      } else if (academyState.silverSubstance === "ethyl_formate") {
+        try { if (SFX && SFX.silverMirror) SFX.silverMirror(); } catch(_) {}
+        if (tube) tube.classList.add("tube-silver-mirror");
+        if (banner) {
+          banner.style.background = "rgba(255,255,255,0.2)";
+          banner.style.borderColor = "#fff";
+          banner.innerHTML = "✨ <strong>HIỆN TƯỢNG TRÁNG GƯƠNG BẠC SÁNG LOÁNG!</strong><br>Ester của acid formic (HCOOR') chứa nhóm formyl (-CH=O) nên có tính khử, tráng bạc tạo 2Ag bám sáng loáng!";
+        }
+        showAcademyToast("✨ Ester Formate tráng bạc kim loại Ag sáng bóng!");
       } else {
         try { if (SFX && SFX.wrong) SFX.wrong(); } catch(_) {}
         if (tube) tube.classList.remove("tube-silver-mirror");
         if (banner) {
           banner.style.background = "rgba(255, 71, 87, 0.15)";
           banner.style.borderColor = "var(--danger)";
-          banner.innerHTML = "❌ <strong>KHÔNG CÓ PHẢN ỨNG TRÁNG BẠC!</strong><br>Ethyl acetate thủy phân sinh ethanol (C₂H₅OH) không có nhóm aldehyde (-CHO).";
+          banner.innerHTML = "❌ <strong>KHÔNG CÓ PHẢN ỨNG TRÁNG BẠC!</strong><br>Ethyl acetate thủy phân sinh acetic acid và ethanol, cả hai đều không chứa nhóm aldehyde (-CHO).";
         }
       }
     }
@@ -7537,12 +7603,25 @@
     }
 
     function startGameFromAcademy() {
+      // Mark Chapter 1 completed in localStorage and state
+      localStorage.setItem("esterQuest_ch1Completed", "true");
+      academyState.isCompleted = true;
+      try { if (SFX && SFX.magic) SFX.magic(); } catch(_) {}
+
+      // Start the battle
       initGame();
+
+      // Graduation reward: +1 Potion (3 potions instead of 2)
+      state.potions = 3;
+      updateUI();
+      showBattleLog("🏆 <strong>Hiệp sĩ đã tốt nghiệp Học Viện Ester!</strong> Nhận thêm +1 Bình Nước Cất Dự Trữ (Tổng: 3 bình hồi phục).");
     }
 
     function initGame() {
-      const nameInput = document.getElementById("playerName").value.trim();
-      const classInput = document.getElementById("playerClass").value.trim();
+      const nameEl = document.getElementById("playerName");
+      const classEl = document.getElementById("playerClass");
+      const nameInput = nameEl ? nameEl.value.trim() : "";
+      const classInput = classEl ? classEl.value.trim() : "";
       state.playerName = nameInput || "Hiệp Sĩ";
       state.playerClass = classInput || "12A1";
 
@@ -7568,13 +7647,31 @@
       state.questionAnswered = false;
       state.turnPendingAction = null;
 
-      document.getElementById("menuScreen").style.display = "none";
-      document.getElementById("endGameScreen").style.display = "none";
-      document.getElementById("battleScreen").style.display = "flex";
+      // Hide all other screens & modals (Crucial: Hide academyScreen!)
+      const academy = document.getElementById("academyScreen");
+      if (academy) academy.style.display = "none";
+      const menu = document.getElementById("menuScreen");
+      if (menu) menu.style.display = "none";
+      const end = document.getElementById("endGameScreen");
+      if (end) end.style.display = "none";
+      const qModal = document.getElementById("questionModal");
+      if (qModal) qModal.style.display = "none";
+      const dModal = document.getElementById("deckModal");
+      if (dModal) dModal.style.display = "none";
+      const cModal = document.getElementById("codexModal");
+      if (cModal) cModal.style.display = "none";
+      const lModal = document.getElementById("leaderboardModal");
+      if (lModal) lModal.style.display = "none";
 
-      document.getElementById("playerDisplayName").textContent = state.playerName;
+      const battle = document.getElementById("battleScreen");
+      if (battle) battle.style.display = "flex";
+
+      const pName = document.getElementById("playerDisplayName");
+      if (pName) pName.textContent = state.playerName;
+
       loadStage(0);
       updateUI();
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
     function renderSprite(el, iconVal, altText, fallbackEmoji = "👾") {
@@ -9054,6 +9151,7 @@
       state.isTurnBusy = false;
       state.questionAnswered = false;
       state.turnPendingAction = null;
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
     /* ============================================================

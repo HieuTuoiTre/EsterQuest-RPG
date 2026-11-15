@@ -67,6 +67,11 @@ def test_interactive_labs():
     assert "btnAlcMethanol" in html
     assert "btnAlcIsoamyl" in html
 
+    # 6. Verify Graduation flow & Start Game from Academy
+    assert "function startGameFromAcademy()" in html, "startGameFromAcademy function must exist"
+    assert "document.getElementById(\"academyScreen\").style.display = \"none\"" in html or "academy.style.display = \"none\"" in html, "Must hide academyScreen when starting game"
+    assert "state.potions = 3" in html, "Must award +1 potion bonus on graduation"
+
     print("✅ All Interactive Lab Handlers, Chemical Subscripts & Defensive Proxy Verified!")
 
 if __name__ == "__main__":
