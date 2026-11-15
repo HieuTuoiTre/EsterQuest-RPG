@@ -46,15 +46,17 @@ def test_interactive_labs():
     assert "function switchHydroLab(mode)" in html, "switchHydroLab must exist"
     assert "btnSubtabHydro" in html
     assert "btnSubtabSilver" in html
+    assert "btnSilverFormate" in html, "btnSilverFormate for Formate ester silver mirror test must exist"
     assert "hydroSeparationLab" in html
     assert "silverMirrorLab" in html
     assert "function selectSilverSubstance(key)" in html
     assert "chem-arrow-stack" in html, "Textbook chemical arrow stack must exist"
     assert "chem-arrow-condition" in html, "Chemical condition above arrow must exist"
 
-    # 5. Verify Lesson 5 Synthesis acid & alcohol selection and all 9 combination specs
+    # 5. Verify Lesson 5 Synthesis acid & alcohol selection and all textbook radicals
     assert "function selectSynthesisAcid(acidKey)" in html, "selectSynthesisAcid must exist"
     assert "function selectSynthesisAlcohol(alcKey)" in html, "selectSynthesisAlcohol must exist"
+    assert "function getSynthesisSpec(acidKey, alcKey)" in html, "getSynthesisSpec dynamic generator must exist"
     assert "function updateSynthEquation()" in html, "updateSynthEquation must exist"
     assert "function onSynthIngredientsChanged" in html, "onSynthIngredientsChanged handler must exist"
     assert "const SYNTHESIS_SPECS" in html, "SYNTHESIS_SPECS lookup registry must exist"
@@ -63,9 +65,19 @@ def test_interactive_labs():
     assert "btnAcidCH3COOH" in html
     assert "btnAcidHCOOH" in html
     assert "btnAcidC2H5COOH" in html
+    assert "btnAcidC3H7COOH" in html
+    assert "btnAcidAcrylic" in html
+    assert "btnAcidMethacrylic" in html
+    assert "btnAcidC6H5COOH" in html
     assert "btnAlcEthanol" in html
     assert "btnAlcMethanol" in html
     assert "btnAlcIsoamyl" in html
+    assert "btnAlcPropyl" in html
+    assert "btnAlcIsopropyl" in html
+    assert "btnAlcAllyl" in html
+    assert "btnAlcBenzyl" in html
+    assert "btnAlcPhenol" in html
+    assert "KHÔNG THỂ ĐIỀU CHẾ TRỰC TIẾP PHENYL ESTER" in html, "Trap warning for phenol esterification must exist"
 
     # 6. Verify Graduation flow & Start Game from Academy
     assert "function startGameFromAcademy()" in html, "startGameFromAcademy function must exist"

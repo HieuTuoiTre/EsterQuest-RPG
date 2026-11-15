@@ -7164,15 +7164,24 @@
 
     /* Lesson 5: Synthesis Lab & Matching Game */
     const SYNTHESIS_ACIDS = {
-      CH3COOH: { name: "Acetic acid", formula: "CH₃COOH", acyl: "CH₃CO-" },
-      HCOOH: { name: "Formic acid", formula: "HCOOH", acyl: "HCO-" },
-      C2H5COOH: { name: "Propionic acid", formula: "C₂H₅COOH", acyl: "C₂H₅CO-" }
+      CH3COOH: { name: "Acetic acid", formula: "CH₃COOH", acyl: "CH₃CO-", esterSuffix: "acetate" },
+      HCOOH: { name: "Formic acid", formula: "HCOOH", acyl: "HCO-", esterSuffix: "formate" },
+      C2H5COOH: { name: "Propionic acid", formula: "C₂H₅COOH", acyl: "C₂H₅CO-", esterSuffix: "propionate" },
+      C3H7COOH: { name: "Butyric acid", formula: "CH₃CH₂CH₂COOH", acyl: "CH₃CH₂CH₂CO-", esterSuffix: "butyrate" },
+      acrylic: { name: "Acrylic acid", formula: "CH₂=CH-COOH", acyl: "CH₂=CH-CO-", esterSuffix: "acrylate" },
+      methacrylic: { name: "Methacrylic acid", formula: "CH₂=C(CH₃)COOH", acyl: "CH₂=C(CH₃)CO-", esterSuffix: "methacrylate" },
+      C6H5COOH: { name: "Benzoic acid", formula: "C₆H₅COOH", acyl: "C₆H₅CO-", esterSuffix: "benzoate" }
     };
 
     const SYNTHESIS_ALCOHOLS = {
-      C2H5OH: { name: "Ethanol", formula: "C₂H₅OH", alkoxy: "-OC₂H₅" },
-      CH3OH: { name: "Methanol", formula: "CH₃OH", alkoxy: "-OCH₃" },
-      isoamyl: { name: "Isoamyl alcohol", formula: "C₅H₁₁OH", alkoxy: "-OC₅H₁₁" }
+      C2H5OH: { name: "Ethanol", formula: "C₂H₅OH", alkoxy: "-OC₂H₅", alias: "ethyl" },
+      CH3OH: { name: "Methanol", formula: "CH₃OH", alkoxy: "-OCH₃", alias: "methyl" },
+      isoamyl: { name: "Isoamyl alcohol", formula: "(CH₃)₂CHCH₂CH₂OH", alkoxy: "-OCH₂CH₂CH(CH₃)₂", alias: "isoamyl" },
+      propyl: { name: "Propyl alcohol", formula: "CH₃CH₂CH₂OH", alkoxy: "-OCH₂CH₂CH₃", alias: "propyl" },
+      isopropyl: { name: "Isopropyl alcohol", formula: "(CH₃)₂CHOH", alkoxy: "-OCH(CH₃)₂", alias: "isopropyl" },
+      allyl: { name: "Allyl alcohol", formula: "CH₂=CH-CH₂OH", alkoxy: "-OCH₂CH=CH₂", alias: "allyl" },
+      benzyl: { name: "Benzyl alcohol", formula: "C₆H₅CH₂OH", alkoxy: "-OCH₂C₆H₅", alias: "benzyl" },
+      phenol: { name: "Phenol", formula: "C₆H₅OH", alkoxy: "-OC₆H₅", alias: "phenyl", isSpecial: true }
     };
 
     const SYNTHESIS_SPECS = {
@@ -7196,12 +7205,48 @@
       },
       "CH3COOH_isoamyl": {
         name: "Isoamyl acetate",
-        formula: "CH₃COOC₅H₁₁",
+        formula: "CH₃COOCH₂CH₂CH(CH₃)₂",
         rco: "CH₃CO-",
-        or: "-OC₅H₁₁",
+        or: "-OCH₂CH₂CH(CH₃)₂",
         smell: "mùi chuối chín nồng nàn (dầu chuối)",
         color: "rgba(255, 220, 50, 0.9)",
         special: "Dầu chuối kinh điển trong hương liệu thực phẩm, nước giải khát và bánh kẹo."
+      },
+      "CH3COOH_benzyl": {
+        name: "Benzyl acetate",
+        formula: "CH₃COOCH₂C₆H₅",
+        rco: "CH₃CO-",
+        or: "-OCH₂C₆H₅",
+        smell: "mùi hoa nhài thanh khiết (jasmine)",
+        color: "rgba(255, 235, 140, 0.9)",
+        special: "Ester thơm quý phái chiết xuất và tổng hợp làm hương liệu nước hoa, sữa tắm cao cấp."
+      },
+      "CH3COOH_allyl": {
+        name: "Allyl acetate",
+        formula: "CH₃COOCH₂CH=CH₂",
+        rco: "CH₃CO-",
+        or: "-OCH₂CH=CH₂",
+        smell: "mùi trái cây thơm cay nhẹ",
+        color: "rgba(255, 220, 100, 0.85)",
+        special: "Ester không no có liên kết đôi C=C, vừa làm thơm vừa làm chất trung gian phản ứng hữu cơ."
+      },
+      "CH3COOH_propyl": {
+        name: "Propyl acetate",
+        formula: "CH₃COOCH₂CH₂CH₃",
+        rco: "CH₃CO-",
+        or: "-OCH₂CH₂CH₃",
+        smell: "mùi quả lê chín thơm ngọt",
+        color: "rgba(255, 225, 110, 0.85)",
+        special: "Dung môi hữu cơ hòa tan nitrocellulose và hương liệu bánh kẹo quả lê."
+      },
+      "CH3COOH_isopropyl": {
+        name: "Isopropyl acetate",
+        formula: "CH₃COOCH(CH₃)₂",
+        rco: "CH₃CO-",
+        or: "-OCH(CH₃)₂",
+        smell: "mùi hoa quả ngọt dịu mát",
+        color: "rgba(255, 230, 120, 0.85)",
+        special: "Dung môi bay hơi nhanh dùng trong ngành in ấn bao bì và chất tẩy rửa bề mặt."
       },
       "HCOOH_C2H5OH": {
         name: "Ethyl formate",
@@ -7230,6 +7275,15 @@
         color: "rgba(255, 190, 90, 0.85)",
         special: "Ester thơm của formic acid, nhẹ hơn nước và có khả năng tráng bạc đặc trưng!"
       },
+      "HCOOH_benzyl": {
+        name: "Benzyl formate",
+        formula: "HCOOCH₂C₆H₅",
+        rco: "HCO-",
+        or: "-OCH₂C₆H₅",
+        smell: "mùi hoa nhài và thảo mộc thanh thoát",
+        color: "rgba(255, 220, 130, 0.85)",
+        special: "Vừa có hương thơm hoa cỏ quyến rũ, vừa có phản ứng tráng bạc đặc trưng của acid formic."
+      },
       "C2H5COOH_C2H5OH": {
         name: "Ethyl propionate",
         formula: "C₂H₅COOC₂H₅",
@@ -7256,32 +7310,177 @@
         smell: "mùi dứa và mơ nhiệt đới ngọt ngào",
         color: "rgba(255, 205, 60, 0.9)",
         special: "Ester phân tử lớn, giữ hương lâu bền, dùng trong nước hoa và mỹ phẩm cao cấp."
+      },
+      "C3H7COOH_C2H5OH": {
+        name: "Ethyl butyrate",
+        formula: "CH₃CH₂CH₂COOC₂H₅",
+        rco: "CH₃CH₂CH₂CO-",
+        or: "-OC₂H₅",
+        smell: "mùi dứa chín đậm đà, mùi chuối dừa tổng hợp",
+        color: "rgba(255, 210, 50, 0.9)",
+        special: "Chất tạo mùi dứa đặc trưng phổ biến nhất trong kẹo ngọt và đồ uống đóng chai."
+      },
+      "C3H7COOH_CH3OH": {
+        name: "Methyl butyrate",
+        formula: "CH₃CH₂CH₂COOCH₃",
+        rco: "CH₃CH₂CH₂CO-",
+        or: "-OCH₃",
+        smell: "mùi quả táo chín mọng thơm nức",
+        color: "rgba(255, 220, 80, 0.85)",
+        special: "Chất tạo mùi thơm hương táo tự nhiên trong công nghiệp thực phẩm."
+      },
+      "C3H7COOH_isoamyl": {
+        name: "Isoamyl butyrate",
+        formula: "CH₃CH₂CH₂COOCH₂CH₂CH(CH₃)₂",
+        rco: "CH₃CH₂CH₂CO-",
+        or: "-OCH₂CH₂CH(CH₃)₂",
+        smell: "mùi quả mơ và đào chín ngọt lịm",
+        color: "rgba(255, 200, 50, 0.9)",
+        special: "Ester hương hoa quả nồng nàn thường dùng trong siro bánh ngọt và xà phòng cao cấp."
+      },
+      "acrylic_CH3OH": {
+        name: "Methyl acrylate",
+        formula: "CH₂=CH-COOCH₃",
+        rco: "CH₂=CH-CO-",
+        or: "-OCH₃",
+        smell: "mùi hắc nhẹ đặc trưng của monomer ester",
+        color: "rgba(240, 240, 180, 0.85)",
+        special: "Monomer quan trọng tham gia phản ứng trùng hợp tạo nhựa poly(methyl acrylate) sản xuất keo dán và sợi tổng hợp."
+      },
+      "acrylic_C2H5OH": {
+        name: "Ethyl acrylate",
+        formula: "CH₂=CH-COOC₂H₅",
+        rco: "CH₂=CH-CO-",
+        or: "-OC₂H₅",
+        smell: "mùi ester trái cây nồng nàn",
+        color: "rgba(245, 235, 170, 0.85)",
+        special: "Monomer dẻo dai sản xuất màng sơn phủ chống thấm và chất kết dính công nghiệp."
+      },
+      "methacrylic_CH3OH": {
+        name: "Methyl methacrylate",
+        formula: "CH₂=C(CH₃)COOCH₃",
+        rco: "CH₂=C(CH₃)CO-",
+        or: "-OCH₃",
+        smell: "mùi ester trái cây đặc trưng",
+        color: "rgba(255, 235, 130, 0.9)",
+        special: "⭐ MONOMER VÀNG LỚP 12: Trùng hợp tạo Thủy tinh hữu cơ Plexiglas (che chắn máy bay, kính mắt, răng giả)!"
+      },
+      "methacrylic_C2H5OH": {
+        name: "Ethyl methacrylate",
+        formula: "CH₂=C(CH₃)COOC₂H₅",
+        rco: "CH₂=C(CH₃)CO-",
+        or: "-OC₂H₅",
+        smell: "mùi thơm ester nhẹ",
+        color: "rgba(255, 240, 140, 0.85)",
+        special: "Nguyên liệu chế tạo nhựa nha khoa cao cấp và sơn móng tay gel bền màu."
+      },
+      "C6H5COOH_CH3OH": {
+        name: "Methyl benzoate",
+        formula: "C₆H₅COOCH₃",
+        rco: "C₆H₅CO-",
+        or: "-OCH₃",
+        smell: "mùi dầu hoa ngọc lan tây (ylang-ylang) quý phái",
+        color: "rgba(255, 215, 130, 0.9)",
+        special: "Chất định hương và tinh dầu hoa ngọc lan tây kinh điển trong nước hoa Pháp."
+      },
+      "C6H5COOH_C2H5OH": {
+        name: "Ethyl benzoate",
+        formula: "C₆H₅COOC₂H₅",
+        rco: "C₆H₅CO-",
+        or: "-OC₂H₅",
+        smell: "mùi hoa quả nhiệt đới ngọt ngào",
+        color: "rgba(255, 210, 120, 0.9)",
+        special: "Hương liệu hoa quả tổng hợp trong dược phẩm và mỹ phẩm chăm sóc da."
+      },
+      "C6H5COOH_benzyl": {
+        name: "Benzyl benzoate",
+        formula: "C₆H₅COOCH₂C₆H₅",
+        rco: "C₆H₅CO-",
+        or: "-OCH₂C₆H₅",
+        smell: "mùi thơm thảo mộc dịu nhẹ lâu phai",
+        color: "rgba(255, 225, 150, 0.9)",
+        special: "Vừa là chất định hương nước hoa cao cấp vừa là thuốc bôi y tế điều trị bệnh ngoài da."
       }
     };
+
+    function getSynthesisSpec(acidKey, alcKey) {
+      if (alcKey === "phenol") {
+        const acid = SYNTHESIS_ACIDS[acidKey] || { name: "Acid", formula: "RCOOH", acyl: "RCO-", esterSuffix: "acetate" };
+        return {
+          name: `Phenyl ${acid.esterSuffix}`,
+          formula: `${acid.acyl.replace('-', '')}OC₆H₅`,
+          rco: acid.acyl,
+          or: "-OC₆H₅",
+          smell: "không xảy ra phản ứng thuận nghịch trực tiếp",
+          color: "rgba(255, 100, 100, 0.35)",
+          isTrap: true,
+          special: "⚠️ CẢNH BÁO BẪY ĐỀ THI LỚP 12: Phenol có tính acid yếu, KHÔNG phản ứng trực tiếp với carboxylic acid! Phải dùng ANHYDRIDE ACID (CH₃CO)₂O."
+        };
+      }
+
+      const pairKey = `${acidKey}_${alcKey}`;
+      if (SYNTHESIS_SPECS[pairKey]) {
+        return SYNTHESIS_SPECS[pairKey];
+      }
+
+      const acid = SYNTHESIS_ACIDS[acidKey];
+      const alc = SYNTHESIS_ALCOHOLS[alcKey];
+      if (!acid || !alc) return null;
+
+      const esterName = `${alc.alias} ${acid.esterSuffix}`;
+      const formula = `${acid.acyl.replace('-', '')}${alc.alkoxy.replace('-', '')}`;
+      const isFormate = (acidKey === "HCOOH");
+      const specialNote = isFormate
+        ? "Ester của formic acid có chứa nhóm aldehyde (-CHO), tham gia phản ứng tráng bạc với AgNO₃/NH₃!"
+        : `Sản phẩm ester hóa thuận nghịch giữa ${acid.name} và ${alc.name} khi có mặt H₂SO₄ đặc đun nóng.`;
+
+      return {
+        name: esterName,
+        formula: formula,
+        rco: acid.acyl,
+        or: alc.alkoxy,
+        smell: "mùi thơm hoa quả thoang thoảng",
+        color: "rgba(255, 220, 80, 0.85)",
+        special: specialNote
+      };
+    }
 
     function selectSynthesisAcid(acidKey) {
       academyState.synthAcid = acidKey;
       try { if (SFX && SFX.select) SFX.select(); } catch(_) {}
-      const btnCH3 = document.getElementById("btnAcidCH3COOH");
-      const btnH = document.getElementById("btnAcidHCOOH");
-      const btnC2 = document.getElementById("btnAcidC2H5COOH");
-
-      if (btnCH3) btnCH3.classList.toggle("active", acidKey === "CH3COOH");
-      if (btnH) btnH.classList.toggle("active", acidKey === "HCOOH");
-      if (btnC2) btnC2.classList.toggle("active", acidKey === "C2H5COOH");
+      const acidBtnMap = {
+        CH3COOH: "btnAcidCH3COOH",
+        HCOOH: "btnAcidHCOOH",
+        C2H5COOH: "btnAcidC2H5COOH",
+        C3H7COOH: "btnAcidC3H7COOH",
+        acrylic: "btnAcidAcrylic",
+        methacrylic: "btnAcidMethacrylic",
+        C6H5COOH: "btnAcidC6H5COOH"
+      };
+      Object.keys(acidBtnMap).forEach(k => {
+        const btn = document.getElementById(acidBtnMap[k]);
+        if (btn) btn.classList.toggle("active", k === acidKey);
+      });
       onSynthIngredientsChanged();
     }
 
     function selectSynthesisAlcohol(alcKey) {
       academyState.synthAlcohol = alcKey;
       try { if (SFX && SFX.select) SFX.select(); } catch(_) {}
-      const btnEth = document.getElementById("btnAlcEthanol");
-      const btnMeth = document.getElementById("btnAlcMethanol");
-      const btnIso = document.getElementById("btnAlcIsoamyl");
-
-      if (btnEth) btnEth.classList.toggle("active", alcKey === "C2H5OH");
-      if (btnMeth) btnMeth.classList.toggle("active", alcKey === "CH3OH");
-      if (btnIso) btnIso.classList.toggle("active", alcKey === "isoamyl");
+      const alcBtnMap = {
+        C2H5OH: "btnAlcEthanol",
+        CH3OH: "btnAlcMethanol",
+        isoamyl: "btnAlcIsoamyl",
+        propyl: "btnAlcPropyl",
+        isopropyl: "btnAlcIsopropyl",
+        allyl: "btnAlcAllyl",
+        benzyl: "btnAlcBenzyl",
+        phenol: "btnAlcPhenol"
+      };
+      Object.keys(alcBtnMap).forEach(k => {
+        const btn = document.getElementById(alcBtnMap[k]);
+        if (btn) btn.classList.toggle("active", k === alcKey);
+      });
       onSynthIngredientsChanged();
     }
 
@@ -7299,29 +7498,44 @@
       }
       if (bottomPhase) bottomPhase.style.height = "82%";
 
-      // Update Result Box with clear preparation status showing selected ingredients
       const acid = SYNTHESIS_ACIDS[academyState.synthAcid];
       const alc = SYNTHESIS_ALCOHOLS[academyState.synthAlcohol];
-      const pairKey = `${academyState.synthAcid}_${academyState.synthAlcohol}`;
-      const spec = SYNTHESIS_SPECS[pairKey];
+      const spec = getSynthesisSpec(academyState.synthAcid, academyState.synthAlcohol);
 
       const resBox = document.getElementById("synthesisResultBox");
       if (resBox && acid && alc && spec) {
-        resBox.style.borderColor = "#283c74";
-        resBox.style.background = "rgba(12, 18, 36, 0.9)";
-        resBox.innerHTML = `
-          <div style="font-size:12px; color:var(--text-muted); text-transform:uppercase; margin-bottom:4px;">
-            🧪 Hỗn hợp đang nạp vào ống nghiệm:
-          </div>
-          <div style="font-size:14px; color:#fff; line-height:1.5;">
-            • Acid: <strong style="color:#ffd154;">${acid.name} (${acid.formula})</strong><br>
-            • Alcohol: <strong style="color:#60a5fa;">${alc.name} (${alc.formula})</strong><br>
-            • Xúc tác: <strong style="color:#2ed573;">H₂SO₄ đặc + đá bọt điều hòa sôi</strong>
-          </div>
-          <div style="margin-top:8px; font-size:12.5px; color:#ffd154; font-weight:700;">
-            👉 Nhấn nút "🔥 Đun Nóng Phản Ứng Ester Hóa" để bắt đầu ghép nối nhóm ${spec.rco} và ${spec.or} thành ${spec.name}!
-          </div>
-        `;
+        if (spec.isTrap) {
+          resBox.style.borderColor = "var(--danger)";
+          resBox.style.background = "rgba(255, 71, 87, 0.12)";
+          resBox.innerHTML = `
+            <div style="font-size:12px; color:var(--danger); text-transform:uppercase; margin-bottom:4px; font-weight:800;">
+              ⚠️ Thử nghiệm bẫy phản ứng (Sách giáo khoa 12):
+            </div>
+            <div style="font-size:13.5px; color:#fff; line-height:1.5;">
+              • Đang nạp: <strong style="color:#ffd154;">${acid.name} (${acid.formula})</strong> + <strong style="color:#ff6b81;">${alc.name} (${alc.formula})</strong> + <strong style="color:#2ed573;">H₂SO₄ đặc</strong><br>
+              • <span style="color:#ff6b81; font-weight:700;">Lưu ý bẫy lý thuyết: Phenol không phản ứng ester hóa thuận nghịch trực tiếp với carboxylic acid!</span>
+            </div>
+            <div style="margin-top:8px; font-size:12.5px; color:#ffd154; font-weight:700;">
+              👉 Nhấn nút "🔥 Đun Nóng Phản Ứng Ester Hóa" để kích hoạt bài học phân tích bẫy thi!
+            </div>
+          `;
+        } else {
+          resBox.style.borderColor = "#283c74";
+          resBox.style.background = "rgba(12, 18, 36, 0.9)";
+          resBox.innerHTML = `
+            <div style="font-size:12px; color:var(--text-muted); text-transform:uppercase; margin-bottom:4px;">
+              🧪 Hỗn hợp đang nạp vào ống nghiệm:
+            </div>
+            <div style="font-size:14px; color:#fff; line-height:1.5;">
+              • Acid: <strong style="color:#ffd154;">${acid.name} (${acid.formula})</strong><br>
+              • Alcohol: <strong style="color:#60a5fa;">${alc.name} (${alc.formula})</strong><br>
+              • Xúc tác: <strong style="color:#2ed573;">H₂SO₄ đặc + đá bọt điều hòa sôi</strong>
+            </div>
+            <div style="margin-top:8px; font-size:12.5px; color:#ffd154; font-weight:700;">
+              👉 Nhấn nút "🔥 Đun Nóng Phản Ứng Ester Hóa" để bắt đầu ghép nối nhóm ${spec.rco} và ${spec.or} thành ${spec.name}!
+            </div>
+          `;
+        }
       }
 
       updateSynthEquation(false);
@@ -7332,11 +7546,31 @@
       const eqEl = document.getElementById("synthEquationDisplay");
       if (!eqEl) return;
 
-      const pairKey = `${academyState.synthAcid}_${academyState.synthAlcohol}`;
-      const spec = SYNTHESIS_SPECS[pairKey];
+      const spec = getSynthesisSpec(academyState.synthAcid, academyState.synthAlcohol);
       const acid = SYNTHESIS_ACIDS[academyState.synthAcid];
       const alc = SYNTHESIS_ALCOHOLS[academyState.synthAlcohol];
       if (!spec || !acid || !alc) return;
+
+      if (spec.isTrap) {
+        eqEl.innerHTML = `
+          <div style="font-size:12.5px; color:var(--danger); margin-bottom:4px; font-weight:700;">
+            ⚠️ Lưu ý bẫy điều chế phenyl ester (Phenol + Carboxylic Acid):
+          </div>
+          <div class="chem-eq-container" style="color:#ff6b81;">
+            <span>${acid.formula}</span>
+            <span>+</span>
+            <span>C₆H₅OH</span>
+            <span class="chem-arrow-stack">
+              <span class="chem-arrow-condition" style="color:var(--danger);">H₂SO₄ đ, t°</span>
+              <span class="chem-arrow-symbol" style="color:var(--danger); text-decoration:line-through;">⇌</span>
+            </span>
+            <span style="color:var(--danger); font-weight:700;">KHÔNG PHẢN ỨNG TRỰC TIẾP</span>
+          </div>
+          <div style="font-size:12px; color:var(--text-muted); margin-top:4px;">
+            Phương pháp đúng SGK 12: <strong>(CH₃CO)₂O + C₆H₅OH ➔ CH₃COOC₆H₅ + CH₃COOH</strong>
+          </div>`;
+        return;
+      }
 
       const esterDisplay = highlight
         ? `<strong style="color:#2ed573; text-shadow:0 0 10px rgba(46,213,115,0.7);">${spec.formula} (${spec.name})</strong>`
@@ -7362,10 +7596,7 @@
 
     function heatSynthesisReaction() {
       academyState.synthDone = true;
-      try { if (SFX && SFX.magic) SFX.magic(); } catch(_) {}
-
-      const pairKey = `${academyState.synthAcid}_${academyState.synthAlcohol}`;
-      const spec = SYNTHESIS_SPECS[pairKey];
+      const spec = getSynthesisSpec(academyState.synthAcid, academyState.synthAlcohol);
       const acid = SYNTHESIS_ACIDS[academyState.synthAcid];
       const alc = SYNTHESIS_ALCOHOLS[academyState.synthAlcohol];
       if (!spec || !acid || !alc) return;
@@ -7376,6 +7607,37 @@
       const resBox = document.getElementById("synthesisResultBox");
 
       if (flame) flame.style.opacity = "1";
+
+      if (spec.isTrap) {
+        try { if (SFX && SFX.wrong) SFX.wrong(); } catch(_) {}
+        if (topPhase) {
+          topPhase.style.height = "20%";
+          topPhase.style.background = "rgba(255, 100, 100, 0.35)";
+        }
+        if (bottomPhase) bottomPhase.style.height = "80%";
+
+        if (resBox) {
+          resBox.style.borderColor = "var(--danger)";
+          resBox.style.background = "rgba(255, 71, 87, 0.12)";
+          resBox.innerHTML = `
+            <div style="color:var(--danger); font-weight:800; font-size:15px; margin-bottom:6px;">
+              ⛔ KHÔNG THỂ ĐIỀU CHẾ TRỰC TIẾP PHENYL ESTER TỪ ACID + PHENOL!
+            </div>
+            <div style="font-size:13px; line-height:1.5; color:#e2e8f0;">
+              • <strong>Bản chất hóa học cốt lõi:</strong> Phenol có vòng benzene hút electron mạnh làm nguyên tử O liên kết rất bền với vòng benzen và liên kết O-H phân cực dạng acid yếu. Do đó phenol <em>không phản ứng ester hóa thuận nghịch</em> với carboxylic acid thông thường.<br>
+              • <strong>Phương pháp điều chế chuẩn (Sách giáo khoa Hóa học 12):</strong> Phải cho <em>Phenol phản ứng với Anhydride acid</em> hoặc acyl chloride:<br>
+              <div style="margin:6px 0; padding:6px 10px; background:rgba(0,0,0,0.3); border-radius:6px; font-weight:700; color:#ffd154;">
+                (CH₃CO)₂O + C₆H₅OH ➔ CH₃COOC₆H₅ (Phenyl acetate) + CH₃COOH
+              </div>
+            </div>
+          `;
+        }
+        showAcademyToast("⚠️ Phenol không tác dụng với carboxylic acid! Phải dùng (CH₃CO)₂O.");
+        updateSynthEquation(true);
+        return;
+      }
+
+      try { if (SFX && SFX.magic) SFX.magic(); } catch(_) {}
       if (topPhase) {
         topPhase.style.height = "55%";
         topPhase.style.background = spec.color;
