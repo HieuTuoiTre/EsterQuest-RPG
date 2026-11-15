@@ -2330,11 +2330,12 @@
       border-radius: 50% 50% 35% 35%;
       animation: flameFlicker 0.4s infinite alternate ease-in-out;
       box-shadow: 0 0 14px rgba(255, 71, 87, 0.7);
-      transition: all 0.3s ease;
+      transform-origin: 50% 100%;
+      will-change: transform;
     }
     @keyframes flameFlicker {
-      0% { transform: translateX(-50%) scale(1) rotate(-1deg); }
-      100% { transform: translateX(-50%) scale(1.15) rotate(1.5deg); }
+      0% { transform: translateX(-50%) scale(var(--flame-scale, 1)) rotate(-1deg); }
+      100% { transform: translateX(-50%) scale(calc(var(--flame-scale, 1) * 1.15)) rotate(1.5deg); }
     }
 
     /* Silver Mirror Metallic Shine Effect */
@@ -2366,8 +2367,8 @@
     .thermometer-mercury {
       width: 100%;
       background: linear-gradient(to top, #ff4757, #ff6b81);
-      transition: height 0.15s ease-out;
       box-shadow: 0 0 8px rgba(255, 71, 87, 0.85);
+      will-change: height;
     }
 
     /* Callout annotations */
@@ -2424,6 +2425,7 @@
       outline: none;
       -webkit-appearance: none;
       cursor: pointer;
+      touch-action: pan-x;
     }
     .temp-range-input::-webkit-slider-thumb {
       -webkit-appearance: none;
@@ -2476,6 +2478,7 @@
       position: relative;
       width: 100%;
       margin: 10px 0 6px;
+      touch-action: pan-x;
     }
     .boiling-target-pin {
       position: absolute;
@@ -3518,8 +3521,8 @@
                 <div style="font-size:13px; color:var(--accent); margin-top:2px;" id="boilingPointSpec">Nhiệt độ sôi lý thuyết: 77°C</div>
               </div>
 
-              <div id="boilingStatusBanner" style="padding:10px 14px; border-radius:8px; font-size:13.5px; line-height:1.4; background:rgba(255,255,255,0.05); border:1px solid #33446c;">
-                ❄️ Nhiệt độ dưới điểm sôi: Chất lỏng tĩnh lặng, chưa có hiện tượng bay hơi.
+              <div id="boilingStatusBanner" style="min-height:56px; box-sizing:border-box; padding:10px 14px; border-radius:8px; font-size:13.5px; line-height:1.4; background:rgba(255,255,255,0.05); border:1px solid #33446c;">
+                ❄️ Nhiệt độ dưới điểm sôi (<span id="boilingLiveTemp">25</span>°C &lt; 77°C): Chất lỏng chỉ ấm dần, chưa sôi.
               </div>
             </div>
           </div>
@@ -3541,7 +3544,7 @@
 
             <!-- Slider Track with dynamic boiling target marker pin -->
             <div class="slider-track-container">
-              <input type="range" class="temp-range-input" id="tempSlider" min="20" max="150" value="25" step="0.5" oninput="updateBoilingTemp(this.value)">
+              <input type="range" class="temp-range-input" id="tempSlider" min="20" max="150" value="25" step="any" oninput="handleSliderDrag(this.value)">
               <!-- Dynamic Target Pin indicating the exact boiling point of chosen substance -->
               <div id="boilingTargetMarker" class="boiling-target-pin" style="left: 43.85%;">
                 <span class="pin-tag" id="boilingTargetTag">77°C</span>
@@ -6742,45 +6745,58 @@
       if (p78) p78.classList.toggle("active-target", key === "ethanol");
       if (p118) p118.classList.toggle("active-target", key === "acetic_acid");
 
-      updateBoilingTemp(academyState.boilingTemp);
+      academyState.isBoilingActive = null; // Force banner refresh for newly selected substance
+      updateBoilingTemp(academyState.boilingTemp, true);
     }
 
-    function updateBoilingTemp(tempVal) {
-      academyState.boilingTemp = Math.round(Number(tempVal) * 10) / 10;
+    let boilingRafId = null;
+    function handleSliderDrag(val) {
+      if (boilingRafId) cancelAnimationFrame(boilingRafId);
+      boilingRafId = requestAnimationFrame(() => {
+        // Round to whole integer degree during manual drag for silky-smooth, jitter-free readout
+        const rounded = Math.round(Number(val));
+        updateBoilingTemp(rounded, false);
+      });
+    }
+
+    function updateBoilingTemp(tempVal, syncSlider = false) {
+      academyState.boilingTemp = Number(tempVal);
       const display = document.getElementById("currentTempDisplay");
       if (display) display.textContent = `${academyState.boilingTemp}°C`;
 
-      const slider = document.getElementById("tempSlider");
-      if (slider && Number(slider.value) !== academyState.boilingTemp) {
-        slider.value = academyState.boilingTemp;
+      // ONLY sync slider value when requested externally (never fight user's active drag)
+      if (syncSlider) {
+        const slider = document.getElementById("tempSlider");
+        if (slider) slider.value = academyState.boilingTemp;
       }
 
       // Update thermometer mercury thread height (20°C = 10%, 150°C = 95%)
       const mercury = document.getElementById("mercuryThread");
       if (mercury) {
         const pct = 10 + ((academyState.boilingTemp - 20) / 130) * 85;
-        mercury.style.height = `${pct}%`;
+        mercury.style.height = `${pct.toFixed(2)}%`;
       }
 
-      // Update flame size
+      // Update flame size via CSS variable (GPU compositor, doesn't interrupt keyframe flicker)
       const flame = document.getElementById("burnerFlame");
       if (flame) {
         const scale = 0.8 + ((academyState.boilingTemp - 20) / 130) * 0.6;
-        flame.style.transform = `translateX(-50%) scale(${scale})`;
+        flame.style.setProperty("--flame-scale", scale.toFixed(2));
       }
 
       const spec = BOILING_SPECS[academyState.boilingSubstance];
       const bubbles = document.getElementById("boilingBubbles");
       const steam = document.getElementById("boilingSteam");
       const banner = document.getElementById("boilingStatusBanner");
+      const isBoiling = academyState.boilingTemp >= spec.bp;
 
-      if (academyState.boilingTemp >= spec.bp) {
+      if (isBoiling) {
         if (bubbles) bubbles.classList.add("active");
         if (steam) steam.classList.add("active");
-        if (banner) {
+        if (banner && academyState.isBoilingActive !== true) {
           banner.style.background = "rgba(255, 71, 87, 0.2)";
           banner.style.borderColor = "var(--danger)";
-          banner.innerHTML = `🔥 <strong>ĐANG SÔI ÙNG ỤC & BAY HƠI Ở ${academyState.boilingTemp}°C!</strong><br>Đã đạt và vượt nhiệt độ sôi lý thuyết (${spec.bp}°C).`;
+          banner.innerHTML = `🔥 <strong>ĐANG SÔI ÙNG ỤC & BAY HƠI Ở <span id="boilingLiveTemp">${academyState.boilingTemp}</span>°C!</strong><br>Đã đạt và vượt nhiệt độ sôi lý thuyết (${spec.bp}°C).`;
         }
         if (!academyState.isBoilingActive) {
           academyState.isBoilingActive = true;
@@ -6789,18 +6805,32 @@
       } else {
         if (bubbles) bubbles.classList.remove("active");
         if (steam) steam.classList.remove("active");
-        academyState.isBoilingActive = false;
-        if (banner) {
+        if (banner && academyState.isBoilingActive !== false) {
           banner.style.background = "rgba(255,255,255,0.05)";
           banner.style.borderColor = "#33446c";
-          banner.innerHTML = `❄️ Nhiệt độ dưới điểm sôi (${academyState.boilingTemp}°C &lt; ${spec.bp}°C): Chất lỏng chỉ ấm dần, chưa sôi.`;
+          banner.innerHTML = `❄️ Nhiệt độ dưới điểm sôi (<span id="boilingLiveTemp">${academyState.boilingTemp}</span>°C &lt; ${spec.bp}°C): Chất lỏng chỉ ấm dần, chưa sôi.`;
         }
+        academyState.isBoilingActive = false;
       }
+
+      // Fast text update for live temperature span without rebuilding entire banner DOM
+      const liveTempSpan = document.getElementById("boilingLiveTemp");
+      if (liveTempSpan) liveTempSpan.textContent = academyState.boilingTemp;
+
+      // Update milestone presets active highlight
+      const p20 = document.getElementById("preset20");
+      const p77 = document.getElementById("preset77");
+      const p78 = document.getElementById("preset78");
+      const p118 = document.getElementById("preset118");
+      if (p20) p20.classList.toggle("active-target", academyState.boilingTemp === 20);
+      if (p77) p77.classList.toggle("active-target", academyState.boilingTemp === 77);
+      if (p78) p78.classList.toggle("active-target", Math.abs(academyState.boilingTemp - 78.3) < 0.3);
+      if (p118) p118.classList.toggle("active-target", academyState.boilingTemp === 118);
     }
 
     function setBoilingTempPreset(temp) {
       academyState.boilingTemp = Number(temp);
-      updateBoilingTemp(temp);
+      updateBoilingTemp(temp, true);
       try { if (SFX && SFX.click) SFX.click(); } catch(_) {}
     }
 

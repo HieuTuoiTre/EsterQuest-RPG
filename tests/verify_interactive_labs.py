@@ -17,7 +17,7 @@ def test_interactive_labs():
     assert "nomenFormulaDisplay" in html, "nomenFormulaDisplay element ID must exist"
     assert "nomenNameDisplay" in html, "nomenNameDisplay element ID must exist"
 
-    # 3. Verify Lesson 3 Boiling Point switches & Calibrated Temperature Slider
+    # 3. Verify Lesson 3 Boiling Point switches & Calibrated Temperature Slider (Smooth 60fps & Jitter-free)
     assert "function selectBoilingSubstance(key)" in html, "selectBoilingSubstance must exist"
     assert "btnSubstanceEster" in html
     assert "btnSubstanceAlcohol" in html
@@ -28,6 +28,10 @@ def test_interactive_labs():
     assert "boilingTargetTag" in html, "Target pin tag must exist"
     assert "function adjustBoilingTemp" in html, "adjustBoilingTemp helper must exist"
     assert "function setBoilingTempPreset" in html, "setBoilingTempPreset helper must exist"
+    assert "function handleSliderDrag" in html, "handleSliderDrag RAF handler must exist"
+    assert "requestAnimationFrame" in html, "requestAnimationFrame must be used for smooth drag"
+    assert "touch-action: pan-x" in html, "touch-action must prevent mobile scroll conflict"
+    assert "will-change: height" in html, "will-change must be set on thermometer mercury"
     assert "pinPct: 43.85" in html, "Mathematically accurate pin percentage for ester must be 43.85%"
     assert "pinPct: 44.85" in html, "Mathematically accurate pin percentage for alcohol must be 44.85%"
     assert "pinPct: 75.38" in html, "Mathematically accurate pin percentage for acid must be 75.38%"
