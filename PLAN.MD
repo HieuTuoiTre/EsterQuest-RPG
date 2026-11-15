@@ -102,15 +102,15 @@
 **Files:**
 - Sửa đổi: `index.html` (Thêm khối `<div id="prologueOverlay">`, CSS hiệu ứng chữ chạy viễn tưởng, nút tiếp tục/bỏ qua).
 
-- [ ] **Bước 1: Viết nội dung lời dẫn sử thi**
+- [x] **Bước 1: Viết nội dung lời dẫn sử thi**
   - *"Từ thuở sơ khai của thế giới Giả Kim, Vương Quốc Ester ngự trị trong sự cân bằng hoàn mỹ của các liên kết hóa học. Nhưng khi Vực Thẳm Hỗn Mang mở ra, Đại Ma Vương đã làm biến dị các phân tử, giải phóng bầy ma vật tàn phá muôn nơi..."*
   - *"Lời sấm truyền ngàn năm báo trước: Chỉ có một Hiệp Sĩ thấu suốt mọi bí kíp danh pháp, quy luật nhiệt độ sôi và thuật thủy phân xà phòng hóa mới có thể cầm chắc thanh kiếm tri thức để cứu rỗi vương triều!"*
-- [ ] **Bước 2: Hiệu ứng giao diện Prologue**
+- [x] **Bước 2: Hiệu ứng giao diện Prologue**
   - Khung cảnh vũ trụ u tối với tinh thể ester phát sáng lấp lánh (`box-shadow`, neon glow).
   - Chữ xuất hiện theo phong cách Cinematic từng đoạn uy nghi với chuyển động mượt mà.
   - Âm thanh nền huyền bí mở đầu bằng Web Audio synth.
   - Nút bấm rực sáng: `TIẾP TỤC BƯỚC VÀO THẾ GIỚI ➔` và nút góc `Bỏ Qua ⏩`.
-- [ ] **Bước 3: Kiểm tra và Commit**
+- [x] **Bước 3: Kiểm tra và Commit**
   ```bash
   git add index.html
   git commit -m "feat(intro): add epic cinematic prologue storyline overlay"

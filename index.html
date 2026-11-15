@@ -100,6 +100,491 @@
       gap: 16px;
     }
 
+    /* ============================================================
+       0. MÀN MỞ ĐẦU ĐIỆN ẢNH SỬ THI (EPIC PROLOGUE INTRO OVERLAY)
+       ============================================================ */
+    .prologue-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      background: #030612;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 28px 16px 48px;
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.45s ease;
+      -webkit-overflow-scrolling: touch;
+    }
+    .prologue-overlay.fade-out {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    /* Cosmic Nebula & Stars Backdrop */
+    .prologue-backdrop {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .cosmic-nebula {
+      position: absolute;
+      inset: -30%;
+      background:
+        radial-gradient(circle at 25% 20%, rgba(94, 43, 255, 0.25) 0%, transparent 45%),
+        radial-gradient(circle at 80% 65%, rgba(0, 210, 211, 0.2) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(255, 209, 84, 0.12) 0%, transparent 60%),
+        radial-gradient(circle at 70% 15%, rgba(255, 71, 87, 0.15) 0%, transparent 40%);
+      filter: blur(50px);
+      animation: nebulaFloat 18s ease-in-out infinite alternate;
+    }
+    .cosmic-stars {
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(1.5px 1.5px at 15% 20%, rgba(255,255,255,0.9), transparent),
+        radial-gradient(1.5px 1.5px at 35% 60%, rgba(0,210,211,0.8), transparent),
+        radial-gradient(2px 2px at 70% 30%, rgba(255,209,84,0.9), transparent),
+        radial-gradient(1px 1px at 85% 75%, rgba(255,255,255,0.7), transparent),
+        radial-gradient(2px 2px at 50% 85%, rgba(162,155,254,0.8), transparent),
+        radial-gradient(1px 1px at 20% 90%, rgba(0,210,211,0.6), transparent),
+        radial-gradient(1.5px 1.5px at 90% 15%, rgba(255,209,84,0.7), transparent);
+      background-size: 100% 100%;
+      opacity: 0.85;
+    }
+
+    /* Floating Ester Crystals */
+    .floating-crystal {
+      position: absolute;
+      font-family: var(--font-ui);
+      font-weight: 800;
+      user-select: none;
+      pointer-events: none;
+      opacity: 0.55;
+      animation: floatCrystal 7s ease-in-out infinite alternate;
+    }
+    .crystal-1 {
+      top: 14%; left: 5%;
+      font-size: 22px;
+      color: #00d2d3;
+      filter: drop-shadow(0 0 16px rgba(0, 210, 211, 0.8));
+      animation-duration: 8.5s;
+    }
+    .crystal-2 {
+      top: 28%; right: 7%;
+      font-size: 20px;
+      color: #ffd154;
+      filter: drop-shadow(0 0 12px rgba(255, 209, 84, 0.7));
+      animation-duration: 6.8s;
+      animation-delay: 0.8s;
+    }
+    .crystal-3 {
+      top: 54%; left: 7%;
+      font-size: 16px;
+      color: #a29bfe;
+      filter: drop-shadow(0 0 10px rgba(162, 155, 254, 0.6));
+      animation-duration: 7.2s;
+      animation-delay: 1.5s;
+    }
+    .crystal-4 {
+      top: 70%; right: 8%;
+      font-size: 28px;
+      filter: drop-shadow(0 0 18px rgba(255, 209, 84, 0.6));
+      animation-duration: 9.5s;
+      animation-delay: 0.4s;
+    }
+    .crystal-5 {
+      top: 86%; left: 10%;
+      font-size: 20px;
+      color: #00d2d3;
+      filter: drop-shadow(0 0 14px rgba(0, 210, 211, 0.7));
+      animation-duration: 8s;
+      animation-delay: 1.2s;
+    }
+    .crystal-6 {
+      top: 42%; right: 4%;
+      font-size: 18px;
+      color: #ff7675;
+      filter: drop-shadow(0 0 12px rgba(255, 118, 117, 0.6));
+      animation-duration: 6.2s;
+      animation-delay: 2s;
+    }
+    .crystal-7 {
+      top: 18%; right: 18%;
+      font-size: 22px;
+      filter: drop-shadow(0 0 14px rgba(46, 213, 115, 0.6));
+      animation-duration: 8.2s;
+      animation-delay: 1s;
+    }
+    .crystal-formula {
+      font-size: 12px;
+      font-weight: 700;
+      color: #00d2d3;
+      text-shadow: 0 0 8px rgba(0, 210, 211, 0.6);
+      margin-left: 6px;
+      letter-spacing: 0.5px;
+      vertical-align: middle;
+    }
+
+    /* Top Navigation inside Prologue */
+    .prologue-top-bar {
+      width: 100%;
+      max-width: 860px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 2;
+      margin-bottom: 20px;
+      padding: 4px 8px;
+    }
+    .prologue-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: rgba(255, 209, 84, 0.1);
+      border: 1px solid rgba(255, 209, 84, 0.35);
+      padding: 6px 14px;
+      border-radius: 999px;
+      backdrop-filter: blur(6px);
+    }
+    .prologue-pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #2ed573;
+      box-shadow: 0 0 10px #2ed573;
+      animation: dotPulse 2s infinite ease-in-out;
+    }
+    .btn-skip-prologue {
+      background: rgba(16, 24, 48, 0.85);
+      border: 1px solid rgba(255, 209, 84, 0.45);
+      color: var(--accent);
+      padding: 8px 18px;
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: 13px;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      backdrop-filter: blur(8px);
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+      min-height: 40px;
+    }
+    .btn-skip-prologue:hover {
+      background: rgba(255, 209, 84, 0.22);
+      border-color: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: 0 0 20px rgba(255, 209, 84, 0.45);
+    }
+    .btn-skip-prologue:active {
+      transform: translateY(1px);
+    }
+
+    /* Main Prologue Layout Container */
+    .prologue-container {
+      width: 100%;
+      max-width: 820px;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: auto 0;
+      text-align: center;
+    }
+
+    /* Prologue Header */
+    .prologue-header {
+      margin-bottom: 24px;
+      width: 100%;
+    }
+    .prologue-logo-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-ui);
+      font-size: 12px;
+      font-weight: 800;
+      color: #00d2d3;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      background: rgba(0, 210, 211, 0.12);
+      border: 1px solid rgba(0, 210, 211, 0.35);
+      padding: 6px 18px;
+      border-radius: 999px;
+      text-shadow: 0 0 10px rgba(0, 210, 211, 0.5);
+    }
+    .prologue-title {
+      font-family: var(--font-rpg);
+      font-size: clamp(26px, 5.5vw, 44px);
+      font-weight: 900;
+      line-height: 1.22;
+      color: #fff;
+      margin-bottom: 14px;
+      letter-spacing: 1px;
+    }
+    .prologue-title-glow {
+      background: linear-gradient(135deg, #fff 0%, #ffd154 50%, #4e8cff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 25px rgba(255, 209, 84, 0.45));
+    }
+    .prologue-divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      width: 100%;
+      max-width: 340px;
+      margin: 0 auto;
+    }
+    .prologue-divider .divider-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 209, 84, 0.6), transparent);
+    }
+    .prologue-divider .divider-node {
+      color: var(--accent);
+      font-size: 14px;
+      text-shadow: 0 0 10px var(--accent);
+    }
+
+    /* Sequential Story Cards */
+    .prologue-cards-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      width: 100%;
+      text-align: left;
+      margin-bottom: 28px;
+    }
+    .prologue-card {
+      background: rgba(14, 22, 45, 0.88);
+      border: 1px solid rgba(52, 74, 126, 0.7);
+      border-radius: 16px;
+      padding: 22px 26px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.65);
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(12px);
+      opacity: 0;
+      transform: translateY(24px);
+      animation: cardSlideIn 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    .prologue-card.card-chapter-1 {
+      animation-delay: 0.2s;
+      border-left: 4px solid #2ed573;
+    }
+    .prologue-card.card-chapter-2 {
+      animation-delay: 0.55s;
+      border-left: 4px solid #ff4757;
+    }
+    .prologue-card.card-chapter-3 {
+      animation-delay: 0.9s;
+      border-left: 4px solid var(--accent);
+    }
+
+    .card-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #2ed573;
+      background: rgba(46, 213, 115, 0.12);
+      border: 1px solid rgba(46, 213, 115, 0.3);
+      padding: 4px 10px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+    }
+    .card-tag.tag-danger {
+      color: #ff4757;
+      background: rgba(255, 71, 87, 0.12);
+      border-color: rgba(255, 71, 87, 0.3);
+    }
+    .card-tag.tag-prophecy {
+      color: var(--accent);
+      background: rgba(255, 209, 84, 0.12);
+      border-color: rgba(255, 209, 84, 0.3);
+    }
+
+    .card-narrative {
+      font-family: var(--font-body);
+      font-size: 15.5px;
+      line-height: 1.72;
+      color: #e1e6f0;
+      font-weight: 600;
+    }
+    .card-narrative strong {
+      color: #fff;
+      font-weight: 800;
+    }
+    .card-narrative em {
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 700;
+    }
+    .card-narrative.highlight-prophecy {
+      font-family: var(--font-rpg);
+      font-size: 16.5px;
+      color: #ffeaa7;
+      font-style: italic;
+      line-height: 1.75;
+      text-shadow: 0 0 12px rgba(255, 234, 167, 0.25);
+    }
+
+    .card-callout {
+      margin-top: 14px;
+      padding: 12px 18px;
+      background: rgba(255, 209, 84, 0.09);
+      border-left: 3px solid var(--accent);
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1.55;
+    }
+
+    /* Enter Button and Actions */
+    .prologue-action-group {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      margin-bottom: 16px;
+    }
+    .btn-prologue-enter {
+      background: linear-gradient(135deg, #ffd154 0%, #ff9f43 50%, #f368e0 100%);
+      color: #0a0e1c;
+      font-family: var(--font-ui);
+      font-size: 16px;
+      font-weight: 900;
+      letter-spacing: 1.5px;
+      padding: 18px 44px;
+      border-radius: 16px;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      box-shadow: 0 0 35px rgba(255, 209, 84, 0.6), 0 10px 25px rgba(0, 0, 0, 0.6);
+      transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      overflow: hidden;
+      animation: enterGlowPulse 2.8s infinite alternate;
+      min-height: 54px;
+    }
+    .btn-prologue-enter:hover {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 0 50px rgba(255, 209, 84, 0.9), 0 15px 35px rgba(0, 0, 0, 0.7);
+      filter: brightness(1.1);
+    }
+    .btn-prologue-enter:active {
+      transform: translateY(1px) scale(0.99);
+    }
+    .btn-prologue-enter .btn-shine {
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 60%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+      transform: skewX(-25deg);
+      animation: btnShineSweep 3.5s infinite;
+      pointer-events: none;
+    }
+    .btn-prologue-enter .enter-arrow {
+      font-size: 20px;
+      transition: transform 0.2s;
+    }
+    .btn-prologue-enter:hover .enter-arrow {
+      transform: translateX(6px);
+    }
+
+    .prologue-audio-tip {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      opacity: 0.85;
+      transition: opacity 0.3s;
+    }
+    .prologue-audio-tip .audio-icon {
+      animation: iconBounce 1.5s infinite;
+    }
+
+    /* Replay Button on Menu Screen */
+    .btn-replay-prologue {
+      background: rgba(20, 30, 60, 0.85);
+      border: 1px solid #3d5084;
+      color: var(--accent);
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+      min-height: 48px;
+    }
+    .btn-replay-prologue:hover {
+      background: rgba(30, 48, 96, 0.95);
+      border-color: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(255, 209, 84, 0.25);
+    }
+
+    /* Keyframe Animations */
+    @keyframes nebulaFloat {
+      0% { transform: scale(1) translate(0, 0); }
+      100% { transform: scale(1.12) translate(-2%, 3%); }
+    }
+    @keyframes floatCrystal {
+      0% { transform: translateY(0px) rotate(0deg); }
+      100% { transform: translateY(-16px) rotate(8deg); }
+    }
+    @keyframes cardSlideIn {
+      0% { opacity: 0; transform: translateY(24px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes enterGlowPulse {
+      0% { box-shadow: 0 0 25px rgba(255, 209, 84, 0.45), 0 8px 20px rgba(0, 0, 0, 0.5); }
+      100% { box-shadow: 0 0 45px rgba(255, 209, 84, 0.75), 0 12px 30px rgba(0, 0, 0, 0.7); }
+    }
+    @keyframes btnShineSweep {
+      0% { left: -100%; }
+      30%, 100% { left: 200%; }
+    }
+    @keyframes dotPulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.8); }
+    }
+    @keyframes iconBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-3px); }
+    }
+
     /* Start / Menu Screen */
     #menuScreen {
       display: flex;
@@ -821,6 +1306,9 @@
       .combatant-status { width: 116px; padding: 6px; }
       .sprite-box { width: 72px; height: 72px; }
       .sprite-icon { font-size: 40px; }
+      .prologue-title { font-size: 20px; }
+      .btn-prologue-enter { font-size: 13.5px; letter-spacing: 0.5px; }
+      .card-narrative { font-size: 13.5px; }
     }
 
     .game-logo:hover {
@@ -1058,12 +1546,128 @@
       .combatant-status { width: 100%; }
       .combatant-name { align-items: flex-start; }
       .combatant-level { width: 100%; }
+
+      /* Prologue Overlay Mobile Optimizations */
+      .prologue-overlay { padding: 16px 12px 36px; }
+      .prologue-top-bar { margin-bottom: 12px; }
+      .prologue-badge { font-size: 10px; padding: 4px 10px; }
+      .btn-skip-prologue { font-size: 12px; padding: 6px 14px; min-height: 44px; }
+      .prologue-title { font-size: 23px; margin-bottom: 10px; }
+      .prologue-cards-list { gap: 12px; margin-bottom: 20px; }
+      .prologue-card { padding: 16px 14px; border-radius: 12px; }
+      .card-narrative { font-size: 14.5px; line-height: 1.62; }
+      .card-narrative.highlight-prophecy { font-size: 15.5px; }
+      .card-callout { font-size: 13.5px; padding: 10px 12px; }
+      .btn-prologue-enter { width: 100%; padding: 16px 20px; font-size: 15px; min-height: 52px; }
+      .floating-crystal.crystal-1, .floating-crystal.crystal-5 { display: none; }
+      .floating-crystal.crystal-4 { font-size: 20px; }
     }
 
 
   </style>
 </head>
 <body>
+
+  <!-- ============================================================
+       MÀN MỞ ĐẦU ĐIỆN ẢNH SỬ THI (EPIC PROLOGUE INTRO OVERLAY)
+       ============================================================ -->
+  <div id="prologueOverlay" class="prologue-overlay" role="dialog" aria-modal="true" aria-label="Màn mở đầu cốt truyện sử thi Ester Quest">
+    <!-- Nền vũ trụ & Tinh thể hóa học phát sáng neon -->
+    <div class="prologue-backdrop" aria-hidden="true">
+      <div class="cosmic-nebula"></div>
+      <div class="cosmic-stars"></div>
+      <!-- Tinh thể Ester lơ lửng không gian -->
+      <div class="floating-crystal crystal-1" title="Ester Linkage">⬡ <span class="crystal-formula">R—COO—R'</span></div>
+      <div class="floating-crystal crystal-2">✦</div>
+      <div class="floating-crystal crystal-3">✧</div>
+      <div class="floating-crystal crystal-4">⚗️</div>
+      <div class="floating-crystal crystal-5">⬢ <span class="crystal-formula">C<sub>n</sub>H<sub>2n</sub>O<sub>2</sub></span></div>
+      <div class="floating-crystal crystal-6">✦</div>
+      <div class="floating-crystal crystal-7">🧪</div>
+    </div>
+
+    <!-- Thanh điều hướng trên cùng của Prologue -->
+    <div class="prologue-top-bar">
+      <div class="prologue-badge">
+        <span class="prologue-pulse-dot"></span>
+        <span>SỬ THI GIẢ KIM 2026</span>
+      </div>
+      <button class="btn-skip-prologue" id="btnSkipPrologue" type="button" aria-label="Bỏ qua cốt truyện vào game ngay">
+        Bỏ Qua ⏩
+      </button>
+    </div>
+
+    <!-- Khung nội dung cốt truyện trung tâm -->
+    <div class="prologue-container">
+      <div class="prologue-header">
+        <div class="prologue-logo-badge">
+          <span class="badge-icon">⚔️</span>
+          <span class="badge-text">ESTER QUEST CHRONICLES</span>
+          <span class="badge-icon">⚗️</span>
+        </div>
+        <h1 class="prologue-title">
+          ĐẠI CHIẾN KHỞI NGUYÊN<br>
+          <span class="prologue-title-glow">VƯƠNG QUỐC ESTER</span>
+        </h1>
+        <div class="prologue-divider">
+          <span class="divider-line"></span>
+          <span class="divider-node">✦</span>
+          <span class="divider-line"></span>
+        </div>
+      </div>
+
+      <!-- Chuỗi câu thoại cốt truyện xuất hiện tuần tự mượt mà -->
+      <div class="prologue-cards-list">
+        <article class="prologue-card card-chapter-1">
+          <div class="card-tag">
+            <span class="tag-icon">🌿</span>
+            <span class="tag-label">KHỞI NGUYÊN HOÀNG KIM</span>
+          </div>
+          <p class="card-narrative">
+            Từ thuở sơ khai của thế giới Giả Kim, <strong>Vương Quốc Ester</strong> ngự trị trong sự cân bằng hoàn mỹ của các liên kết hóa học. Dưới vòm trời lấp lánh tinh thể ester, muôn loài sống hòa thuận trong hương thơm thanh khiết của hoa cỏ, trái chín ngào ngạt và nguồn năng lượng trù phú từ tự nhiên.
+          </p>
+        </article>
+
+        <article class="prologue-card card-chapter-2">
+          <div class="card-tag tag-danger">
+            <span class="tag-icon">🔥</span>
+            <span class="tag-label">HIỂM HỌA VỰC THẲM HỖN MANG</span>
+          </div>
+          <p class="card-narrative">
+            Nhưng rồi thảm họa ập đến! Khi <strong>Vực Thẳm Hỗn Mang</strong> mở toang, <strong>Đại Ma Vương</strong> thức tỉnh từ ngàn năm phong ấn. Hắn giải phóng luồng tà khí hắc ám làm <em>biến dị các liên kết C—O</em>, đảo lộn trật tự phản ứng hữu cơ, tạo ra hàng đàn ma vật hung tợn đe dọa nuốt chửng toàn cõi vương triều!
+          </p>
+        </article>
+
+        <article class="prologue-card card-chapter-3">
+          <div class="card-tag tag-prophecy">
+            <span class="tag-icon">✨</span>
+            <span class="tag-label">LỜI SẤM TRUYỀN & SỨ MỆNH HIỆP SĨ</span>
+          </div>
+          <p class="card-narrative highlight-prophecy">
+            Lời sấm truyền ngàn năm báo trước: <em>"Chỉ có một Hiệp Sĩ thấu suốt mọi bí kíp danh pháp, quy luật nhiệt độ sôi và thuật thủy phân xà phòng hóa mới có thể cầm chắc thanh kiếm tri thức để cứu rỗi vương triều!"</em>
+          </p>
+          <div class="card-callout">
+            🛡️ Hỡi Người Hùng Được Chọn! Thời khắc lịch sử đã điểm, định mệnh của Vương Quốc Ester đang chờ đợi từng bước chân dũng cảm của bạn!
+          </div>
+        </article>
+      </div>
+
+      <!-- Nút hành động chính -->
+      <div class="prologue-action-group">
+        <button class="btn-prologue-enter" id="btnEnterWorld" type="button">
+          <span class="btn-shine"></span>
+          <span class="enter-text">TIẾP TỤC BƯỚC VÀO THẾ GIỚI</span>
+          <span class="enter-arrow">➔</span>
+        </button>
+      </div>
+
+      <!-- Gợi ý âm thanh -->
+      <div class="prologue-audio-tip" id="prologueAudioTip" aria-live="polite">
+        <span class="audio-icon">🎵</span>
+        <span>Chạm bất kỳ đâu trên màn hình để hòa mình vào khúc nhạc sử thi</span>
+      </div>
+    </div>
+  </div>
 
   <!-- Top Bar -->
   <header>
@@ -1073,6 +1677,7 @@
     </div>
     <button class="mobile-menu-toggle" id="mobileMenuToggle" type="button" aria-label="Mở menu" aria-controls="headerActions" aria-expanded="false">☰</button>
     <nav class="header-actions" id="headerActions" aria-label="Menu chính">
+      <button class="icon-btn" id="btnHeaderPrologue" title="Xem lại màn mở đầu cốt truyện điện ảnh">🎬 Cốt Truyện</button>
       <button class="icon-btn" id="btnLeaderboard">🏆 Bảng Xếp Hạng & Lịch Sử</button>
       <button class="icon-btn" id="btnSound">🔊 Âm thanh</button>
       <button class="icon-btn" id="btnCodex">📖 Sổ Tay Bí Kíp</button>
@@ -1100,7 +1705,10 @@
         </div>
       </div>
 
-      <button class="btn-rpg-primary" id="btnStartGame">VÀO TRẬN CHIẾN</button>
+      <div class="menu-actions" style="display:flex; gap:12px; width:100%; max-width:440px; flex-wrap:wrap; justify-content:center; align-items:stretch;">
+        <button class="btn-rpg-primary" id="btnStartGame" style="flex:2; min-width:180px;">VÀO TRẬN CHIẾN</button>
+        <button class="btn-replay-prologue" id="btnReplayPrologue" type="button" title="Xem lại màn mở đầu cốt truyện điện ảnh">🎬 Xem Lại Cốt Truyện</button>
+      </div>
     </section>
 
     <!-- Screen 2: Turn-based Battle Screen -->
@@ -3068,6 +3676,112 @@
             osc.start(now + idx * 0.1); osc.stop(now + idx * 0.1 + 0.35);
           });
         } catch(_) {}
+      },
+      prologueSynth() {
+        if (!state.soundEnabled) return;
+        try {
+          const ctx = getAudioCtx();
+          const now = ctx.currentTime;
+          
+          // 1. Deep Sub Bass Drone (C2 = 65.41 Hz & G2 = 98.00 Hz)
+          [65.41, 98.00, 130.81].forEach((freq, idx) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            const filter = ctx.createBiquadFilter();
+            
+            osc.type = "sawtooth";
+            osc.frequency.setValueAtTime(freq, now);
+            
+            filter.type = "lowpass";
+            filter.frequency.setValueAtTime(220, now);
+            filter.frequency.exponentialRampToValueAtTime(450, now + 1.8);
+            filter.frequency.exponentialRampToValueAtTime(180, now + 4.0);
+            
+            gain.gain.setValueAtTime(0, now);
+            gain.gain.linearRampToValueAtTime(0.08 / (idx + 1), now + 0.8);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 4.5);
+            
+            osc.connect(filter);
+            filter.connect(gain);
+            gain.connect(ctx.destination);
+            
+            osc.start(now);
+            osc.stop(now + 4.5);
+          });
+
+          // 2. Ethereal Arpeggio Notes (Mystic C Minor: C4, Eb4, G4, Bb4, C5, Eb5)
+          const notes = [261.63, 311.13, 392.00, 466.16, 523.25, 622.25];
+          notes.forEach((freq, i) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            
+            osc.type = i % 2 === 0 ? "sine" : "triangle";
+            osc.frequency.setValueAtTime(freq, now + i * 0.22);
+            
+            gain.gain.setValueAtTime(0, now + i * 0.22);
+            gain.gain.linearRampToValueAtTime(0.06, now + i * 0.22 + 0.1);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.22 + 1.2);
+            
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            
+            osc.start(now + i * 0.22);
+            osc.stop(now + i * 0.22 + 1.3);
+          });
+
+          // 3. Shimmer Chimes (High sparkle harmonics)
+          [1046.5, 1318.5, 1567.98].forEach((freq, idx) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = "sine";
+            osc.frequency.setValueAtTime(freq, now + 0.6 + idx * 0.25);
+            gain.gain.setValueAtTime(0.04, now + 0.6 + idx * 0.25);
+            gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.6 + idx * 0.25 + 0.9);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(now + 0.6 + idx * 0.25);
+            osc.stop(now + 0.6 + idx * 0.25 + 0.95);
+          });
+        } catch(_) {}
+      },
+      prologueEnter() {
+        if (!state.soundEnabled) return;
+        try {
+          const ctx = getAudioCtx();
+          const now = ctx.currentTime;
+          // Fanfare triumphant chords: C4, G4, C5, E5, G5
+          const fanfare = [261.63, 392.00, 523.25, 659.25, 783.99];
+          fanfare.forEach((freq, i) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = "triangle";
+            osc.frequency.setValueAtTime(freq, now + i * 0.08);
+            gain.gain.setValueAtTime(0.12, now + i * 0.08);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.08 + 0.7);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(now + i * 0.08);
+            osc.stop(now + i * 0.08 + 0.75);
+          });
+        } catch(_) {}
+      },
+      prologueSkip() {
+        if (!state.soundEnabled) return;
+        try {
+          const ctx = getAudioCtx();
+          const now = ctx.currentTime;
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = "sine";
+          osc.frequency.setValueAtTime(440, now);
+          osc.frequency.exponentialRampToValueAtTime(880, now + 0.15);
+          gain.gain.setValueAtTime(0.15, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.2);
+        } catch(_) {}
       }
     };
 
@@ -3871,11 +4585,80 @@
       state.turnPendingAction = null;
     }
 
+    /* ============================================================
+       0. LOGIC MÀN MỞ ĐẦU SỬ THI (PROLOGUE CONTROLLER)
+       ============================================================ */
+    let prologueAudioPlayed = false;
+
+    function playPrologueAudioOnFirstGesture() {
+      if (prologueAudioPlayed) return;
+      const overlay = document.getElementById("prologueOverlay");
+      if (overlay && overlay.style.display !== "none") {
+        prologueAudioPlayed = true;
+        const tip = document.getElementById("prologueAudioTip");
+        if (tip) tip.style.opacity = "0.3";
+        SFX.prologueSynth();
+      }
+    }
+
+    function closePrologue(isSkip = false) {
+      const overlay = document.getElementById("prologueOverlay");
+      if (!overlay) return;
+      
+      if (isSkip) {
+        SFX.prologueSkip();
+      } else {
+        SFX.prologueEnter();
+      }
+
+      overlay.classList.add("fade-out");
+      try {
+        sessionStorage.setItem("esterQuest_prologueSeen", "true");
+      } catch(_) {}
+
+      setTimeout(() => {
+        overlay.style.display = "none";
+        overlay.classList.remove("fade-out");
+        const nameInput = document.getElementById("playerName");
+        if (nameInput) nameInput.focus();
+      }, 420);
+    }
+
+    function openPrologue() {
+      const overlay = document.getElementById("prologueOverlay");
+      if (!overlay) return;
+      overlay.style.display = "flex";
+      overlay.classList.remove("fade-out");
+      overlay.scrollTop = 0;
+
+      // Kích hoạt lại animation cho các thẻ cốt truyện
+      const cards = overlay.querySelectorAll(".prologue-card");
+      cards.forEach(card => {
+        card.style.animation = "none";
+        void card.offsetWidth;
+        card.style.animation = "";
+      });
+
+      const tip = document.getElementById("prologueAudioTip");
+      if (tip) tip.style.opacity = "0.85";
+
+      SFX.prologueSynth();
+    }
+
     /* Button Events */
     document.getElementById("btnHomeLogo").addEventListener("click", returnToHome);
     document.getElementById("btnLeaderboard").addEventListener("click", openLeaderboard);
     document.getElementById("btnStartGame").addEventListener("click", initGame);
     document.getElementById("btnCodex").addEventListener("click", openCodex);
+    document.getElementById("btnEnterWorld").addEventListener("click", () => closePrologue(false));
+    document.getElementById("btnSkipPrologue").addEventListener("click", () => closePrologue(true));
+    document.getElementById("btnReplayPrologue").addEventListener("click", openPrologue);
+    document.getElementById("btnHeaderPrologue").addEventListener("click", openPrologue);
+
+    // Kích hoạt âm thanh khi tương tác lần đầu
+    document.addEventListener("click", playPrologueAudioOnFirstGesture, { passive: true });
+    document.addEventListener("touchstart", playPrologueAudioOnFirstGesture, { passive: true });
+    document.addEventListener("keydown", playPrologueAudioOnFirstGesture, { passive: true });
     const header = document.querySelector("header");
     const mobileMenuToggle = document.getElementById("mobileMenuToggle");
     const closeMobileMenu = () => {
