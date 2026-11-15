@@ -46,10 +46,14 @@ def test_interactive_labs():
     assert "chem-arrow-stack" in html, "Textbook chemical arrow stack must exist"
     assert "chem-arrow-condition" in html, "Chemical condition above arrow must exist"
 
-    # 5. Verify Lesson 5 Synthesis acid & alcohol selection
+    # 5. Verify Lesson 5 Synthesis acid & alcohol selection and all 9 combination specs
     assert "function selectSynthesisAcid(acidKey)" in html, "selectSynthesisAcid must exist"
     assert "function selectSynthesisAlcohol(alcKey)" in html, "selectSynthesisAlcohol must exist"
     assert "function updateSynthEquation()" in html, "updateSynthEquation must exist"
+    assert "function onSynthIngredientsChanged" in html, "onSynthIngredientsChanged handler must exist"
+    assert "const SYNTHESIS_SPECS" in html, "SYNTHESIS_SPECS lookup registry must exist"
+    assert "HCOOH_isoamyl" in html, "HCOOH + isoamyl combination must exist"
+    assert "Isoamyl formate" in html, "Isoamyl formate must be in synthesis specs"
     assert "btnAcidCH3COOH" in html
     assert "btnAcidHCOOH" in html
     assert "btnAcidC2H5COOH" in html

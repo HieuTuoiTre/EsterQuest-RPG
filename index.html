@@ -6547,6 +6547,10 @@
         }
       }
 
+      if (lessonNum === 5 && !academyState.synthDone) {
+        onSynthIngredientsChanged();
+      }
+
       updateAcademyStepper();
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
@@ -6963,6 +6967,102 @@
     }
 
     /* Lesson 5: Synthesis Lab & Matching Game */
+    const SYNTHESIS_ACIDS = {
+      CH3COOH: { name: "Acetic acid", formula: "CH₃COOH", acyl: "CH₃CO-" },
+      HCOOH: { name: "Formic acid", formula: "HCOOH", acyl: "HCO-" },
+      C2H5COOH: { name: "Propionic acid", formula: "C₂H₅COOH", acyl: "C₂H₅CO-" }
+    };
+
+    const SYNTHESIS_ALCOHOLS = {
+      C2H5OH: { name: "Ethanol", formula: "C₂H₅OH", alkoxy: "-OC₂H₅" },
+      CH3OH: { name: "Methanol", formula: "CH₃OH", alkoxy: "-OCH₃" },
+      isoamyl: { name: "Isoamyl alcohol", formula: "C₅H₁₁OH", alkoxy: "-OC₅H₁₁" }
+    };
+
+    const SYNTHESIS_SPECS = {
+      "CH3COOH_C2H5OH": {
+        name: "Ethyl acetate",
+        formula: "CH₃COOC₂H₅",
+        rco: "CH₃CO-",
+        or: "-OC₂H₅",
+        smell: "mùi quả chín thơm mát (táo, lê)",
+        color: "rgba(255, 215, 90, 0.85)",
+        special: "Dung môi hữu cơ phổ biến, ứng dụng rộng rãi trong sơn móng tay và hương liệu thực phẩm."
+      },
+      "CH3COOH_CH3OH": {
+        name: "Methyl acetate",
+        formula: "CH₃COOCH₃",
+        rco: "CH₃CO-",
+        or: "-OCH₃",
+        smell: "mùi táo thơm ngọt nhẹ",
+        color: "rgba(255, 230, 110, 0.85)",
+        special: "Ester bay hơi nhanh, dùng làm dung môi hòa tan sơn, keo dán và mực in."
+      },
+      "CH3COOH_isoamyl": {
+        name: "Isoamyl acetate",
+        formula: "CH₃COOC₅H₁₁",
+        rco: "CH₃CO-",
+        or: "-OC₅H₁₁",
+        smell: "mùi chuối chín nồng nàn (dầu chuối)",
+        color: "rgba(255, 220, 50, 0.9)",
+        special: "Dầu chuối kinh điển trong hương liệu thực phẩm, nước giải khát và bánh kẹo."
+      },
+      "HCOOH_C2H5OH": {
+        name: "Ethyl formate",
+        formula: "HCOOC₂H₅",
+        rco: "HCO-",
+        or: "-OC₂H₅",
+        smell: "mùi đào chín ngọt dịu",
+        color: "rgba(255, 200, 100, 0.85)",
+        special: "Chứa nhóm formyl (H-C=O) nên có khả năng tham gia phản ứng tráng bạc với AgNO₃/NH₃!"
+      },
+      "HCOOH_CH3OH": {
+        name: "Methyl formate",
+        formula: "HCOOCH₃",
+        rco: "HCO-",
+        or: "-OCH₃",
+        smell: "mùi thơm êm dịu, ester có phân tử khối nhỏ nhất (M = 60)",
+        color: "rgba(255, 210, 120, 0.85)",
+        special: "Ester đơn giản nhất của acid formic, phản ứng tráng gương tạo 2Ag sáng bóng!"
+      },
+      "HCOOH_isoamyl": {
+        name: "Isoamyl formate",
+        formula: "HCOOC₅H₁₁",
+        rco: "HCO-",
+        or: "-OC₅H₁₁",
+        smell: "mùi quả dâu rừng và mận chín thoang thoảng",
+        color: "rgba(255, 190, 90, 0.85)",
+        special: "Ester thơm của formic acid, nhẹ hơn nước và có khả năng tráng bạc đặc trưng!"
+      },
+      "C2H5COOH_C2H5OH": {
+        name: "Ethyl propionate",
+        formula: "C₂H₅COOC₂H₅",
+        rco: "C₂H₅CO-",
+        or: "-OC₂H₅",
+        smell: "mùi dứa chín thơm ngát",
+        color: "rgba(255, 215, 70, 0.9)",
+        special: "Hương liệu dứa tự nhiên dùng trong sản xuất kẹo dứa, siro và rượu vang hoa quả."
+      },
+      "C2H5COOH_CH3OH": {
+        name: "Methyl propionate",
+        formula: "C₂H₅COOCH₃",
+        rco: "C₂H₅CO-",
+        or: "-OCH₃",
+        smell: "mùi trái cây rum ngọt nhẹ",
+        color: "rgba(255, 225, 95, 0.85)",
+        special: "Dung môi hữu cơ sạch và chất tạo hương cao cấp trong mỹ phẩm, nến thơm."
+      },
+      "C2H5COOH_isoamyl": {
+        name: "Isoamyl propionate",
+        formula: "C₂H₅COOC₅H₁₁",
+        rco: "C₂H₅CO-",
+        or: "-OC₅H₁₁",
+        smell: "mùi dứa và mơ nhiệt đới ngọt ngào",
+        color: "rgba(255, 205, 60, 0.9)",
+        special: "Ester phân tử lớn, giữ hương lâu bền, dùng trong nước hoa và mỹ phẩm cao cấp."
+      }
+    };
+
     function selectSynthesisAcid(acidKey) {
       academyState.synthAcid = acidKey;
       try { if (SFX && SFX.select) SFX.select(); } catch(_) {}
@@ -6973,7 +7073,7 @@
       if (btnCH3) btnCH3.classList.toggle("active", acidKey === "CH3COOH");
       if (btnH) btnH.classList.toggle("active", acidKey === "HCOOH");
       if (btnC2) btnC2.classList.toggle("active", acidKey === "C2H5COOH");
-      updateSynthEquation();
+      onSynthIngredientsChanged();
     }
 
     function selectSynthesisAlcohol(alcKey) {
@@ -6986,74 +7086,123 @@
       if (btnEth) btnEth.classList.toggle("active", alcKey === "C2H5OH");
       if (btnMeth) btnMeth.classList.toggle("active", alcKey === "CH3OH");
       if (btnIso) btnIso.classList.toggle("active", alcKey === "isoamyl");
-      updateSynthEquation();
+      onSynthIngredientsChanged();
+    }
+
+    function onSynthIngredientsChanged() {
+      academyState.synthDone = false;
+
+      // Reset test tube to unheated state
+      const flame = document.getElementById("synthFlame");
+      const topPhase = document.getElementById("synthTopPhase");
+      const bottomPhase = document.getElementById("synthBottomPhase");
+      if (flame) flame.style.opacity = "0.3";
+      if (topPhase) {
+        topPhase.style.height = "18%";
+        topPhase.style.background = "rgba(255, 230, 150, 0.4)";
+      }
+      if (bottomPhase) bottomPhase.style.height = "82%";
+
+      // Update Result Box with clear preparation status showing selected ingredients
+      const acid = SYNTHESIS_ACIDS[academyState.synthAcid];
+      const alc = SYNTHESIS_ALCOHOLS[academyState.synthAlcohol];
+      const pairKey = `${academyState.synthAcid}_${academyState.synthAlcohol}`;
+      const spec = SYNTHESIS_SPECS[pairKey];
+
+      const resBox = document.getElementById("synthesisResultBox");
+      if (resBox && acid && alc && spec) {
+        resBox.style.borderColor = "#283c74";
+        resBox.style.background = "rgba(12, 18, 36, 0.9)";
+        resBox.innerHTML = `
+          <div style="font-size:12px; color:var(--text-muted); text-transform:uppercase; margin-bottom:4px;">
+            🧪 Hỗn hợp đang nạp vào ống nghiệm:
+          </div>
+          <div style="font-size:14px; color:#fff; line-height:1.5;">
+            • Acid: <strong style="color:#ffd154;">${acid.name} (${acid.formula})</strong><br>
+            • Alcohol: <strong style="color:#60a5fa;">${alc.name} (${alc.formula})</strong><br>
+            • Xúc tác: <strong style="color:#2ed573;">H₂SO₄ đặc + đá bọt điều hòa sôi</strong>
+          </div>
+          <div style="margin-top:8px; font-size:12.5px; color:#ffd154; font-weight:700;">
+            👉 Nhấn nút "🔥 Đun Nóng Phản Ứng Ester Hóa" để bắt đầu ghép nối nhóm ${spec.rco} và ${spec.or} thành ${spec.name}!
+          </div>
+        `;
+      }
+
+      updateSynthEquation(false);
     }
 
     function updateSynthEquation() {
+      const highlight = (arguments.length > 0 && arguments[0] === true) || academyState.synthDone;
       const eqEl = document.getElementById("synthEquationDisplay");
       if (!eqEl) return;
-      let alcFormula = "C₂H₅OH";
-      let esterFormula = "CH₃COOC₂H₅";
 
-      if (academyState.synthAlcohol === "CH3OH") alcFormula = "CH₃OH";
-      else if (academyState.synthAlcohol === "isoamyl") alcFormula = "C₅H₁₁OH";
+      const pairKey = `${academyState.synthAcid}_${academyState.synthAlcohol}`;
+      const spec = SYNTHESIS_SPECS[pairKey];
+      const acid = SYNTHESIS_ACIDS[academyState.synthAcid];
+      const alc = SYNTHESIS_ALCOHOLS[academyState.synthAlcohol];
+      if (!spec || !acid || !alc) return;
 
-      if (academyState.synthAcid === "CH3COOH") {
-        if (academyState.synthAlcohol === "C2H5OH") esterFormula = "CH₃COOC₂H₅";
-        else if (academyState.synthAlcohol === "CH3OH") esterFormula = "CH₃COOCH₃";
-        else esterFormula = "CH₃COOC₅H₁₁ (Isoamyl acetate)";
-      } else if (academyState.synthAcid === "HCOOH") {
-        if (academyState.synthAlcohol === "C2H5OH") esterFormula = "HCOOC₂H₅";
-        else if (academyState.synthAlcohol === "CH3OH") esterFormula = "HCOOCH₃";
-        else esterFormula = "HCOOC₅H₁₁";
-      } else {
-        if (academyState.synthAlcohol === "C2H5OH") esterFormula = "C₂H₅COOC₂H₅ (Ethyl propionate)";
-        else if (academyState.synthAlcohol === "CH3OH") esterFormula = "C₂H₅COOCH₃";
-        else esterFormula = "C₂H₅COOC₅H₁₁";
-      }
+      const esterDisplay = highlight
+        ? `<strong style="color:#2ed573; text-shadow:0 0 10px rgba(46,213,115,0.7);">${spec.formula} (${spec.name})</strong>`
+        : `<strong style="color:#ffffff;">${spec.formula} (${spec.name})</strong>`;
 
       eqEl.innerHTML = `
-        <div style="font-size:12.5px; color:var(--text-muted); margin-bottom:4px;">Phương trình phản ứng ester hóa (thuận nghịch):</div>
+        <div style="font-size:12.5px; color:var(--text-muted); margin-bottom:4px;">
+          Phương trình phản ứng ester hóa (thuận nghịch 2 chiều):
+        </div>
         <div class="chem-eq-container">
-          <span style="color:#ffffff;">${academyState.synthAcid} + ${alcFormula}</span>
+          <span style="color:#ffd154; font-weight:700;">${acid.formula}</span>
+          <span>+</span>
+          <span style="color:#60a5fa; font-weight:700;">${alc.formula}</span>
           <span class="chem-arrow-stack">
             <span class="chem-arrow-condition">H₂SO₄ đ, t°</span>
             <span class="chem-arrow-symbol">⇌</span>
           </span>
-          <span style="color:#ffffff;">${esterFormula} + H₂O</span>
+          ${esterDisplay}
+          <span>+</span>
+          <span style="color:#ffffff;">H₂O</span>
         </div>`;
     }
 
     function heatSynthesisReaction() {
       academyState.synthDone = true;
-      SFX.magic();
+      try { if (SFX && SFX.magic) SFX.magic(); } catch(_) {}
+
+      const pairKey = `${academyState.synthAcid}_${academyState.synthAlcohol}`;
+      const spec = SYNTHESIS_SPECS[pairKey];
+      const acid = SYNTHESIS_ACIDS[academyState.synthAcid];
+      const alc = SYNTHESIS_ALCOHOLS[academyState.synthAlcohol];
+      if (!spec || !acid || !alc) return;
+
       const flame = document.getElementById("synthFlame");
       const topPhase = document.getElementById("synthTopPhase");
       const bottomPhase = document.getElementById("synthBottomPhase");
       const resBox = document.getElementById("synthesisResultBox");
 
       if (flame) flame.style.opacity = "1";
-      if (topPhase) topPhase.style.height = "55%";
-      if (bottomPhase) bottomPhase.style.height = "45%";
-
-      let smellInfo = "mùi quả chín thơm mát";
-      let esterName = "Ethyl acetate";
-      if (academyState.synthAcid === "CH3COOH" && academyState.synthAlcohol === "isoamyl") {
-        smellInfo = "mùi chuối chín (dầu chuối)";
-        esterName = "Isoamyl acetate";
-      } else if (academyState.synthAcid === "C2H5COOH" && academyState.synthAlcohol === "C2H5OH") {
-        smellInfo = "mùi dứa chín thơm ngát";
-        esterName = "Ethyl propionate";
-      } else if (academyState.synthAcid === "HCOOH" && academyState.synthAlcohol === "CH3OH") {
-        smellInfo = "mùi thơm nhẹ, ester nhẹ nhất";
-        esterName = "Methyl formate";
+      if (topPhase) {
+        topPhase.style.height = "55%";
+        topPhase.style.background = spec.color;
       }
+      if (bottomPhase) bottomPhase.style.height = "45%";
 
       if (resBox) {
         resBox.style.borderColor = "var(--success)";
-        resBox.innerHTML = `✨ <strong>TỔNG HỢP THÀNH CÔNG: ${esterName}!</strong><br>• Dung dịch tách 2 lớp rõ rệt: lớp ester nhẹ hơn nổi lên trên với <strong>${smellInfo}</strong>!<br>• Nhóm RCO- ghép nối bền vững với -OR'.`;
+        resBox.style.background = "rgba(46, 213, 115, 0.08)";
+        resBox.innerHTML = `
+          <div style="color:var(--success); font-weight:800; font-size:15px; margin-bottom:6px;">
+            ✨ TỔNG HỢP THÀNH CÔNG: ${spec.name} (${spec.formula})!
+          </div>
+          <div style="font-size:13px; line-height:1.5; color:#e2e8f0;">
+            • <strong>Cơ chế ghép nối:</strong> Gốc acyl <code style="color:#ffd154; font-weight:700;">${spec.rco}</code> (từ ${acid.name}) ghép nối bền vững với gốc alkoxy <code style="color:#60a5fa; font-weight:700;">${spec.or}</code> (từ ${alc.name}) hình thành nhóm chức ester <strong>-COO-</strong>.<br>
+            • <strong>Hiện tượng phản ứng:</strong> Dung dịch tách thành 2 lớp rõ rệt. Lớp ester ${spec.name} nhẹ hơn nổi lên trên, tỏa <strong>${spec.smell}</strong>!<br>
+            • <strong>Đặc điểm nổi bật:</strong> ${spec.special}
+          </div>
+        `;
       }
-      showAcademyToast(`✨ Tổng hợp thành công ${esterName}!`);
+
+      showAcademyToast(`✨ Tổng hợp thành công ${spec.name} (${spec.formula})!`);
+      updateSynthEquation(true);
     }
 
     /* Matching Game Controller */
