@@ -19,6 +19,7 @@ def verify_academy_v2():
     print("🔍 Testing Academy v2.5 Enhancements...")
 
     # 1. Anti-Spoil Quiz Logic
+    assert "clickedBtn" not in html, "clickedBtn reference error must not exist"
     assert "btn.classList.add(\"wrong\")" in html, "Must add wrong class on wrong option"
     # When wrong, should NOT add correct class to the correct answer
     assert 'if (chosenIndex === q.correct)' in html or 'if (isCorrect)' in html, "Must branch on correct vs wrong"

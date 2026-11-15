@@ -8425,7 +8425,7 @@
 
       if (chosenIndex === q.correct) {
         // Correct answer!
-        if (clickedBtn) {
+        if (btn) {
           btn.classList.remove("wrong");
           btn.classList.add("correct");
         }
@@ -8455,7 +8455,9 @@
       } else {
         // Wrong answer - ANTI-SPOIL: DO NOT HIGHLIGHT THE CORRECT ANSWER, DO NOT SHOW EXPLANATION!
         try { if (SFX && SFX.wrong) SFX.wrong(); } catch(_) {}
-        if (clickedBtn) {
+        if (btn) {
+          btn.classList.remove("wrong");
+          void btn.offsetWidth; // Force DOM reflow to re-trigger shake animation
           btn.classList.add("wrong");
         }
         feedback.style.display = "block";
