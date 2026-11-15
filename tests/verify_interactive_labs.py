@@ -17,21 +17,30 @@ def test_interactive_labs():
     assert "nomenFormulaDisplay" in html, "nomenFormulaDisplay element ID must exist"
     assert "nomenNameDisplay" in html, "nomenNameDisplay element ID must exist"
 
-    # 3. Verify Lesson 3 Boiling Point switches
+    # 3. Verify Lesson 3 Boiling Point switches & Calibrated Temperature Slider
     assert "function selectBoilingSubstance(key)" in html, "selectBoilingSubstance must exist"
     assert "btnSubstanceEster" in html
     assert "btnSubstanceAlcohol" in html
     assert "btnSubstanceAcid" in html
     assert "boilingLiquid" in html
     assert "boilingPointSpec" in html
+    assert "boilingTargetMarker" in html, "Dynamic boiling target pin marker must exist"
+    assert "boilingTargetTag" in html, "Target pin tag must exist"
+    assert "function adjustBoilingTemp" in html, "adjustBoilingTemp helper must exist"
+    assert "function setBoilingTempPreset" in html, "setBoilingTempPreset helper must exist"
+    assert "pinPct: 43.85" in html, "Mathematically accurate pin percentage for ester must be 43.85%"
+    assert "pinPct: 44.85" in html, "Mathematically accurate pin percentage for alcohol must be 44.85%"
+    assert "pinPct: 75.38" in html, "Mathematically accurate pin percentage for acid must be 75.38%"
 
-    # 4. Verify Lesson 4 Hydrolysis & Silver Mirror subtabs
+    # 4. Verify Lesson 4 Hydrolysis & Silver Mirror subtabs and reversible arrow display
     assert "function switchHydroLab(mode)" in html, "switchHydroLab must exist"
     assert "btnSubtabHydro" in html
     assert "btnSubtabSilver" in html
     assert "hydroSeparationLab" in html
     assert "silverMirrorLab" in html
     assert "function selectSilverSubstance(key)" in html
+    assert "chem-arrow-stack" in html, "Textbook chemical arrow stack must exist"
+    assert "chem-arrow-condition" in html, "Chemical condition above arrow must exist"
 
     # 5. Verify Lesson 5 Synthesis acid & alcohol selection
     assert "function selectSynthesisAcid(acidKey)" in html, "selectSynthesisAcid must exist"
